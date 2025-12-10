@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Grains Hub</title>
-  <meta name="description" content="About Grains Hub: A signal of trust. Built with restraint. Dubai’s trusted B2B portal for grains, trade, and compliance. Discover our journey from idea to launch." />
-  <meta name="keywords" content="Grains Hub, about us, Dubai B2B, grain trade, compliance, Shahid Bashir, Grok, Copilot" />
-  <meta name="author" content="Shahid Bashir" />
-  <link rel="canonical" href="https://grains.ae/about" />
-  <link rel="icon" href="../favicon.png" type="image/png" />
+  <title>[Adapt: e.g., Why Grains Hub – Trust Built with Restraint]</title>
+  <meta name="description" content="[Adapt: e.g., Why choose Grains Hub: Compliance-first, verified suppliers, built in Al Ras.]" />
+  <meta name="keywords" content="Grains Hub, Dubai B2B, grain trade, FCL, compliance, verified suppliers, Al Ras" />
+  <link rel="canonical" href="https://grains.ae/[page e.g., why]" />
+  <link rel="icon" href="/favicon.png" type="image/png" />
 
-  <!-- OG Tags -->
-  <meta property="og:title" content="About Grains Hub – A Signal of Trust" />
-  <meta property="og:description" content="We didn’t chase scale. We earned trust. Rooted in Dubai. Verified globally." />
-  <meta property="og:image" content="https://grains.ae/assets/img/about-hero.jpg" />
-  <meta property="og:url" content="https://grains.ae/about" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="[Adapt: e.g., Why Grains Hub]" />
+  <meta property="og:description" content="Compliance-first. Verified. Built in Al Ras, trusted globally." />
+  <meta property="og:image" content="https://grains.ae/assets/img/home-hero.jpg" /> <!-- Adapt image if page-specific -->
+  <meta property="og:url" content="https://grains.ae/[page e.g., why]" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Structured Data -->
+  <!-- Structured Data --> <!-- Keep as-is, it's org-wide -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -25,75 +24,164 @@
     "name": "Grains Hub",
     "url": "https://grains.ae",
     "logo": "https://grains.ae/grains-logo.png",
-    "founder": {
-      "@type": "Person",
-      "name": "Shahid Bashir",
-      "email": "letstalk@grains.ae"
-    },
-    "sameAs": ["https://x.com/shahidrana32"],
-    "description": "Dubai's trusted B2B grain portal. Built with restraint. Verified across borders.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Dubai",
-      "addressCountry": "AE"
-    },
-    "contactPoint": [
-      { "@type": "ContactPoint", "email": "letstalk@grains.ae", "contactType": "Customer Service" },
-      { "@type": "ContactPoint", "email": "trust@grains.ae", "contactType": "Compliance" }
-    ]
+    "description": "Dubai's trusted B2B grain platform. Verified suppliers. Compliance-first.",
+    "address": { "@type": "PostalAddress", "addressLocality": "Al Ras, Dubai", "addressCountry": "AE" },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+971585521976",
+      "email": "letstalk@grains.ae",
+      "contactType": "Customer Service"
+    }
   }
   </script>
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700&display=swap" rel="stylesheet">
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #fdfdf9; font-family: 'Helvetica Neue', sans-serif; color: #222; line-height: 1.7; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { background:#fdfdf9; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; color:#222; line-height:1.7; }
+    a { transition:all 0.3s ease; }
 
-    /* ---------- NAVBAR (MATCHES SITE) ---------- */
+    /* Rotating Banner */
+    .top-banner {
+      background:#a07c3b; color:#fff; padding:14px; text-align:center; font-weight:500; font-size:15px;
+      overflow:hidden; white-space:nowrap; position:relative;
+    }
+    .banner-text { display:inline-block; animation: scroll 25s linear infinite; }
+    @keyframes scroll { 0% { transform:translateX(100%); } 100% { transform:translateX(-100%); } }
+
+    /* Navbar - Fixed & Beautiful */
     .navbar {
-      background: #C1A875; padding: 12px 20px; position: sticky; top: 0; z-index: 1000;
-      display: flex; justify-content: center; align-items: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,.1); gap: 40px; flex-wrap: wrap;
+      background:#C1A875; padding:12px 20px; position:sticky; top:0; z-index:1000;
+      display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 15px rgba(0,0,0,.12);
     }
-    .logo {
-      color: #fff; font-weight: bold; font-size: 1.1rem; text-decoration: none;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .logo img { width: 24px; height: 24px; }
-    .nav-links {
-      display: flex; list-style: none; gap: 20px; margin: 0; padding: 0;
-    }
+    .logo { color:#fff; font-weight:bold; font-size:1.35rem; text-decoration:none; display:flex; align-items:center; gap:10px; }
+    .logo img { width:28px; height:28px; }
+    .nav-links { display:flex; list-style:none; gap:28px; }
     .nav-links a {
-      color: #fff; text-decoration: none; font-size: 14px; font-weight: bold;
-      padding: 8px 12px; border-radius: 4px; transition: background .3s;
+      color:#fff; text-decoration:none; font-weight:600; font-size:14px; padding:8px 14px; border-radius:6px;
+      transition:background .3s, color .3s;
     }
-    .nav-links a:hover { background: #fff; color: #C1A875; }
-    .nav-links a.active { background: #fff; color: #C1A875; }
+    .nav-links a:hover, .nav-links a.active { background:#fff; color:#C1A875; }
+    .trader-login {
+      background:#fff; color:#C1A875; padding:10px 20px; border-radius:50px; font-weight:bold; font-size:14px;
+      text-decoration:none; box-shadow:0 3px 10px rgba(0,0,0,.15);
+    }
+    .trader-login:hover { background:#f0f0f0; transform:translateY(-2px); }
+    .hamburger { display:none; cursor:pointer; padding:4px; }
+    .hamburger span { width:26px; height:3px; background:#fff; display:block; margin:3px 0; border-radius:2px; transition:.3s; }
 
-    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
-    .hamburger span { width: 25px; height: 3px; background: #fff; border-radius: 2px; }
-
+    @media (max-width: 992px) {
+      .nav-links { gap:18px; }
+      .nav-links a { font-size:13px; padding:6px 10px; }
+    }
     @media (max-width: 768px) {
-      .navbar { justify-content: space-between; padding: 10px 16px; gap: 0; }
-      .logo { font-size: 1rem; }
-      .hamburger { display: flex; }
+      .navbar { padding:12px 16px; }
+      .hamburger { display:block; }
       .nav-links {
-        position: absolute; top: 100%; left: 0; right: 0; background: #C1A875;
-        flex-direction: column; padding: 0; margin: 0;
-        max-height: 0; overflow: hidden; transition: max-height .35s ease;
-        box-shadow: 0 4px 10px rgba(0,0,0,.1);
+        position:absolute; top:100%; left:0; right:0; background:#C1A875;
+        flex-direction:column; max-height:0; overflow:hidden; transition:max-height .4s ease;
+        box-shadow:0 6px 15px rgba(0,0,0,.15);
       }
-      .nav-links.active { max-height: 500px; }
-      .nav-links a {
-        text-align: center; width: 100%; padding: 14px;
-        border-bottom: 1px solid rgba(255,255,255,.1);
-        display: block;
-      }
+      .nav-links.active { max-height:500px; }
+      .nav-links a { text-align:center; padding:16px; border-bottom:1px solid rgba(255,255,255,.1); }
+      .trader-login { margin:15px auto; display:block; width:fit-content; }
     }
 
-    /* ---------- HERO ---------- */
+    /* Hero */
+    header {
+      padding:120px 20px 90px; background:url('/assets/img/hero-home.jpg') center/cover no-repeat;
+      position:relative; color:#fff; text-align:center;
+    }
+    header::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,.58); }
+    header > * { position:relative; z-index:2; }
+    header img { width:150px; margin-bottom:18px; }
+    header h1 { font-size:42px; font-weight:500; margin-bottom:14px; }
+    header p { font-size:19px; max-width:750px; margin:12px auto; opacity:.95; }
+    .founder { font-weight:bold; color:#eee; margin-top:24px; font-size:17px; }
+
+    /* Trust Bar */
+    .trust-bar {
+      background:#f8f5ec; padding:18px; display:flex; justify-content:center; gap:40px;
+      font-size:15px; color:#a07c3b; flex-wrap:wrap; font-weight:500;
+    }
+    .trust-bar span { position:relative; padding-left:26px; }
+    .trust-bar span::before { content:"✓"; color:#C1A875; font-weight:bold; position:absolute; left:0; top:-1px; font-size:18px; }
+
+    /* Cards */
+    .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:28px; padding:70px 20px; max-width:1200px; margin:auto; }
+    .card { background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 10px 30px rgba(0,0,0,.1); transition:all .4s; text-align:center; }
+    .card:hover { transform:translateY(-10px); box-shadow:0 20px 50px rgba(0,0,0,.16); }
+    .card img { width:100%; height:200px; object-fit:cover; }
+    .card .content { padding:28px; }
+    .card h3 { font-size:1.4rem; color:#a07c3b; margin-bottom:14px; }
+    .btn-card { background:#C1A875; color:#fff; padding:14px 28px; border-radius:50px; font-weight:bold; display:inline-flex; align-items:center; gap:10px; text-decoration:none; }
+    .btn-card:hover { background:#a07c3b; }
+
+    /* Pulse Teaser - Text-Only Grid */
+    .pulse-teaser { background:#1a1a1a; color:#fff; padding:60px 20px; text-align:center; cursor:pointer; transition:background .3s; }
+    .pulse-teaser:hover { background:#222; }
+    .pulse-teaser h2 { font-size:26px; color:#C1A875; margin-bottom:32px; }
+    .pulse-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; max-width:1000px; margin:auto; }
+    .pulse-item { background:linear-gradient(135deg,#2a2a2a,#1f1f1f); border-radius:12px; padding:20px; transition:all .3s; }
+    .pulse-item:hover { transform:translateY(-6px); box-shadow:0 12px 25px rgba(193,168,117,.2); }
+    .pulse-item h4 { font-size:1.1rem; color:#C1A875; margin-bottom:8px; }
+    .pulse-item .price { font-size:1.3rem; font-weight:bold; color:#fff; margin:10px 0; }
+    .pulse-item .change { font-size:0.85rem; opacity:.9; }
+
+    /* Stock Teaser */
+    .stock-teaser { background:#f8f5ec; padding:60px 20px; text-align:center; }
+    .stock-teaser h2 { font-size:26px; color:#a07c3b; margin-bottom:32px; }
+    .stock-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px; max-width:1000px; margin:auto; }
+    .stock-item { background:#fff; border-radius:12px; padding:16px; box-shadow:0 4px 15px rgba(0,0,0,.06); text-align:left; display:flex; gap:12px; align-items:center; transition:all .3s; cursor:pointer; text-decoration:none; color:inherit; }
+    .stock-item:hover { transform:translateY(-6px); box-shadow:0 12px 25px rgba(193,168,117,.15); }
+    .stock-item img { width:60px; height:60px; object-fit:cover; border-radius:8px; background:#f0f0f0; display:flex; align-items:center; justify-content:center; }
+    .stock-item h4 { font-size:1rem; color:#a07c3b; margin-bottom:4px; }
+    .stock-item p { font-size:0.85rem; color:#666; margin:2px 0; }
+
+    /* Alliya Float & Modal */
+    .alliya-float {
+      position:fixed; right:20px; bottom:20px; background:#C1A875; color:#fff; padding:16px 24px;
+      border-radius:50px; cursor:pointer; box-shadow:0 6px 20px rgba(0,0,0,.25); display:flex; align-items:center; gap:12px;
+      font-weight:bold; z-index:999; font-size:15px; transition:all .3s;
+    }
+    .alliya-float:hover { background:#a07c3b; transform:scale(1.08); }
+    @media (max-width:768px) { .alliya-float { bottom:80px; right:15px; padding:14px 20px; } }
+
+    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:1001; justify-content:center; align-items:center; padding:20px; }
+    .modal.active { display:flex; }
+    .modal-content { background:#fff; border-radius:16px; width:90%; max-width:520px; padding:30px; position:relative; box-shadow:0 15px 40px rgba(0,0,0,.3); }
+    .close { position:absolute; top:14px; right:18px; font-size:32px; cursor:pointer; color:#999; }
+    .close:hover { color:#000; }
+    .alliya-box h2 { display:flex; align-items:center; gap:12px; color:#a07c3b; font-size:22px; margin-bottom:20px; }
+    .alliya-box input { width:100%; padding:16px; border:1px solid #ddd; border-radius:10px; font-size:16px; }
+    .alliya-box input:focus { outline:none; border-color:#C1A875; box-shadow:0 0 0 4px rgba(193,168,117,.25); }
+    .alliya-box button { margin-top:16px; padding:14px; background:#C1A875; color:#fff; border:none; border-radius:10px; font-weight:bold; font-size:16px; cursor:pointer; width:100%; }
+    .alliya-box button:hover { background:#a07c3b; }
+    .reply { margin-top:20px; padding:16px; background:#f8f5ec; border-radius:10px; font-size:15px; line-height:1.6; display:none; }
+    .suggestions { position:absolute; inset:100% 0 auto 0; background:#fff; border:1px solid #eee; border-radius:10px; max-height:160px; overflow-y:auto; z-index:10; margin-top:4px; width:100%; }
+    .suggestions div { padding:12px; cursor:pointer; border-bottom:1px solid #f0f0f0; font-size:14px; }
+    .suggestions div:hover { background:#f8f5ec; }
+
+    /* CTA */
+    .cta-banner { background:linear-gradient(135deg,#C1A875,#a07c3b); padding:80px 20px; text-align:center; color:#fff; }
+    .cta-banner h2 { font-size:28px; margin-bottom:12px; }
+    .cta-banner p { font-size:18px; max-width:700px; margin:0 auto 20px; opacity:.95; }
+    .btn-cta { background:#fff; color:#C1A875; padding:16px 40px; border-radius:50px; font-weight:bold; font-size:1.2rem; display:inline-flex; align-items:center; gap:12px; text-decoration:none; box-shadow:0 6px 20px rgba(0,0,0,.2); }
+    .btn-cta:hover { transform:scale(1.05); background:#f8f8f8; }
+
+    /* Footer */
+    footer { background:#2c3e50; color:#ddd; padding:50px 20px; text-align:center; font-size:14px; }
+    footer a { color:#fff; margin:0 12px; text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+    footer .whatsapp i { color:#25D366; }
+   /* ---------- HERO ---------- */
     header {
       padding: 100px 20px 80px;
       background: url('../assets/img/about-hero.jpg') center/cover no-repeat;
@@ -261,16 +349,41 @@
       font-weight: bold; font-size: .9rem; display: inline-block; margin-bottom: 8px;
     }
   </style>
+</head>
+<body>
+
+  <!-- Rotating Top Banner -->
+  <div class="top-banner">
+    <div class="banner-text">
+      Trader Offer: Irri-6 for first 50MT! • FCL India → Jebel Ali: Indian Creamy Sella USD 780 • New Stock: Indian 1121 Sella xxl  AED 160/40KG
+    </div>
+  </div>
+
+  <!-- Navbar -->
+ <nav class="navbar">
+    <a href="/" class="logo">
+      <img src="/grains-logo.png" alt="Grains Hub"> Grains Hub
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/" class="active">Home</a></li>
+      <li><a href="/why">Why</a></li>
+      <li><a href="/pulse/index.html">Pulse</a></li>
+      <li><a href="/trust">Trust</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/shop">Shop</a></li>
+    </ul>
+    <a href="/login.html" class="trader-login">Trader Login</a>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+
+  
   <head>
   <meta charset="utf-8">
-  <title>Grains Hub – Dubai B2B Grain Marketplace</title>
-  
-  <!-- Your CSS -->
-  <style>
-    body { font-family: Arial; margin: 0; }
-    .hero { background: #1a5f3d; color: white; padding: 60px 20px; text-align: center; }
-    /* ... all your styles ... */
-  </style>
+  <title>Grains Hub – Dubai B2B Grain Platform</title>
+
 
   <!-- PASTE FIREBASE & ALLIYA HERE -->
   <!-- Firebase App + Auth + Firestore -->
@@ -292,26 +405,6 @@
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <a href="/" class="logo">
-      <img src="../grains-logo.png" alt="Logo" width="24"> Grains Hub
-    </a>
-<a href="login.html" style="position:absolute; top:20px; right:20px; background:#1a5f3d; color:white; padding:10px 20px; border-radius:6px; text-decoration:none; font-weight:bold; z-index:999;">
-  Trader Login
-</a>
-    <ul class="nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/why">Why</a></li>
-      <li><a href="/pulse/index.html">Pulse</a></li>
-      <li><a href="/trust">Trust</a></li>
-      <li><a href="/about" class="active">About</a></li>
-      <li><a href="/shop">Shop</a></li>
-    </ul>
-    <div class="hamburger" onclick="toggleMenu()">
-      <span></span><span></span><span></span>
-    </div>
-  </nav>
 
   <!-- Hero -->
   <header>
@@ -427,12 +520,29 @@
   </div>
 
   <!-- Footer -->
-  <footer>
-    <div class="badge-footer">Microsoft Copilot Enabled</div><br>
-    <a href="mailto:letstalk@grains.ae">letstalk@grains.ae</a> • 
-    <a href="mailto:trust@grains.ae">trust@grains.ae</a><br>
-    <p>© 2025 Grains Hub. All rights reserved.</p>
-  </footer>
+  <!-- Footer -->
+<footer>
+  <p><strong>Grains Hub</strong> • Al Ras, Dubai • UAE</p>
+  <p>letstalk@grains.ae • <a href="tel:+971585521976">+971 58 552 1976</a></p>
+  <div>
+    <a href="https://wa.me/971585521976" class="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp Business</a> •
+    <a href="/privacy">Privacy</a> • <a href="/terms">Terms</a>
+  </div>
+  <!-- Powered by + Credits -->
+  <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; opacity: 0.9;">
+    <p>
+      Powered by 
+      <strong>Ghutra Goods Wholesaler LLC</strong> • Al Ras, Dubai • License No. [REPLACE WITH ACTUAL e.g., 1234567]
+    </p>
+    <p>
+      Platform by 
+      <a href="https://ghutra.ae" target="_blank" style="color:#C1A875; text-decoration:none;">
+        <strong>Ghutra</strong>
+      </a> 
+      • Grains Hub © 2025 • All rights reserved
+    </p>
+  </div>
+</footer>
 
   <script>
     // HAMBURGER
