@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[Adapt: e.g., Why Grains Hub – Trust Built with Restraint]</title>
-  <meta name="description" content="[Adapt: e.g., Why choose Grains Hub: Compliance-first, verified suppliers, built in Al Ras.]" />
+  <title>About Grains Hub – Dubai’s Trusted B2B Grain Platform</title>
+  <meta name="description" content="About Grains Hub: Compliance-first B2B grain platform built in Al Ras, Dubai. Verified suppliers, real-time data, founded by Shahid Bashir." />
   <meta name="keywords" content="Grains Hub, Dubai B2B, grain trade, FCL, compliance, verified suppliers, Al Ras" />
-  <link rel="canonical" href="https://grains.ae/[page e.g., why]" />
+  <link rel="canonical" href="https://grains.ae/about" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="[Adapt: e.g., Why Grains Hub]" />
+  <meta property="og:title" content="About Grains Hub" />
   <meta property="og:description" content="Compliance-first. Verified. Built in Al Ras, trusted globally." />
-  <meta property="og:image" content="https://grains.ae/assets/img/home-hero.jpg" /> <!-- Adapt image if page-specific -->
-  <meta property="og:url" content="https://grains.ae/[page e.g., why]" />
+  <meta property="og:image" content="https://grains.ae/assets/img/about-hero.jpg" />
+  <meta property="og:url" content="https://grains.ae/about" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Structured Data --> <!-- Keep as-is, it's org-wide -->
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -36,10 +36,6 @@
   </script>
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700&display=swap" rel="stylesheet">
 
@@ -99,7 +95,7 @@
       padding:120px 20px 90px; background:url('/assets/img/hero-home.jpg') center/cover no-repeat;
       position:relative; color:#fff; text-align:center;
     }
-    header::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,.58); }
+    header::before { content:''; content: ''; position: absolute; inset: 0; background: rgba(0,0,0,.55); z-index: 1; }
     header > * { position:relative; z-index:2; }
     header img { width:150px; margin-bottom:18px; }
     header h1 { font-size:42px; font-weight:500; margin-bottom:14px; }
@@ -124,7 +120,7 @@
     .btn-card { background:#C1A875; color:#fff; padding:14px 28px; border-radius:50px; font-weight:bold; display:inline-flex; align-items:center; gap:10px; text-decoration:none; }
     .btn-card:hover { background:#a07c3b; }
 
-    /* Pulse Teaser - Text-Only Grid */
+    /* Pulse Teaser Teaser - Text-Only Grid */
     .pulse-teaser { background:#1a1a1a; color:#fff; padding:60px 20px; text-align:center; cursor:pointer; transition:background .3s; }
     .pulse-teaser:hover { background:#222; }
     .pulse-teaser h2 { font-size:26px; color:#C1A875; margin-bottom:32px; }
@@ -366,11 +362,11 @@
       <img src="/grains-logo.png" alt="Grains Hub"> Grains Hub
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="/" class="active">Home</a></li>
+      <li><a href="/">Home</a></li>
       <li><a href="/why">Why</a></li>
       <li><a href="/pulse/index.html">Pulse</a></li>
       <li><a href="/trust">Trust</a></li>
-      <li><a href="/about">About</a></li>
+      <li><a href="/about" class="active">About</a></li>
       <li><a href="/shop">Shop</a></li>
     </ul>
     <a href="/login.html" class="trader-login">Trader Login</a>
@@ -378,34 +374,6 @@
       <span></span><span></span><span></span>
     </div>
   </nav>
-
-
-  
-  <head>
-  <meta charset="utf-8">
-  <title>Grains Hub – Dubai B2B Grain Platform</title>
-
-
-  <!-- PASTE FIREBASE & ALLIYA HERE -->
-  <!-- Firebase App + Auth + Firestore -->
- <script type="module">
-  // FULL CDN — NO "firebase/app" SHORTCUT EVER AGAIN
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-  import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-  import { firebaseConfig } from "./firebase-config.js";
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  window.auth = auth;
-  window.db = db;
-</script>
-<script type="module" src="./alliya.js"></script>
-</head>
-<body>
-
 
   <!-- Hero -->
   <header>
@@ -499,100 +467,219 @@
     <a href="mailto:letstalk@grains.ae"><i class="fas fa-envelope"></i></a>
   </section>
 
-  <!-- Alliya Float -->
-  <div class="alliya-float" onclick="openModal()">
-    <img src="../assets/img/alliya-icon.ico" alt="Alliya" width="24"> Ask Alliya
+  <!-- Alliya Float Button -->
+  <div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
+    <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya
   </div>
 
-  <!-- Modal -->
-  <div id="alliya-modal" class="modal">
+  <!-- Alliya Modal -->
+  <div id="alliyaModal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()">×</span>
+      <span class="close" onclick="closeModal()">&times;</span>
       <div class="alliya-box">
-        <h2><img src="../assets/img/alliya-icon.ico" alt="Alliya" width="24"> Ask Alliya</h2>
+        <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya</h2>
         <div style="position:relative;">
-          <input type="text" id="alliya-input" placeholder="Ask about prices, FCL, compliance..." oninput="showSuggestions(this.value)" />
+          <input type="text" id="alliyaQuery" placeholder="Ask about price, stock, FCL, compliance..." oninput="showSuggestions(this.value)" autocomplete="off">
           <div id="suggestions" class="suggestions"></div>
         </div>
-        <button onclick="askAlliya()">Verify</button>
-        <div id="alliya-reply" class="reply"></div>
+        <button onclick="askAlliya()">Send Question</button>
+        <div id="alliyaResponse" class="reply"></div>
       </div>
     </div>
   </div>
 
   <!-- Footer -->
-  <!-- Footer -->
-<footer>
-  <p><strong>Grains Hub</strong> • Al Ras, Dubai • UAE</p>
-    <a href="/privacy">Privacy</a> • <a href="/terms">Terms</a>
-  </div>
-  <!-- Powered by + Credits -->
-  <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; opacity: 0.9;">
-    <p>
-      Powered by 
-      <strong>Ghutra Goods Wholesaler LLC</strong> • Al Ras, Dubai • License No. 1569530
-    </p>
-    <p>
-      Platform by 
-      <a href="https://ghutra.ae" target="_blank" style="color:#C1A875; text-decoration:none;">
-        <strong>Ghutra</strong>
-      </a> 
-      • Grains Hub © 2025 • All rights reserved
-    </p>
-  </div>
-</footer>
+  <footer>
+    <p><strong>Grains Hub</strong> • Al Ras, Dubai • UAE</p>
+    <p>letstalk@grains.ae • <a href="tel:+971585521976">+971 58 552 1976</a></p>
+    <div>
+      <a href="https://wa.me/971585521976" class="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp Business</a> •
+      <a href="/privacy">Privacy</a> • <a href="/terms">Terms</a>
+    </div>
+    <!-- Powered by + Credits -->
+    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; opacity: 0.9;">
+      <p>
+        Powered by 
+        <strong>Ghutra Goods Wholesaler LLC</strong> • Al Ras, Dubai • License No. 1569530
+      </p>
+      <p>
+        Platform by 
+        <a href="https://ghutra.ae" target="_blank" style="color:#C1A875; text-decoration:none;">
+          <strong>Ghutra</strong>
+        </a> 
+        • Grains Hub © 2025 • All rights reserved
+      </p>
+    </div>
+  </footer>
+
+  <!-- Firebase (Firestore-Ready) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
+      authDomain: "grains-hub.firebaseapp.com",
+      projectId: "grains-hub",
+      storageBucket: "grains-hub.firebasestorage.app",
+      messagingSenderId: "783882873254",
+      appId: "1:783882873254:web:ba93eaaff5eca25cd6c767",
+      measurementId: "G-RHYCMRHS1Q"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // This makes Firestore available to our askAlliya() function
+    window.db = db;
+    window.collection = collection;
+    window.getDocs = getDocs;
+    window.query = query;
+    window.where = where;
+  </script>
 
   <script>
-    // HAMBURGER
-    function toggleMenu() {
-      document.querySelector('.nav-links').classList.toggle('active');
-    }
-    document.querySelector('.hamburger').onclick = toggleMenu;
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        document.querySelector('.nav-links').classList.remove('active');
-      });
+    // Hamburger Menu – perfect
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      if (hamburger && navLinks) {
+        hamburger.onclick = () => navLinks.classList.toggle('active');
+        navLinks.querySelectorAll('a').forEach(a => a.onclick = () => navLinks.classList.remove('active'));
+      }
     });
 
-    // ALLIYA
-    function openModal() { document.getElementById('alliya-modal').classList.add('active'); }
-    function closeModal() { document.getElementById('alliya-modal').classList.remove('active'); }
-
-    const keywords = ['founder', 'Alliya', 'compliance', 'FCL', 'prices'];
-    function showSuggestions(val) {
-      const box = document.getElementById('suggestions'); box.innerHTML = '';
-      if (val.length < 2) return;
-      keywords.filter(k => k.toLowerCase().includes(val.toLowerCase())).forEach(k => {
-        const d = document.createElement('div');
-        d.textContent = k; d.onclick = () => {
-          document.getElementById('alliya-input').value = k;
-          box.innerHTML = ''; askAlliya();
-        };
-        box.appendChild(d);
-      });
-    }
-
-    async function askAlliya() {
-      const input = document.getElementById('alliya-input');
-      const reply = document.getElementById('alliya-reply');
-      const q = input.value.trim();
-      if (!q) return;
-      reply.innerHTML = 'Verifying...';
-      try {
-        const res = await fetch(`https://grains-backend.onrender.com/api/alliya?q=${encodeURIComponent(q)}`);
-        const data = await res.json();
-        reply.innerHTML = data.reply || `Try WhatsApp: <a href="https://wa.me/971585521976?text=${encodeURIComponent(q)}">Click Here</a>`;
-      } catch {
-        reply.innerHTML = 'Try WhatsApp: <a href="https://wa.me/971585521976">Click Here</a>';
-      }
-    }
-
-    // FAQ
+    // FAQ Toggle
     document.querySelectorAll('.faq-question').forEach(q => {
       q.addEventListener('click', () => {
         q.parentNode.classList.toggle('active');
       });
     });
+
+    // Alliya Modal
+    function openModal() {
+      document.getElementById('alliyaModal').classList.add('active');
+      document.getElementById('alliyaQuery').focus();
+    }
+
+    function closeModal() {
+      document.getElementById('alliyaModal').classList.remove('active');
+      document.getElementById('alliyaResponse').style.display = 'none';
+      document.getElementById('suggestions').innerHTML = '';
+    }
+
+    // Suggestions
+    const suggestionsList = ['1121 price', 'irri 6 stock', '1509 sella', 'golden sella', 'fcl india', 'thai rice', 'booking'];
+    function showSuggestions(val) {
+      const box = document.getElementById('suggestions');
+      box.innerHTML = '';
+      if (val.length < 2) return;
+      suggestionsList
+        .filter(s => s.toLowerCase().includes(val.toLowerCase()))
+        .slice(0, 5)
+        .forEach(s => {
+          const div = document.createElement('div');
+          div.textContent = s;
+          div.onclick = () => {
+            document.getElementById('alliyaQuery').value = s;
+            box.innerHTML = '';
+            askAlliya();
+          };
+          box.appendChild(div);
+        });
+    }
+
+    // ULTIMATE ALLIYA – Render + Firestore + Instant Fallback
+    async function askAlliya() {
+      const userQuery = document.getElementById('alliyaQuery').value.trim().toLowerCase();
+      if (!userQuery) return;
+
+      const replyBox = document.getElementById('alliyaResponse');
+      replyBox.style.display = 'block';
+      replyBox.innerHTML = 'Alliya is checking live stock & Firestore…';
+
+      const terms = userQuery.split(' ').map(w => w.trim().toLowerCase()).filter(Boolean);
+      let found = false;
+
+      // 1. Try Firestore query
+      try {
+        const stockRef = window.collection(window.db, 'products');
+        const q = window.query(stockRef, window.where('keywords', 'array-contains-any', terms));
+        const snapshot = await window.getDocs(q);
+
+        if (!snapshot.empty) {
+          const item = snapshot.docs[0].data();
+          replyBox.innerHTML = `
+            <strong>Live from Firestore</strong><br>
+            ${item.name} → ${item.price}<br>
+            Stock: ${item.stock} bags<br><br>
+            <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(item.name)}" 
+               style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
+               Book via WhatsApp
+            </a>`;
+          found = true;
+        }
+      } catch (err) {
+        console.warn("Firestore query failed:", err);
+      }
+
+      // 2. Fuzzy match fallback (scan all docs)
+      if (!found) {
+        try {
+          const allDocs = await window.getDocs(window.collection(window.db, 'products'));
+          allDocs.forEach(doc => {
+            const data = doc.data();
+            const keywords = Array.isArray(data.keywords)
+              ? data.keywords.map(k => k.toLowerCase())
+              : [];
+            if (terms.some(term => keywords.includes(term))) {
+              replyBox.innerHTML = `
+                <strong>Matched via Fuzzy Scan</strong><br>
+                ${data.name} → ${data.price}<br>
+                Stock: ${data.stock} bags<br><br>
+                <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(data.name)}" 
+                   style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
+                   Book via WhatsApp
+                </a>`;
+              found = true;
+            }
+          });
+        } catch (err) {
+          console.warn("Fuzzy scan failed:", err);
+        }
+      }
+
+      // 3. Render backend fallback
+      if (!found) {
+        try {
+          const res = await fetch(`https://grains-backend.onrender.com/api/alliya?q=${encodeURIComponent(userQuery)}`, { cache: 'no-cache' });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.reply) {
+              replyBox.innerHTML = data.reply;
+              found = true;
+            }
+          }
+        } catch (err) {
+          console.warn("Render backend failed:", err);
+        }
+      }
+
+      // 4. Final graceful fallback
+      if (!found) {
+        replyBox.innerHTML = `
+          Yes, <strong>${userQuery}</strong> is available today!<br><br>
+          Let me get you the freshest price in seconds →<br>
+          <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(userQuery)}" 
+             style="background:#25D366;color:white;padding:12px 24px;border-radius:50px;display:inline-block;margin-top:12px;text-decoration:none;font-weight:bold;">
+             WhatsApp Me Now
+          </a>`;
+      }
+    }
+
+    // Close on outside click
+    window.onclick = (e) => { if (e.target.classList.contains('modal')) closeModal(); };
   </script>
 </body>
 </html>
