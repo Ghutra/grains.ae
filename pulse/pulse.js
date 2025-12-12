@@ -47,8 +47,8 @@ async function loadPulseData() {
 
 // Dynamic News Ticker (Rotating)
 const newsFeed = [
-  "1509 Creamy Sella booking opens at $780 C&F Dubai",
-  "Irri 6 5% drops to $350 C&F Dubai – prompt shipment",
+  "1509 Creamy Sella booking opens at $800 C&F Dubai",
+  "Irri 6 5% drops to $380 C&F Dubai – prompt shipment",
   "Sona Massori booking at $540 C&F Dubai",
   "Sawarna Rice booking at $430 C&F Dubai",
   "Jebel Ali FCL arrivals: +12 containers this week",
