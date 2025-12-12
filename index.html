@@ -422,14 +422,6 @@ function normalizeName(name) {
   return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
 }
 
-  <!-- Social -->
-  <section class="social">
-    <h2>Connect With Us</h2>
-    <a href="https://x.com/shahidrana32" target="_blank"><i class="fab fa-x-twitter"></i></a>
-    <a href="https://wa.me/971585521976" target="_blank"><i class="fab fa-whatsapp"></i></a>
-    <a href="mailto:letstalk@grains.ae"><i class="fas fa-envelope"></i></a>
-  </section>
-  
   // Alliya Modal
   function openModal() {
     document.getElementById('alliyaModal').classList.add('active');
@@ -551,8 +543,17 @@ async function askAlliya() {
   }
 }
 
-    // Close on outside click
+  // Close on outside click
     window.onclick = (e) => { if (e.target.classList.contains('modal')) closeModal(); };
+
+  <!-- Social -->
+  <section class="social">
+    <h2>Connect With Us</h2>
+    <a href="https://x.com/shahidrana32" target="_blank"><i class="fab fa-x-twitter"></i></a>
+    <a href="https://wa.me/971585521976" target="_blank"><i class="fab fa-whatsapp"></i></a>
+    <a href="mailto:letstalk@grains.ae"><i class="fas fa-envelope"></i></a>
+  </section>
+  
 </script>
 </body>
 </html>
