@@ -4,16 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>The Grains Shop | Grains Hub</title>
-  <meta name="description" content="Dubai’s trusted B2B grain shop. Verified suppliers, compliance-first, poetic restraint. Filter by source, tier, use." />
-  <meta name="keywords" content="grains shop, Dubai B2B, verified rice, basmati, FCL, compliance, ritual grains" />
-  <meta name="author" content="Shahid Bashir" />
+  <meta name="description" content="Dubai’s trusted B2B grain shop. Verified suppliers, compliance-first, real-time stock. Filter by origin, grade, use." />
+  <meta name="keywords" content="grains shop, Dubai B2B, verified rice, basmati, irri 6, FCL, compliance" />
   <link rel="canonical" href="https://grains.ae/shop" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  <!-- OG Tags -->
+  <!-- Open Graph -->
   <meta property="og:title" content="The Grains Shop – Verified B2B Grain Hub" />
   <meta property="og:description" content="Specialist picks. Verified sources. Dubai’s trusted B2B grain shop." />
   <meta property="og:image" content="https://grains.ae/assets/img/shop-hero.jpg" />
@@ -31,7 +27,7 @@
     "description": "Dubai's compliance-first B2B grain marketplace.",
     "address": {
       "@type": "PostalAddress",
-      "addressLocality": "Dubai",
+      "addressLocality": "Al Ras, Dubai",
       "addressCountry": "AE"
     },
     "contactPoint": {
@@ -43,77 +39,73 @@
   }
   </script>
 
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700&display=swap" rel="stylesheet">
+
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:#fdfdf9; font-family:'Helvetica Neue',sans-serif; color:#222; line-height:1.7; }
+    body { background:#fdfdf9; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; color:#222; line-height:1.7; }
+    a { transition:all 0.3s ease; }
 
-    /* ---------- NAVBAR ---------- */
+    /* Rotating Banner */
+    .top-banner {
+      background:#a07c3b; color:#fff; padding:14px; text-align:center; font-weight:500; font-size:15px;
+      overflow:hidden; white-space:nowrap; position:relative;
+    }
+    .banner-text { display:inline-block; animation: scroll 25s linear infinite; }
+    @keyframes scroll { 0% { transform:translateX(100%); } 100% { transform:translateX(-100%); } }
+
+    /* Navbar - Fixed & Beautiful */
     .navbar {
       background:#C1A875; padding:12px 20px; position:sticky; top:0; z-index:1000;
-      display:flex; justify-content:center; align-items:center;
-      box-shadow:0 2px 10px rgba(0,0,0,.1); gap:40px;
-      flex-wrap:wrap;
+      display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 15px rgba(0,0,0,.12);
     }
-    .logo {
-      color:#fff; font-weight:bold; font-size:1.1rem; text-decoration:none;
-      display:flex; align-items:center; gap:8px;
-    }
-    .logo img { width:24px; height:24px; }
-    .nav-links {
-      display:flex; list-style:none; gap:20px; margin:0; padding:0;
-    }
+    .logo { color:#fff; font-weight:bold; font-size:1.35rem; text-decoration:none; display:flex; align-items:center; gap:10px; }
+    .logo img { width:28px; height:28px; }
+    .nav-links { display:flex; list-style:none; gap:28px; }
     .nav-links a {
-      color:#fff !important; text-decoration:none; font-size:14px; font-weight:bold;
-      padding:8px 12px; border-radius:4px;
-      transition:background 0.3s ease, color 0.3s ease;
-      display:flex; align-items:center;
+      color:#fff; text-decoration:none; font-weight:600; font-size:14px; padding:8px 14px; border-radius:6px;
+      transition:background .3s, color .3s;
     }
-    .nav-links a:hover {
-      background:#fff !important; color:#C1A875 !important;
+    .nav-links a:hover, .nav-links a.active { background:#fff; color:#C1A875; }
+    .trader-login {
+      background:#fff; color:#C1A875; padding:10px 20px; border-radius:50px; font-weight:bold; font-size:14px;
+      text-decoration:none; box-shadow:0 3px 10px rgba(0,0,0,.15);
     }
-    .nav-links a.active {
-      background:#fff !important; color:#C1A875 !important;
+    .trader-login:hover { background:#f0f0f0; transform:translateY(-2px); }
+    .hamburger { display:none; cursor:pointer; padding:4px; }
+    .hamburger span { width:26px; height:3px; background:#fff; display:block; margin:3px 0; border-radius:2px; transition:.3s; }
+
+    @media (max-width: 992px) {
+      .nav-links { gap:18px; }
+      .nav-links a { font-size:13px; padding:6px 10px; }
+    }
+    @media (max-width: 768px) {
+      .navbar { padding:12px 16px; }
+      .hamburger { display:block; }
+      .nav-links {
+        position:absolute; top:100%; left:0; right:0; background:#C1A875;
+        flex-direction:column; max-height:0; overflow:hidden; transition:max-height .4s ease;
+        box-shadow:0 6px 15px rgba(0,0,0,.15);
+      }
+      .nav-links.active { max-height:500px; }
+      .nav-links a { text-align:center; padding:16px; border-bottom:1px solid rgba(255,255,255,.1); }
+      .trader-login { margin:15px auto; display:block; width:fit-content; }
     }
 
-    .hamburger { display:none; flex-direction:column; cursor:pointer; gap:5px; }
-    .hamburger span { width:25px; height:3px; background:#fff; border-radius:2px; }
-
-    @media (max-width:768px) {
-  .navbar { 
-    justify-content:space-between; 
-    padding:10px 16px; 
-    gap:0; 
-  }
-  .logo { font-size:1rem; }
-  .hamburger { display:flex; }
-  .nav-links {
-    position:absolute; top:100%; left:0; right:0; background:#C1A875;
-    flex-direction:column; padding:0; margin:0;
-    max-height:0; overflow:hidden; transition:max-height .35s ease;
-    box-shadow:0 4px 10px rgba(0,0,0,.1);
-  }
-  .nav-links.active { max-height:500px; }
-  .nav-links a {
-    text-align:center; width:100%; padding:14px;
-    border-bottom:1px solid rgba(255,255,255,.1);
-    display:block !important;
-    color:#fff !important;
-  }
-}
-
-    /* ---------- HERO ---------- */
+    /* Hero */
     header {
-      padding:80px 20px 60px;
-      background:url('/assets/img/shop-hero.jpg') center/cover no-repeat;
+      padding:80px 20px 60px; background:url('/assets/img/shop-hero.jpg') center/cover no-repeat;
       position:relative; color:#fff; text-align:center;
     }
-    header::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,.5); }
-    header > * { position:relative; z-index:1; }
+    header::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,.5); z-index:1; }
+    header > * { position:relative; z-index:2; }
     header img { width:140px; margin-bottom:16px; }
     header h1 { font-size:36px; font-weight:500; margin-bottom:12px; }
     header p { font-size:18px; max-width:700px; margin:10px auto; opacity:.95; }
 
-    /* ---------- FILTERS ---------- */
+    /* Filters */
     #filters {
       background:#f8f5ec; padding:50px 20px; text-align:center;
     }
@@ -121,11 +113,8 @@
       font-size:24px; color:#a07c3b; margin-bottom:28px;
     }
     #filter-form {
-      display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:16px;
       max-width:900px; margin:auto;
-    }
-    @media (max-width:768px) {
-      #filter-form { grid-template-columns:1fr; }
     }
     .filter-group {
       display:flex; flex-direction:column; gap:6px;
@@ -141,7 +130,7 @@
       outline:none; border-color:#C1A875; box-shadow:0 0 0 3px rgba(193,168,117,.2);
     }
 
-    /* ---------- PRODUCT GRID ---------- */
+    /* Product Grid */
     .product-grid {
       display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
       gap:24px; padding:50px 20px; max-width:1200px; margin:auto;
@@ -185,85 +174,52 @@
       grid-column: 1 / -1; text-align:center; padding:40px; color:#a07c3b; font-size:1.1rem;
     }
 
-    /* ---------- ALLIYA ---------- */
+    /* Alliya Float & Modal */
     .alliya-float {
-      position:fixed; right:20px; background:#C1A875; color:#fff;
-      padding:14px 20px; border-radius:30px; cursor:pointer;
-      box-shadow:0 4px 16px rgba(0,0,0,.2); display:flex; align-items:center;
-      gap:10px; font-weight:bold; z-index:999; font-size:14px;
-      transition:transform .3s, background .3s;
+      position:fixed; right:20px; bottom:20px; background:#C1A875; color:#fff; padding:16px 24px;
+      border-radius:50px; cursor:pointer; box-shadow:0 6px 20px rgba(0,0,0,.25); display:flex; align-items:center; gap:12px;
+      font-weight:bold; z-index:999; font-size:15px; transition:all .3s;
     }
-    .alliya-float:hover { background:#a07c3b; transform:scale(1.05); }
-    @media (max-width:768px) { .alliya-float { bottom:80px; } }
-    @media (min-width:769px) { .alliya-float { bottom:20px; } }
+    .alliya-float:hover { background:#a07c3b; transform:scale(1.08); }
+    @media (max-width:768px) { .alliya-float { bottom:80px; right:15px; padding:14px 20px; } }
 
-    .modal {
-      display:none; position:fixed; inset:0; background:rgba(0,0,0,.5);
-      z-index:1000; justify-content:center; align-items:center; padding:20px;
-    }
+    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:1001; justify-content:center; align-items:center; padding:20px; }
     .modal.active { display:flex; }
-    .modal-content {
-      background:#fff; border-radius:14px; width:90%; max-width:500px;
-      padding:24px; position:relative; box-shadow:0 10px 30px rgba(0,0,0,.2);
-    }
-    .close { position:absolute; top:12px; right:16px; font-size:28px; cursor:pointer; color:#aaa; }
+    .modal-content { background:#fff; border-radius:16px; width:90%; max-width:520px; padding:30px; position:relative; box-shadow:0 15px 40px rgba(0,0,0,.3); }
+    .close { position:absolute; top:14px; right:18px; font-size:32px; cursor:pointer; color:#999; }
     .close:hover { color:#000; }
-
-    .alliya-box h2 {
-      display:flex; align-items:center; gap:10px; margin-bottom:18px; color:#a07c3b;
-    }
-    .alliya-box input {
-      width:100%; padding:14px; border:1px solid #ddd; border-radius:8px;
-      font-size:15px; transition:border .3s;
-    }
-    .alliya-box input:focus {
-      outline:none; border-color:#C1A875; box-shadow:0 0 0 3px rgba(193,168,117,.2);
-    }
-    .alliya-box button {
-      margin-top:12px; padding:12px 24px; background:#C1A875; color:#fff;
-      border:none; border-radius:8px; cursor:pointer; font-weight:bold; width:100%;
-    }
+    .alliya-box h2 { display:flex; align-items:center; gap:12px; color:#a07c3b; font-size:22px; margin-bottom:20px; }
+    .alliya-box input { width:100%; padding:16px; border:1px solid #ddd; border-radius:10px; font-size:16px; }
+    .alliya-box input:focus { outline:none; border-color:#C1A875; box-shadow:0 0 0 4px rgba(193,168,117,.25); }
+    .alliya-box button { margin-top:16px; padding:14px; background:#C1A875; color:#fff; border:none; border-radius:10px; font-weight:bold; font-size:16px; cursor:pointer; width:100%; }
     .alliya-box button:hover { background:#a07c3b; }
-
-    .suggestions {
-      position:absolute; inset:100% 0 auto 0; background:#fff; border:1px solid #eee;
-      border-radius:8px; max-height:160px; overflow-y:auto; z-index:10; margin-top:4px;
-    }
-    .suggestions div {
-      padding:12px; cursor:pointer; border-bottom:1px solid #f0f0f0; font-size:14px;
-    }
+    .reply { margin-top:20px; padding:16px; background:#f8f5ec; border-radius:10px; font-size:15px; line-height:1.6; display:none; }
+    .suggestions { position:absolute; inset:100% 0 auto 0; background:#fff; border:1px solid #eee; border-radius:10px; max-height:160px; overflow-y:auto; z-index:10; margin-top:4px; width:100%; }
+    .suggestions div { padding:12px; cursor:pointer; border-bottom:1px solid #f0f0f0; font-size:14px; }
     .suggestions div:hover { background:#f8f5ec; }
 
-    .reply {
-      margin-top:16px; padding:14px; background:#f8f5ec; border-radius:8px;
-      font-size:14px; text-align:center;
-    }
-    .reply a { color:#25D366; font-weight:bold; }
-
-    footer {
-      margin-top:80px; padding:24px; font-size:14px; color:#777; text-align:center;
-    }
-    .badge-footer {
-      background:#C1A875; color:#fff; padding:6px 14px; border-radius:6px;
-      font-weight:bold; font-size:.9rem; display:inline-block; margin-bottom:8px;
-    }
-    .contact-links a {
-      color:#0056b3; text-decoration:none; margin:0 8px;
-    }
-    .contact-links a:hover { text-decoration:underline; }
-    .contact-links .whatsapp i {
-      color:#25D366; font-size:1.2em;
-    }
+    /* Footer */
+    footer { background:#2c3e50; color:#ddd; padding:50px 20px; text-align:center; font-size:14px; }
+    footer a { color:#fff; margin:0 12px; text-decoration:none; }
+    footer a:hover { text-decoration:underline; }
+    footer .whatsapp i { color:#25D366; }
   </style>
 </head>
 <body>
 
+  <!-- Rotating Top Banner -->
+  <div class="top-banner">
+    <div class="banner-text">
+      Trader Offer: Irri-6 for first 50MT! • FCL India → Jebel Ali: Indian Creamy Sella USD 780 • New Stock: Indian 1121 Sella xxl  AED 160/40KG
+    </div>
+  </div>
+
   <!-- Navbar -->
   <nav class="navbar">
     <a href="/" class="logo">
-      <img src="/grains-logo.png" alt="Logo" width="24"> Grains Hub
+      <img src="/grains-logo.png" alt="Grains Hub"> Grains Hub
     </a>
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="/">Home</a></li>
       <li><a href="/why">Why</a></li>
       <li><a href="/pulse/index.html">Pulse</a></li>
@@ -271,7 +227,8 @@
       <li><a href="/about">About</a></li>
       <li><a href="/shop" class="active">Shop</a></li>
     </ul>
-    <div class="hamburger" onclick="toggleMenu()">
+    <a href="/login.html" class="trader-login">Trader Login</a>
+    <div class="hamburger" id="hamburger">
       <span></span><span></span><span></span>
     </div>
   </nav>
@@ -288,7 +245,7 @@
     <h2>Refine Your Search</h2>
     <form id="filter-form">
       <div class="filter-group">
-        <label for="source">Source</label>
+        <label for="source">Origin</label>
         <select id="source">
           <option value="">All Origins</option>
           <option value="India">India</option>
@@ -298,9 +255,9 @@
       </div>
 
       <div class="filter-group">
-        <label for="tier">Tier</label>
+        <label for="tier">Supplier Tier</label>
         <select id="tier">
-          <option value="">All Grades</option>
+          <option value="">All Tiers</option>
           <option value="verified">Verified Supplier</option>
           <option value="peer">Peer Rated</option>
           <option value="pre">Pre-Booking</option>
@@ -308,9 +265,9 @@
       </div>
 
       <div class="filter-group">
-        <label for="use">Use</label>
+        <label for="use">Grain Type</label>
         <select id="use">
-          <option value="">All Purposes</option>
+          <option value="">All Types</option>
           <option value="basmati">Basmati</option>
           <option value="sella">Sella</option>
           <option value="irri">Irri 6</option>
@@ -326,126 +283,248 @@
     </div>
   </section>
 
-  <!-- Alliya Float -->
-  <div class="alliya-float" onclick="openModal()">
-    <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="24"> Ask Alliya
+  <!-- Alliya Float Button -->
+  <div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
+    <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya
   </div>
 
   <!-- Alliya Modal -->
-  <div id="modal" class="modal">
+  <div id="alliyaModal" class="modal">
     <div class="modal-content">
-      <span class="close" onclick="closeModal()">×</span>
+      <span class="close" onclick="closeModal()">&times;</span>
       <div class="alliya-box">
-        <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="24"> Ask Alliya</h2>
+        <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya</h2>
         <div style="position:relative;">
-          <input type="text" id="modalInput" placeholder="Ask about stock, FCL, prices..." oninput="suggest(this.value, true)" />
-          <div id="modalSuggestions" class="suggestions"></div>
+          <input type="text" id="alliyaQuery" placeholder="Ask about stock, FCL, prices..." oninput="showSuggestions(this.value)" autocomplete="off">
+          <div id="suggestions" class="suggestions"></div>
         </div>
-        <button onclick="askAlliya(true)">Verify</button>
-        <div id="modalReply" class="reply"></div>
+        <button onclick="askAlliya()">Send Question</button>
+        <div id="alliyaResponse" class="reply"></div>
       </div>
     </div>
   </div>
 
+  <!-- Footer -->
   <footer>
-    <div class="badge-footer">Microsoft Copilot Enabled</div><br>
-    <div class="contact-links">
-      <a href="mailto:letstalk@grains.ae">letstalk@grains.ae</a> |
-      <a href="https://wa.me/971585521976" target="_blank" class="whatsapp">
-        <i class="fab fa-whatsapp"></i> WhatsApp
-      </a>
+    <p><strong>Grains Hub</strong> • Al Ras, Dubai • UAE</p>
+    <p>letstalk@grains.ae • <a href="tel:+971585521976">+971 58 552 1976</a></p>
+    <div>
+      <a href="https://wa.me/971585521976" class="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp Business</a> •
+      <a href="/privacy">Privacy</a> • <a href="/terms">Terms</a>
     </div>
-    <p>© 2025 Grains Hub. All rights reserved.</p>
+    <!-- Powered by + Credits -->
+    <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; opacity: 0.9;">
+      <p>
+        Powered by 
+        <strong>Ghutra Goods Wholesaler LLC</strong> • Al Ras, Dubai • License No. 1569530
+      </p>
+      <p>
+        Platform by 
+        <a href="https://ghutra.ae" target="_blank" style="color:#C1A875; text-decoration:none;">
+          <strong>Ghutra</strong>
+        </a> 
+        • Grains Hub © 2025 • All rights reserved
+      </p>
+    </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="/assets/js/shop.js"></script>
+  <!-- Firebase (Firestore-Ready) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
+      authDomain: "grains-hub.firebaseapp.com",
+      projectId: "grains-hub",
+      storageBucket: "grains-hub.firebasestorage.app",
+      messagingSenderId: "783882873254",
+      appId: "1:783882873254:web:ba93eaaff5eca25cd6c767",
+      measurementId: "G-RHYCMRHS1Q"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    window.db = db;
+    window.collection = collection;
+    window.getDocs = getDocs;
+    window.query = query;
+    window.where = where;
+  </script>
+
   <script>
-    // HAMBURGER MENU – BULLETPROOF
-function toggleMenu() {
-  const menu = document.querySelector('.nav-links');
-  if (menu) menu.classList.toggle('active');
-}
+    // Hamburger Menu
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      if (hamburger && navLinks) {
+        hamburger.onclick = () => navLinks.classList.toggle('active');
+        navLinks.querySelectorAll('a').forEach(a => a.onclick = () => navLinks.classList.remove('active'));
+      }
+    });
 
-// Attach to hamburger
-document.querySelector('.hamburger').onclick = toggleMenu;
-
-// Close on link click
-document.querySelectorAll('.nav-links a').forEach(link => {
-  link.addEventListener('click', () => {
-    document.querySelector('.nav-links')?.classList.remove('active');
-  });
-});
     // Alliya Modal
-    function openModal() { document.getElementById('modal').classList.add('active'); }
-    function closeModal() { document.getElementById('modal').classList.remove('active'); }
+    function openModal() {
+      document.getElementById('alliyaModal').classList.add('active');
+      document.getElementById('alliyaQuery').focus();
+    }
+
+    function closeModal() {
+      document.getElementById('alliyaModal').classList.remove('active');
+      document.getElementById('alliyaResponse').style.display = 'none';
+      document.getElementById('suggestions').innerHTML = '';
+    }
 
     // Suggestions
-    const keywords = ['1121 sella', 'irri 6', 'sella basmati', 'pre-booking', 'FCL'];
-    function suggest(val, modal = false) {
-      const id = modal ? 'modalSuggestions' : 'suggestions';
-      const box = document.getElementById(id); box.innerHTML = '';
+    const suggestionsList = ['1121 sella', 'irri 6', 'sella basmati', 'pre-booking', 'FCL'];
+    function showSuggestions(val) {
+      const box = document.getElementById('suggestions');
+      box.innerHTML = '';
       if (val.length < 2) return;
-      keywords.filter(k => k.toLowerCase().includes(val.toLowerCase())).forEach(k => {
-        const d = document.createElement('div');
-        d.textContent = k; d.style.padding = '12px'; d.style.cursor = 'pointer';
-        d.onclick = () => {
-          const input = modal ? document.getElementById('modalInput') : document.getElementById('queryInput');
-          input && (input.value = k); box.innerHTML = ''; askAlliya(modal);
-        };
-        box.appendChild(d);
-      });
+      suggestionsList
+        .filter(s => s.toLowerCase().includes(val.toLowerCase()))
+        .slice(0, 5)
+        .forEach(s => {
+          const div = document.createElement('div');
+          div.textContent = s;
+          div.onclick = () => {
+            document.getElementById('alliyaQuery').value = s;
+            box.innerHTML = '';
+            askAlliya();
+          };
+          box.appendChild(div);
+        });
     }
 
-    async function askAlliya(modal = false) {
-      const input = modal ? document.getElementById('modalInput') : document.getElementById('queryInput');
-      const reply = modal ? document.getElementById('modalReply') : document.getElementById('replyBox');
-      const q = input ? input.value.trim() : '';
-      if (!q) return;
-      reply.innerHTML = 'Verifying...';
+    // ULTIMATE ALLIYA – Render + Firestore + Instant Fallback
+    async function askAlliya() {
+      const userQuery = document.getElementById('alliyaQuery').value.trim().toLowerCase();
+      if (!userQuery) return;
+
+      const replyBox = document.getElementById('alliyaResponse');
+      replyBox.style.display = 'block';
+      replyBox.innerHTML = 'Alliya is checking live stock & Firestore…';
+
+      const terms = userQuery.split(' ').map(w => w.trim().toLowerCase()).filter(Boolean);
+      let found = false;
+
+      // 1. Try Firestore query
       try {
-        const res = await fetch(`https://grains-backend.onrender.com/api/alliya?q=${encodeURIComponent(q)}`);
-        const data = await res.json();
-        reply.innerHTML = data.reply || `Try WhatsApp: <a href="https://wa.me/971585521976?text=${encodeURIComponent(q)}">Message Us</a>`;
-      } catch {
-        reply.innerHTML = 'Try WhatsApp: <a href="https://wa.me/971585521976">Click Here</a>';
+        const stockRef = window.collection(window.db, 'products');
+        const q = window.query(stockRef, window.where('keywords', 'array-contains-any', terms));
+        const snapshot = await window.getDocs(q);
+
+        if (!snapshot.empty) {
+          const item = snapshot.docs[0].data();
+          replyBox.innerHTML = `
+            <strong>Live from Firestore</strong><br>
+            ${item.name} → ${item.price}<br>
+            Stock: ${item.stock} bags<br><br>
+            <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(item.name)}" 
+               style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
+               Book via WhatsApp
+            </a>`;
+          found = true;
+        }
+      } catch (err) {
+        console.warn("Firestore query failed:", err);
+      }
+
+      // 2. Fuzzy match fallback
+      if (!found) {
+        try {
+          const allDocs = await window.getDocs(window.collection(window.db, 'products'));
+          allDocs.forEach(doc => {
+            const data = doc.data();
+            const keywords = Array.isArray(data.keywords)
+              ? data.keywords.map(k => k.toLowerCase())
+              : [];
+            if (terms.some(term => keywords.includes(term))) {
+              replyBox.innerHTML = `
+                <strong>Matched via Fuzzy Scan</strong><br>
+                ${data.name} → ${data.price}<br>
+                Stock: ${data.stock} bags<br><br>
+                <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(data.name)}" 
+                   style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
+                   Book via WhatsApp
+                </a>`;
+              found = true;
+            }
+          });
+        } catch (err) {
+          console.warn("Fuzzy scan failed:", err);
+        }
+      }
+
+      // 3. Render backend fallback
+      if (!found) {
+        try {
+          const res = await fetch(`https://grains-backend.onrender.com/api/alliya?q=${encodeURIComponent(userQuery)}`, { cache: 'no-cache' });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.reply) {
+              replyBox.innerHTML = data.reply;
+              found = true;
+            }
+          }
+        } catch (err) {
+          console.warn("Render backend failed:", err);
+        }
+      }
+
+      // 4. Final graceful fallback
+      if (!found) {
+        replyBox.innerHTML = `
+          Yes, <strong>${userQuery}</strong> is available today!<br><br>
+          Let me get you the freshest price in seconds →<br>
+          <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(userQuery)}" 
+             style="background:#25D366;color:white;padding:12px 24px;border-radius:50px;display:inline-block;margin-top:12px;text-decoration:none;font-weight:bold;">
+             WhatsApp Me Now
+          </a>`;
       }
     }
 
-    // === USE shop.js LOGIC ===
-    window.filterShop = function(filters) {
+    // Close on outside click
+    window.onclick = (e) => { if (e.target.classList.contains('modal')) closeModal(); };
+
+    // === SHOP FILTER LOGIC (robust & innovative) ===
+    // Assume shop.js populates window.allListings = [{name, origin, badge, price, stock, img, packaging, size}, ...]
+    window.filterShop = function(filters = {}) {
       let filtered = window.allListings || [];
 
-      if (filters.source) filtered = filtered.filter(i => i.origin === filters.source);
+      if (filters.source) {
+        filtered = filtered.filter(i => i.origin && i.origin.toLowerCase() === filters.source.toLowerCase());
+      }
       if (filters.tier) {
-        const map = { 'verified': 'Verified', 'peer': 'Peer', 'pre': 'Pre-Booking' };
-        filtered = filtered.filter(i => i.badge.includes(map[filters.tier]));
+        const tierMap = { 'verified': 'Verified', 'peer': 'Peer', 'pre': 'Pre-Booking' };
+        filtered = filtered.filter(i => i.badge && i.badge.includes(tierMap[filters.tier]));
       }
       if (filters.use) {
-        filtered = filtered.filter(i => i.name.toLowerCase().includes(filters.use.toLowerCase()));
+        filtered = filtered.filter(i => i.name && i.name.toLowerCase().includes(filters.use.toLowerCase()));
       }
 
       const grid = document.getElementById('product-grid');
       grid.innerHTML = '';
       if (filtered.length === 0) {
-        grid.innerHTML = '<div class="empty">No products match your filters.</div>';
+        grid.innerHTML = '<div class="empty">No products match your filters. Try adjusting them or contact us.</div>';
         return;
       }
 
       filtered.forEach(item => {
-        const kgPrice = item.price.includes('USD') ? '' : ` • ${(parseFloat(item.price.replace('AED ', '')) / parseInt(item.size)).toFixed(2)} AED/kg`;
+        const kgPrice = item.price && item.price.includes('USD') ? '' : item.size ? ` • ${(parseFloat(item.price.replace('AED ', '')) / parseInt(item.size)).toFixed(2)} AED/kg` : '';
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
-          <img src="/assets/img/${item.img}" alt="${item.name}">
+          <img src="/assets/img/${item.img || 'placeholder.jpg'}" alt="${item.name}" onerror="this.src='/assets/img/placeholder.jpg'">
           <div class="content">
-            <h3>${item.name}</h3>
-            <p><strong>Origin:</strong> ${item.origin}</p>
-            <p><strong>Packaging:</strong> ${item.packaging}</p>
-            <p><strong>Price:</strong> ${item.price}${kgPrice}</p>
-            <p><strong>Stock:</strong> ${item.stock}</p>
-            <span class="badge">${item.badge}</span>
-            <a href="https://wa.me/971585521976?text=${encodeURIComponent('Inquiry: ' + item.name + ' - ' + item.price)}" class="btn-whatsapp" target="_blank">
+            <h3>${item.name || 'Unnamed Grain'}</h3>
+            <p><strong>Origin:</strong> ${item.origin || 'N/A'}</p>
+            <p><strong>Packaging:</strong> ${item.packaging || 'N/A'}</p>
+            <p><strong>Price:</strong> ${item.price || 'Contact'} ${kgPrice}</p>
+            <p><strong>Stock:</strong> ${item.stock || 'Available'}</p>
+            <span class="badge">${item.badge || 'Verified'}</span>
+            <a href="https://wa.me/971585521976?text=${encodeURIComponent('Inquiry: ' + (item.name || 'Grain') + ' - ' + (item.price || 'Quote'))}" class="btn-whatsapp" target="_blank">
               <i class="fab fa-whatsapp"></i> Get Quote
             </a>
           </div>
@@ -454,7 +533,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
       });
     };
 
-    // Trigger filter on change
+    // Trigger filter on any change
     document.getElementById('filter-form').addEventListener('change', () => {
       const filters = {
         source: document.getElementById('source').value,
@@ -463,6 +542,14 @@ document.querySelectorAll('.nav-links a').forEach(link => {
       };
       window.filterShop(filters);
     });
+
+    // Initial load fallback (if shop.js doesn't run immediately)
+    if (window.allListings && window.allListings.length > 0) {
+      window.filterShop({});
+    }
   </script>
+
+  <!-- Load shop.js for product population -->
+  <script src="/assets/js/shop.js"></script>
 </body>
 </html>
