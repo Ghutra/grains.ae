@@ -187,11 +187,58 @@
       color: #a07c3b;
     }
     
-    /* Footer */
-    footer { background:#2c3e50; color:#ddd; padding:50px 20px; text-align:center; font-size:14px; }
-    footer a { color:#fff; margin:0 12px; text-decoration:none; }
-    footer a:hover { text-decoration:underline; }
-    footer .whatsapp i { color:#25D366; }
+   /* Footer Layout */
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto 30px auto;
+  text-align: left;
+}
+
+.footer-col {
+  min-width: 180px;
+}
+
+.footer-col h3, 
+.footer-col h4 {
+  color: #fff;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.footer-col a {
+  display: block;
+  margin: 6px 0;
+  color: #ddd;
+  text-decoration: none;
+}
+
+.footer-col a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 13px;
+  opacity: 0.9;
+  text-align: center;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .footer-container {
+    text-align: center;
+  }
+  .footer-col {
+    min-width: 100%;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -332,30 +379,76 @@
     <a href="https://wa.me/971585521976" target="_blank"><i class="fab fa-whatsapp"></i></a>
     <a href="mailto:letstalk@grains.ae"><i class="fas fa-envelope"></i></a>
   </section>
-  
+  <section class="trust-block">
+    <h2>Trusted. Licensed. Dubai‑Anchored.</h2>
+    <p>Grains Hub is operated by <strong>Ghutra Goods Wholesaler LLC</strong>, a licensed B2B wholesaler based in Al Ras, Dubai.</p>
+
+    <ul>
+        <li><strong>Trade License Activity:</strong> 4690101 – Goods Wholesaler </li>
+        <li><strong>Registered Office:</strong> M‑01, Al Ras, Dubai, UAE</li>
+        <li><strong>Direct B2B Supply:</strong> All products are procured, verified, and sold directly by us</li>
+        <li><strong>Not a Marketplace:</strong> We do not facilitate third‑party trading or peer‑to‑peer transactions</li>
+    </ul>
+
+    <p>Our commitment is simple: clarity, compliance, and verified trade.</p>
+</section>
+
   <!-- Footer -->
-  <footer>
-    <p><strong>Grains Hub</strong> • Al Ras, Dubai • UAE</p>
-    <p>letstalk@grains.ae • <a href="tel:+971585521976">+971 58 552 1976</a></p>
-    <div>
-      <a href="https://wa.me/971585521976" class="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp Business</a> •
-      <a href="/privacy">Privacy</a> • <a href="/terms">Terms</a>
+ <footer>
+  <div class="footer-container">
+
+    <!-- Column 1: Brand -->
+    <div class="footer-col">
+      <h3>Grains Hub</h3>
+      <p>Operated by Ghutra Goods Wholesaler LLC</p>
+      <p>M‑01, Al Ras, Dubai, UAE</p>
+      <p>License No. 1569530</p>
+      <p><a href="mailto:letstalk@grains.ae">letstalk@grains.ae</a></p>
+      <p><a href="tel:+971585521976">+971 58 552 1976</a></p>
+      <a href="https://wa.me/971585521976" class="whatsapp">
+        <i class="fab fa-whatsapp"></i> WhatsApp Business
+      </a>
     </div>
-   <!-- Powered by + Credits -->
-<div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 13px; opacity: 0.9;">
-  <p>
-    Powered by 
-    <strong>Ghutra Goods Wholesaler LLC</strong> • Al Ras, Dubai • License No. 1569530
-  </p>
-  <p>
-    Platform by 
-    <a href="https://ghutra.ae" target="_blank" style="color:#C1A875; text-decoration:none;">
-      <strong>Ghutra</strong>
-    </a> 
-    • Grains Hub © 2025 • All rights reserved
-  </p>
-</div>
-  </footer>
+
+    <!-- Column 2: Navigation -->
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="/">Home</a>
+      <a href="/market-pulse">Market Pulse</a>
+      <a href="/alliya">Alliya AI</a>
+      <a href="/products">Products</a>
+    </div>
+
+    <!-- Column 3: Company -->
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="/about">About Us</a>
+      <a href="/contact">Contact</a>
+      <a href="/compliance">Compliance Statement</a>
+    </div>
+
+    <!-- Column 4: Legal -->
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href="/terms">Terms of Service</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/disclaimer">Disclaimer</a>
+      <a href="/cookies">Cookies Policy</a>
+    </div>
+
+  </div>
+
+  <!-- Bottom Credits -->
+  <div class="footer-bottom">
+    <p>
+      Platform by 
+      <a href="https://ghutra.ae" target="_blank" style="color:#C1A875; text-decoration:none;">
+        <strong>Ghutra</strong>
+      </a>
+      • Grains Hub © 2025 • All rights reserved
+    </p>
+  </div>
+</footer>
 
   <!-- Firebase (Firestore-Ready) -->
   <script type="module">
