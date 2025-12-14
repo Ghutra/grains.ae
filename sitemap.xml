@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Core Pages -->
   <url>
     <loc>https://grains.ae/</loc>
   </url>
   <url>
+    <loc>https://grains.ae/market-pulse.html</loc>
+  </url>
+  <url>
+    <loc>https://grains.ae/alliya.html</loc>
+  </url>
+  <url>
+    <loc>https://grains.ae/products.html</loc>
+  </url>
+
+  <!-- Company Pages -->
+  <url>
+    <loc>https://grains.ae/about.html</loc>
+  </url>
+  <url>
+    <loc>https://grains.ae/contact.html</loc>
+  </url>
+  <url>
+    <loc>https://grains.ae/compliance.html</loc>
+  </url>
+  <url>
     <loc>https://grains.ae/trust.html</loc>
   </url>
+
+  <!-- Legal Pages -->
   <url>
-    <loc>https://grains.ae/services.html</loc>
+    <loc>https://grains.ae/terms.html</loc>
   </url>
   <url>
-    <loc>https://grains.ae/market.html</loc>
+    <loc>https://grains.ae/privacy.html</loc>
   </url>
+  <url>
+    <loc>https://grains.ae/disclaimer.html</loc>
+  </url>
+  <url>
+    <loc>https://grains.ae/cookies.html</loc>
+  </url>
+
 </urlset>
