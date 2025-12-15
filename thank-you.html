@@ -2,14 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Thank You - Grains Hub</title>
+  <title>Thank You – Grains Hub</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 100px; background: #f9f9f9; }
-    h1 { color: #C1A875; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 36px;
+      color: #C1A875;
+      animation: fadeIn 1.2s ease-out;
+    }
+    p {
+      font-size: 18px;
+      margin-top: 20px;
+      animation: fadeIn 2s ease-out;
+    }
+    .pulse {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #C1A875;
+      animation: pulse 2s infinite;
+      margin-bottom: 30px;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.7; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.7; }
+    }
   </style>
 </head>
 <body>
+  <div class="pulse"></div>
   <h1>Thank You</h1>
-  <p>Your message has been sent successfully. We’ll get back to you shortly.</p>
+  <p>Your message has been sent successfully.<br>We’ll get back to you shortly.</p>
 </body>
 </html>
