@@ -59,7 +59,7 @@
       display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;max-width:1100px;margin:80px auto;padding:0 20px;
     }
     .card{
-      background:#fff;padding:40px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center;transition:transform .3s;
+      background:#fff;padding:40px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center;transition:transform .3s;cursor:pointer;
     }
     .card:hover{transform:translateY(-8px);}
     .card i{font-size:50px;color:#C1A875;margin-bottom:20px;}
@@ -95,47 +95,62 @@
       margin: 5% auto;
       padding: 20px;
       border: 1px solid #888;
-      width: 80%;
+      width: 90%;
       max-width: 500px;
-      border-radius: 10px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+      direction: ltr;
+      text-align: center;
+    }
+    /* RTL support when Arabic */
+    .modal[lang="ar"] .modal-content,
+    .modal[lang="ar"] .alliya-box,
+    .modal[lang="ar"] .reply {
+      direction: rtl;
+      text-align: right;
     }
     .close {
       color: #aaa;
       float: right;
-      font-size: 28px;
+      font-size: 32px;
       font-weight: bold;
-    }
-    .close:hover,
-    .close:focus {
-      color: black;
-      text-decoration: none;
       cursor: pointer;
     }
-    .alliya-box {
-      text-align: center;
-    }
+    .close:hover {color: #000;}
     .alliya-box h2 {
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      font-size: 24px;
+      color: #a07c3b;
     }
     .alliya-box input {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      padding: 14px;
+      margin-bottom: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
     }
     .alliya-box button {
       background: #C1A875;
       color: white;
-      padding: 10px 20px;
+      padding: 12px 28px;
       border: none;
-      border-radius: 5px;
+      border-radius: 50px;
       cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .alliya-box button:hover {
+      background: #a07c3b;
     }
     .reply {
-      margin-top: 20px;
-      text-align: left;
+      margin-top: 24px;
+      padding: 16px;
+      background: #f8f5ec;
+      border-radius: 12px;
       display: none;
+      font-size: 16px;
+      line-height: 1.6;
     }
     .suggestions {
       position: absolute;
@@ -145,13 +160,19 @@
       max-height: 200px;
       overflow-y: auto;
       z-index: 1000;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,.1);
     }
     .suggestions div {
-      padding: 10px;
+      padding: 12px;
       cursor: pointer;
+      border-bottom: 1px solid #eee;
     }
     .suggestions div:hover {
       background: #f0f0f0;
+    }
+    .suggestions div:last-child {
+      border-bottom: none;
     }
 
     footer{background:#2c3e50;color:#ddd;padding:60px 20px 40px;text-align:center;font-size:14px;}
@@ -161,8 +182,8 @@
 </head>
 <body>
 
-  <!-- Banner + Navbar (same as your site) -->
-  <div class="top-banner"><div class="banner-text"> Trader Offer: Irri-6 Broken 5% Avaliable Stock 56AED for 35Kg PP Bag! • FCL India → Jebel Ali: Indian Creamy Sella USD 870 • New Stock: Indian 1121 Sella xxl  AED 160/40KG</div></div>
+  <!-- Banner + Navbar -->
+  <div class="top-banner"><div class="banner-text">Trader Offer: Irri-6 first 50MT! • FCL India → Jebel Ali USD 780 • Indian 1121 Sella XXL AED 160/40KG</div></div>
   <nav class="navbar">
     <a href="/" class="logo"><img src="/grains-logo.png" alt="Grains Hub"> Grains Hub</a>
     <ul class="nav-links" id="navLinks">
@@ -186,7 +207,7 @@
     </a>
   </section>
 
-  <!-- Feature Cards (back and beautiful) -->
+  <!-- Feature Cards -->
   <div class="features">
     <div class="card" onclick="openModal()">
       <i class="fas fa-bolt"></i>
@@ -232,7 +253,7 @@
       <div class="alliya-box">
         <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya</h2>
         <div style="position:relative;">
-          <input type="text" id="alliyaQuery" placeholder="Ask about price, stock, FCL, compliance..." oninput="showSuggestions(this.value)" autocomplete="off">
+          <input type="text" id="alliyaQuery" placeholder="Ask about price, stock, FCL, compliance... أو اسأل بالعربي" oninput="showSuggestions(this.value)" autocomplete="off">
           <div id="suggestions" class="suggestions"></div>
         </div>
         <button onclick="askAlliya()">Send Question</button>
@@ -246,7 +267,6 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
   import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
   authDomain: "grains-hub.firebaseapp.com",
@@ -260,7 +280,6 @@ const firebaseConfig = {
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  // This makes Firestore available to our askAlliya() function
   window.db = db;
   window.collection = collection;
   window.getDocs = getDocs;
@@ -282,25 +301,42 @@ const firebaseConfig = {
 
     // Alliya Modal Functions
     function openModal() {
-      document.getElementById('alliyaModal').classList.add('active');
-      document.getElementById('alliyaQuery').focus();
+      const input = document.getElementById('alliyaQuery');
+      const currentValue = input.value;
+      const isArabic = /[\u0600-\u06FF]/.test(currentValue);
+      const modal = document.getElementById('alliyaModal');
+      modal.classList.add('active');
+      if (isArabic) modal.setAttribute('lang', 'ar');
+      else modal.removeAttribute('lang');
+      input.focus();
     }
 
     function closeModal() {
-      document.getElementById('alliyaModal').classList.remove('active');
+      const modal = document.getElementById('alliyaModal');
+      modal.classList.remove('active');
+      modal.removeAttribute('lang');
       document.getElementById('alliyaResponse').style.display = 'none';
       document.getElementById('suggestions').innerHTML = '';
+      document.getElementById('alliyaQuery').value = '';
     }
 
-    // Suggestions
-    const suggestionsList = ['1121 price', 'irri 6 stock', '1509 sella', 'golden sella', 'fcl india', 'thai rice', 'booking'];
+    // Bilingual suggestions
+    const suggestionsList = [
+      // English
+      '1121 price', 'irri 6 stock', '1509 sella', 'golden sella', 'fcl india', 'thai rice', 'booking',
+      // Arabic
+      'سعر 1121', 'ستوك إري 6', 'سعر 1509 سيلا', 'جولدن سيلا', 'أسعار الأرز', 'سعر الأرز الهندي',
+      'سعر الأرز الباكستاني', 'فول كونتينر الهند', 'كمية متوفرة', 'حجز طن', 'أقل سعر',
+      'سعر الطن', 'أرز بسمتي', 'أرز طويل', 'أرز أبيض', 'شحن كامل'
+    ];
+
     function showSuggestions(val) {
       const box = document.getElementById('suggestions');
       box.innerHTML = '';
-      if (val.length < 2) return;
+      if (val.length < 1) return;
       suggestionsList
         .filter(s => s.toLowerCase().includes(val.toLowerCase()))
-        .slice(0, 5)
+        .slice(0, 6)
         .forEach(s => {
           const div = document.createElement('div');
           div.textContent = s;
@@ -313,19 +349,57 @@ const firebaseConfig = {
         });
     }
 
-    // ULTIMATE ALLIYA – Render + Firestore + Instant Fallback
+    // Arabic to English keyword mapping
+    const arabicToEnglishMap = {
+      'سعر': 'price',
+      'ستوك': 'stock',
+      'كمية': 'stock',
+      'متوفرة': 'stock',
+      'إري': 'irri',
+      'اري': 'irri',
+      'سيلا': 'sella',
+      'جولدن': 'golden',
+      'بسمتي': 'basmati',
+      'هندي': 'india',
+      'باكستاني': 'pakistan',
+      'طن': 'ton',
+      'حجز': 'booking',
+      'فول': 'fcl',
+      'كونتينر': 'fcl',
+      'شحن': 'fcl',
+      'أرز': 'rice',
+      'أبيض': 'white',
+      'طويل': 'long',
+      'أقل': 'lowest'
+    };
+
+    // ULTIMATE ALLIYA with Arabic support
     async function askAlliya() {
-      const userQuery = document.getElementById('alliyaQuery').value.trim().toLowerCase();
-      if (!userQuery) return;
+      let originalQuery = document.getElementById('alliyaQuery').value.trim();
+      if (!originalQuery) return;
+
+      const isArabic = /[\u0600-\u06FF]/.test(originalQuery);
+      let userQuery = originalQuery.toLowerCase();
+
+      // Translate Arabic keywords to English for search
+      if (isArabic) {
+        Object.keys(arabicToEnglishMap).forEach(arWord => {
+          const enWord = arabicToEnglishMap[arWord];
+          const regex = new RegExp(arWord, 'gi');
+          userQuery = userQuery.replace(regex, enWord);
+        });
+      }
 
       const replyBox = document.getElementById('alliyaResponse');
       replyBox.style.display = 'block';
-      replyBox.innerHTML = 'Alliya is checking live stock & Firestore…';
+      replyBox.innerHTML = isArabic 
+        ? 'عليا تبحث عن السعر والستوك الآن...'
+        : 'Alliya is checking live stock & Firestore…';
 
       const terms = userQuery.split(' ').map(w => w.trim().toLowerCase()).filter(Boolean);
       let found = false;
 
-      // 1. Try Firestore query
+      // 1. Firestore query
       try {
         const stockRef = window.collection(window.db, 'products');
         const q = window.query(stockRef, window.where('keywords', 'array-contains-any', terms));
@@ -333,7 +407,14 @@ const firebaseConfig = {
 
         if (!snapshot.empty) {
           const item = snapshot.docs[0].data();
-          replyBox.innerHTML = `
+          replyBox.innerHTML = isArabic ? `
+            <strong>من المستودع مباشرة</strong><br>
+            \( {item.name} → \){item.price}<br>
+            الستوك: ${item.stock} كيس<br><br>
+            <a href="https://wa.me/971585521976?text=مرحبا%20عليا%20-%20أريد%20${encodeURIComponent(item.name)}" 
+               style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
+               احجز عبر واتساب
+            </a>` : `
             <strong>Live from Firestore</strong><br>
             \( {item.name} → \){item.price}<br>
             Stock: ${item.stock} bags<br><br>
@@ -347,17 +428,24 @@ const firebaseConfig = {
         console.warn("Firestore query failed:", err);
       }
 
-      // 2. Fuzzy match fallback (scan all docs)
+      // 2. Fuzzy scan fallback
       if (!found) {
         try {
           const allDocs = await window.getDocs(window.collection(window.db, 'products'));
-          allDocs.forEach(doc => {
+          for (const doc of allDocs.docs) {
             const data = doc.data();
             const keywords = Array.isArray(data.keywords)
               ? data.keywords.map(k => k.toLowerCase())
               : [];
             if (terms.some(term => keywords.includes(term))) {
-              replyBox.innerHTML = `
+              replyBox.innerHTML = isArabic ? `
+                <strong>تم العثور بالبحث الذكي</strong><br>
+                \( {data.name} → \){data.price}<br>
+                الستوك: ${data.stock} كيس<br><br>
+                <a href="https://wa.me/971585521976?text=مرحبا%20عليا%20-%20أريد%20${encodeURIComponent(data.name)}" 
+                   style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
+                   احجز عبر واتساب
+                </a>` : `
                 <strong>Matched via Fuzzy Scan</strong><br>
                 \( {data.name} → \){data.price}<br>
                 Stock: ${data.stock} bags<br><br>
@@ -366,8 +454,9 @@ const firebaseConfig = {
                    Book via WhatsApp
                 </a>`;
               found = true;
+              break;
             }
-          });
+          }
         } catch (err) {
           console.warn("Fuzzy scan failed:", err);
         }
@@ -389,12 +478,18 @@ const firebaseConfig = {
         }
       }
 
-      // 4. Final graceful fallback
+      // 4. Final graceful fallback (bilingual)
       if (!found) {
-        replyBox.innerHTML = `
-          Yes, <strong>${userQuery}</strong> is available today!<br><br>
+        replyBox.innerHTML = isArabic ? `
+          نعم، <strong>${originalQuery}</strong> متوفر اليوم!<br><br>
+          دعيني أحضر لك أحدث سعر في ثوانٍ →<br>
+          <a href="https://wa.me/971585521976?text=عليا%20-%20${encodeURIComponent(originalQuery)}" 
+             style="background:#25D366;color:white;padding:12px 24px;border-radius:50px;display:inline-block;margin-top:12px;text-decoration:none;font-weight:bold;">
+             راسليني على واتساب الآن
+          </a>` : `
+          Yes, <strong>${originalQuery}</strong> is available today!<br><br>
           Let me get you the freshest price in seconds →<br>
-          <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(userQuery)}" 
+          <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(originalQuery)}" 
              style="background:#25D366;color:white;padding:12px 24px;border-radius:50px;display:inline-block;margin-top:12px;text-decoration:none;font-weight:bold;">
              WhatsApp Me Now
           </a>`;
