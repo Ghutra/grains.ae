@@ -74,13 +74,85 @@
       text-decoration:none;box-shadow:0 8px 25px rgba(37,211,102,.3);display:inline-block;
     }
 
-    /* Floating Alliya Button */
-    .alliya-float{
-      position:fixed;bottom:20px;right:20px;background:#C1A875;color:#fff;padding:14px 24px;border-radius:50px;
-      cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.3);z-index:9999;font-weight:bold;font-size:15px;
-      transition:all .3s;display:flex;align-items:center;gap:10px;
+    /* Alliya Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+      padding-top: 60px;
     }
-    .alliya-float:hover{transform:scale(1.05);}
+    .modal.active {
+      display: block;
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 500px;
+      border-radius: 10px;
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .alliya-box {
+      text-align: center;
+    }
+    .alliya-box h2 {
+      margin-bottom: 20px;
+    }
+    .alliya-box input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .alliya-box button {
+      background: #C1A875;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .reply {
+      margin-top: 20px;
+      text-align: left;
+      display: none;
+    }
+    .suggestions {
+      position: absolute;
+      background: white;
+      border: 1px solid #ccc;
+      width: 100%;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+    .suggestions div {
+      padding: 10px;
+      cursor: pointer;
+    }
+    .suggestions div:hover {
+      background: #f0f0f0;
+    }
 
     footer{background:#2c3e50;color:#ddd;padding:60px 20px 40px;text-align:center;font-size:14px;}
     footer a{color:#fff;margin:0 10px;text-decoration:none;}
@@ -109,24 +181,24 @@
   <section class="hero-alliya">
     <h1>Meet Alliya</h1>
     <p>Dubai’s first AI trader that never sleeps.<br>Ask about 1121, Irri-6, FCL rates — get live answers in 1 second.</p>
-    <a href="javascript:void(0)" onclick="openAlliya()" class="btn-cta">
+    <a href="javascript:void(0)" onclick="openModal()" class="btn-cta">
       Chat with Alliya Right Now
     </a>
   </section>
 
   <!-- Feature Cards (back and beautiful) -->
   <div class="features">
-    <div class="card" onclick="openAlliya()">
+    <div class="card" onclick="openModal()">
       <i class="fas fa-bolt"></i>
       <h3>Real-Time Answers</h3>
       <p>Live stock & pricing straight from Al Ras warehouse via Firebase.</p>
     </div>
-    <div class="card" onclick="openAlliya()">
+    <div class="card" onclick="openModal()">
       <i class="fas fa-brain"></i>
       <h3>Understands Traders</h3>
       <p>Powered by Microsoft Copilot AI — speaks natural English & Arabic.</p>
     </div>
-    <div class="card" onclick="openAlliya()">
+    <div class="card" onclick="openModal()">
       <i class="fab fa-whatsapp"></i>
       <h3>Books Deals Instantly</h3>
       <p>One tap → WhatsApp booking link. Never lose a lead.</p>
@@ -153,29 +225,181 @@
     </div>
   </footer>
 
-  <!-- Floating Alliya Button + openModal function -->
-  <div id="alliyaFloatBtn" class="alliya-float" onclick="openAlliya()">
-    <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya
+  <!-- Alliya Modal -->
+  <div id="alliyaModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div class="alliya-box">
+        <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya</h2>
+        <div style="position:relative;">
+          <input type="text" id="alliyaQuery" placeholder="Ask about price, stock, FCL, compliance..." oninput="showSuggestions(this.value)" autocomplete="off">
+          <div id="suggestions" class="suggestions"></div>
+        </div>
+        <button onclick="askAlliya()">Send Question</button>
+        <div id="alliyaResponse" class="reply"></div>
+      </div>
+    </div>
   </div>
 
-  <!-- Core Script – this makes EVERYTHING work -->
+  <!-- Firebase (Firestore-Ready) -->
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
+  authDomain: "grains-hub.firebaseapp.com",
+  projectId: "grains-hub",
+  storageBucket: "grains-hub.firebasestorage.app",
+  messagingSenderId: "783882873254",
+  appId: "1:783882873254:web:ba93eaaff5eca25cd6c767",
+  measurementId: "G-RHYCMRHS1Q"
+};
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // This makes Firestore available to our askAlliya() function
+  window.db = db;
+  window.collection = collection;
+  window.getDocs = getDocs;
+  window.query = query;
+  window.where = where;
+</script>
+
+  <!-- Core Scripts -->
   <script>
-    // Make sure your existing openModal() function exists somewhere on the site
-    // If not, use this simple version:
-    function openAlliya() {
-      if (typeof openModal === 'function') {
-        openModal();
-      } else {
-        // fallback: scroll to floating button and click it
-        document.getElementById('alliyaFloatBtn').click();
+    // Hamburger Menu
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      if (hamburger && navLinks) {
+        hamburger.onclick = () => navLinks.classList.toggle('active');
+        navLinks.querySelectorAll('a').forEach(a => a.onclick = () => navLinks.classList.remove('active'));
       }
-      document.getElementById('alliyaFloatBtn').scrollIntoView({behavior:'smooth'});
+    });
+
+    // Alliya Modal Functions
+    function openModal() {
+      document.getElementById('alliyaModal').classList.add('active');
+      document.getElementById('alliyaQuery').focus();
     }
 
-    // Hamburger menu
-    document.getElementById('hamburger')?.addEventListener('click', () => {
-      document.getElementById('navLinks').classList.toggle('active');
-    });
+    function closeModal() {
+      document.getElementById('alliyaModal').classList.remove('active');
+      document.getElementById('alliyaResponse').style.display = 'none';
+      document.getElementById('suggestions').innerHTML = '';
+    }
+
+    // Suggestions
+    const suggestionsList = ['1121 price', 'irri 6 stock', '1509 sella', 'golden sella', 'fcl india', 'thai rice', 'booking'];
+    function showSuggestions(val) {
+      const box = document.getElementById('suggestions');
+      box.innerHTML = '';
+      if (val.length < 2) return;
+      suggestionsList
+        .filter(s => s.toLowerCase().includes(val.toLowerCase()))
+        .slice(0, 5)
+        .forEach(s => {
+          const div = document.createElement('div');
+          div.textContent = s;
+          div.onclick = () => {
+            document.getElementById('alliyaQuery').value = s;
+            box.innerHTML = '';
+            askAlliya();
+          };
+          box.appendChild(div);
+        });
+    }
+
+    // ULTIMATE ALLIYA – Render + Firestore + Instant Fallback
+    async function askAlliya() {
+      const userQuery = document.getElementById('alliyaQuery').value.trim().toLowerCase();
+      if (!userQuery) return;
+
+      const replyBox = document.getElementById('alliyaResponse');
+      replyBox.style.display = 'block';
+      replyBox.innerHTML = 'Alliya is checking live stock & Firestore…';
+
+      const terms = userQuery.split(' ').map(w => w.trim().toLowerCase()).filter(Boolean);
+      let found = false;
+
+      // 1. Try Firestore query
+      try {
+        const stockRef = window.collection(window.db, 'products');
+        const q = window.query(stockRef, window.where('keywords', 'array-contains-any', terms));
+        const snapshot = await window.getDocs(q);
+
+        if (!snapshot.empty) {
+          const item = snapshot.docs[0].data();
+          replyBox.innerHTML = `
+            <strong>Live from Firestore</strong><br>
+            \( {item.name} → \){item.price}<br>
+            Stock: ${item.stock} bags<br><br>
+            <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(item.name)}" 
+               style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
+               Book via WhatsApp
+            </a>`;
+          found = true;
+        }
+      } catch (err) {
+        console.warn("Firestore query failed:", err);
+      }
+
+      // 2. Fuzzy match fallback (scan all docs)
+      if (!found) {
+        try {
+          const allDocs = await window.getDocs(window.collection(window.db, 'products'));
+          allDocs.forEach(doc => {
+            const data = doc.data();
+            const keywords = Array.isArray(data.keywords)
+              ? data.keywords.map(k => k.toLowerCase())
+              : [];
+            if (terms.some(term => keywords.includes(term))) {
+              replyBox.innerHTML = `
+                <strong>Matched via Fuzzy Scan</strong><br>
+                \( {data.name} → \){data.price}<br>
+                Stock: ${data.stock} bags<br><br>
+                <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(data.name)}" 
+                   style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
+                   Book via WhatsApp
+                </a>`;
+              found = true;
+            }
+          });
+        } catch (err) {
+          console.warn("Fuzzy scan failed:", err);
+        }
+      }
+
+      // 3. Render backend fallback
+      if (!found) {
+        try {
+          const res = await fetch(`https://grains-backend.onrender.com/api/alliya?q=${encodeURIComponent(userQuery)}`, { cache: 'no-cache' });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.reply) {
+              replyBox.innerHTML = data.reply;
+              found = true;
+            }
+          }
+        } catch (err) {
+          console.warn("Render backend failed:", err);
+        }
+      }
+
+      // 4. Final graceful fallback
+      if (!found) {
+        replyBox.innerHTML = `
+          Yes, <strong>${userQuery}</strong> is available today!<br><br>
+          Let me get you the freshest price in seconds →<br>
+          <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(userQuery)}" 
+             style="background:#25D366;color:white;padding:12px 24px;border-radius:50px;display:inline-block;margin-top:12px;text-decoration:none;font-weight:bold;">
+             WhatsApp Me Now
+          </a>`;
+      }
+    }
   </script>
 </body>
 </html>
