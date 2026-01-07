@@ -3,7 +3,7 @@ let allListings = [];
 
 async function loadShop() {
   try {
-    const res = await fetch('stock.json');
+    const res = await fetch('/assets/data/stock.json')
     allListings = await res.json();
     renderShop(allListings);
   } catch (e) {
