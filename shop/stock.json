@@ -98,7 +98,7 @@
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
     "img": "irri6-100.jpg"
-  }
+  },
   {
     "name": "1121 Steam Basmati Rice",
     "origin": "India",
@@ -108,5 +108,5 @@
     "stock": "650 bags",
     "badge": "Peer Rated",
     "img": "basmati-india.jpg"
-  },
+  }
 ]
