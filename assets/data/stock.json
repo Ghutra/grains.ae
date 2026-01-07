@@ -88,7 +88,7 @@
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
     "img": "irri6-100.jpg"
-  }
+  },
   {
     "name": "1509 Steam Rice",
     "origin": "India",
@@ -98,6 +98,5 @@
     "stock": "Booking only",
     "badge": "Pre-Booking",
     "img": "1509-steam.jpg"
-  },
+  }
 ]
-
