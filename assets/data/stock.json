@@ -2,7 +2,7 @@
   {
     "name": "1121 Sella Basmati Rice",
     "origin": "Pakistan",
-    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (Old Crop)",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop)",
     "price": "180 AED",
     "size": "40kg",
     "stock": "600 bags",
@@ -12,7 +12,7 @@
   {
     "name": "1121 Sella Basmati Rice",
     "origin": "India",
-    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (Old Crop)",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop)",
     "price": "160 AED",
     "size": "40kg",
     "stock": "1500 bags",
@@ -22,7 +22,7 @@
   {
     "name": "1121 Sella Basmati Rice",
     "origin": "India",
-    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (Old Crop)",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop)",
     "price": "150 AED",
     "size": "40kg",
     "stock": "600 bags",
@@ -32,8 +32,8 @@
   {
     "name": "Golden Sella Basmati Rice",
     "origin": "India",
-    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (Old Crop)",
-    "price": "130 AED",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop)",
+    "price": "165 AED",
     "size": "40kg",
     "stock": "650 bags",
     "badge": "Peer Rated",
@@ -63,7 +63,7 @@
     "name": "Irri 6 White Rice Broken 100%",
     "origin": "Pakistan",
     "packaging": "35kg PP Bags",
-    "price": "50 AED",
+    "price": "49 AED",
     "size": "35kg",
     "stock": "1500 bags",
     "badge": "Peer Rated",
@@ -73,7 +73,7 @@
     "name": "1509 Creamy Sella Rice",
     "origin": "India",
     "packaging": "10×4 = 40kg Nonwoven (New Crop)",
-    "price": "800 USD C&F",
+    "price": "920 USD C&F",
     "size": "40kg",
     "stock": "Booking only",
     "badge": "Pre-Booking",
@@ -99,5 +99,15 @@
     "badge": "Pre-Booking",
     "img": "irri6-100.jpg"
   }
+  {
+    "name": "1509 Steam Rice",
+    "origin": "India",
+    "packaging": "10×4 = 40kg Nonwoven (New Crop)",
+    "price": "1000 USD C&F",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1509-steam.jpg"
+  },
 ]
 
