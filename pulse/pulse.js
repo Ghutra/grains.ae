@@ -1,5 +1,5 @@
 // pulse.js – Market Pulse Engine v2.1
-// Real-time sync with /shop/stock.json | Auto-refresh | Golden UI
+// Real-time sync with /assets/data/stock.json | Auto-refresh | Golden UI
 
 let pulseData = [];
 let newsIndex = 0;
@@ -15,7 +15,7 @@ async function loadPulseData() {
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:#a07c3b;">Loading live prices...</td></tr>';
     lastUpdated.textContent = 'Updating...';
 
-    const res = await fetch('/shop/stock.json?t=' + Date.now()); // Cache bust
+    const res = await fetch('/assets/data/stock.json?t=' + Date.now()); // Cache bust
     const data = await res.json();
 
     // Map to pulse format + dynamic trend
