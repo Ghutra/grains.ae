@@ -2,17 +2,17 @@
   {
     "name": "1121 Sella Basmati Rice",
     "origin": "Pakistan",
-    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop)",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
     "price": "180 AED",
     "size": "40kg",
-    "stock": "600 bags",
+    "stock": "650 bags",
     "badge": "Verified Supplier",
     "img": "basmati-pak.jpg"
   },
   {
     "name": "1121 Sella Basmati Rice",
     "origin": "India",
-    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop)",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (Crop 2025)",
     "price": "160 AED",
     "size": "40kg",
     "stock": "1500 bags",
@@ -20,10 +20,20 @@
     "img": "basmati-india.jpg"
   },
   {
+    "name": "1121 Sella Basmati Rice",
+    "origin": "India",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (Crop 2025)",
+    "price": "150 AED",
+    "size": "40kg",
+    "stock": "600 bags",
+    "badge": "Verified Supplier",
+    "img": "basmati-india.jpg"
+  },
+  {
     "name": "Golden Sella Basmati Rice",
     "origin": "India",
-    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop)",
-    "price": "165 AED",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (Old Crop)",
+    "price": "160 AED",
     "size": "40kg",
     "stock": "650 bags",
     "badge": "Peer Rated",
@@ -90,13 +100,13 @@
     "img": "irri6-100.jpg"
   },
   {
-    "name": "1509 Steam Rice",
+    "name": "1121 Steam Basmati Rice",
     "origin": "India",
-    "packaging": "10×4 = 40kg Nonwoven (New Crop)",
-    "price": "1000 USD C&F",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (Crop 2025)",
+    "price": "165 AED",
     "size": "40kg",
-    "stock": "Booking only",
-    "badge": "Pre-Booking",
-    "img": "1509-steam.jpg"
+    "stock": "650 bags",
+    "badge": "Peer Rated",
+    "img": "basmati-india.jpg"
   }
 ]
