@@ -1,4 +1,4 @@
-// pulse.js – Market Pulse Engine v2.0
+// pulse.js – Market Pulse Engine v2.1
 // Real-time sync with /shop/stock.json | Auto-refresh | Golden UI
 
 let pulseData = [];
@@ -22,7 +22,12 @@ async function loadPulseData() {
     pulseData = data.map(item => {
       const trendChange = (Math.random() * 6 - 3).toFixed(1); // -3% to +3%
       const trend = trendChange >= 0 ? 'up' : 'down';
-      const kgPrice = (parseFloat(item.price.replace('AED ', '')) / parseInt(item.size)).toFixed(2);
+
+      // Safe numeric extraction from price (AED or USD)
+      const numericPrice = parseFloat(item.price);
+      const kgPrice = isNaN(numericPrice)
+        ? '-'
+        : (numericPrice / parseInt(item.size)).toFixed(2);
 
       return {
         product: item.name,
@@ -31,7 +36,7 @@ async function loadPulseData() {
         trend: `<span class="trend ${trend}" style="animation: pulse 1.5s infinite;">
                   ${trend === 'up' ? 'up' : 'down'} ${Math.abs(trendChange)}%
                 </span>`,
-        supplier: `${item.available} MT • Verified`
+        supplier: `${item.stock} • Verified`
       };
     });
 
@@ -60,8 +65,7 @@ function renderNewsFeed() {
   const ticker = document.getElementById('ticker-text');
   if (!ticker) return;
 
-  // Rotate news every 8 seconds
-  ticker.innerHTML = newsFeed.map((n, i) => 
+  ticker.innerHTML = newsFeed.map((n, i) =>
     `<span style="opacity: ${i === newsIndex ? '1' : '0.6'};">${n}</span>`
   ).join(' • ');
 
