@@ -99,4 +99,14 @@
     "badge": "Pre-Booking",
     "img": "irri6-100.jpg"
   }
+  {
+    "name": "1121 Steam Basmati Rice",
+    "origin": "India",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (Crop 2025)",
+    "price": "165 AED",
+    "size": "40kg",
+    "stock": "650 bags",
+    "badge": "Peer Rated",
+    "img": "basmati-india.jpg"
+  },
 ]
