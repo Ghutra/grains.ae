@@ -109,4 +109,25 @@
     "badge": "Peer Rated",
     "img": "basmati-india.jpg"
   }
+{
+    "name": "1121 Steam Basmati Rice",
+    "origin": "India",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (Crop 2025)",
+    "price": "165 AED",
+    "size": "40kg",
+    "stock": "650 bags",
+    "badge": "Peer Rated",
+    "img": "basmati-india.jpg"
+  },
+  {
+    "name": "Thailand White Rice",
+    "origin": "Thailand",
+    "packaging": " 25kg PP Bags (Crop 2025)",
+    "price": " 485 USD ",
+    "size": "25kg",
+    "stock": "Prompt shipment",
+    "badge": "Pre-Booking",
+    "img": "thai-white.jpg"
+  },
 ]
+
