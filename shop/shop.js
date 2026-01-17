@@ -3,13 +3,34 @@ let allListings = [];
 
 async function loadShop() {
   try {
-    const res = await fetch('/assets/data/stock.json')
-    allListings = await res.json();
+    const productsRef = window.collection(window.db, 'products');
+    const snapshot = await window.getDocs(productsRef);
+
+    allListings = [];
+    snapshot.forEach(doc => {
+      const item = doc.data();
+
+      allListings.push({
+        name: item.name,
+        origin: item.origin,
+        packaging: item.packaging,
+        price: item.price,
+        size: item.size,
+        stock: item.stock,
+        badge: item.badge || '',
+        img: item.imageName || (item.name.toLowerCase().replace(/\s+/g, '-') + '.jpg')
+      });
+    });
+
     renderShop(allListings);
+
   } catch (e) {
-    document.getElementById('product-grid').innerHTML = '<p>Shop loading... Try again.</p>';
+    console.error(e);
+    document.getElementById('product-grid').innerHTML =
+      '<p>Shop loading... Try again.</p>';
   }
 }
+
 
 function renderShop(listings) {
   const grid = document.getElementById('product-grid');
