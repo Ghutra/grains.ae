@@ -237,6 +237,77 @@
       </tbody>
     </table>
   </div>
+<script>
+  // IDs you’ll use in HTML:
+  // #pulse-basmati1121, #pulse-irri6, etc.
+  // #pulse-last-updated
+  // #pulse-news-list
+
+  document.addEventListener('DOMContentLoaded', () => {
+    if (!window.db || !window.doc || !window.onSnapshot) return;
+
+    const pulseRef = window.doc(window.db, 'marketPulse', 'live');
+
+    window.onSnapshot(pulseRef, (snap) => {
+      if (!snap.exists()) return;
+      const data = snap.data();
+
+      // 1. Prices
+      if (data.prices) {
+        updatePriceCard('basmati1121', data.prices.basmati1121);
+        updatePriceCard('irri6', data.prices.irri6);
+        // add more as needed
+      }
+
+      // 2. Last updated
+      if (data.lastUpdated) {
+        const el = document.getElementById('pulse-last-updated');
+        if (el) {
+          const d = data.lastUpdated.toDate ? data.lastUpdated.toDate() : new Date(data.lastUpdated);
+          el.textContent = 'Updated: ' + d.toLocaleString();
+        }
+      }
+
+      // 3. News
+      if (Array.isArray(data.news)) {
+        const list = document.getElementById('pulse-news-list');
+        if (list) {
+          list.innerHTML = '';
+          data.news.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = item.title;
+            list.appendChild(li);
+          });
+        }
+      }
+    });
+  });
+
+  function updatePriceCard(id, priceObj) {
+    if (!priceObj) return;
+    const el = document.getElementById('pulse-' + id);
+    if (!el) return;
+
+    const oldValue = parseFloat(el.getAttribute('data-last') || '0');
+    const newValue = priceObj.aed;
+
+    el.textContent = `AED ${newValue} / MT`;
+    el.setAttribute('data-last', newValue);
+
+    if (oldValue && newValue) {
+      if (newValue > oldValue) {
+        el.classList.remove('price-down');
+        el.classList.add('price-up');
+      } else if (newValue < oldValue) {
+        el.classList.remove('price-up');
+        el.classList.add('price-down');
+      }
+      setTimeout(() => {
+        el.classList.remove('price-up', 'price-down');
+      }, 1500);
+    }
+  }
+</script>
 
   <!-- Alliya Float Button -->
   <div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
