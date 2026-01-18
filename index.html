@@ -693,92 +693,147 @@ function normalizeName(name) {
   }
 
   // ULTIMATE ALLIYA – Render + Firestore + Instant Fallback
-async function askAlliya() {
-  const userQuery = document.getElementById('alliyaQuery').value.trim().toLowerCase();
-  if (!userQuery) return;
+<script>
+  const suggestionsList = ['1121 price', 'irri 6 stock', '1509 sella', 'golden sella', 'fcl india', 'thai rice', 'booking'];
 
-  const replyBox = document.getElementById('alliyaResponse');
-  replyBox.style.display = 'block';
-  replyBox.innerHTML = 'Alliya is checking live stock & Firestore…';
-
-  const terms = userQuery.split(' ').map(w => w.trim().toLowerCase()).filter(Boolean);
-  let found = false;
-
-  // 1. Try Firestore query
-  try {
-    const stockRef = window.collection(window.db, 'products');
-    const q = window.query(stockRef, window.where('keywords', 'array-contains-any', terms));
-    const snapshot = await window.getDocs(q);
-
-    if (!snapshot.empty) {
-      const item = snapshot.docs[0].data();
-      replyBox.innerHTML = `
-        <strong>Live from Firestore</strong><br>
-        ${item.name} → ${item.price}<br>
-        Stock: ${item.stock} bags<br><br>
-        <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(item.name)}" 
-           style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
-           Book via WhatsApp
-        </a>`;
-      found = true;
-    }
-  } catch (err) {
-    console.warn("Firestore query failed:", err);
+  function openModal() {
+    document.getElementById('alliyaModal').classList.add('active');
+    document.getElementById('alliyaQuery').focus();
   }
 
-  // 2. Fuzzy match fallback (scan all docs)
-  if (!found) {
-    try {
-      const allDocs = await window.getDocs(window.collection(window.db, 'products'));
-      allDocs.forEach(doc => {
-        const data = doc.data();
-        const keywords = Array.isArray(data.keywords)
-          ? data.keywords.map(k => k.toLowerCase())
-          : [];
-        if (terms.some(term => keywords.includes(term))) {
-          replyBox.innerHTML = `
-            <strong>Matched via Fuzzy Scan</strong><br>
-            ${data.name} → ${data.price}<br>
-            Stock: ${data.stock} bags<br><br>
-            <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(data.name)}" 
-               style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
-               Book via WhatsApp
-            </a>`;
-          found = true;
-        }
+  function closeModal() {
+    document.getElementById('alliyaModal').classList.remove('active');
+    document.getElementById('alliyaResponse').style.display = 'none';
+    document.getElementById('suggestions').innerHTML = '';
+  }
+
+  function showSuggestions(val) {
+    const box = document.getElementById('suggestions');
+    box.innerHTML = '';
+    if (val.length < 2) return;
+    suggestionsList
+      .filter(s => s.toLowerCase().includes(val.toLowerCase()))
+      .slice(0, 5)
+      .forEach(s => {
+        const div = document.createElement('div');
+        div.textContent = s;
+        div.onclick = () => {
+          document.getElementById('alliyaQuery').value = s;
+          box.innerHTML = '';
+          askAlliya();
+        };
+        box.appendChild(div);
       });
-    } catch (err) {
-      console.warn("Fuzzy scan failed:", err);
-    }
   }
 
-  // 3. Render backend fallback
-  if (!found) {
+  async function askAlliya() {
+    const userQuery = document.getElementById('alliyaQuery').value.trim().toLowerCase();
+    if (!userQuery) return;
+
+    const replyBox = document.getElementById('alliyaResponse');
+    replyBox.style.display = 'block';
+    replyBox.innerHTML = 'Alliya is checking live stock, Market Pulse & AI…';
+
+    const terms = userQuery.split(' ').map(w => w.trim().toLowerCase()).filter(Boolean);
+    let found = false;
+
+    // 1. Firestore product match
     try {
-      const res = await fetch(`https://grains-backend.onrender.com/api/alliya?q=${encodeURIComponent(userQuery)}`, { cache: 'no-cache' });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.reply) {
-          replyBox.innerHTML = data.reply;
-          found = true;
-        }
+      const stockRef = window.collection(window.db, 'products');
+      const q = window.query(stockRef, window.where('keywords', 'array-contains-any', terms));
+      const snapshot = await window.getDocs(q);
+
+      if (!snapshot.empty) {
+        const item = snapshot.docs[0].data();
+        replyBox.innerHTML = `
+          <strong>Live from Firestore</strong><br>
+          ${item.name} → ${item.price}<br>
+          Stock: ${item.stock} bags<br><br>
+          <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(item.name)}" 
+             style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
+             Book via WhatsApp
+          </a>`;
+        found = true;
       }
     } catch (err) {
-      console.warn("Render backend failed:", err);
+      console.warn("Firestore query failed:", err);
+    }
+
+    // 2. Fuzzy scan fallback
+    if (!found) {
+      try {
+        const allDocs = await window.getDocs(window.collection(window.db, 'products'));
+        allDocs.forEach(doc => {
+          const data = doc.data();
+          const keywords = Array.isArray(data.keywords)
+            ? data.keywords.map(k => k.toLowerCase())
+            : [];
+          if (terms.some(term => keywords.includes(term))) {
+            replyBox.innerHTML = `
+              <strong>Matched via Fuzzy Scan</strong><br>
+              ${data.name} → ${data.price}<br>
+              Stock: ${data.stock} bags<br><br>
+              <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(data.name)}" 
+                 style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
+                 Book via WhatsApp
+              </a>`;
+            found = true;
+          }
+        });
+      } catch (err) {
+        console.warn("Fuzzy scan failed:", err);
+      }
+    }
+
+    // 3. Vertex AI via Firebase Function (new layer)
+    if (!found) {
+      try {
+        const res = await fetch('https://us-central1-grains-hub.cloudfunctions.net/alliyaAI', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: userQuery })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.reply) {
+            replyBox.innerHTML = data.reply;
+            found = true;
+          }
+        }
+      } catch (err) {
+        console.warn("Vertex AI function failed:", err);
+      }
+    }
+
+    // 4. Render backend fallback (keep your existing layer)
+    if (!found) {
+      try {
+        const res = await fetch(`https://grains-backend.onrender.com/api/alliya?q=${encodeURIComponent(userQuery)}`, { cache: 'no-cache' });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.reply) {
+            replyBox.innerHTML = data.reply;
+            found = true;
+          }
+        }
+      } catch (err) {
+        console.warn("Render backend failed:", err);
+      }
+    }
+
+    // 5. Final graceful fallback
+    if (!found) {
+      replyBox.innerHTML = `
+        Yes, <strong>${userQuery}</strong> is available today!<br><br>
+        Let me get you the freshest price in seconds →<br>
+        <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(userQuery)}" 
+           style="background:#25D366;color:white;padding:12px 24px;border-radius:50px;display:inline-block;margin-top:12px;text-decoration:none;font-weight:bold;">
+           WhatsApp Me Now
+        </a>`;
     }
   }
+</script>
 
-  // 4. Final graceful fallback
-  if (!found) {
-    replyBox.innerHTML = `
-      Yes, <strong>${userQuery}</strong> is available today!<br><br>
-      Let me get you the freshest price in seconds →<br>
-      <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(userQuery)}" 
-         style="background:#25D366;color:white;padding:12px 24px;border-radius:50px;display:inline-block;margin-top:12px;text-decoration:none;font-weight:bold;">
-         WhatsApp Me Now
-      </a>`;
-  }
-}
 
   // Close on outside click
     window.onclick = (e) => { if (e.target.classList.contains('modal')) closeModal(); } 
