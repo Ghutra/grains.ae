@@ -581,253 +581,34 @@ footer {
   </div>
 </footer>
   
- <!-- Firebase (Firestore-Ready) -->
-<script type="module">
-  import { 
-    initializeApp 
-  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-  import { 
-    getFirestore, collection, getDocs, query, where, doc, onSnapshot 
-  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+<!-- Alliya Floating Button -->
+<div id="alliyaButton" onclick="openModal()">
+  <img src="/assets/img/alliya-icon.png" alt="Alliya">
+</div>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
-    authDomain: "grains-hub.firebaseapp.com",
-    projectId: "grains-hub",
-    storageBucket: "grains-hub.firebasestorage.app",
-    messagingSenderId: "783882873254",
-    appId: "1:783882873254:web:ba93eaaff5eca25cd6c767",
-    measurementId: "G-RHYCMRHS1Q"
-  };
+<!-- Alliya Modal -->
+<div id="alliyaModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+    <h3>Ask Alliya</h3>
 
-  // Expose for global use
-  window.db = db;
-  window.collection = collection;
-  window.getDocs = getDocs;
-  window.query = query;
-  window.where = where;
-  window.doc = doc;
-  window.onSnapshot = onSnapshot;
-</script>
+    <input 
+      id="alliyaQuery" 
+      type="text" 
+      placeholder="Ask about rice, stock, prices…" 
+      oninput="showSuggestions(this.value)"
+    >
 
-<script>
-/* ------------------------------
-   HAMBURGER MENU
------------------------------- */
-document.addEventListener('DOMContentLoaded', () => {
-  const hamburger = document.getElementById('hamburger');
-  const navLinks = document.getElementById('navLinks');
-  if (hamburger && navLinks) {
-    hamburger.onclick = () => navLinks.classList.toggle('active');
-    navLinks.querySelectorAll('a').forEach(a => 
-      a.onclick = () => navLinks.classList.remove('active')
-    );
-  }
-});
+    <div id="suggestions"></div>
 
-/* ------------------------------
-   LIVE STOCK (STATIC JSON)
------------------------------- */
-document.addEventListener('DOMContentLoaded', () => {
-  fetch('/assets/data/stock.json')
-    .then(r => r.json())
-    .then(data => {
-      const grid = document.getElementById('stock-grid');
-      if (!grid) return;
+    <div id="alliyaResponse" style="display:none;"></div>
+  </div>
+</div>
 
-      grid.innerHTML = '';
-      data.slice(0, 6).forEach(item => {
-        const imagePath = item.imageName || normalizeName(item.name) + '.jpg';
-        const a = document.createElement('a');
-        a.href = '/shop';
-        a.className = 'stock-item';
-        a.innerHTML = `
-          <img src="/assets/img/${imagePath}" alt="${item.name}"
-               onerror="this.onerror=null;this.src='data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2760%27 height=%2760%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%25%27 height=%27100%25%27 fill=%27%23f8f5ec%27/%3E%3Ctext x=%2750%25%27 y=%2755%25%27 font-size=%2716%27 fill=%27%23a07c3b%27 text-anchor=%27middle%27%3EWheat%3C/text%3E%3C/svg%3E';">
-          <div>
-            <h4>${item.name}</h4>
-            <p><strong>Price:</strong> ${item.price}</p>
-            <p><strong>Stock:</strong> ${item.stock}</p>
-          </div>
-        `;
-        grid.appendChild(a);
-      });
-    })
-    .catch(err => {
-      console.log(err);
-      document.getElementById('stock-grid').innerHTML =
-        '<p style="text-align:center;color:#a07c3b;">Stock will be back in a second – refreshing…</p>';
-    });
-});
-
-function normalizeName(name) {
-  return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
-}
-
-/* ------------------------------
-   ALLIYA MODAL
------------------------------- */
-function openModal() {
-  document.getElementById('alliyaModal').classList.add('active');
-  document.getElementById('alliyaQuery').focus();
-}
-
-function closeModal() {
-  document.getElementById('alliyaModal').classList.remove('active');
-  document.getElementById('alliyaResponse').style.display = 'none';
-  document.getElementById('suggestions').innerHTML = '';
-}
-
-/* ------------------------------
-   SUGGESTIONS
------------------------------- */
-const suggestionsList = [
-  '1121 price', 'irri 6 stock', '1509 sella',
-  'golden sella', 'fcl india', 'thai rice', 'booking'
-];
-
-function showSuggestions(val) {
-  const box = document.getElementById('suggestions');
-  box.innerHTML = '';
-  if (val.length < 2) return;
-
-  suggestionsList
-    .filter(s => s.toLowerCase().includes(val.toLowerCase()))
-    .slice(0, 5)
-    .forEach(s => {
-      const div = document.createElement('div');
-      div.textContent = s;
-      div.onclick = () => {
-        document.getElementById('alliyaQuery').value = s;
-        box.innerHTML = '';
-        askAlliya();
-      };
-      box.appendChild(div);
-    });
-}
-
-/* ------------------------------
-   ALLIYA ENGINE (Firestore + Vertex + Render)
------------------------------- */
-async function askAlliya() {
-  const userQuery = document.getElementById('alliyaQuery').value.trim().toLowerCase();
-  if (!userQuery) return;
-
-  const replyBox = document.getElementById('alliyaResponse');
-  replyBox.style.display = 'block';
-  replyBox.innerHTML = 'Alliya is checking live stock, Market Pulse & AI…';
-
-  const terms = userQuery.split(' ').map(w => w.trim().toLowerCase()).filter(Boolean);
-  let found = false;
-
-  /* 1. Firestore direct match */
-  try {
-    const stockRef = window.collection(window.db, 'products');
-    const q = window.query(stockRef, window.where('keywords', 'array-contains-any', terms));
-    const snapshot = await window.getDocs(q);
-
-    if (!snapshot.empty) {
-      const item = snapshot.docs[0].data();
-      replyBox.innerHTML = `
-        <strong>Live from Firestore</strong><br>
-        ${item.name} → ${item.price}<br>
-        Stock: ${item.stock} bags<br><br>
-        <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(item.name)}"
-           style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
-           Book via WhatsApp
-        </a>`;
-      found = true;
-    }
-  } catch (err) {
-    console.warn("Firestore query failed:", err);
-  }
-
-  /* 2. Fuzzy scan */
-  if (!found) {
-    try {
-      const allDocs = await window.getDocs(window.collection(window.db, 'products'));
-      allDocs.forEach(doc => {
-        const data = doc.data();
-        const keywords = Array.isArray(data.keywords)
-          ? data.keywords.map(k => k.toLowerCase())
-          : [];
-        if (terms.some(term => keywords.includes(term))) {
-          replyBox.innerHTML = `
-            <strong>Matched via Fuzzy Scan</strong><br>
-            ${data.name} → ${data.price}<br>
-            Stock: ${data.stock} bags<br><br>
-            <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(data.name)}"
-               style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
-               Book via WhatsApp
-            </a>`;
-          found = true;
-        }
-      });
-    } catch (err) {
-      console.warn("Fuzzy scan failed:", err);
-    }
-  }
-
-  /* 3. Vertex AI (Firebase Function) */
-  if (!found) {
-    try {
-      const res = await fetch('https://us-central1-grains-hub.cloudfunctions.net/alliyaAI', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userQuery })
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.reply) {
-          replyBox.innerHTML = data.reply;
-          found = true;
-        }
-      }
-    } catch (err) {
-      console.warn("Vertex AI function failed:", err);
-    }
-  }
-
-  /* 4. Render backend fallback */
-  if (!found) {
-    try {
-      const res = await fetch(
-        `https://grains-backend.onrender.com/api/alliya?q=${encodeURIComponent(userQuery)}`,
-        { cache: 'no-cache' }
-      );
-      if (res.ok) {
-        const data = await res.json();
-        if (data.reply) {
-          replyBox.innerHTML = data.reply;
-          found = true;
-        }
-      }
-    } catch (err) {
-      console.warn("Render backend failed:", err);
-    }
-  }
-
-  /* 5. Final fallback */
-  if (!found) {
-    replyBox.innerHTML = `
-      Yes, <strong>${userQuery}</strong> is available today!<br><br>
-      Let me get you the freshest price in seconds →<br>
-      <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(userQuery)}"
-         style="background:#25D366;color:white;padding:12px 24px;border-radius:50px;display:inline-block;margin-top:12px;text-decoration:none;font-weight:bold;">
-         WhatsApp Me Now
-      </a>`;
-  }
-}
-
-/* Close modal on outside click */
-window.onclick = (e) => { 
-  if (e.target.classList.contains('modal')) closeModal(); 
-};
-</script>
-
+<!-- Scripts -->
+<script type="module" src="/assets/js/firebase-init.js"></script>
+<script src="/assets/js/alliya.js"></script>
   
 <!-- Alliya Popup -->
 <div id="alliya-popup" style="display:none; position:fixed; bottom:120px; right:20px; width:320px; background:#fff; border:1px solid #ccc; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); z-index:9999; font-family:sans-serif;">
