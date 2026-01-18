@@ -1,6 +1,4 @@
 // shop.js – Dynamic + Filterable
-let allListings = [];
-
 async function loadShop() {
   try {
     const productsRef = window.collection(window.db, 'products');
