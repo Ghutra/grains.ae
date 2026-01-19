@@ -16,8 +16,7 @@
       background:#C1A875; padding:12px 20px; position:sticky; top:0; z-index:1000;
       display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 15px rgba(0,0,0,.12);
     }
-    .logo { color:#fff; font-weight:bold; font-size:1.35rem; text-decoration:none; display:flex; align-items:center; gap:10px; }
-    /* ===========================
+       /* ===========================
    LOGO — Premium Styling
 =========================== */
 
