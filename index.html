@@ -172,27 +172,28 @@
   <div class="modal-content">
     <span class="close" onclick="closeModal()">&times;</span>
 
-    <div class="alliya-box">
-      <h2>
-        <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26">
-        Ask Alliya
-      </h2>
+   <div class="alliya-box">
+  <h2>
+    <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26">
+    Ask Alliya
+  </h2>
 
-      <div style="position:relative;">
-        <input 
-          type="text" 
-          id="alliyaQuery" 
-          placeholder="Ask about rice, stock, prices…" 
-          oninput="showSuggestions(this.value)" 
-          autocomplete="off"
-        >
-        <div id="suggestions" class="suggestions"></div>
-      </div>
+  <div style="position:relative;">
+    <input 
+      type="text" 
+      id="alliyaQuery" 
+      placeholder="Ask about rice, stock, prices…" 
+      oninput="showSuggestions(this.value)" 
+      autocomplete="off"
+    >
+    <div id="suggestions" class="suggestions"></div>
+  </div>
 
-      <button onclick="askAlliya()">Send Question</button>
+  <button onclick="askAlliya()">Send Question</button>
 
-      <div id="alliyaResponse" class="reply" style="display:none;"></div>
-    </div>
+  <div id="alliyaResponse" class="reply" style="display:none;"></div>
+</div>
+
 
   </div>
 </div>
