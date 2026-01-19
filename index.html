@@ -167,37 +167,21 @@
     <img src="/assets/img/alliya-icon.ico" alt="Alliya"> Ask Alliya
   </div>
 
-<!-- Alliya Modal -->
-<div id="alliyaModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-
-   <div class="alliya-box">
-  <h2>
-    <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26">
-    Ask Alliya
-  </h2>
-
-  <div style="position:relative;">
-    <input 
-      type="text" 
-      id="alliyaQuery" 
-      placeholder="Ask about rice, stock, prices…" 
-      oninput="showSuggestions(this.value)" 
-      autocomplete="off"
-    >
-    <div id="suggestions" class="suggestions"></div>
+ <!-- Alliya Modal -->
+  <div id="alliyaModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <div class="alliya-box">
+        <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya</h2>
+        <div style="position:relative;">
+          <input type="text" id="alliyaQuery" placeholder="Ask about price, stock, FCL, compliance..." oninput="showSuggestions(this.value)" autocomplete="off">
+          <div id="suggestions" class="suggestions"></div>
+        </div>
+        <button onclick="askAlliya()">Send Question</button>
+        <div id="alliyaResponse" class="reply"></div>
+      </div>
+    </div>
   </div>
-
-  <button onclick="askAlliya()">Send Question</button>
-
-  <div id="alliyaResponse" class="reply" style="display:none;"></div>
-</div>
-
-
-  </div>
-</div>
-
 
   <!-- CTA -->
   <section class="cta-banner">
