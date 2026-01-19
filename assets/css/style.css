@@ -265,6 +265,13 @@
     line-height: 1.6;
     display: none;
 }
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
 
     /* CTA */
     .cta-banner { background:linear-gradient(135deg,#C1A875,#a07c3b); padding:80px 20px; text-align:center; color:#fff; }
