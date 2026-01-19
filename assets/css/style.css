@@ -26,7 +26,7 @@
   -webkit-text-fill-color: transparent;   /* makes text gradient gold */
   /* fallback color if gradient text not supported */
   color: #f5e8c7;
-}
+
 .logo {
   display: flex;
   align-items: center;
