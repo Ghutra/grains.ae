@@ -17,7 +17,11 @@
       display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 15px rgba(0,0,0,.12);
     }
     .logo { color:#fff; font-weight:bold; font-size:1.35rem; text-decoration:none; display:flex; align-items:center; gap:10px; }
-    .logo img { width:28px; height:28px; }
+    ..logo img {
+  width:42px;
+  height:42px;
+}
+
     .nav-links { display:flex; list-style:none; gap:28px; }
     .nav-links a {
       color:#fff; text-decoration:none; font-weight:600; font-size:14px; padding:8px 14px; border-radius:6px;
