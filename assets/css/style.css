@@ -306,6 +306,52 @@ footer {
   .social-links a {
     margin: 0 12px;
   }
+.alliya-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.alliya-box h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #a07c3b;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.alliya-box input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.alliya-box button {
+  margin-top: 8px;
+  padding: 14px;
+  background: #C1A875;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.reply {
+  margin-top: 10px;
+  padding: 16px;
+  background: #f8f5ec;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.6;
+  display: none;
+}
+
 }
 
 </style>
