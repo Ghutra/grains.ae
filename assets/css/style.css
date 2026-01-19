@@ -19,14 +19,6 @@
      /* ===========================
    LOGO — More Prominent & Premium
 =========================== */
- .logo {
-  ...
-  background: linear-gradient(135deg, #C1A875 0%, #a07c3b 50%, #C1A875 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;   /* makes text gradient gold */
-  /* fallback color if gradient text not supported */
-  color: #f5e8c7;
-
 .logo {
   display: flex;
   align-items: center;
