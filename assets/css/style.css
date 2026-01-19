@@ -48,7 +48,7 @@
 }
 
 .logo img {
-  height: 72px;               /* ← bigger & more prominent – try 68px or 80px */
+  height: 80px;               /* ← bigger & more prominent – try 68px or 80px */
   width: auto;
   filter: drop-shadow(0 3px 6px rgba(0,0,0,0.35)) brightness(1.05);
   transition: transform 0.4s ease;
