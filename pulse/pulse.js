@@ -8,7 +8,6 @@ let newsIndex = 0;
 async function loadPulseData() {
   const tbody = document.getElementById('pulse-table');
   const lastUpdated = document.getElementById('last-updated');
-  const ticker = document.getElementById('ticker-text');
 
   try {
     // Show loading
@@ -19,35 +18,46 @@ async function loadPulseData() {
     const data = await res.json();
 
     // Map to pulse format + dynamic trend
-  pulseData = data.map(item => {
-  const trendChange = (Math.random() * 6 - 3).toFixed(1);
-  const trend = trendChange >= 0 ? 'up' : 'down';
+    pulseData = data.map(item => {
+      const trendChange = (Math.random() * 6 - 3).toFixed(1);
+      const trend = trendChange >= 0 ? 'up' : 'down';
 
-  // Detect currency
-  const isUSD = item.price.toUpperCase().includes("USD");
+      // Detect currency
+      const isUSD = item.price.toUpperCase().includes("USD");
 
-  // Extract numeric price
-  const numericPrice = parseFloat(item.price);
+      // Extract numeric price
+      const numericPrice = parseFloat(item.price);
 
-  // Convert USD → AED
-  const priceAED = isUSD ? numericPrice * 3.67 : numericPrice;
+      // Convert USD → AED
+      const priceAED = isUSD ? numericPrice * 3.67 : numericPrice;
 
-  // Extract size
-  const sizeKG = parseInt(item.size);
+      // Extract size
+      const sizeKG = parseInt(item.size);
 
-  // AED per kg
-  const kgPrice = (priceAED / sizeKG).toFixed(2);
+      // AED per kg
+      const kgPrice = (priceAED / sizeKG).toFixed(2);
 
-  return {
-    product: item.name,
-    origin: item.origin,
-    price: `${priceAED.toFixed(2)} AED • ${kgPrice} AED/kg`,
-    trend: `<span class="trend ${trend}" style="animation: pulse 1.5s infinite;">
-              ${trend === 'up' ? 'up' : 'down'} ${Math.abs(trendChange)}%
-            </span>`,
-    supplier: `${item.stock} • <span style="color:#d4af37;">✔️ Verified</span>`
-  };
-}); // ← THIS WAS MISSING
+      return {
+        product: item.name,
+        origin: item.origin,
+        price: `${priceAED.toFixed(2)} AED • ${kgPrice} AED/kg`,
+        trend: `<span class="trend ${trend}" style="animation: pulse 1.5s infinite;">
+                  ${trend === 'up' ? 'up' : 'down'} ${Math.abs(trendChange)}%
+                </span>`,
+        supplier: `${item.stock} • <span style="color:#d4af37;">✔️ Verified</span>`
+      };
+    });
+
+    renderTable(getActiveFilter());
+    renderNewsFeed();
+    updateLastUpdated();
+
+  } catch (e) {
+    console.error('Pulse data load failed:', e);
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:#e76f51;">Failed to load prices. Retrying...</td></tr>';
+    setTimeout(loadPulseData, 5000); // Retry
+  }
+}
 
 // Dynamic News Ticker (Rotating)
 const newsFeed = [
