@@ -1,74 +1,117 @@
-// pulse.js – Market Pulse Engine v3.0
-// Real-time sync with /assets/data/stock.json | Auto-refresh | Golden UI
+// pulse.js – Market Pulse Engine v4.0
+// Bloomberg-style Market Pulse for Grains Hub
 
 let pulseData = [];
 let newsIndex = 0;
+let currentSort = { key: null, dir: 'asc' };
 
-// Fetch stock data (same source as home/shop)
+// --- Helpers ---
+
+function getFlag(origin) {
+  const o = origin.toLowerCase();
+  if (o.includes('india')) return '🇮🇳';
+  if (o.includes('pakistan')) return '🇵🇰';
+  if (o.includes('thailand')) return '🇹🇭';
+  return '🌍';
+}
+
+function getRowClass(item) {
+  // Booking rows highlighted
+  if (item.isBooking) return 'row-booking';
+  return 'row-local';
+}
+
+function getTrendArrow(trendChange) {
+  const val = parseFloat(trendChange);
+  if (isNaN(val) || val === 0) return '■';
+  return val > 0 ? '▲' : '▼';
+}
+
+function computeMarketMood() {
+  let up = 0, down = 0;
+  pulseData.forEach(p => {
+    const match = p.trendChange;
+    if (match > 0) up++;
+    else if (match < 0) down++;
+  });
+  const total = up + down;
+  if (!total) return 'Market Mood: —';
+
+  const upPct = Math.round((up / total) * 100);
+  const downPct = 100 - upPct;
+  return `Market Mood: ${upPct}% Up • ${downPct}% Down`;
+}
+
+// --- Fetch & Transform ---
+
 async function loadPulseData() {
   const tbody = document.getElementById('pulse-table');
   const lastUpdated = document.getElementById('last-updated');
 
   try {
-    // Show loading
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:#a07c3b;">Loading live prices...</td></tr>';
-    lastUpdated.textContent = 'Updating...';
+    if (lastUpdated) lastUpdated.textContent = 'Updating...';
 
-    const res = await fetch('/assets/data/stock.json?t=' + Date.now()); // Cache bust
+    const res = await fetch('/assets/data/stock.json?t=' + Date.now());
     const data = await res.json();
 
-    // Map to pulse format + dynamic trend
     pulseData = data.map(item => {
       const trendChange = (Math.random() * 6 - 3).toFixed(1);
-      const trend = trendChange >= 0 ? 'up' : 'down';
+      const trendChangeNum = parseFloat(trendChange);
+      const trend = trendChangeNum >= 0 ? 'up' : 'down';
 
-      // Detect booking items (USD = per metric ton)
-      const isBooking = item.price.toUpperCase().includes("USD");
-
-      // Extract numeric price
+      const isBooking = item.price.toUpperCase().includes('USD');
       const numericPrice = parseFloat(item.price);
 
-      // If booking → show USD/MT only (NO conversion, NO AED/kg)
       if (isBooking) {
         return {
           product: item.name,
           origin: item.origin,
-          price: `${numericPrice} USD / MT`,
-          trend: `<span class="trend ${trend}" style="animation: pulse 1.5s infinite;">
-                    ${trend === 'up' ? 'up' : 'down'} ${Math.abs(trendChange)}%
-                  </span>`,
-          supplier: `${item.stock} • <span style="color:#d4af37;">✔️ Verified</span>`
+          flag: getFlag(item.origin),
+          isBooking: true,
+          priceRaw: numericPrice,
+          priceDisplay: `${numericPrice} USD / MT`,
+          kgPrice: null,
+          trend,
+          trendChange: trendChangeNum,
+          supplier: item.stock,
+          badge: item.badge || 'Pre-Booking'
         };
       }
 
-      // LOCAL STOCK (AED) — calculate AED/kg
       const priceAED = numericPrice;
       const sizeKG = parseInt(item.size);
-      const kgPrice = (priceAED / sizeKG).toFixed(2);
+      const kgPrice = sizeKG ? (priceAED / sizeKG).toFixed(2) : '-';
 
       return {
         product: item.name,
         origin: item.origin,
-        price: `${priceAED.toFixed(2)} AED • ${kgPrice} AED/kg`,
-        trend: `<span class="trend ${trend}" style="animation: pulse 1.5s infinite;">
-                  ${trend === 'up' ? 'up' : 'down'} ${Math.abs(trendChange)}%
-                </span>`,
-        supplier: `${item.stock} • <span style="color:#d4af37;">✔️ Verified</span>`
+        flag: getFlag(item.origin),
+        isBooking: false,
+        priceRaw: priceAED,
+        priceDisplay: `${priceAED.toFixed(2)} AED`,
+        kgPrice,
+        trend,
+        trendChange: trendChangeNum,
+        supplier: item.stock,
+        badge: item.badge || 'Verified Supplier'
       };
     });
 
     renderTable(getActiveFilter());
     renderNewsFeed();
     updateLastUpdated();
+    updateMarketMood();
 
   } catch (e) {
     console.error('Pulse data load failed:', e);
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:#e76f51;">Failed to load prices. Retrying...</td></tr>';
-    setTimeout(loadPulseData, 5000); // Retry
+    setTimeout(loadPulseData, 5000);
   }
 }
 
-// Dynamic News Ticker (Rotating)
+// --- News Ticker ---
+
 const newsFeed = [
   "1509 Creamy Sella booking opens at $920 C&F Dubai",
   "Irri 6 5% drops to $385 C&F Dubai – prompt shipment",
@@ -90,13 +133,31 @@ function renderNewsFeed() {
   newsIndex = (newsIndex + 1) % newsFeed.length;
 }
 
-// Render Table with Filter
-function renderTable(filter = "All") {
+// --- Table Rendering & Sorting ---
+
+function renderTable(filter = 'All') {
   const tbody = document.getElementById('pulse-table');
   if (!tbody) return;
 
   tbody.innerHTML = '';
-  const filtered = pulseData.filter(item => filter === "All" || item.origin === filter);
+
+  let filtered = pulseData.filter(item => filter === 'All' || item.origin === filter);
+
+  // Apply sorting if any
+  if (currentSort.key) {
+    const { key, dir } = currentSort;
+    filtered = filtered.slice().sort((a, b) => {
+      let va = a[key];
+      let vb = b[key];
+
+      if (typeof va === 'string') va = va.toLowerCase();
+      if (typeof vb === 'string') vb = vb.toLowerCase();
+
+      if (va < vb) return dir === 'asc' ? -1 : 1;
+      if (va > vb) return dir === 'asc' ? 1 : -1;
+      return 0;
+    });
+  }
 
   if (filtered.length === 0) {
     tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:#999;">No data for this origin.</td></tr>';
@@ -105,29 +166,57 @@ function renderTable(filter = "All") {
 
   filtered.forEach(item => {
     const row = document.createElement('tr');
+    row.className = getRowClass(item);
+
+    const arrow = getTrendArrow(item.trendChange);
+    const trendColorClass = item.trendChange > 0 ? 'trend-up' : (item.trendChange < 0 ? 'trend-down' : 'trend-flat');
+
+    const priceCell = item.isBooking
+      ? `<span class="price-main">${item.priceDisplay}</span> <span class="badge badge-booking">BOOKING</span>`
+      : `<span class="price-main">${item.priceDisplay}</span><br><span class="price-sub">${item.kgPrice} AED/kg</span>`;
+
     row.innerHTML = `
-      <td><strong>${item.product}</strong></td>
-      <td>${item.origin}</td>
-      <td>${item.price}</td>
-      <td>${item.trend}</td>
-      <td><small>${item.supplier}</small></td>
+      <td class="col-product">
+        <strong>${item.product}</strong><br>
+        <span class="origin-flag">${item.flag}</span>
+        <span class="origin-text">${item.origin}</span>
+      </td>
+      <td class="col-price">
+        ${priceCell}
+      </td>
+      <td class="col-trend ${trendColorClass}">
+        <span class="trend-arrow">${arrow}</span>
+        <span class="trend-value">${Math.abs(item.trendChange).toFixed(1)}%</span>
+      </td>
+      <td class="col-supplier">
+        <span class="supplier-main">${item.supplier}</span><br>
+        <span class="badge badge-supplier">${item.badge}</span>
+      </td>
+      <td class="col-meta">
+        <span class="meta-verified">✔️ Verified</span>
+      </td>
     `;
     tbody.appendChild(row);
   });
 }
 
-// Get active filter from tab
 function getActiveFilter() {
   const active = document.querySelector('.tab-button.active');
-  return active ? active.dataset.filter : "All";
+  return active ? active.dataset.filter : 'All';
 }
 
-// Global filter function
 window.filterPulse = function(filter) {
   renderTable(filter);
 };
 
-// Update timestamp
+function updateMarketMood() {
+  const el = document.getElementById('market-mood');
+  if (!el) return;
+  el.textContent = computeMarketMood();
+}
+
+// --- Timestamp ---
+
 function updateLastUpdated() {
   const now = new Date();
   const options = { 
@@ -138,16 +227,33 @@ function updateLastUpdated() {
   if (el) el.textContent = now.toLocaleDateString('en-GB', options) + ' GST';
 }
 
-// Auto-refresh every 60 seconds
+// --- Sorting (Bloomberg-style column headers) ---
+
+function initSorting() {
+  document.querySelectorAll('[data-sort]').forEach(header => {
+    header.style.cursor = 'pointer';
+    header.addEventListener('click', () => {
+      const key = header.dataset.sort;
+      if (currentSort.key === key) {
+        currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+      } else {
+        currentSort.key = key;
+        currentSort.dir = 'asc';
+      }
+      renderTable(getActiveFilter());
+    });
+  });
+}
+
+// --- Auto-refresh & Init ---
+
 let refreshInterval = setInterval(() => {
   loadPulseData();
 }, 60000);
 
-// Init
 document.addEventListener('DOMContentLoaded', () => {
   loadPulseData();
 
-  // Tab buttons
   document.querySelectorAll('.tab-button').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
@@ -156,19 +262,93 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // News ticker rotation
+  initSorting();
+
   setInterval(renderNewsFeed, 8000);
-  renderNewsFeed(); // Initial
+  renderNewsFeed();
 });
 
-// Add pulse animation
+// --- Styles (Bloomberg feel) ---
+
 const style = document.createElement('style');
 style.textContent = `
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
+  #pulse-table tr.row-booking {
+    background: rgba(255, 215, 0, 0.06);
+    border-left: 3px solid #d4af37;
   }
-  .trend.up { color: #e76f51; }
-  .trend.down { color: #2a9d8f; }
+  #pulse-table tr.row-local {
+    background: rgba(255, 255, 255, 0.01);
+  }
+  #pulse-table tr + tr {
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+  }
+  #pulse-table td {
+    padding: 10px 12px;
+    vertical-align: middle;
+  }
+  .col-product {
+    text-align: left;
+  }
+  .col-price, .col-trend, .col-supplier, .col-meta {
+    text-align: right;
+  }
+  .origin-flag {
+    font-size: 14px;
+    margin-right: 4px;
+  }
+  .origin-text {
+    font-size: 12px;
+    color: #aaa;
+  }
+  .price-main {
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .price-sub {
+    font-size: 11px;
+    color: #aaa;
+  }
+  .trend-up {
+    color: #2ecc71;
+  }
+  .trend-down {
+    color: #e74c3c;
+  }
+  .trend-flat {
+    color: #bdc3c7;
+  }
+  .trend-arrow {
+    margin-right: 4px;
+    font-size: 12px;
+  }
+  .trend-value {
+    font-size: 13px;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .badge-booking {
+    background: rgba(212, 175, 55, 0.15);
+    color: #f1c40f;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    margin-left: 6px;
+  }
+  .badge-supplier {
+    background: rgba(46, 204, 113, 0.12);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.4);
+  }
+  .supplier-main {
+    font-size: 12px;
+  }
+  .meta-verified {
+    font-size: 11px;
+    color: #d4af37;
+  }
 `;
 document.head.appendChild(style);
