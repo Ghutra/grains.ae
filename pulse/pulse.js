@@ -19,36 +19,36 @@ async function loadPulseData() {
     const data = await res.json();
 
     // Map to pulse format + dynamic trend
-    pulseData = data.map(item => {
-      const trendChange = (Math.random() * 6 - 3).toFixed(1); // -3% to +3%
-      const trend = trendChange >= 0 ? 'up' : 'down';
+   pulseData = data.map(item => {
+  const trendChange = (Math.random() * 6 - 3).toFixed(1);
+  const trend = trendChange >= 0 ? 'up' : 'down';
 
-      // Safe numeric extraction from price (AED or USD)
-      const numericPrice = parseFloat(item.price);
-      const kgPrice = isNaN(numericPrice)
-        ? '-'
-        : (numericPrice / parseInt(item.size)).toFixed(2);
+  // Detect currency
+  const isUSD = item.price.toUpperCase().includes("USD");
 
-      return {
-        product: item.name,
-        origin: item.origin,
-        price: `${item.price} • ${kgPrice} AED/kg`,
-        trend: `<span class="trend ${trend}" style="animation: pulse 1.5s infinite;">
-                  ${trend === 'up' ? 'up' : 'down'} ${Math.abs(trendChange)}%
-                </span>`,
-        supplier: `${item.stock} • Verified`
-      };
-    });
+  // Extract numeric price
+  const numericPrice = parseFloat(item.price);
 
-    renderTable(getActiveFilter());
-    renderNewsFeed();
-    updateLastUpdated();
-  } catch (e) {
-    console.error('Pulse data load failed:', e);
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px; color:#e76f51;">Failed to load prices. Retrying...</td></tr>';
-    setTimeout(loadPulseData, 5000); // Retry
-  }
-}
+  // Convert USD → AED
+  const priceAED = isUSD ? numericPrice * 3.67 : numericPrice;
+
+  // Extract size
+  const sizeKG = parseInt(item.size);
+
+  // AED per kg
+  const kgPrice = (priceAED / sizeKG).toFixed(2);
+
+  return {
+    product: item.name,
+    origin: item.origin,
+    price: `${priceAED.toFixed(2)} AED • ${kgPrice} AED/kg`,
+    trend: `<span class="trend ${trend}" style="animation: pulse 1.5s infinite;">
+              ${trend === 'up' ? 'up' : 'down'} ${Math.abs(trendChange)}%
+            </span>`,
+    supplier: `${item.stock} • <span style="color:#d4af37;">✔️ Verified</span>`
+
+  };
+});
 
 // Dynamic News Ticker (Rotating)
 const newsFeed = [
