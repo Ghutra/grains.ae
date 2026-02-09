@@ -350,5 +350,140 @@ style.textContent = `
     font-size: 11px;
     color: #d4af37;
   }
+/* --- COLUMN WIDTHS (Bloomberg fixed-grid layout) --- */
+.col-product { width: 32%; }
+.col-price { width: 22%; }
+.col-trend { width: 14%; }
+.col-supplier { width: 22%; }
+.col-meta { width: 10%; }
+
+/* --- GLOBAL CELL ALIGNMENT --- */
+#pulse-table td {
+  vertical-align: middle;
+  line-height: 1.25;
+  padding: 10px 12px;
+  white-space: nowrap;
+}
+
+/* --- PRODUCT COLUMN FIX --- */
+.col-product {
+  text-align: left;
+  white-space: normal;
+}
+
+.col-product strong {
+  display: inline-block;
+  margin-bottom: 2px;
+}
+
+.origin-flag {
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+.origin-text {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-left: 2px;
+}
+
+/* --- PRICE COLUMN FIX (forces perfect stacking) --- */
+.col-price {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.price-main {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.price-sub {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 2px;
+}
+
+/* --- TREND COLUMN FIX (no wrapping) --- */
+.col-trend {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.trend-arrow {
+  margin-right: 4px;
+  font-size: 12px;
+}
+
+.trend-value {
+  font-size: 13px;
+}
+
+.trend-up { color: #2ecc71; }
+.trend-down { color: #e74c3c; }
+.trend-flat { color: #bdc3c7; }
+
+/* --- SUPPLIER COLUMN FIX (consistent height) --- */
+.col-supplier {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.supplier-main {
+  font-size: 12px;
+  margin-bottom: 2px;
+}
+
+.badge-supplier,
+.badge-booking {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Supplier badge colors */
+.badge-supplier {
+  background: rgba(46, 204, 113, 0.12);
+  color: #2ecc71;
+  border: 1px solid rgba(46, 204, 113, 0.4);
+}
+
+.badge-booking {
+  background: rgba(212, 175, 55, 0.15);
+  color: #f1c40f;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+/* --- META COLUMN (Verified) --- */
+.col-meta {
+  text-align: right;
+}
+
+.meta-verified {
+  font-size: 11px;
+  color: #d4af37;
+}
+
+/* --- ROW STYLING --- */
+#pulse-table tr.row-booking {
+  background: rgba(255, 215, 0, 0.06);
+  border-left: 3px solid #d4af37;
+}
+
+#pulse-table tr.row-local {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+#pulse-table tr + tr {
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
 `;
 document.head.appendChild(style);
