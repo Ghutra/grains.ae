@@ -19,7 +19,7 @@ async function loadPulseData() {
     const data = await res.json();
 
     // Map to pulse format + dynamic trend
-   pulseData = data.map(item => {
+  pulseData = data.map(item => {
   const trendChange = (Math.random() * 6 - 3).toFixed(1);
   const trend = trendChange >= 0 ? 'up' : 'down';
 
@@ -46,9 +46,8 @@ async function loadPulseData() {
               ${trend === 'up' ? 'up' : 'down'} ${Math.abs(trendChange)}%
             </span>`,
     supplier: `${item.stock} • <span style="color:#d4af37;">✔️ Verified</span>`
-
   };
-});
+}); // ← THIS WAS MISSING
 
 // Dynamic News Ticker (Rotating)
 const newsFeed = [
