@@ -1,4 +1,4 @@
-// pulse.js – Market Pulse Engine v2.1
+// pulse.js – Market Pulse Engine v3.0
 // Real-time sync with /assets/data/stock.json | Auto-refresh | Golden UI
 
 let pulseData = [];
@@ -22,19 +22,28 @@ async function loadPulseData() {
       const trendChange = (Math.random() * 6 - 3).toFixed(1);
       const trend = trendChange >= 0 ? 'up' : 'down';
 
-      // Detect currency
-      const isUSD = item.price.toUpperCase().includes("USD");
+      // Detect booking items (USD = per metric ton)
+      const isBooking = item.price.toUpperCase().includes("USD");
 
       // Extract numeric price
       const numericPrice = parseFloat(item.price);
 
-      // Convert USD → AED
-      const priceAED = isUSD ? numericPrice * 3.67 : numericPrice;
+      // If booking → show USD/MT only (NO conversion, NO AED/kg)
+      if (isBooking) {
+        return {
+          product: item.name,
+          origin: item.origin,
+          price: `${numericPrice} USD / MT`,
+          trend: `<span class="trend ${trend}" style="animation: pulse 1.5s infinite;">
+                    ${trend === 'up' ? 'up' : 'down'} ${Math.abs(trendChange)}%
+                  </span>`,
+          supplier: `${item.stock} • <span style="color:#d4af37;">✔️ Verified</span>`
+        };
+      }
 
-      // Extract size
+      // LOCAL STOCK (AED) — calculate AED/kg
+      const priceAED = numericPrice;
       const sizeKG = parseInt(item.size);
-
-      // AED per kg
       const kgPrice = (priceAED / sizeKG).toFixed(2);
 
       return {
