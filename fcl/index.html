@@ -153,13 +153,43 @@
       document.getElementById(`step${n}`).classList.add('active');
     }
 
-    function submitFCL() {
-      const origin = document.getElementById('origin').value;
-      const container = document.getElementById('container').value;
-      const grain = document.getElementById('grain').value || 'Any';
-      const msg = `FCL Booking:\nOrigin: ${origin}\nContainer: ${container}\nGrain: ${grain}`;
-      window.location.href = `https://wa.me/971501234567?text=${encodeURIComponent(msg)}`;
+    async function submitFCL() {
+  const origin = document.getElementById('origin').value;
+  const container = document.getElementById('container').value;
+  const grain = document.getElementById('grain').value || 'Any';
+
+  // later you can add buyer fields (name, email, phone)
+  const payload = {
+    origin,
+    container,
+    grain,
+    buyer: {
+      name: 'Walk-in FCL Buyer',
+      company: 'N/A',
+      email: 'letstalk@grains.ae',
+      phone: ''
     }
+  };
+
+  try {
+    const res = await fetch('https://grains-backend.onrender.com/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    if (data.success && data.bookingId) {
+      window.location.href = `/fcl/confirmation.html?id=${encodeURIComponent(data.bookingId)}`;
+    } else {
+      alert('Something went wrong. Please try WhatsApp for now.');
+      // optional fallback:
+      // window.location.href = `https://wa.me/9715...`;
+    }
+  } catch (e) {
+    alert('Network error. Please try WhatsApp for now.');
+  }
+}
 
     // Alliya Modal & Suggestions (same as home)
     const keywords = ['FCL 20ft cost', 'India basmati FCL', 'Thailand white rice 40ft', 'lead time Jebel Ali'];
