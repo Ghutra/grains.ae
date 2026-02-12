@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Booking Confirmation – Grains Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body { font-family: 'Helvetica Neue', sans-serif; background:#f9f9f9; color:#333; }
+    .container { max-width: 700px; margin: 40px auto; background:#fff; padding:30px; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.1); }
+    h1 { color:#C1A875; margin-bottom:10px; }
+    .label { font-weight:bold; margin-top:10px; }
+    a.btn { display:inline-block; margin-top:15px; padding:10px 16px; background:#C1A875; color:#fff; text-decoration:none; border-radius:6px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Booking Received</h1>
+    <p id="statusText">Loading your booking...</p>
+
+    <div id="details" style="display:none;">
+      <p class="label">Booking ID:</p>
+      <p id="bookingId"></p>
+
+      <p class="label">Origin:</p>
+      <p id="origin"></p>
+
+      <p class="label">Container:</p>
+      <p id="container"></p>
+
+      <p class="label">Grain:</p>
+      <p id="grain"></p>
+
+      <p class="label">Status:</p>
+      <p id="status"></p>
+
+      <div id="docs"></div>
+
+      <a class="btn" href="https://wa.me/971501234567" target="_blank">Need Help? Message Us</a>
+    </div>
+  </div>
+
+  <script>
+    async function loadBooking() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('id');
+      if (!id) {
+        document.getElementById('statusText').textContent = 'No booking ID found.';
+        return;
+      }
+
+      try {
+        const res = await fetch(`https://grains-backend.onrender.com/api/bookings/${encodeURIComponent(id)}`);
+        const data = await res.json();
+
+        document.getElementById('statusText').style.display = 'none';
+        document.getElementById('details').style.display = 'block';
+
+        document.getElementById('bookingId').textContent = data.id;
+        document.getElementById('origin').textContent = data.origin;
+        document.getElementById('container').textContent = data.container;
+        document.getElementById('grain').textContent = data.grain;
+        document.getElementById('status').textContent = data.status;
+
+        const docsDiv = document.getElementById('docs');
+        if (data.lpo && data.lpo.pdfUrl) {
+          const a = document.createElement('a');
+          a.href = data.lpo.pdfUrl;
+          a.textContent = 'Download LPO';
+          a.className = 'btn';
+          a.style.marginRight = '10px';
+          docsDiv.appendChild(a);
+        }
+        if (data.pi && data.pi.pdfUrl) {
+          const a2 = document.createElement('a');
+          a2.href = data.pi.pdfUrl;
+          a2.textContent = 'Download PI';
+          a2.className = 'btn';
+          docsDiv.appendChild(a2);
+        }
+      } catch (e) {
+        document.getElementById('statusText').textContent = 'Unable to load booking. Please try again later.';
+      }
+    }
+
+    loadBooking();
+  </script>
+</body>
+</html>
