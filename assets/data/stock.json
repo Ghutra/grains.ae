@@ -43,7 +43,7 @@
     "name": "Sona Massori",
     "origin": "India",
     "packaging": "18kg Nonwoven",
-    "price": "36 AED",
+    "price": "37 AED",
     "size": "18kg",
     "stock": "1500 bags",
     "badge": "Verified Supplier",
@@ -53,7 +53,7 @@
     "name": "Irri 6 White Rice Broken 5%",
     "origin": "Pakistan",
     "packaging": "35kg PP Bags",
-    "price": "56 AED",
+    "price": "57 AED",
     "size": "35kg",
     "stock": "3000 bags",
     "badge": "Verified Supplier",
@@ -83,7 +83,7 @@
     "name": "Irri 6 White Rice Broken 5%",
     "origin": "Pakistan",
     "packaging": "35kg PP Bags",
-    "price": "385 USD C&F",
+    "price": "410 USD C&F",
     "size": "35kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
@@ -93,7 +93,7 @@
     "name": "Irri 6 White Rice Broken 100%",
     "origin": "Pakistan",
     "packaging": "35kg PP Bags",
-    "price": "330 USD C&F",
+    "price": "335 USD C&F",
     "size": "35kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
@@ -118,5 +118,111 @@
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
     "img": "thai-white.jpg"
+  },
+  {
+    "name": "C9 (Irri 9) White Rice",
+    "origin": "Pakistan",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
+     "price": "750 USD",
+    "size": "10kg",
+    "stock": "Prompt shipment",
+    "badge": "Pre-Booking",
+    "img": "C9-white.jpg"
+  },
+ {
+    "name": "386 (Lal) White Rice",
+    "origin": "Pakistan",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
+     "price": "900 USD",
+    "size": "10kg",
+    "stock": "Prompt shipment",
+    "badge": "Pre-Booking",
+    "img": "386lal-white.jpg"
+  },
+{
+    "name": "1121 White Rice",
+    "origin": "Pakistan",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
+     "price": "1370 USD",
+    "size": "10kg",
+    "stock": "Prompt shipment",
+    "badge": "Pre-Booking",
+    "img": "1121-white.jpg"
+  },
+{
+    "name": "1121 Steam Rice",
+    "origin": "Pakistan",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
+     "price": "1350 USD",
+    "size": "10kg",
+    "stock": "Prompt shipment",
+    "badge": "Pre-Booking",
+    "img": "1121-steam.jpg"
+  },
+{
+    "name": "1121 Sella Rice",
+    "origin": "Pakistan",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
+     "price": "1320 USD",
+    "size": "10kg",
+    "stock": "Prompt shipment",
+    "badge": "Pre-Booking",
+    "img": "1121-sella.jpg"
+  },
+  {
+    "name": "1509 Sella Rice",
+    "origin": "India",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
+     "price": "920 USD",
+    "size": "10kg",
+    "stock": "Prompt shipment",
+    "badge": "Pre-Booking",
+    "img": "1509-india-sella.jpg"
+  },
+{
+    "name": "1121 Sella Rice",
+    "origin": "India",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
+     "price": "1120 USD",
+    "size": "10kg",
+    "stock": "Prompt shipment",
+    "badge": "Pre-Booking",
+    "img": "1121-india-Sella.jpg"
+  },
+  {
+    "name": "Pr 11 White Rice",
+    "origin": "India",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
+     "price": "585 USD",
+    "size": "10kg",
+    "stock": "Prompt shipment",
+    "badge": "Pre-Booking",
+    "img": "Pr11-india-white.jpg"
+  },
+{
+    "name": "Pr 11 Steam Rice",
+    "origin": "India",
+    "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
+     "price": "575 USD",
+    "size": "10kg",
+    "stock": "Prompt shipment",
+    "badge": "Pre-Booking",
+    "img": "Pr11-india-steam.jpg"
+  },
+{
+    "name": "Sona Massori White Rice",
+    "origin": "India",
+    "packaging": "18Kg Nonwoven Bag (New Crop 2025)",
+     "price": "510 USD",
+    "size": "18kg",
+    "stock": "Prompt shipment",
+    "badge": "Pre-Booking",
+    "img": "sonamassori-india-white.jpg"
   }
 ]
+
+
+
+
+
+
