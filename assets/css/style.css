@@ -553,5 +553,25 @@ footer {
     display: none !important;
   }
 }
+.nav-links li {
+  border: none;
+}
+
+.mobile-only {
+  display: none;
+  border: none !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+  .trader-login {
+    display: none;
+  }
+  .mobile-login-btn {
+    display: block !important;
+  }
+}
 
 </style>
