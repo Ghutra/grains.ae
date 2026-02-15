@@ -573,5 +573,26 @@ footer {
     display: block !important;
   }
 }
+/* Hide desktop login completely on mobile */
+@media (max-width: 768px) {
+  .trader-login {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    height: 0 !important;
+    width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+}
+.nav-links li {
+  border: none !important;
+}
+.mobile-only {
+  border: none !important;
+}
 
 </style>
