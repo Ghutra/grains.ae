@@ -61,29 +61,38 @@
     </div>
   </div>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <a href="/" class="logo">
-      <img src="/grains-logo.png" alt="Grains Hub"> Grains Hub
-    </a>
+ <nav class="navbar">
+  
+  <!-- Logo -->
+  <a href="/" class="logo">
+    <img src="/grains-logo.png" alt="Grains Hub"> Grains Hub
+  </a>
 
-    <ul class="nav-links" id="navLinks">
-      <li><a href="/" class="active">Home</a></li>
-      <li><a href="/why">Why</a></li>
-      <li><a href="/pulse/index.html">Pulse</a></li>
-      <li><a href="/trust">Trust</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/shop">Shop</a></li>
-      <li class="mobile-only">
-      <a href="/login" class="mobile-login-btn">Trader Login</a></li>
-      </ul>
+  <!-- Hamburger (should be BEFORE nav-links for mobile) -->
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
 
-    <a href="/login.html" class="trader-login">Trader Login</a>
+  <!-- Navigation Links -->
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/" class="active">Home</a></li>
+    <li><a href="/why">Why</a></li>
+    <li><a href="/pulse/index.html">Pulse</a></li>
+    <li><a href="/trust">Trust</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/shop">Shop</a></li>
 
-    <div class="hamburger" id="hamburger">
-      <span></span><span></span><span></span>
-    </div>
-  </nav>
+    <!-- Mobile Login Button -->
+    <li class="mobile-only">
+      <a href="/login" class="mobile-login-btn">Trader Login</a>
+    </li>
+  </ul>
+
+  <!-- Desktop Login Button -->
+  <a href="/login" class="trader-login">Trader Login</a>
+
+</nav>
+
 
   <!-- Hero -->
   <header>
