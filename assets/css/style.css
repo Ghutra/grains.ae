@@ -510,5 +510,33 @@ footer {
   }
 
 }
+.mobile-login-btn {
+  background: #fff;
+  color: #C1A875;
+  padding: 14px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+  text-align: center;
+  display: block;
+  width: 80%;
+  margin: 10px auto 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.mobile-login-btn:hover {
+  background: #f5f5f5;
+  transform: translateY(-2px);
+}
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+}
 
 </style>
