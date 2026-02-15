@@ -130,31 +130,35 @@
     </div>
   </div>
 
-  <!-- Alliya Modal (ONLY ONE) -->
-  <div id="alliyaModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">×</span>
-      <div class="alliya-box">
-        <h2>
-          <img src="../assets/img/alliya-icon.ico" alt="Alliya" width="24">
-          Ask Alliya
-        </h2>
+<!-- Alliya Float Button -->
+<div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
+  <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya
+</div>
 
-        <div style="position:relative;">
-          <input
-            type="text"
-            id="alliyaQuery"
-            placeholder="Ask about prices, trends, FCL..."
-            oninput="showSuggestions(this.value)"
-          />
-          <div id="suggestions" class="suggestions"></div>
-        </div>
-
-        <button onclick="askAlliya()">Verify</button>
-        <div id="alliyaResponse"></div>
+<!-- Alliya Modal -->
+<div id="alliyaModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">×</span>
+    
+    <div class="alliya-box">
+      <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya</h2>
+      
+      <div class="alliya-query-wrapper">
+        <input 
+          type="text" 
+          id="alliyaQuery" 
+          placeholder="Ask about price, stock, FCL, compliance..." 
+          oninput="showSuggestions(this.value)" 
+          autocomplete="off"
+        >
+        <div id="suggestions" class="suggestions"></div>
       </div>
+      
+      <button onclick="askAlliya()">Send Question</button>
+      <div id="alliyaResponse" class="reply"></div>
     </div>
   </div>
+</div>
 
   <footer>
     <div class="badge">Microsoft Copilot Enabled</div><br>
