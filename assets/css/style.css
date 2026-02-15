@@ -510,6 +510,15 @@ footer {
   }
 
 }
+/* Desktop login button (already exists) */
+/* .trader-login { ... } */
+
+/* Hide desktop Trader Login on mobile */
+@media (max-width: 768px) {
+  .trader-login {
+    display: none;
+  }
+}
 .mobile-login-btn {
   background: #fff;
   color: #C1A875;
@@ -538,6 +547,7 @@ footer {
     display: block;
   }
 }
+
 @media (min-width: 769px) {
   .mobile-only {
     display: none !important;
