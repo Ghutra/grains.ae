@@ -538,5 +538,10 @@ footer {
     display: block;
   }
 }
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
 
 </style>
