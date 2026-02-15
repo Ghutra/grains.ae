@@ -93,6 +93,24 @@
   width: 26px;
   height: 26px;
 }
+header {
+  padding: 80px 20px 50px;
+  position: relative;
+  color: white;
+  text-align: center;
+}
+
+header .overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 0;
+}
+
+header > * {
+  position: relative;
+  z-index: 1;
+}
 
     <!-- Fonts & Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -120,11 +138,15 @@
     </div>
   </nav>
 
-  <header>
-    <img src="/assets/img/grains-logo.png" class="hero-logo" alt="Grains Hub">
-    <h1>FCL Booking</h1>
-    <p>Full container loads from verified origins. 20ft (24MT) . Dubai delivery in 7–10 days.</p>
-  </header>
+ <header style="background: url('/assets/img/fcl-hero.jpg') center/cover no-repeat;">
+  <div class="overlay"></div>
+
+  <img src="/assets/img/grains-logo.png" class="hero-logo" alt="Grains Hub">
+
+  <h1>FCL Booking</h1>
+  <p>Full container loads from verified origins. 20ft (24MT) • 40ft (48MT). Dubai delivery in 7–10 days.</p>
+</header>
+
 
   <div class="container">
     <div class="booking-form">
