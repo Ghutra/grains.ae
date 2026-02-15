@@ -51,16 +51,35 @@
     select, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; }
     button { margin-top: 20px; padding: 12px 20px; background: #C1A875; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
     button:hover { background: #b89a65; }
-    
-<!-- Main CSS -->
-  <link rel="stylesheet" href="/assets/css/style.css"> 
+
+    /* Alliya Modal (matches alliya.js) */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+    .modal.active { display: flex; }
+    .modal-content { background: white; border-radius: 12px; width: 90%; max-width: 500px; padding: 20px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .close { position: absolute; top: 10px; right: 15px; font-size: 28px; cursor: pointer; color: #aaa; }
+    .close:hover { color: #000; }
+
+    .alliya-box h2 { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; color: #a07c3b; }
+    .alliya-box input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 15px; }
+    .alliya-box button { margin-top: 10px; padding: 10px 20px; background: #C1A875; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .alliya-box button:hover { background: #a07c3b; }
+
+    .suggestions { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #eee; border-radius: 6px; max-height: 150px; overflow-y: auto; z-index: 10; }
+    .suggestions div { padding: 10px; cursor: pointer; border-bottom: 1px solid #f0f0f0; }
+    .suggestions div:hover { background: #f8f5ec; }
+
+    #alliyaResponse { margin-top: 16px; padding: 12px; background: #f8f5ec; border-radius: 6px; font-size: 14px; display: none; }
+    #alliyaResponse a { color: #25D366; font-weight: bold; text-decoration: none; }
+
+    footer { margin-top: 80px; padding: 20px; font-size: 14px; color: #777; text-align: center; }
+    .badge { background-color: #C1A875; color: #fff; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 0.9rem; }
   </style>
 </head>
 <body>
 
   <nav class="navbar">
     <a href="/" class="logo">
-      <img src="/assets/img/grains-logo.png" alt="Grains Hub">
+      <img src="../assets/img/logo.png" alt="Grains Hub">
       Grains Hub
     </a>
     <ul class="nav-links">
@@ -77,7 +96,7 @@
   </nav>
 
   <header>
-    <img src="/assets/img/grains-logo.png" class="hero-logo" alt="Grains Hub">
+    <img src="../assets/img/logo.png" class="hero-logo" alt="Grains Hub">
     <h1>FCL Booking</h1>
     <p>Full container loads from verified origins. 20ft (24MT) • 40ft (48MT). Dubai delivery in 7–10 days.</p>
   </header>
@@ -110,34 +129,32 @@
       </div>
     </div>
   </div>
- <!-- Alliya Float Button -->
-<div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
-  <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya
-</div>
- <!-- Alliya Modal -->
-<div id="alliyaModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">×</span>
-    
-    <div class="alliya-box">
-      <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya</h2>
-      
-      <div class="alliya-query-wrapper">
-        <input 
-          type="text" 
-          id="alliyaQuery" 
-          placeholder="Ask about price, stock, FCL, compliance..." 
-          oninput="showSuggestions(this.value)" 
-          autocomplete="off"
-        >
-        <div id="suggestions" class="suggestions"></div>
+
+  <!-- Alliya Modal (ONLY ONE) -->
+  <div id="alliyaModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">×</span>
+      <div class="alliya-box">
+        <h2>
+          <img src="../assets/img/alliya-icon.ico" alt="Alliya" width="24">
+          Ask Alliya
+        </h2>
+
+        <div style="position:relative;">
+          <input
+            type="text"
+            id="alliyaQuery"
+            placeholder="Ask about prices, trends, FCL..."
+            oninput="showSuggestions(this.value)"
+          />
+          <div id="suggestions" class="suggestions"></div>
+        </div>
+
+        <button onclick="askAlliya()">Verify</button>
+        <div id="alliyaResponse"></div>
       </div>
-      
-      <button onclick="askAlliya()">Send Question</button>
-      <div id="alliyaResponse" class="reply"></div>
     </div>
   </div>
-</div>
 
   <footer>
     <div class="badge">Microsoft Copilot Enabled</div><br>
@@ -191,9 +208,11 @@
       }
     }
   </script>
+
   <!-- Modular scripts -->
   <script type="module" src="/assets/js/firebase-init.js"></script>
   <script src="/assets/js/alliya.js"></script>
   <script src="/assets/js/stock.js"></script>
+
 </body>
 </html>
