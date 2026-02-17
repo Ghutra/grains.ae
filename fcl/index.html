@@ -171,6 +171,25 @@ header > * {
       <div class="step" id="step3">
         <label>Grain Type</label>
         <input id="grain" type="text" placeholder="e.g., Basmati 1121" />
+        <div class="step" id="step4">
+  <label>Your Full Name</label>
+  <input id="custName" type="text" placeholder="Your Name" />
+
+  <label>Email</label>
+  <input id="custEmail" type="email" placeholder="you@example.com" />
+
+  <label>Phone</label>
+  <input id="custPhone" type="text" placeholder="+971..." />
+
+  <label>Company (optional)</label>
+  <input id="custCompany" type="text" placeholder="Company Name" />
+
+  <label>Destination Port</label>
+  <input id="custDestination" type="text" placeholder="e.g., Jebel Ali" />
+
+  <label>Notes (optional)</label>
+  <input id="custMessage" type="text" placeholder="Any notes..." />
+
         <button onclick="submitFCL()">Submit Booking</button>
       </div>
     </div>
@@ -212,46 +231,62 @@ header > * {
     const navLinks = document.querySelector('.nav-links');
     hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
 
-    function nextStep(n) {
-      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-      document.getElementById(`step${n}`).classList.add('active');
+    <script>
+  function nextStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById(`step${n}`).classList.add('active');
+  }
+
+  async function submitFCL() {
+    const origin = document.getElementById('origin').value;
+    const container = document.getElementById('container').value;
+    const grain = document.getElementById('grain').value || 'Any';
+
+    // NEW FIELDS
+    const name = document.getElementById('custName').value;
+    const email = document.getElementById('custEmail').value;
+    const phone = document.getElementById('custPhone').value;
+    const company = document.getElementById('custCompany').value || "N/A";
+    const destinationPort = document.getElementById('custDestination').value;
+    const message = document.getElementById('custMessage').value || "";
+
+    if (!name || !email || !phone) {
+      alert("Please fill your name, email, and phone.");
+      return;
     }
 
-    async function submitFCL() {
-      const origin = document.getElementById('origin').value;
-      const container = document.getElementById('container').value;
-      const grain = document.getElementById('grain').value || 'Any';
+    const payload = {
+      name,
+      email,
+      phone,
+      company,
+      commodity: grain,
+      quantity: container.includes("20ft") ? 24 : 48,
+      containerType: container,
+      originPort: origin,
+      destinationPort,
+      message
+    };
 
-      const payload = {
-        origin,
-        container,
-        grain,
-        buyer: {
-          name: 'Walk-in FCL Buyer',
-          company: 'N/A',
-          email: 'letstalk@grains.ae',
-          phone: ''
-        }
-      };
+    try {
+      const res = await fetch("https://YOUR_FIREBASE_URL/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
 
-      try {
-        const res = await fetch('https://grains-backend.onrender.com/api/bookings', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+      const data = await res.json();
 
-        const data = await res.json();
-        if (data.success && data.bookingId) {
-          window.location.href = `/fcl/confirmation.html?id=${encodeURIComponent(data.bookingId)}`;
-        } else {
-          alert('Something went wrong. Please try WhatsApp for now.');
-        }
-      } catch (e) {
-        alert('Network error. Please try WhatsApp for now.');
+      if (data.success && data.bookingId) {
+        window.location.href = `/fcl/confirmation.html?id=${encodeURIComponent(data.bookingId)}`;
+      } else {
+        alert("Something went wrong. Please try WhatsApp for now.");
       }
+    } catch (e) {
+      alert("Network error. Please try WhatsApp for now.");
     }
-  </script>
+  }
+</script>
 
   <!-- Modular scripts -->
   <script type="module" src="/assets/js/firebase-init.js"></script>
