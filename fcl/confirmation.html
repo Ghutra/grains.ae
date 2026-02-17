@@ -2,87 +2,144 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Booking Confirmation – Grains Hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booking Confirmation – Grains Hub</title>
+
   <style>
-    body { font-family: 'Helvetica Neue', sans-serif; background:#f9f9f9; color:#333; }
-    .container { max-width: 700px; margin: 40px auto; background:#fff; padding:30px; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.1); }
-    h1 { color:#C1A875; margin-bottom:10px; }
-    .label { font-weight:bold; margin-top:10px; }
-    a.btn { display:inline-block; margin-top:15px; padding:10px 16px; background:#C1A875; color:#fff; text-decoration:none; border-radius:6px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #333;
+      text-align: center;
+    }
+
+    .section-title {
+      margin-top: 25px;
+      font-weight: bold;
+      color: #444;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 6px;
+    }
+
+    .row {
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .value {
+      color: #333;
+    }
+
+    .error {
+      text-align: center;
+      color: red;
+      font-size: 18px;
+      margin-top: 20px;
+    }
   </style>
 </head>
+
 <body>
+
   <div class="container">
-    <h1>Booking Received</h1>
-    <p id="statusText">Loading your booking...</p>
+    <h2>Booking Confirmation</h2>
+
+    <div id="loading">Loading booking details...</div>
+    <div id="error" class="error" style="display:none;">Unable to load booking. Please try again later.</div>
 
     <div id="details" style="display:none;">
-      <p class="label">Booking ID:</p>
-      <p id="bookingId"></p>
 
-      <p class="label">Origin:</p>
-      <p id="origin"></p>
+      <div class="section-title">Booking Info</div>
+      <div class="row"><div class="label">Booking ID:</div><div class="value" id="bookingId"></div></div>
 
-      <p class="label">Container:</p>
-      <p id="container"></p>
+      <div class="section-title">Customer Details</div>
+      <div class="row"><div class="label">Name:</div><div class="value" id="name"></div></div>
+      <div class="row"><div class="label">Email:</div><div class="value" id="email"></div></div>
+      <div class="row"><div class="label">Phone:</div><div class="value" id="phone"></div></div>
+      <div class="row"><div class="label">Company:</div><div class="value" id="company"></div></div>
 
-      <p class="label">Grain:</p>
-      <p id="grain"></p>
+      <div class="section-title">Shipment Details</div>
+      <div class="row"><div class="label">Commodity:</div><div class="value" id="commodity"></div></div>
+      <div class="row"><div class="label">Quantity (MT):</div><div class="value" id="quantity"></div></div>
+      <div class="row"><div class="label">Container:</div><div class="value" id="containerType"></div></div>
+      <div class="row"><div class="label">Origin:</div><div class="value" id="originPort"></div></div>
+      <div class="row"><div class="label">Destination:</div><div class="value" id="destinationPort"></div></div>
 
-      <p class="label">Status:</p>
-      <p id="status"></p>
+      <div class="section-title">Notes</div>
+      <div class="row"><div class="value" id="message"></div></div>
 
-      <div id="docs"></div>
-
-      <a class="btn" href="https://wa.me/971501234567" target="_blank">Need Help? Message Us</a>
     </div>
   </div>
 
   <script>
     async function loadBooking() {
       const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
+      const id = params.get("id");
+
       if (!id) {
-        document.getElementById('statusText').textContent = 'No booking ID found.';
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("error").style.display = "block";
         return;
       }
 
       try {
-        const res = await fetch(`https://grains-backend.onrender.com/api/bookings/${encodeURIComponent(id)}`);
+        const res = await fetch(`https://api-oim3h2hfza-uc.a.run.app/bookings?id=${id}`);
         const data = await res.json();
 
-        document.getElementById('statusText').style.display = 'none';
-        document.getElementById('details').style.display = 'block';
-
-        document.getElementById('bookingId').textContent = data.id;
-        document.getElementById('origin').textContent = data.origin;
-        document.getElementById('container').textContent = data.container;
-        document.getElementById('grain').textContent = data.grain;
-        document.getElementById('status').textContent = data.status;
-
-        const docsDiv = document.getElementById('docs');
-        if (data.lpo && data.lpo.pdfUrl) {
-          const a = document.createElement('a');
-          a.href = data.lpo.pdfUrl;
-          a.textContent = 'Download LPO';
-          a.className = 'btn';
-          a.style.marginRight = '10px';
-          docsDiv.appendChild(a);
+        if (!data.success) {
+          document.getElementById("loading").style.display = "none";
+          document.getElementById("error").style.display = "block";
+          return;
         }
-        if (data.pi && data.pi.pdfUrl) {
-          const a2 = document.createElement('a');
-          a2.href = data.pi.pdfUrl;
-          a2.textContent = 'Download PI';
-          a2.className = 'btn';
-          docsDiv.appendChild(a2);
-        }
-      } catch (e) {
-        document.getElementById('statusText').textContent = 'Unable to load booking. Please try again later.';
+
+        const b = data.data;
+
+        document.getElementById("bookingId").textContent = id;
+        document.getElementById("name").textContent = b.name;
+        document.getElementById("email").textContent = b.email;
+        document.getElementById("phone").textContent = b.phone;
+        document.getElementById("company").textContent = b.company;
+
+        document.getElementById("commodity").textContent = b.commodity;
+        document.getElementById("quantity").textContent = b.quantity;
+        document.getElementById("containerType").textContent = b.containerType;
+        document.getElementById("originPort").textContent = b.originPort;
+        document.getElementById("destinationPort").textContent = b.destinationPort;
+
+        document.getElementById("message").textContent = b.message || "—";
+
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("details").style.display = "block";
+
+      } catch (err) {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("error").style.display = "block";
       }
     }
 
     loadBooking();
   </script>
+
 </body>
 </html>
