@@ -239,6 +239,11 @@ header > * {
   const hamburger = document.querySelector('.hamburger');
   const navLinks = document.querySelector('.nav-links');
   hamburger.addEventListener('click', () => navLinks.classList.toggle('active'));
+  
+  function nextStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById(`step${n}`).classList.add('active');
+}
 
   async function submitFCL() {
   const origin = document.getElementById('origin').value;
