@@ -168,58 +168,98 @@
 
 
   <!-- Firebase + Auth + Forgot Password -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import { 
+    getAuth, 
+    signInWithEmailAndPassword, 
+    sendPasswordResetEmail,
+    sendEmailVerification 
+  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
-    const firebaseConfig = { /* your config – unchanged */ 
-      apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
-      authDomain: "grains-hub.firebaseapp.com",
-      projectId: "grains-hub",
-      storageBucket: "grains-hub.firebasestorage.app",
-      messagingSenderId: "783882873254",
-      appId: "1:783882873254:web:ba93eaaff5eca25cd6c767",
-      measurementId: "G-RHYCMRHS1Q"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
+    authDomain: "grains-hub.firebaseapp.com",
+    projectId: "grains-hub",
+    storageBucket: "grains-hub.firebasestorage.app",
+    messagingSenderId: "783882873254",
+    appId: "1:783882873254:web:ba93eaaff5eca25cd6c767"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-    // Normal Login
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const errorBox = document.getElementById('loginError');
+  const loginError = document.getElementById('loginError');
+  const loginSuccess = document.getElementById('loginSuccess');
 
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        window.location.href = '/dashboard.html';
-      } catch (error) {
-        errorBox.textContent = error.message.includes('wrong-password') || error.message.includes('user-not-found') 
-          ? 'Invalid email or password.' : error.message;
-        errorBox.style.display = 'block';
+  // ⭐ LOGIN WITH EMAIL‑VERIFIED CHECK
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    loginError.style.display = "none";
+    loginSuccess.style.display = "none";
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // ⭐ BLOCK LOGIN IF EMAIL NOT VERIFIED
+      if (!user.emailVerified) {
+        loginError.innerHTML = `
+          Your email is not verified.<br>
+          <a href="#" id="resendLink" style="color:#C1A875; font-weight:bold;">Resend verification email</a>
+        `;
+        loginError.style.display = "block";
+
+        // ⭐ RESEND VERIFICATION EMAIL HANDLER
+        document.getElementById("resendLink").onclick = async (e) => {
+          e.preventDefault();
+          await sendEmailVerification(user, {
+            url: "https://grains.ae/verify-email"
+          });
+          loginSuccess.textContent = "Verification email sent! Please check your inbox.";
+          loginSuccess.style.display = "block";
+        };
+
+        return; // STOP LOGIN
       }
-    });
 
-    // Forgot Password
-    document.getElementById('forgotLink').addEventListener('click', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      if (!email) {
-        alert('Please enter your email first.');
-        return;
-      }
-      try {
-        await sendPasswordResetEmail(auth, email);
-        document.getElementById('loginSuccess').textContent = 'Reset link sent! Check your inbox.';
-        document.getElementById('loginSuccess').style.display = 'block';
-      } catch (err) {
-        document.getElementById('loginError').textContent = 'Error: ' + err.message;
-        document.getElementById('loginError').style.display = 'block';
-      }
-    });
-  </script>
+      // ⭐ EMAIL VERIFIED → ALLOW LOGIN
+      window.location.href = "/dashboard.html";
+
+    } catch (error) {
+      loginError.textContent = 
+        error.code === "auth/wrong-password" || error.code === "auth/user-not-found"
+        ? "Invalid email or password."
+        : error.message;
+
+      loginError.style.display = "block";
+    }
+  });
+
+  // ⭐ FORGOT PASSWORD
+  document.getElementById('forgotLink').addEventListener('click', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value;
+
+    if (!email) {
+      alert("Please enter your email first.");
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      loginSuccess.textContent = "Reset link sent! Check your inbox.";
+      loginSuccess.style.display = "block";
+    } catch (err) {
+      loginError.textContent = "Error: " + err.message;
+      loginError.style.display = "block";
+    }
+  });
+</script>
 
   <script>
     // Hamburger menu (unchanged)
