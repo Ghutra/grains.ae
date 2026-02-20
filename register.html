@@ -155,42 +155,63 @@
 
   <!-- Firebase Registration -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+  import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    updateProfile,
+    sendEmailVerification 
+  } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
-      authDomain: "grains-hub.firebaseapp.com",
-      projectId: "grains-hub",
-      storageBucket: "grains-hub.firebasestorage.app",
-      messagingSenderId: "783882873254",
-      appId: "1:783882873254:web:ba93eaaff5eca25cd6c767"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
+    authDomain: "grains-hub.firebaseapp.com",
+    projectId: "grains-hub",
+    storageBucket: "grains-hub.firebasestorage.app",
+    messagingSenderId: "783882873254",
+    appId: "1:783882873254:web:ba93eaaff5eca25cd6c767"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
 
-    document.getElementById('registerForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+  document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await updateProfile(userCredential.user, { displayName: name });
-        document.getElementById('regSuccess').textContent = 'Account created successfully! Redirecting…';
-        document.getElementById('regSuccess').style.display = 'block';
-        setTimeout(() => window.location.href = '/dashboard.html', 2000);
-      } catch (error) {
-        let msg = error.message;
-        if (error.code === 'auth/email-already-in-use') msg = 'This email is already registered.';
-        if (error.code === 'auth/weak-password') msg = 'Password should be at least 6 characters.';
-        document.getElementById('regError').textContent = msg;
-        document.getElementById('regError').style.display = 'block';
-      }
-    });
-  </script>
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    const errorBox = document.getElementById('regError');
+    const successBox = document.getElementById('regSuccess');
+
+    try {
+      // Create user
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Update display name
+      await updateProfile(user, { displayName: name });
+
+      // ⭐ SEND VERIFICATION EMAIL
+      await sendEmailVerification(user, {
+        url: "https://grains.ae/verify-email"
+      });
+
+      successBox.textContent = "Account created! Please check your email to verify your account.";
+      successBox.style.display = "block";
+      errorBox.style.display = "none";
+
+    } catch (error) {
+      let msg = error.message;
+      if (error.code === 'auth/email-already-in-use') msg = 'This email is already registered.';
+      if (error.code === 'auth/weak-password') msg = 'Password should be at least 6 characters.';
+      errorBox.textContent = msg;
+      errorBox.style.display = 'block';
+      successBox.style.display = 'none';
+    }
+  });
+</script>
 
   <!-- Hamburger Menu -->
   <script>
