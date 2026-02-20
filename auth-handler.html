@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Processing… – Grains Hub</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fdfdf9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+
+    .box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 360px;
+    }
+
+    h2 {
+      color: #C1A875;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .loader {
+      margin: 20px auto;
+      border: 4px solid #eee;
+      border-top: 4px solid #C1A875;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <h2>Processing…</h2>
+    <div class="loader"></div>
+    <p>Please wait while we redirect you securely.</p>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get("mode");
+
+    // ⭐ Redirect based on Firebase mode
+    if (mode === "resetPassword") {
+      window.location.href = "/reset-password" + window.location.search;
+    } 
+    else if (mode === "verifyEmail") {
+      window.location.href = "/verify-email" + window.location.search;
+    } 
+    else {
+      document.querySelector(".box").innerHTML = `
+        <h2 style="color:#d9534f;">Invalid Link</h2>
+        <p>This action link is not valid or has expired.</p>
+      `;
+    }
+  </script>
+
+</body>
+</html>
