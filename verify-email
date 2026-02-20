@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Verification – Grains Hub</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h2 {
+      color: #C1A875;
+      margin-bottom: 10px;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    .success {
+      color: green;
+    }
+
+    .error {
+      color: red;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #C1A875;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background: #a07c3b;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2>Email Verification</h2>
+    <p>Please wait while we verify your email…</p>
+
+    <div class="message" id="statusMessage"></div>
+
+    <button id="goToLogin" style="display:none;">Go to Login</button>
+  </div>
+
+  <!-- Firebase COMPAT SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+
+  <script>
+    // ⭐ Your actual Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
+      authDomain: "grains-hub.firebaseapp.com",
+      projectId: "grains-hub",
+      storageBucket: "grains-hub.firebasestorage.app",
+      messagingSenderId: "783882873254",
+      appId: "1:783882873254:web:ba93eaaff5eca25cd6c767",
+      measurementId: "G-RHYCMRHS1Q"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const mode = urlParams.get("mode");
+    const oobCode = urlParams.get("oobCode");
+
+    const statusMessage = document.getElementById("statusMessage");
+    const loginBtn = document.getElementById("goToLogin");
+
+    async function verifyEmail() {
+      if (mode !== "verifyEmail" || !oobCode) {
+        statusMessage.innerHTML = "Invalid or expired verification link.";
+        statusMessage.classList.add("error");
+        return;
+      }
+
+      try {
+        await auth.applyActionCode(oobCode);
+        statusMessage.innerHTML = "Your email has been successfully verified.";
+        statusMessage.classList.add("success");
+
+        loginBtn.style.display = "inline-block";
+        loginBtn.addEventListener("click", () => {
+          window.location.href = "/login.html";
+        });
+
+      } catch (error) {
+        statusMessage.innerHTML = "Error: " + error.message;
+        statusMessage.classList.add("error");
+      }
+    }
+
+    verifyEmail();
+  </script>
+
+</body>
+</html>
