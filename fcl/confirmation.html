@@ -137,7 +137,7 @@
       }
 
       try {
-        const res = await fetch("https://api-oim3h2hfza-uc.a.run.app/getBooking"?id=${id}`);
+        const res = await const res = await fetch(`https://api-oim3h2hfza-uc.a.run.app/getBooking?id=${id}`);
         const data = await res.json();
 
         if (!data.success) {
