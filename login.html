@@ -227,18 +227,22 @@
         return; // STOP LOGIN
       }
 
-      // ⭐ EMAIL VERIFIED → ALLOW LOGIN
-      window.location.href = "/dashboard.html";
-
-    } catch (error) {
-      loginError.textContent = 
-        error.code === "auth/wrong-password" || error.code === "auth/user-not-found"
-        ? "Invalid email or password."
-        : error.message;
-
-      loginError.style.display = "block";
-    }
+      // ⭐ EMAIL VERIFIED → SEND WELCOME EMAIL
+try {
+  await fetch("https://api-oim3h2hfza-uc.a.run.app/sendWelcomeEmail", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: user.email,
+      name: user.displayName || "Trader"
+    })
   });
+} catch (err) {
+  console.error("Welcome email failed:", err);
+}
+
+// ⭐ THEN ALLOW LOGIN
+window.location.href = "/dashboard.html";
 
   // ⭐ FORGOT PASSWORD
   document.getElementById('forgotLink').addEventListener('click', async (e) => {
