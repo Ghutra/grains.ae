@@ -119,54 +119,90 @@
     <button class="btn btn-home" onclick="window.location.href='/'">Back to Home</button>
   </div>
 
- async function loadBooking() {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get("id");
+ <script>
+  async function loadBooking() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
 
-  if (!id) {
-    document.getElementById("loading").style.display = "none";
-    document.getElementById("error").style.display = "block";
-    return;
-  }
-
-  try {
-    const res = await fetch(`https://api-oim3h2hfza-uc.a.run.app/getBooking?id=${id}`);
-    const data = await res.json();
-
-    if (!data.success) {
+    if (!id) {
       document.getElementById("loading").style.display = "none";
       document.getElementById("error").style.display = "block";
       return;
     }
 
-    const b = data.data;
+    try {
+      const res = await fetch(`https://api-oim3h2hfza-uc.a.run.app/getBooking?id=${id}`);
+      const data = await res.json();
 
-    document.getElementById("bookingId").textContent = id;
-    document.getElementById("trackingNumber").textContent = data.trackingNumber;
+      if (!data.success) {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("error").style.display = "block";
+        return;
+      }
 
-    document.getElementById("name").textContent = b.name;
-    document.getElementById("email").textContent = b.email;
-    document.getElementById("phone").textContent = b.phone;
-    document.getElementById("company").textContent = b.company;
+      const b = data.data;
 
-    document.getElementById("commodity").textContent = b.commodity;
-    document.getElementById("quantity").textContent = b.quantity;
-    document.getElementById("containerType").textContent = b.containerType;
-    document.getElementById("originPort").textContent = b.originPort;
-    document.getElementById("destinationPort").textContent = b.destinationPort;
+      // Firestore ID
+      document.getElementById("bookingId").textContent = id;
 
-    document.getElementById("message").textContent = b.message || "—";
+      // Tracking number returned from backend
+      document.getElementById("trackingNumber").textContent = data.trackingNumber;
 
-    document.getElementById("loading").style.display = "none";
-    document.getElementById("details").style.display = "block";
+      // Customer details
+      document.getElementById("name").textContent = b.name;
+      document.getElementById("email").textContent = b.email;
+      document.getElementById("phone").textContent = b.phone;
+      document.getElementById("company").textContent = b.company;
 
-  } catch (err) {
-    document.getElementById("loading").style.display = "none";
-    document.getElementById("error").style.display = "block";
+      // Booking details
+      document.getElementById("commodity").textContent = b.commodity;
+      document.getElementById("quantity").textContent = b.quantity;
+      document.getElementById("containerType").textContent = b.containerType;
+      document.getElementById("originPort").textContent = b.originPort;
+      document.getElementById("destinationPort").textContent = b.destinationPort;
+
+      // Optional message
+      document.getElementById("message").textContent = b.message || "—";
+
+      // Show details
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("details").style.display = "block";
+
+    } catch (err) {
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("error").style.display = "block";
+    }
   }
-}
 
-loadBooking();
+  loadBooking();
+
+  // PDF Download
+  document.getElementById("downloadPDF").addEventListener("click", async () => {
+    const { jsPDF } = window.jspdf;
+    const element = document.getElementById("pdfArea");
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL("image/png");
+
+    const pdf = new jsPDF("p", "mm", "a4");
+    const width = pdf.internal.pageSize.getWidth();
+    const height = (canvas.height * width) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, width, height);
+    pdf.save("booking-confirmation.pdf");
+  });
+
+  // WhatsApp Share
+  document.getElementById("shareWhatsApp").addEventListener("click", () => {
+    const text = `Booking Confirmed!
+Tracking: ${document.getElementById("trackingNumber").textContent}
+Commodity: ${document.getElementById("commodity").textContent}
+Origin: ${document.getElementById("originPort").textContent}
+Destination: ${document.getElementById("destinationPort").textContent}`;
+    
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(url, "_blank");
+  });
+</script>
 
 </body>
 </html>
