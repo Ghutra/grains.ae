@@ -119,82 +119,54 @@
     <button class="btn btn-home" onclick="window.location.href='/'">Back to Home</button>
   </div>
 
-  <script>
-    function generateTrackingNumber(id) {
-      const year = new Date().getFullYear();
-      const shortId = id.substring(0, 4).toUpperCase();
-      return `GH-FCL-${year}-${shortId}`;
+ async function loadBooking() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  if (!id) {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("error").style.display = "block";
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://api-oim3h2hfza-uc.a.run.app/getBooking?id=${id}`);
+    const data = await res.json();
+
+    if (!data.success) {
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("error").style.display = "block";
+      return;
     }
 
-    async function loadBooking() {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get("id");
+    const b = data.data;
 
-      if (!id) {
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("error").style.display = "block";
-        return;
-      }
+    document.getElementById("bookingId").textContent = id;
+    document.getElementById("trackingNumber").textContent = data.trackingNumber;
 
-      try {
-        const res = await const res = await fetch(`https://api-oim3h2hfza-uc.a.run.app/getBooking?id=${id}`);
-        const data = await res.json();
+    document.getElementById("name").textContent = b.name;
+    document.getElementById("email").textContent = b.email;
+    document.getElementById("phone").textContent = b.phone;
+    document.getElementById("company").textContent = b.company;
 
-        if (!data.success) {
-          document.getElementById("loading").style.display = "none";
-          document.getElementById("error").style.display = "block";
-          return;
-        }
+    document.getElementById("commodity").textContent = b.commodity;
+    document.getElementById("quantity").textContent = b.quantity;
+    document.getElementById("containerType").textContent = b.containerType;
+    document.getElementById("originPort").textContent = b.originPort;
+    document.getElementById("destinationPort").textContent = b.destinationPort;
 
-        const b = data.data;
+    document.getElementById("message").textContent = b.message || "—";
 
-        document.getElementById("bookingId").textContent = id;
-        document.getElementById("trackingNumber").textContent = generateTrackingNumber(id);
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("details").style.display = "block";
 
-        document.getElementById("name").textContent = b.name;
-        document.getElementById("email").textContent = b.email;
-        document.getElementById("phone").textContent = b.phone;
-        document.getElementById("company").textContent = b.company;
+  } catch (err) {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("error").style.display = "block";
+  }
+}
 
-        document.getElementById("commodity").textContent = b.commodity;
-        document.getElementById("quantity").textContent = b.quantity;
-        document.getElementById("containerType").textContent = b.containerType;
-        document.getElementById("originPort").textContent = b.originPort;
-        document.getElementById("destinationPort").textContent = b.destinationPort;
-
-        document.getElementById("message").textContent = b.message || "—";
-
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("details").style.display = "block";
-
-      } catch (err) {
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("error").style.display = "block";
-      }
-    }
-
-    loadBooking();
-
-    document.getElementById("downloadPDF").addEventListener("click", async () => {
-      const { jsPDF } = window.jspdf;
-      const element = document.getElementById("pdfArea");
-      const canvas = await html2canvas(element);
-      const imgData = canvas.toDataURL("image/png");
-
-      const pdf = new jsPDF("p", "mm", "a4");
-      const width = pdf.internal.pageSize.getWidth();
-      const height = (canvas.height * width) / canvas.width;
-
-      pdf.addImage(imgData, "PNG", 0, 0, width, height);
-      pdf.save("booking-confirmation.pdf");
-    });
-
-    document.getElementById("shareWhatsApp").addEventListener("click", () => {
-      const text = `Booking Confirmed!\nTracking: ${document.getElementById("trackingNumber").textContent}\nCommodity: ${document.getElementById("commodity").textContent}\nOrigin: ${document.getElementById("originPort").textContent}\nDestination: ${document.getElementById("destinationPort").textContent}`;
-      const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-      window.open(url, "_blank");
-    });
-  </script>
+loadBooking();
 
 </body>
 </html>
