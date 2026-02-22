@@ -9,9 +9,7 @@
   <!-- Favicon -->
   <link rel="icon" href="/favicon.png" type="image/png" />
 
-  <!-- Google Fonts – premium & modern -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
   <!-- Font Awesome -->
@@ -29,15 +27,11 @@
       --shadow-sm: 0 4px 15px rgba(0,0,0,0.06);
       --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
       --success: #10b981;
+      --warning: #f59e0b;
       --danger: #ef4444;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Inter', system-ui, sans-serif;
       background: var(--bg-light);
@@ -47,32 +41,12 @@
       flex-direction: column;
     }
 
-    /* Top Banner (optional promotions) */
-    .top-banner {
-      background: linear-gradient(90deg, var(--primary-gold), var(--primary-dark));
-      color: white;
-      padding: 12px 20px;
-      text-align: center;
-      font-weight: 500;
-      font-size: 14px;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .banner-text {
-      display: inline-block;
-      animation: scroll 30s linear infinite;
-    }
-    @keyframes scroll {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-
-    /* Sidebar Navigation */
     .dashboard {
       display: flex;
       flex: 1;
     }
 
+    /* Sidebar */
     .sidebar {
       width: 260px;
       background: white;
@@ -100,7 +74,7 @@
 
     .sidebar-header h2 {
       font-family: 'Poppins', sans-serif;
-      font-size: 20px;
+      font-size: 22px;
       color: var(--primary-gold);
       font-weight: 700;
     }
@@ -136,8 +110,10 @@
     .nav-item.active {
       border-left: 4px solid var(--primary-gold);
       padding-left: 20px;
+      font-weight: 600;
     }
 
+    /* Main Content */
     .main-content {
       flex: 1;
       padding: 32px 40px;
@@ -149,13 +125,14 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
     }
 
     .welcome-bar h1 {
       font-family: 'Poppins', sans-serif;
       font-size: 28px;
       font-weight: 600;
-      color: var(--text-dark);
     }
 
     .user-info {
@@ -164,11 +141,6 @@
       gap: 12px;
       font-size: 15px;
       color: var(--text-muted);
-    }
-
-    .user-info span {
-      font-weight: 600;
-      color: var(--text-dark);
     }
 
     .card-grid {
@@ -187,7 +159,7 @@
     }
 
     .card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-6px);
     }
 
     .card-header {
@@ -222,11 +194,13 @@
       background: var(--primary-dark);
     }
 
+    /* Table */
     .table-container {
       background: white;
       border-radius: 16px;
       box-shadow: var(--shadow-md);
       overflow: hidden;
+      margin-bottom: 40px;
     }
 
     table {
@@ -260,6 +234,26 @@
     .status-pending { background: #fef3c7; color: #92400e; }
     .status-confirmed { background: #d1fae5; color: #065f46; }
     .status-shipped { background: #dbeafe; color: #1e40af; }
+    .status-delivered { background: #e0f2fe; color: #0369a1; }
+
+    /* Loading / Empty States */
+    .loading, .empty {
+      text-align: center;
+      padding: 60px 0;
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    .loading i {
+      font-size: 32px;
+      margin-bottom: 16px;
+      animation: spin 1.5s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
     footer {
       margin-top: auto;
@@ -274,10 +268,6 @@
       color: var(--primary-gold);
       text-decoration: none;
       margin: 0 12px;
-    }
-
-    footer a:hover {
-      text-decoration: underline;
     }
 
     @media (max-width: 992px) {
@@ -296,13 +286,6 @@
 </head>
 <body>
 
-  <!-- Top Banner -->
-  <div class="top-banner">
-    <div class="banner-text">
-      New Stock Alert: 1121 Sella XXL AED 158/40kg • FCL India → Jebel Ali USD 780 • 10% off first 50MT Irri-6
-    </div>
-  </div>
-
   <div class="dashboard">
     <!-- Sidebar Navigation -->
     <aside class="sidebar">
@@ -311,93 +294,96 @@
         <h2>Grains Hub</h2>
       </div>
       <nav class="nav-menu">
-        <a href="#" class="nav-item active"><i class="fas fa-home"></i> <span>Dashboard</span></a>
-        <a href="#" class="nav-item"><i class="fas fa-box"></i> <span>My Bookings</span></a>
-        <a href="#" class="nav-item"><i class="fas fa-truck"></i> <span>Track Shipments</span></a>
-        <a href="#" class="nav-item"><i class="fas fa-chart-line"></i> <span>Analytics</span></a>
-        <a href="#" class="nav-item"><i class="fas fa-comments"></i> <span>Communication</span></a>
-        <a href="#" class="nav-item"><i class="fas fa-file-invoice"></i> <span>Invoices & Docs</span></a>
-        <a href="#" class="nav-item"><i class="fas fa-cog"></i> <span>Settings</span></a>
+        <a href="#dashboard" class="nav-item active"><i class="fas fa-home"></i> <span>Dashboard</span></a>
+        <a href="#bookings" class="nav-item"><i class="fas fa-box"></i> <span>My Bookings</span></a>
+        <a href="#shipments" class="nav-item"><i class="fas fa-truck"></i> <span>Track Shipments</span></a>
+        <a href="#analytics" class="nav-item"><i class="fas fa-chart-line"></i> <span>Analytics</span></a>
+        <a href="#communication" class="nav-item"><i class="fas fa-comments"></i> <span>Communication</span></a>
+        <a href="#documents" class="nav-item"><i class="fas fa-file-invoice"></i> <span>Invoices & Docs</span></a>
+        <a href="#settings" class="nav-item"><i class="fas fa-cog"></i> <span>Settings</span></a>
         <a href="#" id="logoutBtn" class="nav-item"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
       </nav>
     </aside>
 
-    <!-- Main Content -->
-    <main class="main-content">
-      <div class="welcome-bar">
-        <h1>Welcome back, <span id="userName">Trader</span></h1>
-        <div class="user-info">
-          <span>Last login: Today</span>
-        </div>
-      </div>
-
-      <!-- Quick Stats Cards -->
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-header">Active Bookings</div>
-          <div class="card-body">
-            <h3 style="font-size:36px; margin:12px 0;">8</h3>
-            <p style="color:var(--text-muted);">Current open orders</p>
-            <a href="#" class="btn-primary">View All</a>
+    <!-- Main Content Area -->
+    <main class="main-content" id="contentArea">
+      <!-- Default Dashboard View -->
+      <div id="dashboardView">
+        <div class="welcome-bar">
+          <h1>Welcome back, <span id="userName">Trader</span></h1>
+          <div class="user-info">
+            <span>Last login: <span id="lastLogin">Just now</span></span>
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-header">Total Volume Traded</div>
-          <div class="card-body">
-            <h3 style="font-size:36px; margin:12px 0;">192 MT</h3>
-            <p style="color:var(--text-muted);">This year (YTD)</p>
-            <a href="#" class="btn-primary">Analytics</a>
+        <!-- Quick Stats -->
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-header">Active Bookings</div>
+            <div class="card-body">
+              <h3 id="activeBookingsCount" style="font-size:36px; margin:12px 0;">—</h3>
+              <p style="color:var(--text-muted);">Current open orders</p>
+              <a href="#bookings" class="btn-primary">View All</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">Total Volume Traded</div>
+            <div class="card-body">
+              <h3 id="totalVolume" style="font-size:36px; margin:12px 0;">— MT</h3>
+              <p style="color:var(--text-muted);">This year (YTD)</p>
+              <a href="#analytics" class="btn-primary">Analytics</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">Pending Payments</div>
+            <div class="card-body">
+              <h3 id="pendingAmount" style="font-size:36px; margin:12px 0; color:var(--danger);">— AED</h3>
+              <p style="color:var(--text-muted);">Awaiting payment</p>
+              <a href="#documents" class="btn-primary">View Invoices</a>
+            </div>
           </div>
         </div>
 
-        <div class="card">
-          <div class="card-header">Pending Invoices</div>
-          <div class="card-body">
-            <h3 style="font-size:36px; margin:12px 0; color:var(--danger);">AED 87,600</h3>
-            <p style="color:var(--text-muted);">Awaiting payment</p>
-            <a href="#" class="btn-primary">View Invoices</a>
-          </div>
+        <!-- Recent Bookings -->
+        <div class="table-container">
+          <div class="card-header">Recent Bookings</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Booking ID</th>
+                <th>Commodity</th>
+                <th>Quantity (MT)</th>
+                <th>Origin → Dest</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="recentBookingsTable">
+              <tr class="loading">
+                <td colspan="6" style="text-align:center; padding:60px 0;">
+                  <i class="fas fa-spinner fa-spin" style="font-size:32px; color:var(--primary-gold);"></i>
+                  <div style="margin-top:16px;">Loading your bookings...</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <!-- Recent Bookings Table -->
-      <div class="table-container">
-        <div class="card-header" style="border-radius:0;">Recent Bookings</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Booking ID</th>
-              <th>Commodity</th>
-              <th>Quantity (MT)</th>
-              <th>Origin → Destination</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="ordersTable">
-            <tr>
-              <td colspan="6" style="text-align:center; padding:40px 0; color:var(--text-muted);">
-                <i class="fas fa-spinner fa-spin" style="margin-right:8px;"></i>
-                Loading your bookings...
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- Placeholder Sections (load dynamically later) -->
+      <div id="bookingsView" style="display:none;">
+        <h1>My Bookings</h1>
+        <p>Full list of all your orders — coming soon with filters & export.</p>
       </div>
 
-      <!-- Coming Soon Teaser -->
-      <div class="card" style="margin-top:32px;">
-        <div class="card-header">Coming Soon</div>
-        <div class="card-body">
-          <ul style="list-style:none; padding:0; font-size:15px; line-height:2;">
-            <li><i class="fas fa-truck-moving" style="color:var(--primary-gold); margin-right:10px;"></i>Real-time shipment tracking with ETA</li>
-            <li><i class="fas fa-robot" style="color:var(--primary-gold); margin-right:10px;"></i>Alliya AI – your 24/7 grain assistant</li>
-            <li><i class="fas fa-chart-pie" style="color:var(--primary-gold); margin-right:10px;"></i>Advanced trade analytics & savings reports</li>
-            <li><i class="fab fa-whatsapp" style="color:#25D366; margin-right:10px;"></i>WhatsApp order & status updates</li>
-          </ul>
-        </div>
+      <div id="shipmentsView" style="display:none;">
+        <h1>Track Shipments</h1>
+        <p>Real-time tracking with ETA & status timeline — launching soon.</p>
       </div>
+
+      <!-- Add more sections as needed -->
     </main>
   </div>
 
@@ -412,7 +398,7 @@
     <p style="margin-top:20px;">© 2026 Grains Hub. All rights reserved.</p>
   </footer>
 
-  <!-- Firebase SDK (modular – better performance) -->
+  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
@@ -429,60 +415,71 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    const authInstance = getAuth(app);
     const db = getFirestore(app);
 
-    // Auth state listener
-    onAuthStateChanged(auth, async (user) => {
+    // Auth state & data loading
+    onAuthStateChanged(authInstance, async (user) => {
       if (user) {
         document.getElementById('userName').textContent = user.displayName || user.email.split('@')[0];
 
-        // Load recent bookings (last 5, ordered by createdAt)
+        // Load recent bookings (last 5)
         const bookingsQuery = query(collection(db, "bookings"), orderBy("createdAt", "desc"), limit(5));
         const snapshot = await getDocs(bookingsQuery);
 
-        const ordersTable = document.getElementById('ordersTable');
-        ordersTable.innerHTML = '';
+        const tableBody = document.getElementById('recentBookingsTable');
+        tableBody.innerHTML = '';
 
         if (snapshot.empty) {
-          ordersTable.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px 0;">No bookings found yet.</td></tr>';
+          tableBody.innerHTML = '<tr><td colspan="6" class="empty">No bookings found yet. Place your first order!</td></tr>';
         } else {
           snapshot.forEach(doc => {
             const data = doc.data();
             const statusClass = data.status === 'confirmed' ? 'status-confirmed' : 
                                data.status === 'shipped' ? 'status-shipped' : 'status-pending';
-            ordersTable.innerHTML += `
+            tableBody.innerHTML += `
               <tr>
                 <td>${doc.id.slice(0,8).toUpperCase()}</td>
                 <td>${data.commodity || 'N/A'}</td>
                 <td>${data.quantity || '—'} MT</td>
                 <td>${data.origin || '—'} → ${data.destination || '—'}</td>
-                <td><span class="status-badge ${statusClass}">${data.status?.toUpperCase() || 'PENDING'}</span></td>
-                <td><a href="#" style="color:var(--primary-gold); font-weight:500;">View</a></td>
+                <td><span class="status-badge ${statusClass}">${(data.status || 'PENDING').toUpperCase()}</span></td>
+                <td><a href="#" style="color:var(--primary-gold); font-weight:500;">View Details</a></td>
               </tr>`;
           });
         }
+
+        // Placeholder counts (replace with real aggregations later)
+        document.getElementById('activeBookingsCount').textContent = snapshot.size || '0';
+        document.getElementById('totalVolume').textContent = '— MT'; // TODO: sum quantity
+        document.getElementById('pendingAmount').textContent = '— AED'; // TODO: sum pending invoices
       } else {
         window.location.href = '/login.html';
       }
     });
 
-    // Logout handler
+    // Logout
     document.getElementById('logoutBtn').addEventListener('click', async (e) => {
       e.preventDefault();
-      await signOut(auth);
+      await signOut(authInstance);
       window.location.href = '/';
     });
 
-    // Hamburger menu (mobile)
-    document.addEventListener('DOMContentLoaded', () => {
-      const hamburger = document.querySelector('.hamburger');
-      const navLinks = document.querySelector('.nav-links');
-      if (hamburger && navLinks) {
-        hamburger.addEventListener('click', () => {
-          navLinks.classList.toggle('active');
-        });
-      }
+    // Sidebar navigation (load content dynamically)
+    document.querySelectorAll('.nav-item:not(#logoutBtn)').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = item.getAttribute('href').substring(1); // e.g. "bookings"
+        
+        // Remove active class from all
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+
+        // Hide all views, show selected
+        document.querySelectorAll('.main-content > div').forEach(div => div.style.display = 'none');
+        const view = document.getElementById(target + 'View') || document.getElementById('dashboardView');
+        if (view) view.style.display = 'block';
+      });
     });
   </script>
 </body>
