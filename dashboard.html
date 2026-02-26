@@ -56,7 +56,8 @@
       top: 0;
       height: 100vh;
       overflow-y: auto;
-      transition: width 0.3s ease;
+      transition: transform 0.3s ease;
+      z-index: 1000;
     }
 
     .sidebar-header {
@@ -112,6 +113,33 @@
       padding-left: 20px;
       font-weight: 600;
     }
+
+    /* Hamburger (mobile only) */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 12px;
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1100;
+      background: var(--primary-gold);
+      border-radius: 8px;
+    }
+
+    .hamburger span {
+      width: 26px;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
 
     /* Main Content */
     .main-content {
@@ -270,25 +298,68 @@
       margin: 0 12px;
     }
 
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Mobile adjustments */
     @media (max-width: 992px) {
-      .sidebar { width: 80px; }
-      .sidebar-header h2, .nav-item span { display: none; }
-      .nav-item { justify-content: center; padding: 16px; }
-      .main-content { padding: 24px 20px; }
+      .sidebar {
+        width: 80px;
+      }
+      .sidebar-header h2, .nav-item span {
+        display: none;
+      }
+      .nav-item {
+        justify-content: center;
+        padding: 16px;
+      }
+      .main-content {
+        padding: 24px 20px;
+      }
     }
 
     @media (max-width: 768px) {
-      .dashboard { flex-direction: column; }
-      .sidebar { width: 100%; height: auto; position: relative; }
-      .card-grid { grid-template-columns: 1fr; }
+      .dashboard {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+      }
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      .hamburger {
+        display: flex;
+      }
+      .main-content {
+        padding-top: 80px; /* Space for fixed hamburger */
+      }
+      .card-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 <body>
 
+  <!-- Hamburger (mobile only) -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
   <div class="dashboard">
     <!-- Sidebar Navigation -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <img src="/assets/img/grains-logo.png" alt="Grains Hub">
         <h2>Grains Hub</h2>
@@ -372,7 +443,7 @@
         </div>
       </div>
 
-      <!-- Placeholder Sections (load dynamically later) -->
+      <!-- Placeholder Sections (load dynamically) -->
       <div id="bookingsView" style="display:none;">
         <h1>My Bookings</h1>
         <p>Full list of all your orders — coming soon with filters & export.</p>
@@ -449,7 +520,7 @@
           });
         }
 
-        // Placeholder counts (replace with real aggregations later)
+        // Placeholder counts
         document.getElementById('activeBookingsCount').textContent = snapshot.size || '0';
         document.getElementById('totalVolume').textContent = '— MT'; // TODO: sum quantity
         document.getElementById('pendingAmount').textContent = '— AED'; // TODO: sum pending invoices
@@ -465,21 +536,27 @@
       window.location.href = '/';
     });
 
-    // Sidebar navigation (load content dynamically)
-    document.querySelectorAll('.nav-item:not(#logoutBtn)').forEach(item => {
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = item.getAttribute('href').substring(1); // e.g. "bookings"
-        
-        // Remove active class from all
-        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
+    // Mobile hamburger toggle
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburger = document.getElementById('hamburger');
+      const sidebar = document.getElementById('sidebar');
 
-        // Hide all views, show selected
-        document.querySelectorAll('.main-content > div').forEach(div => div.style.display = 'none');
-        const view = document.getElementById(target + 'View') || document.getElementById('dashboardView');
-        if (view) view.style.display = 'block';
-      });
+      if (hamburger && sidebar) {
+        hamburger.addEventListener('click', () => {
+          sidebar.classList.toggle('active');
+          hamburger.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking a menu item on mobile
+        document.querySelectorAll('.nav-item').forEach(item => {
+          item.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+              sidebar.classList.remove('active');
+              hamburger.classList.remove('active');
+            }
+          });
+        });
+      }
     });
   </script>
 </body>
