@@ -8,7 +8,10 @@
 
   <link rel="icon" href="/favicon.png" type="image/png" />
 
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
@@ -137,7 +140,7 @@
 
     .main-content {
       flex: 1;
-      padding: 32px 40px;
+      padding: 80px 40px 40px;
       overflow-y: auto;
     }
 
@@ -154,14 +157,6 @@
       font-family: 'Poppins', sans-serif;
       font-size: 28px;
       font-weight: 600;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 15px;
-      color: var(--text-muted);
     }
 
     .card-grid {
@@ -275,19 +270,36 @@
       .sidebar { width: 80px; }
       .sidebar-header h2, .nav-item span { display: none; }
       .nav-item { justify-content: center; padding: 16px; }
-      .main-content { padding: 24px 20px; }
+      .main-content { padding: 80px 20px 20px; }
     }
 
     @media (max-width: 768px) {
       .dashboard { flex-direction: column; }
-      .sidebar { width: 100%; height: auto; position: relative; transform: none; display: none; }  // Fixed hidden on mobile
-      .sidebar.active { display: block; }
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+      }
+      .sidebar.active { transform: translateX(0); }
       .hamburger { display: flex; }
+      .main-content { padding-top: 80px; }
       .card-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Hamburger (mobile only) -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 
   <div class="dashboard">
     <!-- Sidebar Navigation -->
@@ -310,6 +322,7 @@
 
     <!-- Main Content Area -->
     <main class="main-content" id="contentArea">
+      <!-- Dashboard View -->
       <div id="dashboardView">
         <div class="welcome-bar">
           <h1>Welcome back, <span id="userName">Trader</span></h1>
@@ -327,7 +340,24 @@
               <a href="#bookings" class="btn-primary">View All</a>
             </div>
           </div>
-          <!-- Other cards... -->
+
+          <div class="card">
+            <div class="card-header">Total Volume Traded</div>
+            <div class="card-body">
+              <h3 id="totalVolume" style="font-size:36px; margin:12px 0;">— MT</h3>
+              <p style="color:var(--text-muted);">This year (YTD)</p>
+              <a href="#analytics" class="btn-primary">Analytics</a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">Pending Payments</div>
+            <div class="card-body">
+              <h3 id="pendingAmount" style="font-size:36px; margin:12px 0; color:var(--danger);">— AED</h3>
+              <p style="color:var(--text-muted);">Awaiting payment</p>
+              <a href="#documents" class="btn-primary">View Invoices</a>
+            </div>
+          </div>
         </div>
 
         <div class="table-container">
@@ -355,17 +385,31 @@
         </div>
       </div>
 
-      <!-- Other views -->
+      <!-- My Bookings View -->
       <div id="bookingsView" style="display:none;">
         <h1>My Bookings</h1>
-        <p>Full list with filters & export — coming soon.</p>
+        <p>Full list of your orders with status and details.</p>
+        <!-- You can duplicate table here or fetch more -->
       </div>
-      <!-- Add more -->
+
+      <!-- Track Shipments View -->
+      <div id="shipmentsView" style="display:none;">
+        <h1>Track Shipments</h1>
+        <p>Real-time tracking coming soon.</p>
+      </div>
+
+      <!-- Add other views similarly -->
     </main>
   </div>
 
   <footer>
-    <!-- Your footer unchanged -->
+    <p><strong>Grains Hub</strong> • Al Ras, Dubai • UAE</p>
+    <p>letstalk@grains.ae • <a href="tel:+971585521976">+971 58 552 1976</a></p>
+    <div>
+      <a href="https://wa.me/971585521976" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Business</a> •
+      <a href="/privacy">Privacy Policy</a> • <a href="/terms">Terms of Service</a>
+    </div>
+    <p style="margin-top:20px;">© 2026 Grains Hub. All rights reserved.</p>
   </footer>
 
   <script type="module">
@@ -373,19 +417,30 @@
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
     import { getFirestore, collection, getDocs, query, where, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-    const firebaseConfig = { /* your config */ };
+    const firebaseConfig = {
+      apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
+      authDomain: "grains-hub.firebaseapp.com",
+      projectId: "grains-hub",
+      storageBucket: "grains-hub.firebasestorage.app",
+      messagingSenderId: "783882873254",
+      appId: "1:783882873254:web:ba93eaaff5eca25cd6c767",
+      measurementId: "G-RHYCMRHS1Q"
+    };
+
     const app = initializeApp(firebaseConfig);
     const authInstance = getAuth(app);
     const db = getFirestore(app);
 
     onAuthStateChanged(authInstance, async (user) => {
       if (user) {
-        document.getElementById('userName').textContent = user.displayName || user.email.split('@')[0];
+        // Personalized greeting
+        const name = user.displayName || user.email.split('@')[0] || "Trader";
+        document.getElementById('userName').textContent = name;
 
-        // Fetch ONLY current user's bookings
+        // Fetch user's bookings
         const bookingsQuery = query(
           collection(db, "bookings"),
-          where("email", "==", user.email), // ← Filter by email (since userId not in current docs)
+          where("userId", "==", user.uid),
           orderBy("createdAt", "desc"),
           limit(5)
         );
@@ -400,7 +455,7 @@
           } else {
             snapshot.forEach(doc => {
               const data = doc.data();
-              const statusClass = data.status === 'confirmed' ? 'status-confirmed' : 
+              const statusClass = data.status === 'confirmed' ? 'status-confirmed' :
                                  data.status === 'shipped' ? 'status-shipped' : 'status-pending';
               tableBody.innerHTML += `
                 <tr>
@@ -414,12 +469,12 @@
             });
           }
 
-          // Update counts
+          // Update quick stats
           document.getElementById('activeBookingsCount').textContent = snapshot.size || '0';
-          // TODO: For totalVolume, pendingAmount – add separate queries if needed
+          // TODO: Add real sums for volume & pending payments
         } catch (err) {
-          console.error("Firestore error:", err);
-          document.getElementById('recentBookingsTable').innerHTML = '<tr><td colspan="6" class="error">Error loading bookings. Check connection or login.</td></tr>';
+          console.error("Firestore query error:", err);
+          document.getElementById('recentBookingsTable').innerHTML = '<tr><td colspan="6" class="error">Error loading bookings. Please try again.</td></tr>';
         }
       } else {
         window.location.href = '/login.html';
@@ -444,7 +499,7 @@
           hamburger.classList.toggle('active');
         });
 
-        // Close sidebar when clicking a menu item on mobile
+        // Close sidebar on menu click (mobile)
         document.querySelectorAll('.nav-item').forEach(item => {
           item.addEventListener('click', () => {
             if (window.innerWidth <= 768) {
@@ -455,7 +510,7 @@
         });
       }
 
-      // Sidebar navigation (load content dynamically)
+      // Sidebar navigation - switch views
       document.querySelectorAll('.nav-item:not(#logoutBtn)').forEach(item => {
         item.addEventListener('click', (e) => {
           e.preventDefault();
