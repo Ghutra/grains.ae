@@ -4,11 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FCL Booking – Grains Hub</title>
-  <meta name="description" content="Book full container loads (FCL) from India, Pakistan, Thailand. Verified logistics." />
+  <meta name="description" content="Book full container loads from verified origins." />
 
   <link rel="icon" href="/favicon.png" type="image/png" />
 
-  <!-- Google Fonts + Font Awesome -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -18,7 +17,8 @@
       --primary-dark: #a07c3b;
       --text-dark: #1e1e1e;
       --text-muted: #6b7280;
-      --bg-light: #f8f9fa;
+      --bg: #f9f9f9;
+      --card: #ffffff;
       --border: #e5e7eb;
       --success: #10b981;
       --danger: #ef4444;
@@ -27,13 +27,14 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg-light);
+      background: var(--bg);
       color: var(--text-dark);
       min-height: 100vh;
     }
 
-    .navbar, .hamburger, .logo, .nav-links { /* your existing navbar styles */ }
-    header { /* your header styles */ }
+    /* Reuse your navbar & header styles here */
+    .navbar { /* your existing navbar */ }
+    header { /* your existing header */ }
 
     .container {
       max-width: 720px;
@@ -41,11 +42,11 @@
       padding: 0 20px;
     }
 
-    .booking-form {
-      background: white;
-      padding: 40px;
+    .form-card {
+      background: var(--card);
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 40px 32px;
     }
 
     .step {
@@ -70,16 +71,16 @@
       font-size: 15px;
     }
 
-    select, input {
+    input, select {
       width: 100%;
       padding: 14px 16px;
       border: 1px solid var(--border);
       border-radius: 10px;
       font-size: 16px;
-      transition: border-color 0.2s ease;
+      transition: all 0.2s;
     }
 
-    select:focus, input:focus {
+    input:focus, select:focus {
       outline: none;
       border-color: var(--primary-gold);
       box-shadow: 0 0 0 3px rgba(193,168,117,0.15);
@@ -95,8 +96,8 @@
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s ease;
-      margin-top: 20px;
+      transition: background 0.2s;
+      margin-top: 24px;
     }
 
     button:hover:not(:disabled) {
@@ -114,21 +115,22 @@
       border-radius: 10px;
       text-align: center;
       font-size: 15px;
+      display: none;
     }
 
-    .success { background: rgba(16,185,129,0.1); color: var(--success); }
-    .error { background: rgba(239,68,68,0.1); color: var(--danger); }
+    .success { background: rgba(16,185,129,0.1); color: var(--success); border: 1px solid rgba(16,185,129,0.3); }
+    .error { background: rgba(239,68,68,0.1); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
 
     .alliya-float { /* your existing */ }
   </style>
 </head>
 <body>
 
-  <!-- Your navbar & header unchanged -->
+  <!-- Your existing navbar + header -->
 
   <div class="container">
-    <div class="booking-form">
-      <!-- STEP 1 -->
+    <div class="form-card">
+      <!-- Step 1 -->
       <div class="step active" id="step1">
         <label>Origin</label>
         <select id="origin">
@@ -139,7 +141,7 @@
         <button onclick="nextStep(2)">Next</button>
       </div>
 
-      <!-- STEP 2 -->
+      <!-- Step 2 -->
       <div class="step" id="step2">
         <label>Container Type</label>
         <select id="container">
@@ -149,46 +151,45 @@
         <button onclick="nextStep(3)">Next</button>
       </div>
 
-      <!-- STEP 3 -->
+      <!-- Step 3 -->
       <div class="step" id="step3">
-        <label>Grain Type / Commodity</label>
-        <input id="grain" type="text" placeholder="e.g., Basmati 1121 Sella" required />
+        <label>Commodity / Grain Type</label>
+        <input id="commodity" type="text" placeholder="e.g. Basmati 1121 Sella" required />
         <button onclick="nextStep(4)">Next</button>
       </div>
 
-      <!-- STEP 4 – Customer Details -->
+      <!-- Step 4 – Details -->
       <div class="step" id="step4">
-        <label>Your Full Name</label>
-        <input id="custName" type="text" placeholder="Your Name" required />
+        <label>Full Name</label>
+        <input id="name" type="text" placeholder="Your full name" required />
 
         <label>Email</label>
-        <input id="custEmail" type="email" placeholder="you@example.com" required />
+        <input id="email" type="email" placeholder="you@example.com" required />
 
         <label>Phone</label>
-        <input id="custPhone" type="tel" placeholder="+971..." required />
+        <input id="phone" type="tel" placeholder="+971..." required />
 
         <label>Company (optional)</label>
-        <input id="custCompany" type="text" placeholder="Company Name" />
+        <input id="company" type="text" placeholder="Company name" />
 
         <label>Destination Port</label>
-        <input id="custDestination" type="text" placeholder="e.g., Jebel Ali" required />
+        <input id="destinationPort" type="text" placeholder="e.g. Jebel Ali" required />
 
-        <label>Notes / Special Request (optional)</label>
-        <textarea id="custMessage" rows="3" placeholder="Any notes or special instructions..."></textarea>
+        <label>Notes (optional)</label>
+        <textarea id="message" rows="3" placeholder="Any special instructions..."></textarea>
 
-        <button id="submitBtn" onclick="submitFCL()">Submit Booking</button>
+        <button id="submitBtn">Submit Booking Request</button>
 
-        <div id="formMessage" class="message" style="display:none;"></div>
+        <div id="formMessage" class="message"></div>
       </div>
     </div>
   </div>
 
-  <!-- Alliya Float & Modal (unchanged) -->
+  <!-- Alliya modal unchanged -->
 
   <script type="module">
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
-    // Initialize Firebase Auth (assuming firebase-init.js already loaded)
     const auth = getAuth();
 
     function nextStep(n) {
@@ -196,49 +197,40 @@
       document.getElementById(`step${n}`).classList.add('active');
     }
 
-    async function submitFCL() {
-      const submitBtn = document.getElementById('submitBtn');
-      const messageDiv = document.getElementById('formMessage');
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-      messageDiv.style.display = 'none';
+    document.getElementById('submitBtn').addEventListener('click', async () => {
+      const btn = document.getElementById('submitBtn');
+      const msg = document.getElementById('formMessage');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+      msg.style.display = 'none';
 
-      // Get form values
       const payload = {
-        name: document.getElementById('custName').value.trim(),
-        email: document.getElementById('custEmail').value.trim(),
-        phone: document.getElementById('custPhone').value.trim(),
-        company: document.getElementById('custCompany').value.trim() || "N/A",
-        commodity: document.getElementById('grain').value.trim() || "Any",
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        company: document.getElementById('company').value.trim() || "N/A",
+        commodity: document.getElementById('commodity').value.trim() || "Any",
         quantity: document.getElementById('container').value.includes("20ft") ? 24 : 48,
         containerType: document.getElementById('container').value,
         originPort: document.getElementById('origin').value,
-        destinationPort: document.getElementById('custDestination').value.trim(),
-        message: document.getElementById('custMessage').value.trim()
+        destinationPort: document.getElementById('destinationPort').value.trim(),
+        message: document.getElementById('message').value.trim()
       };
 
-      // Basic validation
       if (!payload.name || !payload.email || !payload.phone || !payload.destinationPort) {
-        messageDiv.textContent = "Please fill all required fields.";
-        messageDiv.className = "message error";
-        messageDiv.style.display = 'block';
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = "Submit Booking";
+        msg.textContent = "Please fill all required fields.";
+        msg.className = "message error";
+        msg.style.display = 'block';
+        btn.disabled = false;
+        btn.innerHTML = "Submit Booking Request";
         return;
       }
 
       try {
         const user = auth.currentUser;
-        if (!user) {
-          messageDiv.textContent = "Please login to continue.";
-          messageDiv.className = "message error";
-          messageDiv.style.display = 'block';
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = "Submit Booking";
-          return;
-        }
+        if (!user) throw new Error("Please login to continue");
 
-        payload.userId = user.uid;  // ← Critical: send user ID
+        payload.userId = user.uid;
 
         const res = await fetch("https://api-oim3h2hfza-uc.a.run.app/bookings", {
           method: "POST",
@@ -249,28 +241,25 @@
         const data = await res.json();
 
         if (data.success && data.bookingId) {
-          messageDiv.textContent = "Booking submitted successfully! Redirecting...";
-          messageDiv.className = "message success";
-          messageDiv.style.display = 'block';
+          msg.textContent = "Booking submitted! Redirecting to confirmation...";
+          msg.className = "message success";
+          msg.style.display = 'block';
           setTimeout(() => {
             window.location.href = `/fcl/confirmation.html?id=${encodeURIComponent(data.bookingId)}`;
           }, 1500);
         } else {
-          messageDiv.textContent = data.error || "Something went wrong. Please try again.";
-          messageDiv.className = "message error";
-          messageDiv.style.display = 'block';
+          throw new Error(data.error || "Booking failed");
         }
-      } catch (e) {
-        messageDiv.textContent = "Network error. Please check your connection.";
-        messageDiv.className = "message error";
-        messageDiv.style.display = 'block';
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = "Submit Booking";
+      } catch (err) {
+        msg.textContent = err.message.includes("login") ? "Please login first." : err.message;
+        msg.className = "message error";
+        msg.style.display = 'block';
+        btn.disabled = false;
+        btn.innerHTML = "Submit Booking Request";
       }
-    }
+    });
   </script>
 
-  <!-- Your other scripts (alliya, stock, include, etc.) unchanged -->
+  <!-- Your other scripts (alliya, stock, etc.) -->
 </body>
 </html>
