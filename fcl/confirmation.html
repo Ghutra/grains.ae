@@ -191,10 +191,6 @@
   </div>
 
   <script type="module">
-    import { getAuth } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-
-    const auth = getAuth();
-
     async function loadBooking() {
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id");
