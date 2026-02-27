@@ -12,21 +12,316 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    /* Your existing :root and styles here — I kept them unchanged for brevity */
-    /* ... paste your full <style> block from previous message ... */
+    :root {
+      --primary-gold: #C1A875;
+      --primary-dark: #a07c3b;
+      --text-dark: #1e1e1e;
+      --text-muted: #6b7280;
+      --bg-light: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #e5e7eb;
+      --shadow-sm: 0 4px 15px rgba(0,0,0,0.06);
+      --shadow-md: 0 10px 30px rgba(0,0,0,0.08);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dashboard {
+      display: flex;
+      flex: 1;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: white;
+      border-right: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .sidebar-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sidebar-header img {
+      width: 42px;
+      height: 42px;
+    }
+
+    .sidebar-header h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 22px;
+      color: var(--primary-gold);
+      font-weight: 700;
+    }
+
+    .nav-menu {
+      padding: 20px 0;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 14px 24px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .nav-item i {
+      margin-right: 14px;
+      width: 20px;
+      text-align: center;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: rgba(193,168,117,0.08);
+      color: var(--primary-gold);
+    }
+
+    .nav-item.active {
+      border-left: 4px solid var(--primary-gold);
+      padding-left: 20px;
+      font-weight: 600;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 12px;
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 1100;
+      background: var(--primary-gold);
+      border-radius: 8px;
+    }
+
+    .hamburger span {
+      width: 26px;
+      height: 3px;
+      background: white;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+
+    .main-content {
+      flex: 1;
+      padding: 80px 40px 40px;
+      overflow-y: auto;
+    }
+
+    .welcome-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .welcome-bar h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+    }
+
+    .card-header {
+      padding: 20px 24px;
+      background: linear-gradient(90deg, var(--primary-gold), var(--primary-dark));
+      color: white;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    .table-container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 16px 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: #f8f5ec;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+
+    tr:hover {
+      background: rgba(193,168,117,0.04);
+    }
+
+    .status-badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .status-pending { background: #fef3c7; color: #92400e; }
+    .status-confirmed { background: #d1fae5; color: #065f46; }
+    .status-shipped { background: #dbeafe; color: #1e40af; }
+
+    .loading, .empty, .error {
+      text-align: center;
+      padding: 60px 0;
+      color: var(--text-muted);
+      font-size: 16px;
+    }
+
+    .loading i { font-size: 32px; margin-bottom: 16px; animation: spin 1.5s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    footer {
+      margin-top: auto;
+      padding: 40px 20px;
+      background: #1f2937;
+      color: #d1d5db;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer a { color: var(--primary-gold); text-decoration: none; margin: 0 12px; }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: fixed;
+        top: 0;
+        left: 0;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 1000;
+      }
+      .sidebar.active {
+        transform: translateX(0);
+      }
+      .hamburger {
+        display: flex;
+      }
+      .main-content {
+        padding-top: 80px;
+      }
+      .card-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Your HTML structure (sidebar + main-content) remains the same -->
+  <!-- Hamburger (mobile only) -->
+  <div class="hamburger" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
   <div class="dashboard">
+    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
-      <!-- Your sidebar content unchanged -->
+      <div class="sidebar-header">
+        <img src="/assets/img/grains-logo.png" alt="Grains Hub">
+        <h2>Grains Hub</h2>
+      </div>
+      <nav class="nav-menu">
+        <a href="#dashboard" class="nav-item active"><i class="fas fa-home"></i> <span>Dashboard</span></a>
+        <a href="#bookings" class="nav-item"><i class="fas fa-box"></i> <span>My Bookings</span></a>
+        <a href="#shipments" class="nav-item"><i class="fas fa-truck"></i> <span>Track Shipments</span></a>
+        <a href="#analytics" class="nav-item"><i class="fas fa-chart-line"></i> <span>Analytics</span></a>
+        <a href="#communication" class="nav-item"><i class="fas fa-comments"></i> <span>Communication</span></a>
+        <a href="#documents" class="nav-item"><i class="fas fa-file-invoice"></i> <span>Invoices & Docs</span></a>
+        <a href="#settings" class="nav-item"><i class="fas fa-cog"></i> <span>Settings</span></a>
+        <a href="#" id="logoutBtn" class="nav-item"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a>
+      </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content" id="contentArea">
       <div id="dashboardView">
-        <!-- Your welcome-bar and card-grid unchanged -->
+        <div class="welcome-bar">
+          <h1>Welcome back, <span id="userName">Trader</span></h1>
+          <div class="user-info">
+            <span>Last login: <span id="lastLogin">Just now</span></span>
+          </div>
+        </div>
+
+        <div class="card-grid">
+          <div class="card">
+            <div class="card-header">Active Bookings</div>
+            <div class="card-body">
+              <h3 id="activeBookingsCount" style="font-size:36px; margin:12px 0;">—</h3>
+              <p style="color:var(--text-muted);">Current open orders</p>
+              <a href="#bookings" class="btn-primary">View All</a>
+            </div>
+          </div>
+          <!-- Other cards... -->
+        </div>
+
         <div class="table-container">
           <div class="card-header">Recent Bookings</div>
           <table>
@@ -42,9 +337,9 @@
             </thead>
             <tbody id="recentBookingsTable">
               <tr class="loading">
-                <td colspan="6" style="text-align:center; padding:60px 0;">
-                  <i class="fas fa-spinner fa-spin" style="font-size:32px; color:var(--primary-gold);"></i>
-                  <div style="margin-top:16px;">Loading your bookings...</div>
+                <td colspan="6">
+                  <i class="fas fa-spinner fa-spin"></i>
+                  <div>Loading your bookings...</div>
                 </td>
               </tr>
             </tbody>
@@ -52,74 +347,99 @@
         </div>
       </div>
 
-      <!-- Other views unchanged -->
+      <!-- Other views -->
+      <div id="bookingsView" style="display:none;">
+        <h1>My Bookings</h1>
+        <p>Full list with filters & export — coming soon.</p>
+      </div>
+      <!-- Add more -->
     </main>
   </div>
 
-  <!-- Footer unchanged -->
+  <footer>
+    <!-- Your footer unchanged -->
+  </footer>
 
-  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
     import { getFirestore, collection, getDocs, query, where, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-    const firebaseConfig = { /* your config unchanged */ };
-
+    const firebaseConfig = { /* your config */ };
     const app = initializeApp(firebaseConfig);
-    const authInstance = getAuth(app);
+    const auth = getAuth(app);
     const db = getFirestore(app);
 
-    onAuthStateChanged(authInstance, async (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         document.getElementById('userName').textContent = user.displayName || user.email.split('@')[0];
 
-        // Fetch ONLY current user's bookings
-        const bookingsQuery = query(
+        const q = query(
           collection(db, "bookings"),
-          where("userId", "==", user.uid),  // ← This filters to current user
+          where("userId", "==", user.uid),
           orderBy("createdAt", "desc"),
           limit(5)
         );
 
         try {
-          const snapshot = await getDocs(bookingsQuery);
-          const tableBody = document.getElementById('recentBookingsTable');
-          tableBody.innerHTML = '';
+          const snapshot = await getDocs(q);
+          const table = document.getElementById('recentBookingsTable');
+          table.innerHTML = '';
 
           if (snapshot.empty) {
-            tableBody.innerHTML = '<tr><td colspan="6" class="empty">No bookings found yet. Place your first order!</td></tr>';
+            table.innerHTML = '<tr><td colspan="6" class="empty">No bookings yet. Place your first order!</td></tr>';
           } else {
             snapshot.forEach(doc => {
-              const data = doc.data();
-              const statusClass = data.status === 'confirmed' ? 'status-confirmed' :
-                                 data.status === 'shipped' ? 'status-shipped' : 'status-pending';
-              tableBody.innerHTML += `
+              const d = doc.data();
+              const cls = d.status === 'confirmed' ? 'status-confirmed' : d.status === 'shipped' ? 'status-shipped' : 'status-pending';
+              table.innerHTML += `
                 <tr>
                   <td>${doc.id.slice(0,8).toUpperCase()}</td>
-                  <td>${data.commodity || 'N/A'}</td>
-                  <td>${data.quantity || '—'} MT</td>
-                  <td>${data.originPort || '—'} → ${data.destinationPort || '—'}</td>
-                  <td><span class="status-badge ${statusClass}">${(data.status || 'PENDING').toUpperCase()}</span></td>
-                  <td><a href="#" style="color:var(--primary-gold); font-weight:500;">View Details</a></td>
+                  <td>${d.commodity || 'N/A'}</td>
+                  <td>${d.quantity || '—'} MT</td>
+                  <td>${d.originPort || '—'} → ${d.destinationPort || '—'}</td>
+                  <td><span class="status-badge ${cls}">${(d.status || 'PENDING').toUpperCase()}</span></td>
+                  <td><a href="#" style="color:var(--primary-gold);">View</a></td>
                 </tr>`;
             });
           }
 
-          // Update counts (client-side for now)
           document.getElementById('activeBookingsCount').textContent = snapshot.size || '0';
-          // TODO: Fetch full sum for totalVolume, pendingAmount
         } catch (err) {
-          console.error("Firestore error:", err);
-          document.getElementById('recentBookingsTable').innerHTML = '<tr><td colspan="6" class="empty">Error loading bookings. Please try again.</td></tr>';
+          console.error("Query error:", err);
+          document.getElementById('recentBookingsTable').innerHTML = '<tr><td colspan="6" class="error">Error loading data. Check login & rules.</td></tr>';
         }
       } else {
         window.location.href = '/login.html';
       }
     });
 
-    // Logout & hamburger (unchanged from your working version)
-    // ... paste your existing logout and hamburger JS here ...
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+      e.preventDefault();
+      await signOut(auth);
+      window.location.href = '/';
+    });
+
+    // Mobile menu toggle
+    document.addEventListener('DOMContentLoaded', () => {
+      const ham = document.getElementById('hamburger');
+      const side = document.getElementById('sidebar');
+
+      ham?.addEventListener('click', () => {
+        side.classList.toggle('active');
+        ham.classList.toggle('active');
+      });
+
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', () => {
+          if (window.innerWidth <= 768) {
+            side.classList.remove('active');
+            ham.classList.remove('active');
+          }
+        });
+      });
+    });
   </script>
 </body>
 </html>
