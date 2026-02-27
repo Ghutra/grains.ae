@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <!-- PDF Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -20,24 +19,24 @@
       --primary-dark: #a07c3b;
       --text-dark: #1e1e1e;
       --text-muted: #6b7280;
-      --bg-light: #f8f9fa;
-      --bg-card: #ffffff;
+      --bg: #f8f9fa;
+      --card: #ffffff;
       --border: #e5e7eb;
       --success: #10b981;
     }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--bg-light);
+      background: var(--bg);
       color: var(--text-dark);
       min-height: 100vh;
       padding: 20px;
     }
 
     .container {
-      max-width: 700px;
+      max-width: 720px;
       margin: 40px auto;
-      background: white;
+      background: var(--card);
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.08);
       overflow: hidden;
@@ -46,18 +45,18 @@
     .header {
       background: linear-gradient(90deg, var(--primary-gold), var(--primary-dark));
       color: white;
-      padding: 32px 24px;
+      padding: 40px 32px;
       text-align: center;
     }
 
     .header h1 {
       font-family: 'Poppins', sans-serif;
-      font-size: 28px;
+      font-size: 32px;
       margin-bottom: 8px;
     }
 
     .content {
-      padding: 32px 28px;
+      padding: 32px;
     }
 
     .section {
@@ -65,7 +64,7 @@
     }
 
     .section h3 {
-      font-size: 18px;
+      font-size: 20px;
       color: var(--primary-gold);
       margin-bottom: 16px;
       border-bottom: 2px solid rgba(193,168,117,0.2);
@@ -77,12 +76,14 @@
       justify-content: space-between;
       margin: 12px 0;
       font-size: 15px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
 
     .label {
       font-weight: 600;
       color: var(--text-muted);
-      flex: 0 0 40%;
+      min-width: 140px;
     }
 
     .value {
@@ -100,13 +101,13 @@
 
     .btn {
       flex: 1;
-      padding: 14px;
+      padding: 14px 24px;
       border-radius: 10px;
       font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       text-align: center;
-      transition: background 0.2s ease;
+      transition: 0.2s;
       min-width: 160px;
     }
 
@@ -141,7 +142,7 @@
     <div class="content">
       <div class="loading" id="loading">
         <i class="fas fa-spinner fa-spin"></i>
-        <div>Loading your booking details...</div>
+        <div>Loading booking details...</div>
       </div>
 
       <div class="error" id="error" style="display:none;">
@@ -181,12 +182,11 @@
     </div>
   </div>
 
-  <!-- Action Buttons -->
   <div class="container" style="margin-top: -20px;">
     <div class="buttons">
-      <button class="btn btn-pdf" id="downloadPDF">Download PDF</button>
-      <button class="btn btn-whatsapp" id="shareWhatsApp">Share on WhatsApp</button>
-      <button class="btn btn-home" onclick="window.location.href='/'">Back to Home</button>
+      <button class="btn btn-pdf" id="downloadPDF"><i class="fas fa-download"></i> Download PDF</button>
+      <button class="btn btn-whatsapp" id="shareWhatsApp"><i class="fab fa-whatsapp"></i> Share on WhatsApp</button>
+      <button class="btn btn-home" onclick="window.location.href='/'"><i class="fas fa-home"></i> Back to Home</button>
     </div>
   </div>
 
@@ -198,10 +198,7 @@
     async function loadBooking() {
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id");
-      if (!id) {
-        showError("No booking ID found in URL.");
-        return;
-      }
+      if (!id) return showError("No booking ID in URL");
 
       document.getElementById("loading").style.display = "block";
       document.getElementById("details").style.display = "none";
@@ -232,7 +229,7 @@
         document.getElementById("details").style.display = "block";
       } catch (err) {
         console.error("Load error:", err);
-        showError("Unable to load booking details. Please try again or contact support.");
+        showError(err.message);
       }
     }
 
@@ -243,7 +240,6 @@
       document.getElementById("error").style.display = "block";
     }
 
-    // PDF Download
     document.getElementById("downloadPDF").addEventListener("click", async () => {
       const { jsPDF } = window.jspdf;
       const element = document.getElementById("pdfArea");
@@ -251,12 +247,11 @@
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
       const width = pdf.internal.pageSize.getWidth();
-      const height = pdf.internal.pageSize.getHeight();
+      const height = (canvas.height * width) / canvas.width;
       pdf.addImage(imgData, "PNG", 0, 0, width, height);
       pdf.save(`booking-${document.getElementById("bookingId").textContent || 'confirmation'}.pdf`);
     });
 
-    // WhatsApp Share
     document.getElementById("shareWhatsApp").addEventListener("click", () => {
       const text = `Booking Confirmed!\n\n` +
         `Booking ID: ${document.getElementById("bookingId").textContent}\n` +
@@ -269,7 +264,6 @@
       window.open(url, "_blank");
     });
 
-    // Load on page ready
     loadBooking();
   </script>
 </body>
