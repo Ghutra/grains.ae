@@ -5,204 +5,272 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Booking Confirmation – Grains Hub</title>
 
+  <link rel="icon" href="/favicon.png" type="image/png" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <!-- PDF Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
   <style>
+    :root {
+      --primary-gold: #C1A875;
+      --primary-dark: #a07c3b;
+      --text-dark: #1e1e1e;
+      --text-muted: #6b7280;
+      --bg-light: #f8f9fa;
+      --bg-card: #ffffff;
+      --border: #e5e7eb;
+      --success: #10b981;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
-      margin: 0;
-      padding: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-light);
+      color: var(--text-dark);
+      min-height: 100vh;
+      padding: 20px;
     }
 
     .container {
-      max-width: 650px;
+      max-width: 700px;
       margin: 40px auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      overflow: hidden;
     }
 
-    h2 {
-      margin-top: 0;
-      color: #333;
+    .header {
+      background: linear-gradient(90deg, var(--primary-gold), var(--primary-dark));
+      color: white;
+      padding: 32px 24px;
       text-align: center;
     }
 
-    .section-title {
-      margin-top: 25px;
-      font-weight: bold;
-      color: #444;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 6px;
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    .content {
+      padding: 32px 28px;
+    }
+
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section h3 {
+      font-size: 18px;
+      color: var(--primary-gold);
+      margin-bottom: 16px;
+      border-bottom: 2px solid rgba(193,168,117,0.2);
+      padding-bottom: 8px;
     }
 
     .row {
-      margin: 8px 0;
       display: flex;
       justify-content: space-between;
+      margin: 12px 0;
+      font-size: 15px;
     }
 
     .label {
-      font-weight: bold;
-      color: #555;
+      font-weight: 600;
+      color: var(--text-muted);
+      flex: 0 0 40%;
     }
 
     .value {
-      color: #333;
+      flex: 1;
+      text-align: right;
+      font-weight: 500;
     }
 
-    .error {
-      text-align: center;
-      color: red;
-      font-size: 18px;
-      margin-top: 20px;
+    .buttons {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      flex-wrap: wrap;
     }
 
     .btn {
-      width: 100%;
-      padding: 12px;
-      margin-top: 12px;
-      border: none;
-      border-radius: 8px;
+      flex: 1;
+      padding: 14px;
+      border-radius: 10px;
       font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
-      font-weight: bold;
+      text-align: center;
+      transition: background 0.2s ease;
+      min-width: 160px;
     }
 
-    .btn-pdf { background: #007bff; color: white; }
-    .btn-wa { background: #25D366; color: white; }
-    .btn-home { background: #444; color: white; }
+    .btn-pdf { background: var(--primary-gold); color: white; border: none; }
+    .btn-pdf:hover { background: var(--primary-dark); }
+
+    .btn-whatsapp { background: #25D366; color: white; border: none; }
+    .btn-whatsapp:hover { background: #1da851; }
+
+    .btn-home { background: #374151; color: white; border: none; }
+    .btn-home:hover { background: #1f2937; }
+
+    .loading, .error {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+      font-size: 18px;
+    }
+
+    .loading i { font-size: 48px; margin-bottom: 20px; animation: spin 1.5s linear infinite; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
-
 <body>
 
   <div class="container" id="pdfArea">
-    <h2>Booking Confirmation</h2>
+    <div class="header">
+      <h1>Booking Confirmation</h1>
+      <p>Your request has been received successfully</p>
+    </div>
 
-    <div id="loading">Loading booking details...</div>
-    <div id="error" class="error" style="display:none;">Unable to load booking. Please try again later.</div>
+    <div class="content">
+      <div class="loading" id="loading">
+        <i class="fas fa-spinner fa-spin"></i>
+        <div>Loading your booking details...</div>
+      </div>
 
-    <div id="details" style="display:none;">
+      <div class="error" id="error" style="display:none;">
+        <i class="fas fa-exclamation-triangle"></i>
+        <div>Unable to load booking. Please try again or contact support.</div>
+      </div>
 
-      <div class="section-title">Booking Info</div>
-      <div class="row"><div class="label">Booking ID:</div><div class="value" id="bookingId"></div></div>
-      <div class="row"><div class="label">Tracking Number:</div><div class="value" id="trackingNumber"></div></div>
+      <div id="details" style="display:none;">
+        <div class="section">
+          <h3>Booking Info</h3>
+          <div class="row"><div class="label">Booking ID</div><div class="value" id="bookingId"></div></div>
+          <div class="row"><div class="label">Tracking Number</div><div class="value" id="trackingNumber"></div></div>
+        </div>
 
-      <div class="section-title">Customer Details</div>
-      <div class="row"><div class="label">Name:</div><div class="value" id="name"></div></div>
-      <div class="row"><div class="label">Email:</div><div class="value" id="email"></div></div>
-      <div class="row"><div class="label">Phone:</div><div class="value" id="phone"></div></div>
-      <div class="row"><div class="label">Company:</div><div class="value" id="company"></div></div>
+        <div class="section">
+          <h3>Customer Details</h3>
+          <div class="row"><div class="label">Name</div><div class="value" id="name"></div></div>
+          <div class="row"><div class="label">Email</div><div class="value" id="email"></div></div>
+          <div class="row"><div class="label">Phone</div><div class="value" id="phone"></div></div>
+          <div class="row"><div class="label">Company</div><div class="value" id="company"></div></div>
+        </div>
 
-      <div class="section-title">Shipment Details</div>
-      <div class="row"><div class="label">Commodity:</div><div class="value" id="commodity"></div></div>
-      <div class="row"><div class="label">Quantity (MT):</div><div class="value" id="quantity"></div></div>
-      <div class="row"><div class="label">Container:</div><div class="value" id="containerType"></div></div>
-      <div class="row"><div class="label">Origin:</div><div class="value" id="originPort"></div></div>
-      <div class="row"><div class="label">Destination:</div><div class="value" id="destinationPort"></div></div>
+        <div class="section">
+          <h3>Shipment Details</h3>
+          <div class="row"><div class="label">Commodity</div><div class="value" id="commodity"></div></div>
+          <div class="row"><div class="label">Quantity (MT)</div><div class="value" id="quantity"></div></div>
+          <div class="row"><div class="label">Container</div><div class="value" id="containerType"></div></div>
+          <div class="row"><div class="label">Origin</div><div class="value" id="originPort"></div></div>
+          <div class="row"><div class="label">Destination</div><div class="value" id="destinationPort"></div></div>
+        </div>
 
-      <div class="section-title">Notes</div>
-      <div class="row"><div class="value" id="message"></div></div>
-
+        <div class="section">
+          <h3>Notes</h3>
+          <div class="row"><div class="value" id="message"></div></div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Buttons -->
+  <!-- Action Buttons -->
   <div class="container" style="margin-top: -20px;">
-    <button class="btn btn-pdf" id="downloadPDF">Download PDF</button>
-    <button class="btn btn-wa" id="shareWhatsApp">Share on WhatsApp</button>
-    <button class="btn btn-home" onclick="window.location.href='/'">Back to Home</button>
+    <div class="buttons">
+      <button class="btn btn-pdf" id="downloadPDF">Download PDF</button>
+      <button class="btn btn-whatsapp" id="shareWhatsApp">Share on WhatsApp</button>
+      <button class="btn btn-home" onclick="window.location.href='/'">Back to Home</button>
+    </div>
   </div>
 
- <script>
-  async function loadBooking() {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get("id");
+  <script type="module">
+    import { getAuth } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
-    if (!id) {
-      document.getElementById("loading").style.display = "none";
-      document.getElementById("error").style.display = "block";
-      return;
-    }
+    const auth = getAuth();
 
-    try {
-      const res = await fetch(`https://api-oim3h2hfza-uc.a.run.app/getBooking?id=${id}`);
-      const data = await res.json();
-
-      if (!data.success) {
-        document.getElementById("loading").style.display = "none";
-        document.getElementById("error").style.display = "block";
+    async function loadBooking() {
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      if (!id) {
+        showError("No booking ID found in URL.");
         return;
       }
 
-      const b = data.data;
+      document.getElementById("loading").style.display = "block";
+      document.getElementById("details").style.display = "none";
+      document.getElementById("error").style.display = "none";
 
-      // Firestore ID
-      document.getElementById("bookingId").textContent = id;
+      try {
+        const res = await fetch(`https://api-oim3h2hfza-uc.a.run.app/getBooking?id=${id}`);
+        const data = await res.json();
 
-      // Tracking number returned from backend
-      document.getElementById("trackingNumber").textContent = data.trackingNumber;
+        if (!data.success) throw new Error(data.error || "Booking not found");
 
-      // Customer details
-      document.getElementById("name").textContent = b.name;
-      document.getElementById("email").textContent = b.email;
-      document.getElementById("phone").textContent = b.phone;
-      document.getElementById("company").textContent = b.company;
+        const b = data.data;
 
-      // Booking details
-      document.getElementById("commodity").textContent = b.commodity;
-      document.getElementById("quantity").textContent = b.quantity;
-      document.getElementById("containerType").textContent = b.containerType;
-      document.getElementById("originPort").textContent = b.originPort;
-      document.getElementById("destinationPort").textContent = b.destinationPort;
+        document.getElementById("bookingId").textContent = id;
+        document.getElementById("trackingNumber").textContent = b.trackingNumber || "—";
+        document.getElementById("name").textContent = b.name || "—";
+        document.getElementById("email").textContent = b.email || "—";
+        document.getElementById("phone").textContent = b.phone || "—";
+        document.getElementById("company").textContent = b.company || "—";
+        document.getElementById("commodity").textContent = b.commodity || "—";
+        document.getElementById("quantity").textContent = b.quantity || "—";
+        document.getElementById("containerType").textContent = b.containerType || "—";
+        document.getElementById("originPort").textContent = b.originPort || "—";
+        document.getElementById("destinationPort").textContent = b.destinationPort || "—";
+        document.getElementById("message").textContent = b.message || "—";
 
-      // Optional message
-      document.getElementById("message").textContent = b.message || "—";
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("details").style.display = "block";
+      } catch (err) {
+        console.error("Load error:", err);
+        showError("Unable to load booking details. Please try again or contact support.");
+      }
+    }
 
-      // Show details
+    function showError(msg) {
       document.getElementById("loading").style.display = "none";
-      document.getElementById("details").style.display = "block";
-
-    } catch (err) {
-      document.getElementById("loading").style.display = "none";
+      document.getElementById("details").style.display = "none";
+      document.getElementById("error").textContent = msg;
       document.getElementById("error").style.display = "block";
     }
-  }
 
-  loadBooking();
+    // PDF Download
+    document.getElementById("downloadPDF").addEventListener("click", async () => {
+      const { jsPDF } = window.jspdf;
+      const element = document.getElementById("pdfArea");
+      const canvas = await html2canvas(element, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const width = pdf.internal.pageSize.getWidth();
+      const height = pdf.internal.pageSize.getHeight();
+      pdf.addImage(imgData, "PNG", 0, 0, width, height);
+      pdf.save(`booking-${document.getElementById("bookingId").textContent || 'confirmation'}.pdf`);
+    });
 
-  // PDF Download
-  document.getElementById("downloadPDF").addEventListener("click", async () => {
-    const { jsPDF } = window.jspdf;
-    const element = document.getElementById("pdfArea");
-    const canvas = await html2canvas(element);
-    const imgData = canvas.toDataURL("image/png");
+    // WhatsApp Share
+    document.getElementById("shareWhatsApp").addEventListener("click", () => {
+      const text = `Booking Confirmed!\n\n` +
+        `Booking ID: ${document.getElementById("bookingId").textContent}\n` +
+        `Tracking: ${document.getElementById("trackingNumber").textContent}\n` +
+        `Commodity: ${document.getElementById("commodity").textContent}\n` +
+        `Quantity: ${document.getElementById("quantity").textContent} MT\n` +
+        `Origin → Destination: ${document.getElementById("originPort").textContent} → ${document.getElementById("destinationPort").textContent}\n\n` +
+        `Thank you for choosing Grains Hub! 🌾`;
+      const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.open(url, "_blank");
+    });
 
-    const pdf = new jsPDF("p", "mm", "a4");
-    const width = pdf.internal.pageSize.getWidth();
-    const height = (canvas.height * width) / canvas.width;
-
-    pdf.addImage(imgData, "PNG", 0, 0, width, height);
-    pdf.save("booking-confirmation.pdf");
-  });
-
-  // WhatsApp Share
-  document.getElementById("shareWhatsApp").addEventListener("click", () => {
-    const text = `Booking Confirmed!
-Tracking: ${document.getElementById("trackingNumber").textContent}
-Commodity: ${document.getElementById("commodity").textContent}
-Origin: ${document.getElementById("originPort").textContent}
-Destination: ${document.getElementById("destinationPort").textContent}`;
-    
-    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-    window.open(url, "_blank");
-  });
-</script>
-
+    // Load on page ready
+    loadBooking();
+  </script>
 </body>
 </html>
