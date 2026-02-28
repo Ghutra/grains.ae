@@ -328,23 +328,8 @@
       </div>
     </div>
   </div>
-
-  <!-- Alliya Modal (existing structure) -->
-  <div id="alliyaModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">×</span>
-      <div class="alliya-box">
-        <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya</h2>
-        <div class="alliya-query-wrapper">
-          <input type="text" id="alliyaQuery" placeholder="Ask about price, stock, FCL, compliance..." oninput="showSuggestions(this.value)" autocomplete="off" />
-          <div id="suggestions" class="suggestions"></div>
-        </div>
-        <button onclick="askAlliya()">Send Question</button>
-        <div id="alliyaResponse" class="reply"></div>
-      </div>
-    </div>
-  </div>
-
+   <!-- Alliya Float Button --> <div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()"> <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya </div>
+  
   <!-- Firebase + booking logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
