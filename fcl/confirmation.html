@@ -147,7 +147,7 @@
 
       <div class="error" id="error" style="display:none;">
         <i class="fas fa-exclamation-triangle"></i>
-        <div>Unable to load booking. Please try again or contact support.</div>
+        <div id="errorMsg">Unable to load booking. Please try again.</div>
       </div>
 
       <div id="details" style="display:none;">
@@ -194,17 +194,13 @@
     async function loadBooking() {
       const params = new URLSearchParams(window.location.search);
       const id = params.get("id");
-      if (!id) return showError("No booking ID in URL");
-
-      document.getElementById("loading").style.display = "block";
-      document.getElementById("details").style.display = "none";
-      document.getElementById("error").style.display = "none";
+      if (!id) return showError("No booking ID found in URL.");
 
       try {
         const res = await fetch(`https://api-oim3h2hfza-uc.a.run.app/getBooking?id=${id}`);
         const data = await res.json();
 
-        if (!data.success) throw new Error(data.error || "Booking not found");
+        if (!data.success || !data.data) throw new Error(data.error || "Booking not found");
 
         const b = data.data;
 
@@ -224,7 +220,6 @@
         document.getElementById("loading").style.display = "none";
         document.getElementById("details").style.display = "block";
       } catch (err) {
-        console.error("Load error:", err);
         showError(err.message);
       }
     }
@@ -232,7 +227,7 @@
     function showError(msg) {
       document.getElementById("loading").style.display = "none";
       document.getElementById("details").style.display = "none";
-      document.getElementById("error").textContent = msg;
+      document.getElementById("errorMsg").textContent = msg;
       document.getElementById("error").style.display = "block";
     }
 
@@ -245,19 +240,20 @@
       const width = pdf.internal.pageSize.getWidth();
       const height = (canvas.height * width) / canvas.width;
       pdf.addImage(imgData, "PNG", 0, 0, width, height);
-      pdf.save(`booking-${document.getElementById("bookingId").textContent || 'confirmation'}.pdf`);
+      pdf.save(`booking-${document.getElementById("trackingNumber").textContent || 'confirmation'}.pdf`);
     });
 
     document.getElementById("shareWhatsApp").addEventListener("click", () => {
-      const text = `Booking Confirmed!\n\n` +
+      const text =
+        `Booking Confirmed!\n\n` +
         `Booking ID: ${document.getElementById("bookingId").textContent}\n` +
         `Tracking: ${document.getElementById("trackingNumber").textContent}\n` +
         `Commodity: ${document.getElementById("commodity").textContent}\n` +
         `Quantity: ${document.getElementById("quantity").textContent} MT\n` +
-        `Origin → Destination: ${document.getElementById("originPort").textContent} → ${document.getElementById("destinationPort").textContent}\n\n` +
-        `Thank you for choosing Grains Hub! 🌾`;
-      const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
-      window.open(url, "_blank");
+        `Route: ${document.getElementById("originPort").textContent} → ${document.getElementById("destinationPort").textContent}\n\n` +
+        `Thank you for choosing Grains Hub 🌾`;
+
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
     });
 
     loadBooking();
