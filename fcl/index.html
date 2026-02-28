@@ -148,16 +148,22 @@
       font-size: 15px;
     }
 
-    input, select {
+    input, select, textarea {
       width: 100%;
       padding: 14px 16px;
       border: 1px solid var(--border);
       border-radius: 12px;
       font-size: 16px;
       transition: all 0.2s;
+      font-family: 'Inter', system-ui, sans-serif;
     }
 
-    input:focus, select:focus {
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: var(--primary-gold);
       box-shadow: 0 0 0 3px rgba(193,168,117,0.15);
@@ -186,7 +192,7 @@
       border-radius: 12px;
       text-align: center;
       font-size: 15px;
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
       gap: 10px;
@@ -219,6 +225,17 @@
       header h1 { font-size: 30px; }
       .navbar { padding: 12px 16px; }
       .nav-links { display: none; }
+      .nav-links.active {
+        display: flex;
+        position: absolute;
+        top: 56px;
+        right: 16px;
+        flex-direction: column;
+        background: var(--primary-gold);
+        padding: 12px;
+        border-radius: 12px;
+        gap: 12px;
+      }
       .hamburger { display: flex; }
     }
   </style>
@@ -248,7 +265,6 @@
 
   <!-- Header -->
   <header>
-    <div class="overlay"></div>
     <img src="/assets/img/grains-logo.png" class="hero-logo" alt="Grains Hub">
     <h1>FCL Booking</h1>
     <p>Full container loads from verified origins. 20ft (24MT) • Dubai delivery in 12–15 days.</p>
@@ -265,7 +281,7 @@
           <option value="Pakistan">Pakistan</option>
           <option value="Thailand">Thailand</option>
         </select>
-        <button onclick="nextStep(2)">Next</button>
+        <button type="button" onclick="nextStep(2)">Next</button>
       </div>
 
       <!-- Step 2 -->
@@ -276,14 +292,14 @@
           <option value="20ft (24MT)">20ft (24MT)</option>
           <option value="40ft (48MT)">40ft (48MT)</option>
         </select>
-        <button onclick="nextStep(3)">Next</button>
+        <button type="button" onclick="nextStep(3)">Next</button>
       </div>
 
       <!-- Step 3 -->
       <div class="step" id="step3">
         <label>Commodity / Grain Type</label>
         <input id="commodity" type="text" placeholder="e.g. Basmati 1121 Sella" required />
-        <button onclick="nextStep(4)">Next</button>
+        <button type="button" onclick="nextStep(4)">Next</button>
       </div>
 
       <!-- Step 4 – Customer Details -->
@@ -306,7 +322,7 @@
         <label>Notes (optional)</label>
         <textarea id="message" rows="3" placeholder="Any special instructions..."></textarea>
 
-        <button id="submitBtn">Submit Booking Request</button>
+        <button id="submitBtn" type="button">Submit Booking Request</button>
 
         <div id="formMessage" class="message"></div>
       </div>
@@ -318,7 +334,7 @@
     <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya
   </div>
 
-  <!-- Alliya Modal (your existing code) -->
+  <!-- Alliya Modal (existing structure) -->
   <div id="alliyaModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">×</span>
@@ -334,7 +350,7 @@
     </div>
   </div>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase + booking logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
@@ -352,45 +368,89 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    function nextStep(n) {
-      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-      document.getElementById(`step${n}`).classList.add('active');
+    // Mobile menu
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.querySelector(".nav-links");
+    if (hamburger && navLinks) {
+      hamburger.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+      });
     }
 
-    document.getElementById('submitBtn').addEventListener('click', async () => {
-      const btn = document.getElementById('submitBtn');
-      const msg = document.getElementById('formMessage');
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
-      msg.style.display = 'none';
+    // Step navigation with basic validation
+    window.nextStep = function (n) {
+      const origin = document.getElementById('origin').value;
+      const container = document.getElementById('container').value;
+      const commodity = document.getElementById('commodity').value.trim();
 
-      const payload = {
-        name: document.getElementById('name').value.trim(),
-        email: document.getElementById('email').value.trim(),
-        phone: document.getElementById('phone').value.trim(),
-        company: document.getElementById('company').value.trim() || "N/A",
-        commodity: document.getElementById('commodity').value.trim() || "Any",
-        quantity: document.getElementById('container').value.includes("20ft") ? 24 : 48,
-        containerType: document.getElementById('container').value,
-        originPort: document.getElementById('origin').value,
-        destinationPort: document.getElementById('destinationPort').value.trim(),
-        message: document.getElementById('message').value.trim()
-      };
-
-      if (!payload.name || !payload.email || !payload.phone || !payload.destinationPort) {
-        msg.textContent = "Please fill all required fields.";
-        msg.className = "message error";
-        msg.style.display = 'flex';
-        btn.disabled = false;
-        btn.innerHTML = "Submit Booking Request";
+      if (n === 2 && !origin) {
+        alert("Please select an origin first.");
+        return;
+      }
+      if (n === 3 && !container) {
+        alert("Please select a container type first.");
+        return;
+      }
+      if (n === 4 && !commodity) {
+        alert("Please enter a commodity / grain type first.");
         return;
       }
 
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+      document.getElementById(`step${n}`).classList.add('active');
+    };
+
+    const submitBtn = document.getElementById('submitBtn');
+    const msg = document.getElementById('formMessage');
+
+    function showMessage(text, type = "error") {
+      msg.textContent = text;
+      msg.className = `message ${type}`;
+      msg.style.display = 'flex';
+      msg.scrollIntoView({ behavior: "smooth" });
+    }
+
+    submitBtn.addEventListener('click', async () => {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+      msg.style.display = 'none';
+
+      const origin = document.getElementById('origin').value;
+      const container = document.getElementById('container').value;
+      const commodity = document.getElementById('commodity').value.trim();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const company = document.getElementById('company').value.trim() || "N/A";
+      const destinationPort = document.getElementById('destinationPort').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if (!origin || !container || !commodity || !name || !email || !phone || !destinationPort) {
+        showMessage("Please fill all required fields.", "error");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = "Submit Booking Request";
+        return;
+      }
+
+      const quantity = container.includes("20ft") ? 24 : 48;
+
       try {
         const user = auth.currentUser;
-        if (!user) throw new Error("Please login to continue");
+        if (!user) throw new Error("Please login to continue.");
 
-        payload.userId = user.uid;
+        const payload = {
+          name,
+          email,
+          phone,
+          company,
+          commodity,
+          quantity,
+          containerType: container,
+          originPort: origin,
+          destinationPort,
+          message,
+          userId: user.uid
+        };
 
         const res = await fetch("https://api-oim3h2hfza-uc.a.run.app/bookings", {
           method: "POST",
@@ -398,34 +458,35 @@
           body: JSON.stringify(payload)
         });
 
-        if (!res.ok) {
-          const errData = await res.json();
-          throw new Error(errData.error || `Server error (${res.status})`);
+        let data;
+        try {
+          data = await res.json();
+        } catch {
+          throw new Error(`Server error (${res.status})`);
         }
 
-        const data = await res.json();
-
-        if (data.success && data.bookingId) {
-          msg.textContent = "Booking submitted successfully! Redirecting...";
-          msg.className = "message success";
-          msg.style.display = 'flex';
-          setTimeout(() => {
-            window.location.href = `/fcl/confirmation.html?id=${encodeURIComponent(data.bookingId)}`;
-          }, 1500);
-        } else {
-          throw new Error(data.error || "Booking failed");
+        if (!res.ok || !data.success || !data.bookingId) {
+          throw new Error(data.error || `Booking failed (${res.status})`);
         }
+
+        showMessage("Booking submitted successfully! Redirecting...", "success");
+        setTimeout(() => {
+          window.location.href = `/fcl/confirmation.html?id=${encodeURIComponent(data.bookingId)}`;
+        }, 1500);
       } catch (err) {
-        msg.textContent = err.message;
-        msg.className = "message error";
-        msg.style.display = 'flex';
-        btn.disabled = false;
-        btn.innerHTML = "Submit Booking Request";
+        showMessage(err.message || "Something went wrong. Please try again.", "error");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = "Submit Booking Request";
       }
+    });
+
+    // Optional: react to auth state (e.g., later show login prompt)
+    onAuthStateChanged(auth, (user) => {
+      // You can hook UI changes here if needed
     });
   </script>
 
-  <!-- Your other scripts (alliya, stock, include, footer) -->
+  <!-- Other scripts -->
   <script type="module" src="/assets/js/firebase-init.js"></script>
   <script src="/assets/js/alliya.js"></script>
   <script src="/assets/js/stock.js"></script>
