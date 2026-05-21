@@ -1,0 +1,339 @@
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Market Pulse – Live Grain Prices in Dubai",
+  "description": "Real-time grain prices from Jebel Ali, Al Ras & verified suppliers.",
+  "url": "https://grains.ae/pulse/index.html",
+  "itemListElement": [
+    {
+      "@type": "Product",
+      "name": "1121 Sella Basmati Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/basmati-pak.jpg",
+      "category": "Rice",
+      "originCountry": "Pakistan",
+      "size": "40kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "205",
+        "priceCurrency": "AED",
+        "availability": "https://schema.org/InStock"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "1121 Sella Basmati Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/basmati-india.jpg",
+      "category": "Rice",
+      "originCountry": "India",
+      "size": "40kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "160",
+        "priceCurrency": "AED",
+        "availability": "https://schema.org/InStock"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "1121 Sella Basmati Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/basmati-india.jpg",
+      "category": "Rice",
+      "originCountry": "India",
+      "size": "40kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "150",
+        "priceCurrency": "AED",
+        "availability": "https://schema.org/InStock"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Golden Sella Basmati Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/golden-sella.jpg",
+      "category": "Rice",
+      "originCountry": "India",
+      "size": "40kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "160",
+        "priceCurrency": "AED",
+        "availability": "https://schema.org/InStock"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Sona Massori",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/sona-massori.jpg",
+      "category": "Rice",
+      "originCountry": "India",
+      "size": "18kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "43",
+        "priceCurrency": "AED",
+        "availability": "https://schema.org/InStock"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Irri 6 White Rice Broken 5%",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/irri6-5.jpg",
+      "category": "Rice",
+      "originCountry": "Pakistan",
+      "size": "35kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "54",
+        "priceCurrency": "AED",
+        "availability": "https://schema.org/InStock"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Irri 6 White Rice Broken 100%",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/irri6-100.jpg",
+      "category": "Rice",
+      "originCountry": "Pakistan",
+      "size": "35kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "50",
+        "priceCurrency": "AED",
+        "availability": "https://schema.org/InStock"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "1509 Creamy Sella Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/1509-creamy.jpg",
+      "category": "Rice",
+      "originCountry": "India",
+      "size": "40kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "1100",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Irri 6 White Rice Broken 5%",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/irri6-5.jpg",
+      "category": "Rice",
+      "originCountry": "Pakistan",
+      "size": "35kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "410",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Irri 6 White Rice Broken 100%",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/irri6-100.jpg",
+      "category": "Rice",
+      "originCountry": "Pakistan",
+      "size": "35kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "365",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "1121 Steam Basmati Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/basmati-india.jpg",
+      "category": "Rice",
+      "originCountry": "India",
+      "size": "40kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "165",
+        "priceCurrency": "AED",
+        "availability": "https://schema.org/InStock"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Thailand White Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/thai-white.jpg",
+      "category": "Rice",
+      "originCountry": "Thailand",
+      "size": "25kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "585",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "C9 (Irri 9) White Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/C9-white.jpg",
+      "category": "Rice",
+      "originCountry": "Pakistan",
+      "size": "10kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "800",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "386 (Lal) White Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/386lal-white.jpg",
+      "category": "Rice",
+      "originCountry": "Pakistan",
+      "size": "10kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "900",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "1121 White Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/1121-white.jpg",
+      "category": "Rice",
+      "originCountry": "Pakistan",
+      "size": "10kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "1370",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "1121 Steam Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/1121-steam.jpg",
+      "category": "Rice",
+      "originCountry": "Pakistan",
+      "size": "10kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "1350",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "1121 Sella Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/1121-sella.jpg",
+      "category": "Rice",
+      "originCountry": "Pakistan",
+      "size": "10kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "1320",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "1509 Sella Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/1509-india-sella.jpg",
+      "category": "Rice",
+      "originCountry": "India",
+      "size": "10kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "1100",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "1121 Sella Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/1121-india-Sella.jpg",
+      "category": "Rice",
+      "originCountry": "India",
+      "size": "10kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "1120",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Pr 11 White Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/Pr11-india-white.jpg",
+      "category": "Rice",
+      "originCountry": "India",
+      "size": "10kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "585",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Pr 11 Steam Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/Pr11-india-steam.jpg",
+      "category": "Rice",
+      "originCountry": "India",
+      "size": "10kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "575",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    },
+    {
+      "@type": "Product",
+      "name": "Sona Massori White Rice",
+      "brand": "Grains Hub",
+      "image": "https://grains.ae/assets/img/sonamassori-india-white.jpg",
+      "category": "Rice",
+      "originCountry": "India",
+      "size": "18kg",
+      "offers": {
+        "@type": "Offer",
+        "price": "580",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/PreOrder"
+      }
+    }
+  ]
+}
