@@ -113,12 +113,12 @@ async function loadPulseData() {
 // --- News Ticker ---
 
 const newsFeed = [
-  "1509 Creamy Sella booking opens at $920 C&F Dubai",
-  "Irri 6 5% drops to $385 C&F Dubai – prompt shipment",
-  "Sona Massori booking at $540 C&F Dubai",
-  "Sawarna Rice booking at $475 C&F Dubai",
-  "Jebel Ali FCL arrivals: +12 containers this week",
-  "Thai White 5% Broken: $485 C&F – 20ft ready",
+  "1509 Creamy Sella booking opens at $1040 C&F Dubai",
+  "Irri 6 5% drops to $385 FOB Dubai – prompt shipment",
+  "Sona Massori booking at $540 FOB Dubai",
+  "Sawarna Rice booking at $475 FOB Dubai",
+  "Jebel Ali FCL arrivals: +20 containers this week",
+  "Thai White 5% Broken: $485 FOB – 20ft ready",
   "1121 Sella Premium: AED 6.2/kg – Al Ras stock"
 ];
 
