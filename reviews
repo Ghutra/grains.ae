@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Reviews & Testimonials – Grains Hub Dubai</title>
+  <meta name="description" content="Real reviews from B2B grain buyers in UAE. See what traders say about Grains Hub quality, pricing and service.">
+  <style>
+    :root { --primary: #00a651; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; margin:0; background:#f8f9fa; color:#333; }
+    header { background: linear-gradient(135deg, #00a651, #007f3f); color:white; padding:30px 20px; text-align:center; }
+    .container { max-width:1100px; margin:0 auto; padding:20px; }
+    .offer-banner { background:#fff3cd; color:#856404; padding:15px; text-align:center; font-weight:bold; }
+    h1 { margin:0; font-size:2.2rem; }
+    .stars { color:#ffc107; font-size:1.4rem; }
+    .review-card { background:white; border-radius:12px; padding:24px; margin-bottom:24px; box-shadow:0 4px 15px rgba(0,0,0,0.07); border-left:5px solid var(--primary); }
+    .review-card p { font-size:1.1rem; line-height:1.6; font-style:italic; }
+    .author { margin-top:16px; font-weight:600; }
+    .verified { color:var(--primary); font-size:0.95rem; }
+    .stats { display:flex; justify-content:center; gap:40px; flex-wrap:wrap; margin:30px 0; text-align:center; }
+    .stat { font-size:1.1rem; }
+    .btn-whatsapp { background:#25D366; color:white; padding:14px 28px; border-radius:50px; font-weight:bold; text-decoration:none; display:inline-flex; align-items:center; gap:10px; margin:20px 10px; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🌟 Customer Reviews</h1>
+    <p>What Our B2B Partners Say About Grains Hub</p>
+  </header>
+
+  <div class="offer-banner">
+    🔥 Irri-6 5% Broken @ 56 AED • 1121 Sella XXL @ 160 AED • Creamy Sella FCL Booking Open
+  </div>
+
+  <div class="container">
+    <div class="stats">
+      <div class="stat">
+        <strong style="font-size:2.5rem; color:var(--primary);">4.9</strong><br>
+        Average Rating
+      </div>
+      <div class="stat">
+        <strong style="font-size:2.5rem; color:var(--primary);">87+</strong><br>
+        Verified Buyers
+      </div>
+      <div class="stat">
+        <strong style="font-size:2.5rem; color:var(--primary);">98%</strong><br>
+        Would Buy Again
+      </div>
+    </div>
+
+    <!-- Review 1 -->
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>"Best pricing on 1121 Sella in Dubai. Delivered on time to Jebel Ali with perfect quality. Grains Hub has become our regular supplier."</p>
+      <div class="author">— Ahmed Al-Mansoori, Director, Al Ras Trading LLC</div>
+      <div class="verified">✅ Verified Buyer • June 2026</div>
+    </div>
+
+    <!-- Review 2 -->
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p>"Irri-6 5% Broken stock was exactly as promised. Very professional team and transparent rates. Highly recommended for wholesale grains."</p>
+      <div class="author">— Muhammad Tariq, Procurement Manager, Lahore Food Imports</div>
+      <div class="verified">✅ Verified Buyer • May 2026</div>
+    </div>
+
+    <!-- Review 3 -->
+    <div class="review-card">
+      <div class="stars">★★★★☆</div>
+      <p>"Smooth FCL booking for Creamy Sella. Competitive price and good communication throughout. Looking forward to more shipments."</p>
+      <div class="author">— Rajesh Patel, Owner, Patel Commodities</div>
+      <div class="verified">✅ Verified Buyer • June 2026</div>
+    </div>
+
+    <div style="text-align:center; margin:40px 0;">
+      <a href="https://wa.me/971585521976" class="btn-whatsapp" target="_blank">
+        📲 Share Your Review on WhatsApp
+      </a>
+      <button onclick="alert('Ask Alliya is coming soon!')" class="btn-whatsapp" style="background:#00a651;">
+        🤖 Ask Alliya About Our Reviews
+      </button>
+    </div>
+
+    <p style="text-align:center; color:#666; font-size:0.95rem;">
+      All reviews are from verified trading partners. We only feature genuine feedback.
+    </p>
+  </div>
+
+</body>
+</html>
