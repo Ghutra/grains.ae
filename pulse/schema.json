@@ -15,7 +15,7 @@
       "size": "40kg",
       "offers": {
         "@type": "Offer",
-        "price": "210",
+        "price": "230",
         "priceCurrency": "AED",
         "availability": "https://schema.org/InStock"
       }
@@ -75,7 +75,7 @@
       "size": "18kg",
       "offers": {
         "@type": "Offer",
-        "price": "47",
+        "price": "48",
         "priceCurrency": "AED",
         "availability": "https://schema.org/InStock"
       }
@@ -90,7 +90,7 @@
       "size": "35kg",
       "offers": {
         "@type": "Offer",
-        "price": "53",
+        "price": "56",
         "priceCurrency": "AED",
         "availability": "https://schema.org/InStock"
       }
@@ -105,7 +105,7 @@
       "size": "35kg",
       "offers": {
         "@type": "Offer",
-        "price": "50",
+        "price": "51",
         "priceCurrency": "AED",
         "availability": "https://schema.org/InStock"
       }
