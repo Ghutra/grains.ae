@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Pulse – Live Grain Prices in Dubai | Grains Hub</title>
+  <meta name="description" content="Real-time B2B grain prices in Dubai - Jebel Ali & Al Ras. Irri-6, 1121 Sella, Creamy Sella & more. Updated daily.">
+  <style>
+    :root {
+      --primary: #00a651;
+      --danger: #e63939;
+    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; margin:0; background:#f8f9fa; color:#333; }
+    header { background: linear-gradient(135deg, #00a651, #007f3f); color:white; padding:20px; text-align:center; }
+    .offer-banner { background:#fff3cd; color:#856404; padding:15px; text-align:center; font-weight:bold; border-bottom:2px solid #ffeaa7; }
+    .container { max-width:1200px; margin:0 auto; padding:20px; }
+    h1 { margin:0 0 10px; }
+    .last-updated { font-size:0.95rem; color:#666; margin-bottom:20px; }
+    .cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:16px; margin-bottom:30px; }
+    .card { background:white; border-radius:12px; padding:18px; box-shadow:0 4px 12px rgba(0,0,0,0.08); border:1px solid #eee; }
+    .card h3 { margin:0 0 8px; font-size:1.1rem; }
+    .flag { font-size:1.4rem; margin-right:8px; }
+    .price { font-size:1.6rem; font-weight:bold; color:var(--primary); }
+    .trend { font-weight:bold; }
+    .up { color:#00a651; }
+    .down { color:var(--danger); }
+    table { width:100%; border-collapse:collapse; background:white; border-radius:12px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+    th { background:#f1f3f5; padding:14px; text-align:left; font-weight:600; }
+    td { padding:14px; border-bottom:1px solid #eee; }
+    tr:hover { background:#f8f9fa; }
+    .btn-whatsapp { background:#25D366; color:white; padding:14px 24px; border:none; border-radius:50px; font-size:1.1rem; font-weight:bold; display:inline-flex; align-items:center; gap:10px; text-decoration:none; margin:10px; }
+    .ask-alliya { background:#00a651; color:white; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🌾 Market Pulse</h1>
+    <p>Live Grain Prices • Jebel Ali & Al Ras • Dubai</p>
+  </header>
+
+  <div class="offer-banner">
+    🔥 <strong>Grains Hub Offer:</strong> Irri-6 Broken 5% <span style="color:#00a651;">56 AED</span> / 35Kg Bag • 
+    FCL India → Jebel Ali: Creamy Sella <strong>USD 1040</strong> • 1121 Sella XXL <strong>AED 160/40kg</strong>
+  </div>
+
+  <div class="container">
+    <p class="last-updated">Last updated: <strong>25 Jun 2026, 01:28 GST</strong> • Auto refreshes every 30 mins</p>
+
+    <h2>Hot Stock Highlights</h2>
+    <div class="cards">
+      <!-- Card 1 -->
+      <div class="card">
+        <h3><span class="flag">🇵🇰</span> Irri-6 5% Broken</h3>
+        <div class="price">56.00 AED <small>/35kg</small></div>
+        <div class="trend down">▼ 2.2% today</div>
+        <p><strong>2700 bags</strong> • Verified Supplier</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="card">
+        <h3><span class="flag">🇮🇳</span> 1121 Sella Basmati</h3>
+        <div class="price">160.00 AED <small>/40kg</small></div>
+        <div class="trend up">▲ 2.1% today</div>
+        <p><strong>1350 bags</strong> • Al Ras Stock</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="card">
+        <h3><span class="flag">🇮🇳</span> 1509 Creamy Sella</h3>
+        <div class="price">1040 USD <small>/MT</small></div>
+        <div class="trend">Booking Open</div>
+        <p>Prompt Shipment • Jebel Ali</p>
+      </div>
+    </div>
+
+    <h2>Full Market Table</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Trend</th>
+          <th>Qty Available</th>
+          <th>Supplier</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Irri-6 5% Broken</strong> 🇵🇰</td>
+          <td><strong>56.00 AED</strong><br><small>1.60/kg</small></td>
+          <td class="down">▼ 2.2%</td>
+          <td>2700 bags</td>
+          <td>✔️ Verified</td>
+        </tr>
+        <tr>
+          <td><strong>1121 Sella Basmati</strong> 🇮🇳</td>
+          <td><strong>160.00 AED</strong><br><small>4.00/kg</small></td>
+          <td class="up">▲ 2.1%</td>
+          <td>1350 bags</td>
+          <td>✔️ Verified</td>
+        </tr>
+        <tr>
+          <td><strong>1509 Creamy Sella</strong> 🇮🇳</td>
+          <td><strong>1040 USD/MT</strong></td>
+          <td>—</td>
+          <td>Booking</td>
+          <td>✔️ Verified</td>
+        </tr>
+        <!-- Add more rows as needed -->
+      </tbody>
+    </table>
+
+    <div style="text-align:center; margin:40px 0;">
+      <a href="https://wa.me/971585521976" class="btn-whatsapp" target="_blank">
+        📲 Order on WhatsApp
+      </a>
+      <button onclick="alert('Ask Alliya is coming soon! For now contact us on WhatsApp.')" class="btn-whatsapp ask-alliya">
+        🤖 Ask Alliya (AI Assistant)
+      </button>
+    </div>
+  </div>
+
+</body>
+</html>
