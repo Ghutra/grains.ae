@@ -1,0 +1,119 @@
+[
+  {
+    "name": "Zia International",
+    "country": "Pakistan",
+    "city": "Faisalabad",
+    "badge": "Verified Supplier",
+    "products": ["1121 Sella", "1121 Steam", "Irri 6", "C9"],
+    "contact": "+92",
+    "profile": "/suppliers/zia-international"
+  },
+  {
+    "name": "Adam International",
+    "country": "Pakistan",
+    "city": "Faisalabad",
+    "badge": "Verified Supplier",
+    "products": ["1121 Sella", "1121 Steam", "Irri 6"],
+    "contact": "+92",
+    "profile": "/suppliers/adam-international"
+  },
+  {
+    "name": "SA Rice Mills",
+    "country": "Pakistan",
+    "city": "Faisalabad",
+    "badge": "Verified Supplier",
+    "products": ["1121 Sella", "1121 Steam", "Irri 6", "1509"],
+    "contact": "+92",
+    "profile": "/suppliers/sa-rice-mills"
+  },
+  {
+    "name": "Al Arab Rice Mills",
+    "country": "Pakistan",
+    "city": "Lahore",
+    "badge": "Verified Supplier",
+    "products": ["1121 Sella", "1121 Steam"],
+    "contact": "+92",
+    "profile": "/suppliers/al-arab-rice-mills"
+  },
+  {
+    "name": "Asif Rice Mills",
+    "country": "Pakistan",
+    "city": "Karachi",
+    "badge": "Verified Supplier",
+    "products": ["Irri 6", "Irri 9"],
+    "contact": "+92",
+    "profile": "/suppliers/asif-rice-mills"
+  },
+  {
+    "name": "Mahavir Rice Mills",
+    "country": "India",
+    "city": "Karnal, Haryana",
+    "badge": "Verified Supplier",
+    "products": ["1121 Sella", "1509 Sella"],
+    "contact": "+91",
+    "profile": "/suppliers/mahavir-rice-mills"
+  },
+  {
+    "name": "Fateh Din General Trading LLC",
+    "country": "UAE",
+    "city": "Dubai",
+    "badge": "Verified Supplier",
+    "products": ["1121 Sella", "Irri 6"],
+    "contact": "+971",
+    "profile": "/suppliers/fateh-din"
+  },
+  {
+    "name": "Laddo General Trading LLC",
+    "country": "UAE",
+    "city": "Dubai",
+    "badge": "Verified Supplier",
+    "products": ["1121 Sella", "Irri 6"],
+    "contact": "+971",
+    "profile": "/suppliers/laddo-general"
+  },
+  {
+    "name": "Namavar Foodstuff Trading",
+    "country": "UAE",
+    "city": "Dubai",
+    "badge": "Verified Supplier",
+    "products": ["1121 Sella", "1509"],
+    "contact": "+971",
+    "profile": "/suppliers/namavar-foodstuff"
+  },
+  {
+    "name": "Yastoor Ul Haq Wholesale",
+    "country": "UAE",
+    "city": "Dubai",
+    "badge": "Verified Supplier",
+    "products": ["Irri 6", "Irri 9"],
+    "contact": "+971",
+    "profile": "/suppliers/yastoor-ul-haq"
+  },
+  {
+    "name": "Green & White Foodstuff Trading",
+    "country": "UAE",
+    "city": "Dubai",
+    "badge": "Verified Supplier",
+    "products": ["1121 Sella", "Irri 6"],
+    "contact": "+971",
+    "profile": "/suppliers/green-and-white"
+  },
+  {
+    "name": "SI Global",
+    "country": "UAE",
+    "city": "Dubai",
+    "badge": "Verified Supplier",
+    "products": ["1121 Sella", "Irri 6"],
+    "contact": "+971",
+    "profile": "/suppliers/si-global"
+  },
+  {
+    "name": "Sakhi International Foodstuff Trading Co.",
+    "country": "UAE",
+    "city": "Dubai",
+    "badge": "Verified Supplier",
+    "products": ["1121 Sella", "Irri 6"],
+    "contact": "+971",
+    "profile": "/suppliers/sakhi-international"
+  }
+]
