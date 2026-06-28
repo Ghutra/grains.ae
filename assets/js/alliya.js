@@ -97,7 +97,7 @@ function buildAlliyaResponseHTML(match, supplier) {
       </p>
 
       <p><strong>📊 Market Pulse</strong><br>
-        <a href="https://grains.ae/pulse/test" target="_blank">Open live Market Pulse</a>
+        <a href="https://grains.ae/pulse/index.html" target="_blank">Open live Market Pulse</a>
       </p>
 
       <p><strong>🤖 More Assistance</strong><br>
