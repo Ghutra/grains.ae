@@ -1,52 +1,119 @@
 /* -----------------------------------------
-   ALLIYA MODAL
+   ALLIYA v5.0 – Frontend Engine
+   - Uses stock.json + suppliers.json
+   - No backend dependency
 ----------------------------------------- */
-window.openModal = function () {
-  document.getElementById('alliyaModal').classList.add('active');
-  document.getElementById('alliyaQuery').focus();
-};
 
-window.closeModal = function () {
-  document.getElementById('alliyaModal').classList.remove('active');
-  document.getElementById('alliyaResponse').style.display = 'none';
-  document.getElementById('suggestions').innerHTML = '';
-};
+const STOCK_URL = '/assets/data/stock.json';
+const SUPPLIERS_URL = '/assets/data/suppliers.json';
 
-window.onclick = (e) => { 
-  if (e.target.classList.contains('modal')) closeModal(); 
-};
+let alliyaStockCache = null;
+let alliyaSuppliersCache = null;
+
+async function loadStock() {
+  if (!alliyaStockCache) {
+    const res = await fetch(STOCK_URL, { cache: 'no-cache' });
+    alliyaStockCache = await res.json();
+  }
+  return alliyaStockCache;
+}
+
+async function loadSuppliers() {
+  if (!alliyaSuppliersCache) {
+    const res = await fetch(SUPPLIERS_URL, { cache: 'no-cache' });
+    alliyaSuppliersCache = await res.json();
+  }
+  return alliyaSuppliersCache;
+}
+
+function normalize(str) {
+  return (str || '').toLowerCase();
+}
+
+function findStockMatches(stock, queryTerms) {
+  return stock.filter(item => {
+    const name = normalize(item.name);
+    const origin = normalize(item.origin);
+    const packaging = normalize(item.packaging);
+
+    return queryTerms.some(term =>
+      name.includes(term) ||
+      origin.includes(term) ||
+      packaging.includes(term)
+    );
+  });
+}
+
+function findSupplierForProduct(suppliers, productName) {
+  const q = normalize(productName);
+  return suppliers.find(s => {
+    const products = Array.isArray(s.products) ? s.products : [];
+    return products.some(p => normalize(p).includes(q));
+  }) || null;
+}
+
+function buildAlliyaResponseHTML(match, supplier) {
+  const isBooking = match.price.toUpperCase().includes('USD');
+  const priceRaw = parseFloat(match.price);
+  const sizeKG = parseInt(match.size);
+  const pricePerKg = (!isNaN(priceRaw) && !isNaN(sizeKG))
+    ? (priceRaw / sizeKG).toFixed(2)
+    : null;
+
+  const originFlag =
+    match.origin.toLowerCase().includes('india') ? '🇮🇳' :
+    match.origin.toLowerCase().includes('pakistan') ? '🇵🇰' :
+    match.origin.toLowerCase().includes('thailand') ? '🇹🇭' : '🌍';
+
+  const supplierLine = supplier
+    ? `${supplier.name} (${supplier.badge || 'Verified'}) – ${supplier.city}, ${supplier.country}`
+    : `${match.badge || 'Verified Supplier'}`;
+
+  const stockLine = match.stock || 'Prompt shipment';
+
+  const priceLine = isBooking
+    ? `${match.price} (Booking / FOB or C&F)`
+    : `${match.price} / ${match.size}${pricePerKg ? ` → ${pricePerKg} AED/kg` : ''}`;
+
+  return `
+    <div class="alliya-block">
+      <h3>${originFlag} ${match.name}</h3>
+      <p><strong>Origin:</strong> ${match.origin}</p>
+      <p><strong>Packaging:</strong> ${match.packaging}</p>
+      <p><strong>Price:</strong> ${priceLine}</p>
+      <p><strong>Stock:</strong> ${stockLine}</p>
+      <p><strong>Supplier:</strong> ${supplierLine}</p>
+    </div>
+
+    <hr>
+
+    <div class="alliya-cta">
+      <p><strong>📦 Available Stock</strong><br>
+        <a href="https://grains.ae/shop" target="_blank">View stock page</a>
+      </p>
+
+      <p><strong>🚢 FCL Booking (Recommended)</strong><br>
+        <a href="https://grains.ae/fcl/" target="_blank">Book FCL shipment</a>
+      </p>
+
+      <p><strong>📊 Market Pulse</strong><br>
+        <a href="https://grains.ae/pulse/test" target="_blank">Open live Market Pulse</a>
+      </p>
+
+      <p><strong>🤖 More Assistance</strong><br>
+        <a href="https://grains.ae/alliya" target="_blank">Continue with Alliya</a>
+      </p>
+
+      <p><strong>📞 WhatsApp (Last Option)</strong><br>
+        <a href="https://wa.me/971585521976?text=Inquiry%20about%20${encodeURIComponent(match.name)}"
+           target="_blank">Contact Grains Hub on WhatsApp</a>
+      </p>
+    </div>
+  `;
+}
 
 /* -----------------------------------------
-   SUGGESTIONS
------------------------------------------ */
-const suggestionsList = [
-  '1121 price', 'irri 6 stock', '1509 sella',
-  'golden sella', 'fcl india', 'thai rice', 'booking'
-];
-
-window.showSuggestions = function (val) {
-  const box = document.getElementById('suggestions');
-  box.innerHTML = '';
-  if (val.length < 2) return;
-
-  suggestionsList
-    .filter(s => s.toLowerCase().includes(val.toLowerCase()))
-    .slice(0, 5)
-    .forEach(s => {
-      const div = document.createElement('div');
-      div.textContent = s;
-      div.onclick = () => {
-        document.getElementById('alliyaQuery').value = s;
-        box.innerHTML = '';
-        askAlliya();
-      };
-      box.appendChild(div);
-    });
-};
-
-/* -----------------------------------------
-   ALLIYA ENGINE (Firestore + Render)
-   Vertex AI disabled until ready
+   Hook into existing askAlliya()
 ----------------------------------------- */
 window.askAlliya = async function () {
   const userQuery = document.getElementById('alliyaQuery').value.trim().toLowerCase();
@@ -56,83 +123,41 @@ window.askAlliya = async function () {
   replyBox.style.display = 'block';
   replyBox.innerHTML = 'Alliya is checking live stock…';
 
-  const terms = userQuery.split(' ').map(w => w.trim().toLowerCase()).filter(Boolean);
-  let found = false;
+  const terms = userQuery.split(' ')
+    .map(w => w.trim().toLowerCase())
+    .filter(Boolean);
 
-  /* 1. Firestore direct match */
   try {
-    const stockRef = window.collection(window.db, 'products');
-    const q = window.query(stockRef, window.where('keywords', 'array-contains-any', terms));
-    const snapshot = await window.getDocs(q);
+    const [stock, suppliers] = await Promise.all([
+      loadStock(),
+      loadSuppliers()
+    ]);
 
-    if (!snapshot.empty) {
-      const item = snapshot.docs[0].data();
-      replyBox.innerHTML = `
-        <strong>Live from Firestore</strong><br>
-        ${item.name} → ${item.price}<br>
-        Stock: ${item.stock} bags<br><br>
-        <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(item.name)}"
-           class="btn-whatsapp">
-           Book via WhatsApp
-        </a>`;
-      found = true;
+    const matches = findStockMatches(stock, terms);
+
+    if (matches.length > 0) {
+      const primary = matches[0];
+      const supplier = findSupplierForProduct(suppliers, primary.name);
+      replyBox.innerHTML = buildAlliyaResponseHTML(primary, supplier);
+      return;
     }
-  } catch (err) {
-    console.warn("Firestore query failed:", err);
-  }
 
-  /* 2. Fuzzy scan */
-  if (!found) {
-    try {
-      const allDocs = await window.getDocs(window.collection(window.db, 'products'));
-      allDocs.forEach(doc => {
-        const data = doc.data();
-        const keywords = Array.isArray(data.keywords)
-          ? data.keywords.map(k => k.toLowerCase())
-          : [];
-        if (terms.some(term => keywords.includes(term))) {
-          replyBox.innerHTML = `
-            <strong>Matched via Fuzzy Scan</strong><br>
-            ${data.name} → ${data.price}<br>
-            Stock: ${data.stock} bags<br><br>
-            <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(data.name)}"
-               class="btn-whatsapp">
-               Book via WhatsApp
-            </a>`;
-          found = true;
-        }
-      });
-    } catch (err) {
-      console.warn("Fuzzy scan failed:", err);
-    }
-  }
-
-  /* 3. Render backend fallback */
-  if (!found) {
-    try {
-      const res = await fetch(
-        `https://grains-backend.onrender.com/api/alliya?q=${encodeURIComponent(userQuery)}`,
-        { cache: 'no-cache' }
-      );
-      if (res.ok) {
-        const data = await res.json();
-        if (data.reply) {
-          replyBox.innerHTML = data.reply;
-          found = true;
-        }
-      }
-    } catch (err) {
-      console.warn("Render backend failed:", err);
-    }
-  }
-
-  /* 4. Final fallback */
-  if (!found) {
+    // If no stock match, fallback to generic guidance
     replyBox.innerHTML = `
-      Yes, <strong>${userQuery}</strong> is available today!<br><br>
+      I couldn’t find a direct match for <strong>${userQuery}</strong> in live stock.<br><br>
+      <a href="https://grains.ae/shop" target="_blank">Browse all stock</a><br>
+      <a href="https://grains.ae/fcl/" target="_blank">Submit FCL requirement</a><br>
+      <a href="https://grains.ae/pulse/test" target="_blank">Check Market Pulse</a><br><br>
+      Or, as a last option:<br>
       <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(userQuery)}"
-         class="btn-whatsapp">
-         WhatsApp Me Now
-      </a>`;
+         target="_blank">WhatsApp Grains Hub</a>
+    `;
+  } catch (err) {
+    console.warn('Alliya v5.0 error:', err);
+    replyBox.innerHTML = `
+      There was a connection issue while checking live stock.<br><br>
+      <a href="https://grains.ae/shop" target="_blank">Browse stock</a><br>
+      <a href="https://grains.ae/fcl/" target="_blank">Submit FCL requirement</a>
+    `;
   }
 };
