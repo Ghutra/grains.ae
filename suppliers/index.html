@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verified Supplier Directory – Grains Hub</title>
+
+  <!-- SEO -->
+  <meta name="description" content="Verified grain suppliers from India, Pakistan, and UAE. Explore trusted partners for 1121 Sella, 1509, Irri 6, and more.">
+  <meta name="keywords" content="grain suppliers, basmati suppliers, rice suppliers, 1121 sella suppliers, irri suppliers, grains hub suppliers">
+  <link rel="canonical" href="https://grains.ae/suppliers/">
+
+  <!-- Mobile -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Styles -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .breadcrumb {
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: #777;
+    }
+
+    .search-box {
+      margin: 20px 0;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .supplier-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #eee;
+      transition: 0.2s;
+    }
+
+    .supplier-card:hover {
+      border-color: #d4af37;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .supplier-card h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #d4af37;
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .supplier-meta {
+      margin-top: 10px;
+      color: #555;
+    }
+
+    .supplier-products {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .supplier-products span {
+      background: #eee;
+      padding: 4px 8px;
+      border-radius: 6px;
+      margin-right: 6px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+
+    .supplier-link {
+      margin-top: 15px;
+      display: inline-block;
+      color: #d4af37;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .supplier-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Verified Grain Suppliers",
+    "itemListElement": []
+  }
+  </script>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="breadcrumb">Home › Suppliers</div>
+
+  <h1>Verified Supplier Directory</h1>
+  <p>Explore trusted suppliers verified by Grains Hub. Each supplier meets compliance, quality, and trade history standards.</p>
+
+  <!-- Search -->
+  <div class="search-box">
+    <input type="text" id="supplierSearch" placeholder="Search suppliers by name, city, country, or product…" oninput="filterSuppliers()">
+  </div>
+
+  <!-- Supplier List -->
+  <div id="supplierList"></div>
+
+</div>
+
+<script>
+  async function loadSuppliers() {
+    const res = await fetch('/assets/data/suppliers.json');
+    return await res.json();
+  }
+
+  function renderSupplierCard(s) {
+    return `
+      <div class="supplier-card">
+        <h2>${s.name}</h2>
+        <div class="badge">${s.badge}</div>
+
+        <div class="supplier-meta">
+          📍 ${s.city}, ${s.country}<br>
+          📞 Contact: +971585521976
+        </div>
+
+        <div class="supplier-products">
+          ${s.products.map(p => `<span>${p}</span>`).join('')}
+        </div>
+
+        <a class="supplier-link" href="${s.profile}">
+          View Supplier Profile →
+        </a>
+      </div>
+    `;
+  }
+
+  async function renderSuppliers() {
+    const suppliers = await loadSuppliers();
+    const list = document.getElementById('supplierList');
+    list.innerHTML = suppliers.map(renderSupplierCard).join('');
+  }
+
+  async function filterSuppliers() {
+    const term = document.getElementById('supplierSearch').value.toLowerCase();
+    const suppliers = await loadSuppliers();
+    const filtered = suppliers.filter(s =>
+      s.name.toLowerCase().includes(term) ||
+      s.city.toLowerCase().includes(term) ||
+      s.country.toLowerCase().includes(term) ||
+      s.products.some(p => p.toLowerCase().includes(term))
+    );
+    document.getElementById('supplierList').innerHTML =
+      filtered.map(renderSupplierCard).join('');
+  }
+
+  renderSuppliers();
+</script>
+
+</body>
+</html>
