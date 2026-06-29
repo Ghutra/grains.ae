@@ -147,7 +147,7 @@ window.askAlliya = async function () {
       I couldn’t find a direct match for <strong>${userQuery}</strong> in live stock.<br><br>
       <a href="https://grains.ae/shop" target="_blank">Browse all stock</a><br>
       <a href="https://grains.ae/fcl/" target="_blank">Submit FCL requirement</a><br>
-      <a href="https://grains.ae/pulse/test" target="_blank">Check Market Pulse</a><br><br>
+      <a href="https://grains.ae/pulse/index.html" target="_blank">Check Market Pulse</a><br><br>
       Or, as a last option:<br>
       <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(userQuery)}"
          target="_blank">WhatsApp Grains Hub</a>
