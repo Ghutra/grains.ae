@@ -185,6 +185,17 @@
       </div>
     </div>
   </div>
+ // Alliya Modal
+    function openModal() {
+      document.getElementById('alliyaModal').classList.add('active');
+      document.getElementById('alliyaQuery').focus();
+    }
+
+    function closeModal() {
+      document.getElementById('alliyaModal').classList.remove('active');
+      document.getElementById('alliyaResponse').style.display = 'none';
+      document.getElementById('suggestions').innerHTML = '';
+    }
   <!-- CTA -->
   <section class="cta-banner">
     <h2>Ready to Trade with Confidence?</h2>
