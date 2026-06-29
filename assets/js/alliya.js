@@ -5,7 +5,8 @@
 ----------------------------------------- */
 
 const STOCK_URL = '/assets/data/stock.json';
-const SUPPLIERS_URL = '/assets/data/suppliers.json';
+const SUPPLIERS_URL = window.location.origin + '/assets/data/suppliers.json';
+
 
 let alliyaStockCache = null;
 let alliyaSuppliersCache = null;
