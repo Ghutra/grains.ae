@@ -1,0 +1,134 @@
+🟦 1. General Platform Questions
+What is Grains Hub? — Grains Hub is Dubai’s verified B2B grain trading platform offering stock, FCL booking, supplier verification, and market intelligence.
+
+How does Grains Hub work? — Buyers browse stock, verify suppliers, book FCL shipments, and access Market Pulse for live pricing.
+
+Is Grains Hub verified? — Yes, verified by Cisco Talos, Norton, and Sucuri with full SPF/DKIM/DMARC compliance.
+
+Where is Grains Hub located? — Dubai, UAE.
+
+How do I contact Grains Hub? — WhatsApp +971 58 552 1976 or FCL booking page.
+
+🟦 2. Buyer Questions
+How do I buy rice? — Browse stock at grains.ae/shop or submit an FCL booking.
+
+Do you have 1121 Sella? — Yes, check live stock at grains.ae/shop.
+
+Do you have Irri 6? — Yes, available in both AED stock and USD booking.
+
+Can I buy small quantities? — Yes, AED stock is available for local buyers.
+
+Can I buy full container loads? — Yes, book via grains.ae/fcl.
+
+🟦 3. Supplier Questions
+How do I onboard as a supplier? — Submit your company profile, product list, and verification documents. Download supplier pack.
+
+How do I get verified? — Verification requires compliance documents, trade history, and product samples.
+
+How do I list my products? — After verification, your products appear in stock.json and supplier directory.
+
+Can I update my supplier profile? — Yes, contact Grains Hub support.
+
+🟦 4. FCL Booking Questions
+How do I book an FCL shipment? — Use grains.ae/fcl for instant booking and email confirmation.
+
+What origins are available? — India, Pakistan, Thailand.
+
+Do you support 20ft and 40ft? — Yes, both container sizes.
+
+How long does booking confirmation take? — Instant via Firebase backend.
+
+🟦 5. Market Pulse & Pricing Questions
+What is Market Pulse? — A Bloomberg-style live price dashboard updated every 60 seconds.
+
+What is the price of 1121 Sella? — Check live price at grains.ae/pulse/test.
+
+What is the price of Irri 6? — Check live price at grains.ae/pulse/test.
+
+Is the market up or down? — Market Pulse shows trend arrows and mood percentage.
+
+Where can I see market analysis? — Download market analysis report.
+
+🟦 6. Documentation & Downloads
+Where can I download supplier onboarding pack? — grains.ae/docs/supplier-pack.pdf
+
+Where can I download buyer pack? — grains.ae/docs/buyer-pack.pdf
+
+Where can I download FCL guide? — grains.ae/docs/fcl-guide.pdf
+
+Where can I download compliance guide? — grains.ae/docs/compliance-guide.pdf
+
+Where can I download market analysis report? — grains.ae/docs/market-analysis-2025.pdf
+
+🟦 7. Supplier Directory & Profiles
+Show supplier directory — grains.ae/suppliers
+
+Show Zia International profile — grains.ae/suppliers/zia-international
+
+Show Adam International profile — grains.ae/suppliers/adam-international
+
+Show Mahavir Rice Mills profile — grains.ae/suppliers/mahavir-rice-mills
+
+🟦 8. Compliance & Verification
+Is Grains Hub secure? — Yes, verified by Cisco Talos, Norton, Sucuri.
+
+Do you check pesticide compliance? — Yes, for Indian-origin grains.
+
+Do you check ritual compliance? — Yes, for Indian-origin grains.
+
+Do you check supplier authenticity? — Yes, through verification process.
+
+🟦 9. Website Navigation
+Open stock page — grains.ae/shop
+
+Open FCL page — grains.ae/fcl
+
+Open Market Pulse — grains.ae/pulse/test
+
+Open supplier directory — grains.ae/suppliers
+
+Open Alliya — grains.ae/alliya
+
+🟦 10. Product-Specific Questions
+What is 1121 Sella? — Long-grain aromatic basmati used in premium markets.
+
+What is 1509 Sella? — Cost-effective basmati with creamy texture.
+
+What is Irri 6? — Pakistani long-grain rice used in mass markets.
+
+What is Sona Massori? — Indian medium-grain rice used in retail markets.
+
+🟦 11. Shipping & Logistics
+Do you support CIF? — Yes, depending on supplier.
+
+Do you support FOB? — Yes, for India and Pakistan.
+
+Do you support C&F Dubai? — Yes, for Irri and 1509.
+
+How long does shipping take? — 7–14 days depending on origin.
+
+🟦 12. Payment & Terms
+What payment methods do you support? — Bank transfer, LC, advance.
+
+Do you support LC? — Yes, for FCL shipments.
+
+Do you support advance payment? — Yes, depending on supplier.
+
+🟦 13. Quality & Inspection
+Do you provide inspection? — Yes, through third-party inspection.
+
+Do you provide lab testing? — Yes, for pesticide and quality compliance.
+
+Do you provide moisture testing? — Yes, depending on supplier.
+
+🟦 14. Packaging Questions
+What packaging options are available? — Nonwoven, PP bags, 4×10, 10×4, 18kg, 35kg.
+
+Can I customize packaging? — Yes, for FCL shipments.
+
+🟦 15. Stock & Availability
+How often is stock updated? — Daily.
+
+Is stock real-time? — Yes, via stock.json.
+
+Do you show available bags? — Yes, for AED stock.
