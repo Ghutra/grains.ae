@@ -165,37 +165,62 @@
   <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya
 </div>
 
- <!-- Alliya Float Button -->
-  <div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
-    <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya
-  </div>
+<!-- Alliya Float Button -->
+<div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
+  <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26">
+  Ask Alliya
+</div>
 
-  <!-- Alliya Modal -->
-  <div id="alliyaModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <div class="alliya-box">
-        <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya</h2>
-        <div style="position:relative;">
-          <input type="text" id="alliyaQuery" placeholder="Ask about prices, FCL, trends..." oninput="showSuggestions(this.value)" autocomplete="off">
-          <div id="suggestions" class="suggestions"></div>
-        </div>
-        <button onclick="askAlliya()">Send Question</button>
-        <div id="alliyaResponse" class="reply"></div>
+<!-- Alliya Modal -->
+<div id="alliyaModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+
+    <div class="alliya-box">
+      <h2>
+        <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26">
+        Ask Alliya
+      </h2>
+
+      <div style="position:relative;">
+        <input type="text" id="alliyaQuery"
+               placeholder="Ask about prices, FCL, trends..."
+               oninput="showSuggestions(this.value)"
+               autocomplete="off">
+        <div id="suggestions" class="suggestions"></div>
       </div>
+
+      <button onclick="askAlliya()">Send Question</button>
+
+      <div id="alliyaResponse" class="reply"></div>
     </div>
   </div>
- // Alliya Modal
-    function openModal() {
-      document.getElementById('alliyaModal').classList.add('active');
-      document.getElementById('alliyaQuery').focus();
-    }
+</div>
 
-    function closeModal() {
-      document.getElementById('alliyaModal').classList.remove('active');
-      document.getElementById('alliyaResponse').style.display = 'none';
-      document.getElementById('suggestions').innerHTML = '';
+<script>
+  // Open Modal
+  function openModal() {
+    const modal = document.getElementById('alliyaModal');
+    modal.classList.add('active');
+    document.getElementById('alliyaQuery').focus();
+  }
+
+  // Close Modal
+  function closeModal() {
+    const modal = document.getElementById('alliyaModal');
+    modal.classList.remove('active');
+    document.getElementById('alliyaResponse').style.display = 'none';
+    document.getElementById('alliyaResponse').innerHTML = '';
+    document.getElementById('suggestions').innerHTML = '';
+  }
+
+  // Close when clicking outside modal-content
+  window.onclick = function(e) {
+    if (e.target.id === 'alliyaModal') {
+      closeModal();
     }
+  };
+</script>
   <!-- CTA -->
   <section class="cta-banner">
     <h2>Ready to Trade with Confidence?</h2>
