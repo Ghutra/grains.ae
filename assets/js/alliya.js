@@ -142,7 +142,49 @@ window.askAlliya = async function () {
       return;
     }
 
-    // If no stock match, fallback to generic guidance
+  // 3. Supplier name match
+const supplierMatch = suppliers.find(s =>
+  normalize(s.name).includes(normalize(userQuery))
+);
+
+if (supplierMatch) {
+  replyBox.innerHTML = `
+    <div class="alliya-block">
+      <h3>🏅 Verified Supplier: ${supplierMatch.name}</h3>
+      <p><strong>Location:</strong> ${supplierMatch.city}, ${supplierMatch.country}</p>
+      <p><strong>Badge:</strong> ${supplierMatch.badge}</p>
+      <p><strong>Products:</strong> ${supplierMatch.products.join(', ')}</p>
+    </div>
+
+    <hr>
+
+    <div class="alliya-cta">
+      <p><strong>📦 Browse Stock</strong><br>
+        <a href="https://grains.ae/shop" target="_blank">View all stock</a>
+      </p>
+
+      <p><strong>🚢 FCL Booking</strong><br>
+        <a href="https://grains.ae/fcl/" target="_blank">Book FCL shipment</a>
+      </p>
+
+      <p><strong>📊 Market Pulse</strong><br>
+        <a href="https://grains.ae/pulse/test" target="_blank">Open live Market Pulse</a>
+      </p>
+
+      <p><strong>🤖 More Assistance</strong><br>
+        <a href="https://grains.ae/alliya" target="_blank">Continue with Alliya</a>
+      </p>
+
+      <p><strong>📞 WhatsApp (Last Option)</strong><br>
+        <a href="https://wa.me/971585521976?text=Inquiry%20about%20${encodeURIComponent(supplierMatch.name)}"
+           target="_blank">Contact Grains Hub on WhatsApp</a>
+      </p>
+    </div>
+  `;
+  return;
+}
+
+     // If no stock match, fallback to generic guidance
     replyBox.innerHTML = `
       I couldn’t find a direct match for <strong>${userQuery}</strong> in live stock.<br><br>
       <a href="https://grains.ae/shop" target="_blank">Browse all stock</a><br>
