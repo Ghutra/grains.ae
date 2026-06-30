@@ -1,134 +1,274 @@
-🟦 1. General Platform Questions
-What is Grains Hub? — Grains Hub is Dubai’s verified B2B grain trading platform offering stock, FCL booking, supplier verification, and market intelligence.
+[
+  {
+    "question": "what is grains hub",
+    "answer": "Grains Hub is Dubai’s verified B2B grain trading platform offering stock, FCL booking, supplier verification, and market intelligence."
+  },
+  {
+    "question": "how does grains hub work",
+    "answer": "Buyers browse stock, verify suppliers, book FCL shipments, and access Market Pulse for live pricing."
+  },
+  {
+    "question": "is grains hub verified",
+    "answer": "Yes, verified by Cisco Talos, Norton, and Sucuri with full SPF, DKIM, and DMARC compliance."
+  },
+  {
+    "question": "where is grains hub located",
+    "answer": "Grains Hub is located in Dubai, UAE."
+  },
+  {
+    "question": "how do i contact grains hub",
+    "answer": "You can contact Grains Hub via WhatsApp at +971585521976 or through the FCL booking page."
+  },
 
-How does Grains Hub work? — Buyers browse stock, verify suppliers, book FCL shipments, and access Market Pulse for live pricing.
+  /* Buyer Questions */
+  {
+    "question": "how do i buy rice",
+    "answer": "You can browse stock at https://grains.ae/shop or submit an FCL booking at https://grains.ae/fcl/."
+  },
+  {
+    "question": "do you have 1121 sella",
+    "answer": "Yes, 1121 Sella is available. Check live stock at https://grains.ae/shop."
+  },
+  {
+    "question": "do you have irri 6",
+    "answer": "Yes, Irri 6 is available in both AED stock and USD booking."
+  },
+  {
+    "question": "can i buy small quantities",
+    "answer": "Yes, AED stock is available for local buyers."
+  },
+  {
+    "question": "can i buy full container loads",
+    "answer": "Yes, you can book full container loads via https://grains.ae/fcl/."
+  },
 
-Is Grains Hub verified? — Yes, verified by Cisco Talos, Norton, and Sucuri with full SPF/DKIM/DMARC compliance.
+  /* Supplier Questions */
+  {
+    "question": "how do i onboard as supplier",
+    "answer": "Submit your company profile, product list, and verification documents. Download the Supplier Onboarding Pack at https://grains.ae/docs/supplier-pack.pdf."
+  },
+  {
+    "question": "how do i get verified",
+    "answer": "Verification requires compliance documents, trade history, and product samples."
+  },
+  {
+    "question": "how do i list my products",
+    "answer": "After verification, your products appear in stock.json and the supplier directory."
+  },
+  {
+    "question": "can i update my supplier profile",
+    "answer": "Yes, contact Grains Hub support to update your supplier profile."
+  },
 
-Where is Grains Hub located? — Dubai, UAE.
+  /* FCL Booking Questions */
+  {
+    "question": "how do i book fcl shipment",
+    "answer": "You can book FCL shipments via https://grains.ae/fcl/ with instant email confirmation."
+  },
+  {
+    "question": "what origins are available",
+    "answer": "India, Pakistan, and Thailand origins are available."
+  },
+  {
+    "question": "do you support 20ft and 40ft",
+    "answer": "Yes, both 20ft and 40ft containers are supported."
+  },
+  {
+    "question": "how long does booking confirmation take",
+    "answer": "Booking confirmation is instant via Firebase backend."
+  },
 
-How do I contact Grains Hub? — WhatsApp +971 58 552 1976 or FCL booking page.
+  /* Market Pulse & Pricing */
+  {
+    "question": "what is market pulse",
+    "answer": "Market Pulse is a Bloomberg-style live price dashboard updated every 60 seconds. Visit https://grains.ae/pulse/index.html."
+  },
+  {
+    "question": "price of 1121 sella",
+    "answer": "You can check the live price of 1121 Sella at https://grains.ae/pulse/index.html."
+  },
+  {
+    "question": "price of irri 6",
+    "answer": "You can check the live price of Irri 6 at https://grains.ae/pulse/index.html."
+  },
+  {
+    "question": "is market up or down",
+    "answer": "Market Pulse shows trend arrows and market mood percentage."
+  },
+  {
+    "question": "where can i see market analysis",
+    "answer": "You can download the Market Analysis Report at https://grains.ae/docs/market-analysis-2025.pdf."
+  },
 
-🟦 2. Buyer Questions
-How do I buy rice? — Browse stock at grains.ae/shop or submit an FCL booking.
+  /* Documentation & Downloads */
+  {
+    "question": "download supplier onboarding pack",
+    "answer": "Download the Supplier Onboarding Pack here: https://grains.ae/docs/supplier-pack.pdf"
+  },
+  {
+    "question": "download buyer pack",
+    "answer": "Download the Buyer Pack here: https://grains.ae/docs/buyer-pack.pdf"
+  },
+  {
+    "question": "download fcl guide",
+    "answer": "Download the FCL Booking Guide here: https://grains.ae/docs/fcl-guide.pdf"
+  },
+  {
+    "question": "download compliance guide",
+    "answer": "Download the Compliance & Verification Guide here: https://grains.ae/docs/compliance-guide.pdf"
+  },
+  {
+    "question": "download market analysis report",
+    "answer": "Download the Market Analysis Report 2025 here: https://grains.ae/docs/market-analysis-2025.pdf"
+  },
+  {
+    "question": "open documentation page",
+    "answer": "You can view all documentation and downloads at https://grains.ae/docs/"
+  },
 
-Do you have 1121 Sella? — Yes, check live stock at grains.ae/shop.
+  /* Supplier Directory & Profiles */
+  {
+    "question": "show supplier directory",
+    "answer": "You can view the supplier directory at https://grains.ae/suppliers/"
+  },
+  {
+    "question": "show zia international profile",
+    "answer": "View Zia International profile at https://grains.ae/suppliers/zia-international"
+  },
+  {
+    "question": "show adam international profile",
+    "answer": "View Adam International profile at https://grains.ae/suppliers/adam-international"
+  },
+  {
+    "question": "show mahavir rice mills profile",
+    "answer": "View Mahavir Rice Mills profile at https://grains.ae/suppliers/mahavir-rice-mills"
+  },
 
-Do you have Irri 6? — Yes, available in both AED stock and USD booking.
+  /* Compliance & Verification */
+  {
+    "question": "is grains hub secure",
+    "answer": "Yes, Grains Hub is verified by Cisco Talos, Norton, and Sucuri."
+  },
+  {
+    "question": "do you check pesticide compliance",
+    "answer": "Yes, pesticide compliance is checked for Indian-origin grains."
+  },
+  {
+    "question": "do you check ritual compliance",
+    "answer": "Yes, ritual compliance is checked for Indian-origin grains."
+  },
+  {
+    "question": "do you check supplier authenticity",
+    "answer": "Yes, supplier authenticity is verified through compliance and trade history."
+  },
 
-Can I buy small quantities? — Yes, AED stock is available for local buyers.
+  /* Website Navigation */
+  {
+    "question": "open stock page",
+    "answer": "Open the stock page at https://grains.ae/shop"
+  },
+  {
+    "question": "open fcl page",
+    "answer": "Open the FCL booking page at https://grains.ae/fcl/"
+  },
+  {
+    "question": "open market pulse",
+    "answer": "Open Market Pulse at https://grains.ae/pulse/index.html"
+  },
+  {
+    "question": "open supplier directory",
+    "answer": "Open the supplier directory at https://grains.ae/suppliers/"
+  },
+  {
+    "question": "open alliya",
+    "answer": "You can access Alliya at https://grains.ae/blog/alliya-dubais-first-ai-grain-assistant.html"
+  },
 
-Can I buy full container loads? — Yes, book via grains.ae/fcl.
+  /* Product-Specific Questions */
+  {
+    "question": "what is 1121 sella",
+    "answer": "1121 Sella is a long-grain aromatic basmati used in premium markets."
+  },
+  {
+    "question": "what is 1509 sella",
+    "answer": "1509 Sella is a cost-effective basmati with creamy texture."
+  },
+  {
+    "question": "what is irri 6",
+    "answer": "Irri 6 is a Pakistani long-grain rice used in mass markets."
+  },
+  {
+    "question": "what is sona massori",
+    "answer": "Sona Massori is an Indian medium-grain rice used in retail markets."
+  },
 
-🟦 3. Supplier Questions
-How do I onboard as a supplier? — Submit your company profile, product list, and verification documents. Download supplier pack.
+  /* Shipping & Logistics */
+  {
+    "question": "do you support cif",
+    "answer": "Yes, CIF is supported depending on supplier."
+  },
+  {
+    "question": "do you support fob",
+    "answer": "Yes, FOB is supported for India and Pakistan."
+  },
+  {
+    "question": "do you support cnf dubai",
+    "answer": "Yes, C&F Dubai is supported for Irri and 1509."
+  },
+  {
+    "question": "how long does shipping take",
+    "answer": "Shipping takes 7–14 days depending on origin."
+  },
 
-How do I get verified? — Verification requires compliance documents, trade history, and product samples.
+  /* Payment & Terms */
+  {
+    "question": "payment methods supported",
+    "answer": "Supported payment methods include bank transfer, LC, and advance payment."
+  },
+  {
+    "question": "do you support lc",
+    "answer": "Yes, LC is supported for FCL shipments."
+  },
+  {
+    "question": "do you support advance payment",
+    "answer": "Yes, advance payment is supported depending on supplier."
+  },
 
-How do I list my products? — After verification, your products appear in stock.json and supplier directory.
+  /* Quality & Inspection */
+  {
+    "question": "do you provide inspection",
+    "answer": "Yes, inspection is available through third-party agencies."
+  },
+  {
+    "question": "do you provide lab testing",
+    "answer": "Yes, lab testing is available for pesticide and quality compliance."
+  },
+  {
+    "question": "do you provide moisture testing",
+    "answer": "Yes, moisture testing is available depending on supplier."
+  },
 
-Can I update my supplier profile? — Yes, contact Grains Hub support.
+  /* Packaging */
+  {
+    "question": "packaging options available",
+    "answer": "Packaging options include Nonwoven, PP bags, 4×10, 10×4, 18kg, and 35kg."
+  },
+  {
+    "question": "can i customize packaging",
+    "answer": "Yes, packaging customization is available for FCL shipments."
+  },
 
-🟦 4. FCL Booking Questions
-How do I book an FCL shipment? — Use grains.ae/fcl for instant booking and email confirmation.
-
-What origins are available? — India, Pakistan, Thailand.
-
-Do you support 20ft and 40ft? — Yes, both container sizes.
-
-How long does booking confirmation take? — Instant via Firebase backend.
-
-🟦 5. Market Pulse & Pricing Questions
-What is Market Pulse? — A Bloomberg-style live price dashboard updated every 60 seconds.
-
-What is the price of 1121 Sella? — Check live price at grains.ae/pulse/test.
-
-What is the price of Irri 6? — Check live price at grains.ae/pulse/test.
-
-Is the market up or down? — Market Pulse shows trend arrows and mood percentage.
-
-Where can I see market analysis? — Download market analysis report.
-
-🟦 6. Documentation & Downloads
-Where can I download supplier onboarding pack? — grains.ae/docs/supplier-pack.pdf
-
-Where can I download buyer pack? — grains.ae/docs/buyer-pack.pdf
-
-Where can I download FCL guide? — grains.ae/docs/fcl-guide.pdf
-
-Where can I download compliance guide? — grains.ae/docs/compliance-guide.pdf
-
-Where can I download market analysis report? — grains.ae/docs/market-analysis-2025.pdf
-
-🟦 7. Supplier Directory & Profiles
-Show supplier directory — grains.ae/suppliers
-
-Show Zia International profile — grains.ae/suppliers/zia-international
-
-Show Adam International profile — grains.ae/suppliers/adam-international
-
-Show Mahavir Rice Mills profile — grains.ae/suppliers/mahavir-rice-mills
-
-🟦 8. Compliance & Verification
-Is Grains Hub secure? — Yes, verified by Cisco Talos, Norton, Sucuri.
-
-Do you check pesticide compliance? — Yes, for Indian-origin grains.
-
-Do you check ritual compliance? — Yes, for Indian-origin grains.
-
-Do you check supplier authenticity? — Yes, through verification process.
-
-🟦 9. Website Navigation
-Open stock page — grains.ae/shop
-
-Open FCL page — grains.ae/fcl
-
-Open Market Pulse — grains.ae/pulse/test
-
-Open supplier directory — grains.ae/suppliers
-
-Open Alliya — grains.ae/alliya
-
-🟦 10. Product-Specific Questions
-What is 1121 Sella? — Long-grain aromatic basmati used in premium markets.
-
-What is 1509 Sella? — Cost-effective basmati with creamy texture.
-
-What is Irri 6? — Pakistani long-grain rice used in mass markets.
-
-What is Sona Massori? — Indian medium-grain rice used in retail markets.
-
-🟦 11. Shipping & Logistics
-Do you support CIF? — Yes, depending on supplier.
-
-Do you support FOB? — Yes, for India and Pakistan.
-
-Do you support C&F Dubai? — Yes, for Irri and 1509.
-
-How long does shipping take? — 7–14 days depending on origin.
-
-🟦 12. Payment & Terms
-What payment methods do you support? — Bank transfer, LC, advance.
-
-Do you support LC? — Yes, for FCL shipments.
-
-Do you support advance payment? — Yes, depending on supplier.
-
-🟦 13. Quality & Inspection
-Do you provide inspection? — Yes, through third-party inspection.
-
-Do you provide lab testing? — Yes, for pesticide and quality compliance.
-
-Do you provide moisture testing? — Yes, depending on supplier.
-
-🟦 14. Packaging Questions
-What packaging options are available? — Nonwoven, PP bags, 4×10, 10×4, 18kg, 35kg.
-
-Can I customize packaging? — Yes, for FCL shipments.
-
-🟦 15. Stock & Availability
-How often is stock updated? — Daily.
-
-Is stock real-time? — Yes, via stock.json.
-
-Do you show available bags? — Yes, for AED stock.
+  /* Stock & Availability */
+  {
+    "question": "how often is stock updated",
+    "answer": "Stock is updated daily."
+  },
+  {
+    "question": "is stock real time",
+    "answer": "Yes, stock is updated via stock.json."
+  },
+  {
+    "question": "do you show available bags",
+    "answer": "Yes, available bags are shown for AED stock."
+  }
+]
