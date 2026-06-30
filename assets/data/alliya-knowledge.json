@@ -295,4 +295,29 @@
   "question": "download market analysis report",
   "answer": "You can download the Market Analysis Report 2025 here: https://grains.ae/docs/market-analysis-2025.pdf"
 }
+  {
+  "question": "download supplier onboarding pack",
+  "answer": "Download the Supplier Onboarding Pack here: https://grains.ae/docs/supplier-onboarding-pack.pdf"
+},
+{
+  "question": "download badge value document",
+  "answer": "Download the Supplier Badge Value Document here: https://grains.ae/docs/supplier-badge-value.pdf"
+},
+{
+  "question": "download buyer pack",
+  "answer": "Download the Buyer Pack here: https://grains.ae/docs/buyer-pack.pdf"
+},
+{
+  "question": "download fcl guide",
+  "answer": "Download the FCL Booking Guide here: https://grains.ae/docs/fcl-guide.pdf"
+},
+{
+  "question": "download compliance guide",
+  "answer": "Download the Compliance & Verification Guide here: https://grains.ae/docs/compliance-guide.pdf"
+},
+{
+  "question": "download market analysis report",
+  "answer": "Download the Market Analysis Report 2025 here: https://grains.ae/docs/market-analysis-2025.pdf"
+}
+
 ]
