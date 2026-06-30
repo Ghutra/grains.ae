@@ -271,4 +271,28 @@
     "question": "do you show available bags",
     "answer": "Yes, available bags are shown for AED stock."
   }
+{
+  "question": "download supplier onboarding pack",
+  "answer": "You can download the Supplier Onboarding Pack here: https://grains.ae/docs/supplier-onboarding-pack.pdf"
+},
+{
+  "question": "download badge value document",
+  "answer": "You can download the Supplier Badge Value Document here: https://grains.ae/docs/supplier-badge-value.pdf"
+},
+{
+  "question": "download buyer pack",
+  "answer": "You can download the Buyer Pack here: https://grains.ae/docs/buyer-pack.pdf"
+},
+{
+  "question": "download fcl guide",
+  "answer": "You can download the FCL Booking Guide here: https://grains.ae/docs/fcl-guide.pdf"
+},
+{
+  "question": "download compliance guide",
+  "answer": "You can download the Compliance & Verification Guide here: https://grains.ae/docs/compliance-guide.pdf"
+},
+{
+  "question": "download market analysis report",
+  "answer": "You can download the Market Analysis Report 2025 here: https://grains.ae/docs/market-analysis-2025.pdf"
+}
 ]
