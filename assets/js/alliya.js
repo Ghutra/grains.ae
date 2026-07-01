@@ -72,6 +72,96 @@ function findSupplierForProduct(suppliers, productName) {
 }
 
 /* -----------------------------------------
+   Suggestion Engine
+----------------------------------------- */
+
+function buildSuggestionItem(text) {
+  return `<div class="alliya-suggestion-item" onclick="applySuggestion('${text.replace(/'/g, "\\'")}')">${text}</div>`;
+}
+
+window.applySuggestion = function (text) {
+  const input = document.getElementById('alliyaQuery');
+  const box = document.getElementById('alliyaSuggestions');
+  input.value = text;
+  box.innerHTML = '';
+};
+
+window.showSuggestions = async function () {
+  const input = document.getElementById('alliyaQuery');
+  const box = document.getElementById('alliyaSuggestions');
+  const query = (input.value || '').toLowerCase().trim();
+
+  if (!query || query.length < 2) {
+    box.innerHTML = '';
+    return;
+  }
+
+  try {
+    const [stock, suppliers, knowledge] = await Promise.all([
+      loadStock(),
+      loadSuppliers(),
+      loadKnowledge()
+    ]);
+
+    const suggestions = new Set();
+
+    // Products from stock.json
+    stock.forEach(item => {
+      if (item.name && item.name.toLowerCase().includes(query)) {
+        suggestions.add(item.name);
+      }
+    });
+
+    // Suppliers from suppliers.json
+    suppliers.forEach(s => {
+      if (s.name && s.name.toLowerCase().includes(query)) {
+        suggestions.add(`show ${s.name.toLowerCase()} profile`);
+      }
+    });
+
+    // Knowledge questions
+    knowledge.forEach(k => {
+      if (k.question && k.question.toLowerCase().includes(query)) {
+        suggestions.add(k.question);
+      }
+    });
+
+    // Common intents
+    const commonIntents = [
+      'download buyer pack',
+      'download supplier onboarding pack',
+      'download fcl guide',
+      'download compliance guide',
+      'download market analysis report',
+      'open stock page',
+      'open fcl page',
+      'open market pulse',
+      'open supplier directory',
+      'open documentation page'
+    ];
+
+    commonIntents.forEach(ci => {
+      if (ci.includes(query)) {
+        suggestions.add(ci);
+      }
+    });
+
+    const list = Array.from(suggestions).slice(0, 8);
+
+    if (list.length === 0) {
+      box.innerHTML = '';
+      return;
+    }
+
+    box.innerHTML = list.map(buildSuggestionItem).join('');
+
+  } catch (err) {
+    console.warn('Alliya suggestions error:', err);
+    box.innerHTML = '';
+  }
+};
+
+/* -----------------------------------------
    ALLIYA v6.0 – Premium Response Builder
 ----------------------------------------- */
 
