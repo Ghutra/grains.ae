@@ -91,8 +91,6 @@
     "question": "where can i see market analysis",
     "answer": "You can download the Market Analysis Report at https://grains.ae/docs/market-analysis-2025.pdf."
   },
-
-  /* Documentation & Downloads */
   {
     "question": "download supplier onboarding pack",
     "answer": "Download the Supplier Onboarding Pack here: https://grains.ae/docs/supplier-pack.pdf"
@@ -117,8 +115,6 @@
     "question": "open documentation page",
     "answer": "You can view all documentation and downloads at https://grains.ae/docs/"
   },
-
-  /* Supplier Directory & Profiles */
   {
     "question": "show supplier directory",
     "answer": "You can view the supplier directory at https://grains.ae/suppliers/"
@@ -135,8 +131,6 @@
     "question": "show mahavir rice mills profile",
     "answer": "View Mahavir Rice Mills profile at https://grains.ae/suppliers/mahavir-rice-mills"
   },
-
-  /* Compliance & Verification */
   {
     "question": "is grains hub secure",
     "answer": "Yes, Grains Hub is verified by Cisco Talos, Norton, and Sucuri."
@@ -189,8 +183,6 @@
     "question": "what is sona massori",
     "answer": "Sona Massori is an Indian medium-grain rice used in retail markets."
   },
-
-  /* Shipping & Logistics */
   {
     "question": "do you support cif",
     "answer": "Yes, CIF is supported depending on supplier."
