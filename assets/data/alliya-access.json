@@ -30,7 +30,6 @@
     "description": "Alliya AI assistant introduction page."
   },
 
-  /* Documentation Pages */
   {
     "page": "Documentation Hub",
     "path": "https://grains.ae/docs/",
@@ -73,16 +72,12 @@
     "category": "docs",
     "description": "Global and UAE grain market analysis for 2025."
   },
-
-  /* Supplier Directory */
   {
     "page": "Supplier Directory",
     "path": "https://grains.ae/suppliers/",
     "category": "suppliers",
     "description": "List of all verified suppliers."
   },
-
-  /* Supplier Profiles */
   {
     "page": "Zia International",
     "path": "https://grains.ae/suppliers/zia-international",
@@ -119,8 +114,6 @@
     "category": "suppliers",
     "description": "Verified supplier profile page."
   },
-
-  /* Blog Pages */
   {
     "page": "Alliya Blog",
     "path": "https://grains.ae/blog/",
@@ -133,8 +126,6 @@
     "category": "blog",
     "description": "Official Alliya introduction article."
   },
-
-  /* System Pages */
   {
     "page": "GhutraTech",
     "path": "https://ghutra.ae/",
