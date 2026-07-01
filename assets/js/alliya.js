@@ -1,4 +1,44 @@
 /* -----------------------------------------
+   Alliya v6 Modal Auto-Injector
+----------------------------------------- */
+
+(function injectAlliyaModal() {
+  const modalHTML = `
+    <div id="alliyaModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <div class="alliya-box">
+          <h2>
+            <img src="/assets/img/alliya-icon.ico" width="26">
+            Ask Alliya
+          </h2>
+
+          <div style="position:relative;">
+            <input type="text" id="alliyaQuery"
+              placeholder="Ask about products, suppliers, FCL, docs..."
+              oninput="showSuggestions()"
+              autocomplete="off">
+            <div id="alliyaSuggestions" class="suggestions"></div>
+          </div>
+
+          <button onclick="askAlliya()">Send Question</button>
+
+          <div id="alliyaResponse" class="reply"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
+      <img src="/assets/img/alliya-icon.ico" width="26">
+      Ask Alliya
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+})();
+
+/* -----------------------------------------
    ALLIYA v6.0 – Frontend Engine (Premium)
    - Uses stock.json + suppliers.json + alliya-knowledge.json
    - Premium Ghutra-grade response builder
@@ -325,6 +365,32 @@ window.askAlliya = async function () {
     }
 
     /* -----------------------------------------
+   Smart Intent Router
+----------------------------------------- */
+
+const intent = userQuery.toLowerCase();
+
+if (intent.includes("documentation") || intent.includes("docs")) {
+  replyBox.innerHTML = buildAlliyaResponse(
+    "Documentation Hub",
+    "Here are all official Grains Hub documents.",
+    [
+      {
+        heading: "Downloads",
+        body: `
+          <a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank">Buyer Pack</a><br>
+          <a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank">Supplier Onboarding Pack</a><br>
+          <a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank">FCL Guide</a><br>
+          <a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a><br>
+          <a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank">Market Analysis 2025</a>
+        `
+      }
+    ]
+  );
+  return;
+}
+
+     /* -----------------------------------------
        4. Fallback
     ----------------------------------------- */
     replyBox.innerHTML = buildAlliyaResponse(
