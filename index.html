@@ -207,12 +207,15 @@
 
   // Close Modal
   function closeModal() {
-    const modal = document.getElementById('alliyaModal');
-    modal.classList.remove('active');
-    document.getElementById('alliyaResponse').style.display = 'none';
-    document.getElementById('alliyaResponse').innerHTML = '';
-    document.getElementById('suggestions').innerHTML = '';
-  }
+  const modal = document.getElementById('alliyaModal');
+  const reply = document.getElementById('alliyaResponse');
+  const suggestions = document.getElementById('alliyaSuggestions');
+
+  if (modal) modal.classList.remove('active');
+  if (reply) reply.innerHTML = '';
+  if (suggestions) suggestions.innerHTML = '';
+}
+
 
   // Close when clicking outside modal-content
   window.onclick = function(e) {
