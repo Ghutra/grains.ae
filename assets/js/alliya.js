@@ -115,17 +115,6 @@ function findSupplierForProduct(suppliers, productName) {
    Suggestion Engine
 ----------------------------------------- */
 
-function buildSuggestionItem(text) {
-  return `<div class="alliya-suggestion-item" onclick="applySuggestion('${text.replace(/'/g, "\\'")}')">${text}</div>`;
-}
-
-window.applySuggestion = function (text) {
-  const input = document.getElementById('alliyaQuery');
-  const box = document.getElementById('alliyaSuggestions');
-  input.value = text;
-  box.innerHTML = '';
-};
-
 window.showSuggestions = async function () {
   const input = document.getElementById('alliyaQuery');
   const box = document.getElementById('alliyaSuggestions');
@@ -145,12 +134,61 @@ window.showSuggestions = async function () {
 
     const suggestions = new Set();
 
-    // Products from stock.json
+    // Stock products
     stock.forEach(item => {
-      if (item.name && item.name.toLowerCase().includes(query)) {
+      if (item.name.toLowerCase().includes(query)) {
         suggestions.add(item.name);
       }
     });
+
+    // Supplier names
+    suppliers.forEach(s => {
+      if (s.name.toLowerCase().includes(query)) {
+        suggestions.add(`show ${s.name.toLowerCase()} profile`);
+      }
+    });
+
+    // Knowledge questions
+    knowledge.forEach(k => {
+      if (k.question.toLowerCase().includes(query)) {
+        suggestions.add(k.question);
+      }
+    });
+
+    // Smart intents
+    const intents = [
+      'fcl booking',
+      'book fcl',
+      'open fcl page',
+      'open stock page',
+      'open supplier directory',
+      'open market pulse',
+      'download buyer pack',
+      'download supplier onboarding pack',
+      'download fcl guide',
+      'download compliance guide',
+      'download market analysis report'
+    ];
+
+    intents.forEach(i => {
+      if (i.includes(query)) {
+        suggestions.add(i);
+      }
+    });
+
+    const list = Array.from(suggestions).slice(0, 8);
+
+    box.innerHTML = list.map(text => `
+      <div class="alliya-suggestion-item" onclick="applySuggestion('${text.replace(/'/g, "\\'")}')">
+        ${text}
+      </div>
+    `).join('');
+
+  } catch (err) {
+    console.warn('Alliya suggestions error:', err);
+    box.innerHTML = '';
+  }
+};
 
     // Suppliers from suppliers.json
     suppliers.forEach(s => {
