@@ -218,11 +218,12 @@
 
 
   // Close when clicking outside modal-content
-  window.onclick = function(e) {
-    if (e.target.id === 'alliyaModal') {
-      closeModal();
-    }
-  };
+  window.onclick = function(event) {
+  const modal = document.getElementById('alliyaModal');
+  if (modal && event.target === modal) {
+    closeModal();
+  }
+};
 </script>
   <!-- CTA -->
   <section class="cta-banner">
