@@ -1,3 +1,10 @@
+(function injectAlliyaCSS() {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = '/css/alliya.css';
+  document.head.appendChild(link);
+})();
+
 /* -----------------------------------------
    Alliya v6 Modal Auto-Injector
 ----------------------------------------- */
