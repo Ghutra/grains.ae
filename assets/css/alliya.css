@@ -1,0 +1,238 @@
+/* -----------------------------------------
+   Alliya v6 – Modal Shell
+----------------------------------------- */
+
+#alliyaModal {
+  display: none;
+  position: fixed;
+  z-index: 9998;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+#alliyaModal.active {
+  display: block;
+}
+
+#alliyaModal .modal-content {
+  background: #ffffff;
+  margin: 60px auto;
+  padding: 0;
+  border-radius: 14px;
+  max-width: 520px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* Close icon */
+#alliyaModal .close {
+  color: #999;
+  float: right;
+  font-size: 26px;
+  font-weight: 400;
+  margin: 10px 14px 0 0;
+  cursor: pointer;
+}
+
+#alliyaModal .close:hover {
+  color: #333;
+}
+
+/* -----------------------------------------
+   Alliya v6 – Core Box
+----------------------------------------- */
+
+.alliya-box {
+  padding: 18px 20px 20px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #222;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.alliya-box h2 {
+  font-size: 18px;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.alliya-box h2 img {
+  border-radius: 6px;
+}
+
+/* Input + button */
+
+.alliya-box input#alliyaQuery {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #d4d4d4;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.alliya-box input#alliyaQuery:focus {
+  border-color: #c49b3f;
+  box-shadow: 0 0 0 1px rgba(196, 155, 63, 0.25);
+}
+
+.alliya-box button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, #c49b3f, #e3c46a);
+  color: #111;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: filter 0.18s ease, transform 0.08s ease;
+}
+
+.alliya-box button:hover {
+  filter: brightness(1.05);
+}
+
+.alliya-box button:active {
+  transform: scale(0.98);
+}
+
+/* -----------------------------------------
+   Alliya v6 – Suggestions
+----------------------------------------- */
+
+.suggestions {
+  position: absolute;
+  top: 42px;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  z-index: 9999;
+  max-height: 220px;
+  overflow-y: auto;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.alliya-suggestion-item {
+  padding: 9px 11px;
+  font-size: 13px;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.alliya-suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.alliya-suggestion-item:hover {
+  background: #f7f4eb;
+}
+
+/* -----------------------------------------
+   Alliya v6 – Response Block
+----------------------------------------- */
+
+.reply {
+  margin-top: 14px;
+  padding: 12px 12px 10px;
+  border-radius: 10px;
+  border: 1px solid #e2e2e2;
+  background: #fafafa;
+  font-size: 13px;
+  line-height: 1.5;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.reply h2,
+.reply h3 {
+  margin-top: 0;
+}
+
+.reply h2 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.reply h3 {
+  font-size: 14px;
+  margin: 10px 0 4px;
+}
+
+/* Links inside reply */
+
+.reply a {
+  color: #c49b3f;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.reply a:hover {
+  text-decoration: underline;
+}
+
+/* -----------------------------------------
+   Alliya v6 – Float Button
+----------------------------------------- */
+
+.alliya-float {
+  position: fixed;
+  right: 16px;
+  bottom: 18px;
+  z-index: 9997;
+  background: #111111;
+  color: #f5f5f5;
+  padding: 8px 12px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.alliya-float img {
+  border-radius: 6px;
+}
+
+.alliya-float:hover {
+  filter: brightness(1.08);
+}
+
+/* -----------------------------------------
+   Alliya v6 – Mobile Tweaks
+----------------------------------------- */
+
+@media (max-width: 600px) {
+  #alliyaModal .modal-content {
+    margin: 30px 12px;
+    max-width: 100%;
+  }
+
+  .alliya-box {
+    max-height: 78vh;
+  }
+
+  .reply {
+    max-height: 52vh;
+  }
+
+  .alliya-float {
+    right: 10px;
+    bottom: 12px;
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+}
