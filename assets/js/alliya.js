@@ -115,9 +115,35 @@ function findSupplierForProduct(suppliers, productName) {
    Suggestion Engine
 ----------------------------------------- */
 
+function buildSuggestionItem(text) {
+  return `
+    <div class="alliya-suggestion-item"
+         onclick="applySuggestion('${text.replace(/'/g, "\\'")}')">
+      ${text}
+    </div>
+  `;
+}
+
+/* -----------------------------------------
+   Suggestion Apply Handler
+----------------------------------------- */
+window.applySuggestion = function (text) {
+  const input = document.getElementById('alliyaQuery');
+  const box = document.getElementById('alliyaSuggestions');
+
+  if (input) input.value = text;
+  if (box) box.innerHTML = '';
+};
+
+/* -----------------------------------------
+   Suggestion Engine Main
+----------------------------------------- */
 window.showSuggestions = async function () {
   const input = document.getElementById('alliyaQuery');
   const box = document.getElementById('alliyaSuggestions');
+
+  if (!input || !box) return;
+
   const query = (input.value || '').toLowerCase().trim();
 
   if (!query || query.length < 2) {
@@ -134,28 +160,28 @@ window.showSuggestions = async function () {
 
     const suggestions = new Set();
 
-    // Stock products
+    /* Stock products */
     stock.forEach(item => {
       if (item.name.toLowerCase().includes(query)) {
         suggestions.add(item.name);
       }
     });
 
-    // Supplier names
+    /* Supplier names */
     suppliers.forEach(s => {
       if (s.name.toLowerCase().includes(query)) {
         suggestions.add(`show ${s.name.toLowerCase()} profile`);
       }
     });
 
-    // Knowledge questions
+    /* Knowledge questions */
     knowledge.forEach(k => {
       if (k.question.toLowerCase().includes(query)) {
         suggestions.add(k.question);
       }
     });
 
-    // Smart intents
+    /* Smart intents */
     const intents = [
       'fcl booking',
       'book fcl',
@@ -167,60 +193,14 @@ window.showSuggestions = async function () {
       'download supplier onboarding pack',
       'download fcl guide',
       'download compliance guide',
-      'download market analysis report'
+      'download market analysis report',
+      'documentation',
+      'open documentation page'
     ];
 
     intents.forEach(i => {
       if (i.includes(query)) {
         suggestions.add(i);
-      }
-    });
-
-    const list = Array.from(suggestions).slice(0, 8);
-
-    box.innerHTML = list.map(text => `
-      <div class="alliya-suggestion-item" onclick="applySuggestion('${text.replace(/'/g, "\\'")}')">
-        ${text}
-      </div>
-    `).join('');
-
-  } catch (err) {
-    console.warn('Alliya suggestions error:', err);
-    box.innerHTML = '';
-  }
-};
-
-    // Suppliers from suppliers.json
-    suppliers.forEach(s => {
-      if (s.name && s.name.toLowerCase().includes(query)) {
-        suggestions.add(`show ${s.name.toLowerCase()} profile`);
-      }
-    });
-
-    // Knowledge questions
-    knowledge.forEach(k => {
-      if (k.question && k.question.toLowerCase().includes(query)) {
-        suggestions.add(k.question);
-      }
-    });
-
-    // Common intents
-    const commonIntents = [
-      'download buyer pack',
-      'download supplier onboarding pack',
-      'download fcl guide',
-      'download compliance guide',
-      'download market analysis report',
-      'open stock page',
-      'open fcl page',
-      'open market pulse',
-      'open supplier directory',
-      'open documentation page'
-    ];
-
-    commonIntents.forEach(ci => {
-      if (ci.includes(query)) {
-        suggestions.add(ci);
       }
     });
 
@@ -235,7 +215,7 @@ window.showSuggestions = async function () {
 
   } catch (err) {
     console.warn('Alliya suggestions error:', err);
-    box.innerHTML = '';
+    if (box) box.innerHTML = '';
   }
 };
 
