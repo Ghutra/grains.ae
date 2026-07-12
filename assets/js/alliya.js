@@ -190,20 +190,35 @@ window.showSuggestions = async function () {
 
     /* Smart intents */
     const intents = [
-      'fcl booking',
-      'book fcl',
-      'open fcl page',
-      'open stock page',
-      'open supplier directory',
-      'open market pulse',
-      'download buyer pack',
-      'download supplier onboarding pack',
-      'download fcl guide',
-      'download compliance guide',
-      'download market analysis report',
-      'documentation',
-      'open documentation page'
-    ];
+  "fcl",
+  "stock",
+  "supplier",
+  "market",
+  "pulse",
+  "docs",
+  "documentation",
+  "compliance",
+  "grains",
+  "dubai",
+  "alras",
+  "al ras",
+  "ghutra",
+  "rice",
+  "shahid",
+  "grains hub",
+  "fcl booking",
+  "book fcl",
+  "open fcl page",
+  "open stock page",
+  "open supplier directory",
+  "open market pulse",
+  "download buyer pack",
+  "download supplier onboarding pack",
+  "download fcl guide",
+  "download compliance guide",
+  "download market analysis report",
+  "open documentation page"
+];
 
     intents.forEach(i => {
       if (i.includes(query)) {
@@ -371,9 +386,11 @@ window.askAlliya = async function () {
     /* -----------------------------------------
        3. Knowledge Base Match
     ----------------------------------------- */
-    const kbMatch = knowledge.find(item =>
-      userQuery.includes(item.question.toLowerCase())
-    );
+   const kbMatch = knowledge.find(item => {
+  const q = item.question.toLowerCase();
+  return userQuery === q || userQuery.includes(q);
+});
+
 
     if (kbMatch) {
       replyBox.innerHTML = buildAlliyaResponse(
