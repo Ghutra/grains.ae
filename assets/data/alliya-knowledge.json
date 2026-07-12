@@ -263,4 +263,83 @@
     "question": "do you show available bags",
     "answer": "Yes, available bags are shown for AED stock."
   }
-]
+{
+  "question": "who is shahid",
+  "answer": "Shahid Bashir is the founder of Grains Hub, Ghutra Goods Wholesaler LLC, and GhutraTech. He architects, deploys, and manages every technical and operational layer of grains.ae."
+},
+{
+  "question": "who founded grains hub",
+  "answer": "Grains Hub was founded by Shahid Bashir in Dubai under Ghutra Goods Wholesaler LLC."
+},
+{
+  "question": "what is ghutra goods wholesaler llc",
+  "answer": "Ghutra Goods Wholesaler LLC is the licensed UAE entity operating Grains Hub, based in Al Ras, Deira, Dubai."
+},
+{
+  "question": "where is your office",
+  "answer": "Our office is located in Al Ras, Deira, Dubai, under Ghutra Goods Wholesaler LLC."
+},
+{
+  "question": "what is ghutratrade",
+  "answer": "GhutraTrade is part of the Ghutra ecosystem built by Shahid Bashir to support verified grain trade in the UAE."
+},
+{
+  "question": "what is ghutragrains",
+  "answer": "GhutraGrains is a brand under Ghutra Goods Wholesaler LLC focused on verified grain sourcing."
+},
+{
+  "question": "what is ghutra tech",
+  "answer": "GhutraTech is the technology arm founded by Shahid Bashir, powering grains.ae, Alliya v6, Market Pulse, and supplier onboarding systems."
+},
+{
+  "question": "what is grains.ae",
+  "answer": "grains.ae is the official platform of Grains Hub, offering live stock, FCL booking, supplier verification, and Market Pulse."
+},
+{
+  "question": "where are you based",
+  "answer": "Grains Hub operates from Al Ras, Deira, Dubai — the heart of the UAE’s wholesale grain market."
+},
+{
+  "question": "what is al ras",
+  "answer": "Al Ras is Dubai’s historic wholesale trading district, known for rice, spices, and grain commerce. Grains Hub is headquartered here."
+},
+{
+  "question": "why dubai",
+  "answer": "Dubai is a global logistics hub with strong import infrastructure, making it ideal for verified grain trade and FCL shipments."
+},
+{
+  "question": "why al ras",
+  "answer": "Al Ras is the UAE’s traditional grain trading center, giving Grains Hub direct access to suppliers, buyers, and logistics networks."
+},
+{
+  "question": "who built alliya",
+  "answer": "Alliya was built by Shahid Bashir under GhutraTech as Dubai’s first AI grain assistant."
+},
+{
+  "question": "tell me about dubai",
+  "answer": "Dubai is a global trade hub with world-class logistics, ports, and wholesale markets — ideal for grain import and distribution."
+},
+{
+  "question": "tell me about deira",
+  "answer": "Deira is Dubai’s historic commercial district, home to Al Ras, the UAE’s grain and spice trading center."
+},
+{
+  "question": "tell me about al ras",
+  "answer": "Al Ras is Dubai’s wholesale grain market, where suppliers, traders, and logistics companies operate. Grains Hub is based here."
+},
+{
+  "question": "ejari",
+  "answer": "Ghutra Goods Wholesaler LLC holds an Ejari in Al Ras, Deira, Dubai for its official grain trading operations."
+},
+{
+  "question": "trade license",
+  "answer": "Ghutra Goods Wholesaler LLC operates under a Dubai trade license for wholesale grain trading."
+},
+{
+  "question": "uae grain import rules",
+  "answer": "UAE grain imports require compliance with pesticide standards, ritual compliance, and supplier verification — all handled by Grains Hub."
+},
+{
+  "question": "dubai wholesale regulations",
+  "answer": "Grains Hub operates under Dubai wholesale regulations through Ghutra Goods Wholesaler LLC."
+}
