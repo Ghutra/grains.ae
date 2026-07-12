@@ -262,7 +262,7 @@
   {
     "question": "do you show available bags",
     "answer": "Yes, available bags are shown for AED stock."
-  }
+  },
 {
   "question": "who is shahid",
   "answer": "Shahid Bashir is the founder of Grains Hub, Ghutra Goods Wholesaler LLC, and GhutraTech. He architects, deploys, and manages every technical and operational layer of grains.ae."
@@ -342,4 +342,5 @@
 {
   "question": "dubai wholesale regulations",
   "answer": "Grains Hub operates under Dubai wholesale regulations through Ghutra Goods Wholesaler LLC."
-}
+},
+]
