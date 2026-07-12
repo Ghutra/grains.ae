@@ -80,8 +80,8 @@
     "answer": "India, Pakistan, and Thailand origins are available."
   },
   {
-    "question": "do you support 20ft and 40ft",
-    "answer": "Yes, both 20ft and 40ft containers are supported."
+    "question": "do you support 20ft ",
+    "answer": "Yes, 20ft containers are supported."
   },
   {
     "question": "how long does booking confirmation take",
@@ -342,5 +342,5 @@
 {
   "question": "dubai wholesale regulations",
   "answer": "Grains Hub operates under Dubai wholesale regulations through Ghutra Goods Wholesaler LLC."
-},
+}
 ]
