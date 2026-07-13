@@ -284,6 +284,77 @@ function buildAlliyaResponse(title, summary, sections) {
     <p><em>All trade is executed through Ghutra Goods Wholesaler LLC under UAE wholesale regulations.</em></p>
   `;
 }
+/* -----------------------------------------
+   ALLIYA v6.0 – Personality Engine
+   (Natural replies for greetings, identity, small talk)
+----------------------------------------- */
+
+window.alliyaPersonality = function (query) {
+  const q = query.toLowerCase();
+
+  // Greeting responses
+  if (["hi", "hello", "hey"].includes(q)) {
+    return {
+      title: "Hello!",
+      summary: "I’m Alliya, your grain trade assistant.",
+      details: "How can I help you today?"
+    };
+  }
+
+  // Identity responses
+  if (q.includes("who are you") || q.includes("who is alliya")) {
+    return {
+      title: "About Alliya",
+      summary: "I’m Alliya — Dubai’s first AI grain assistant.",
+      details: "I help you check stock, suppliers, FCL booking, compliance, and documentation."
+    };
+  }
+
+  if (q.includes("what is alliya")) {
+    return {
+      title: "Alliya – AI Assistant",
+      summary: "Alliya is the official AI assistant of Grains Hub.",
+      details: "I provide instant answers about products, suppliers, FCL shipments, compliance, and market intelligence."
+    };
+  }
+
+  // Small talk
+  if (q.includes("how are you")) {
+    return {
+      title: "I’m doing great!",
+      summary: "Ready to help you with anything related to grain trade.",
+      details: "Ask me about stock, suppliers, FCL booking, compliance, or documentation."
+    };
+  }
+
+  if (q.includes("thank")) {
+    return {
+      title: "You’re welcome!",
+      summary: "Happy to help anytime.",
+      details: "Let me know if you want to check stock, suppliers, or book FCL."
+    };
+  }
+
+  // Founder identity
+  if (q.includes("shahid")) {
+    return {
+      title: "About Shahid Bashir",
+      summary: "Founder of Grains Hub, GhutraTech, and Ghutra Goods Wholesaler LLC.",
+      details: "He architects and manages every technical and operational layer of grains.ae."
+    };
+  }
+
+  // Location identity
+  if (q.includes("dubai") || q.includes("al ras") || q.includes("alras")) {
+    return {
+      title: "Dubai & Al Ras",
+      summary: "Grains Hub operates from Al Ras, Deira — Dubai’s historic grain trading district.",
+      details: "This location gives direct access to suppliers, buyers, and logistics networks."
+    };
+  }
+
+  return null; // No personality match
+};
 
 /* -----------------------------------------
    ALLIYA v6.0 – Main Engine
