@@ -528,31 +528,7 @@ if (personality) {
       return;
     }
 
-    /* -----------------------------------------
-       4. Smart Intent Router (Documentation)
-    ----------------------------------------- */
-    const intent = userQuery.toLowerCase();
-
-    if (intent.includes("documentation") || intent.includes("docs")) {
-      replyBox.innerHTML = buildAlliyaResponse(
-        "Documentation Hub",
-        "Here are all official Grains Hub documents.",
-        [
-          {
-            heading: "Downloads",
-            body: `
-              <a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank">Buyer Pack</a><br>
-              <a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank">Supplier Onboarding Pack</a><br>
-              <a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank">FCL Guide</a><br>
-              <a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a><br>
-              <a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank">Market Analysis 2025</a>
-            `
-          }
-        ]
-      );
-      return;
-    }
-/* -----------------------------------------
+   /* -----------------------------------------
    4. Intent Router (Instant Actions)
 ----------------------------------------- */
 
