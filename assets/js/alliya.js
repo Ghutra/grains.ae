@@ -415,6 +415,21 @@ window.askAlliya = async function () {
         return;
       }
     }
+// Personality Engine Check
+const personality = alliyaPersonality(userQuery);
+if (personality) {
+  replyBox.innerHTML = buildAlliyaResponse(
+    personality.title,
+    personality.summary,
+    [
+      {
+        heading: "Details",
+        body: personality.details
+      }
+    ]
+  );
+  return;
+}
 
     /* -----------------------------------------
        1. Stock Match (Only if NOT greeting/identity)
