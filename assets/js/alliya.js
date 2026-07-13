@@ -552,6 +552,164 @@ if (personality) {
       );
       return;
     }
+/* -----------------------------------------
+   4. Intent Router (Instant Actions)
+----------------------------------------- */
+
+const intent = userQuery.toLowerCase();
+
+// Supplier Directory
+if (intent.includes("supplier directory") || intent.includes("suppliers")) {
+  replyBox.innerHTML = buildAlliyaResponse(
+    "Supplier Directory",
+    "Browse all verified suppliers listed on Grains Hub.",
+    [
+      {
+        heading: "Open Directory",
+        body: `<a href="https://grains.ae/suppliers/" target="_blank">View Suppliers</a>`
+      }
+    ]
+  );
+  return;
+}
+
+// Market Pulse
+if (intent.includes("market pulse") || intent.includes("pulse") || intent.includes("market")) {
+  replyBox.innerHTML = buildAlliyaResponse(
+    "Market Pulse",
+    "Live grain pricing updated every 60 seconds.",
+    [
+      {
+        heading: "Open Market Pulse",
+        body: `<a href="https://grains.ae/pulse/index.html" target="_blank">Open Market Pulse</a>`
+      }
+    ]
+  );
+  return;
+}
+
+// FCL Booking
+if (intent.includes("fcl") || intent.includes("book fcl") || intent.includes("fcl booking")) {
+  replyBox.innerHTML = buildAlliyaResponse(
+    "FCL Booking",
+    "Submit your full container load requirement instantly.",
+    [
+      {
+        heading: "Book Shipment",
+        body: `<a href="https://grains.ae/fcl/" target="_blank">Book FCL Shipment</a>`
+      }
+    ]
+  );
+  return;
+}
+
+// Compliance
+if (intent.includes("compliance") || intent.includes("verification")) {
+  replyBox.innerHTML = buildAlliyaResponse(
+    "Compliance & Verification",
+    "Download the official compliance and verification guide.",
+    [
+      {
+        heading: "Download Guide",
+        body: `<a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a>`
+      }
+    ]
+  );
+  return;
+}
+
+// Stock Page
+if (intent.includes("stock") || intent.includes("open stock page")) {
+  replyBox.innerHTML = buildAlliyaResponse(
+    "Live Stock",
+    "Browse all available AED stock and USD booking options.",
+    [
+      {
+        heading: "Open Stock",
+        body: `<a href="https://grains.ae/shop" target="_blank">Open Stock Page</a>`
+      }
+    ]
+  );
+  return;
+}
+
+// Documentation Hub
+if (intent.includes("documentation") || intent.includes("docs") || intent.includes("documents")) {
+  replyBox.innerHTML = buildAlliyaResponse(
+    "Documentation Hub",
+    "All official Grains Hub documents are available below.",
+    [
+      {
+        heading: "Downloads",
+        body: `
+          <a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank">Buyer Pack</a><br>
+          <a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank">Supplier Onboarding Pack</a><br>
+          <a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank">FCL Guide</a><br>
+          <a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a><br>
+          <a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank">Market Analysis 2025</a>
+        `
+      }
+    ]
+  );
+  return;
+}
+
+// Download Packs
+if (intent.includes("buyer pack")) {
+  replyBox.innerHTML = buildAlliyaResponse(
+    "Buyer Pack",
+    "Download the official Buyer Pack.",
+    [
+      {
+        heading: "Download",
+        body: `<a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank">Buyer Pack</a>`
+      }
+    ]
+  );
+  return;
+}
+
+if (intent.includes("supplier onboarding pack") || intent.includes("supplier pack")) {
+  replyBox.innerHTML = buildAlliyaResponse(
+    "Supplier Onboarding Pack",
+    "Download the Supplier Onboarding Pack.",
+    [
+      {
+        heading: "Download",
+        body: `<a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank">Supplier Onboarding Pack</a>`
+      }
+    ]
+  );
+  return;
+}
+
+if (intent.includes("fcl guide")) {
+  replyBox.innerHTML = buildAlliyaResponse(
+    "FCL Guide",
+    "Download the official FCL Booking Guide.",
+    [
+      {
+        heading: "Download",
+        body: `<a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank">FCL Guide</a>`
+      }
+    ]
+  );
+  return;
+}
+
+if (intent.includes("market analysis")) {
+  replyBox.innerHTML = buildAlliyaResponse(
+    "Market Analysis Report",
+    "Download the Market Analysis Report 2025.",
+    [
+      {
+        heading: "Download",
+        body: `<a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank">Market Analysis 2025</a>`
+      }
+    ]
+  );
+  return;
+}
 
     /* -----------------------------------------
        5. Fallback
