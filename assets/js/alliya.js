@@ -190,79 +190,80 @@ window.showSuggestions = async function () {
 
     /* Smart intents */
     const intents = [
-  "fcl",
-  "stock",
-  "supplier",
-  "market",
-  "pulse",
-  "docs",
-  "documentation",
-  "compliance",
-  "grains",
-  "dubai",
-  "alras",
-  "al ras",
-  "ghutra",
-  "rice",
-  "shahid",
-  "grains hub",
-  "fcl booking",
-  "book fcl",
-  "open fcl page",
-  "open stock page",
-  "open supplier directory",
-  "open market pulse",
-  "download buyer pack",
-  "download supplier onboarding pack",
-  "download fcl guide",
-  "download compliance guide",
-  "download market analysis report",
-  "open documentation page"
-];
-/* Greeting & Small‑Talk Suggestions */
-const greetingIntents = [
-  "hi",
-  "hello",
-  "hey",
-  "how are you",
-  "who are you",
-  "who is alliya",
-  "what is alliya",
-  "tell me about alliya",
-  "alliya assistant",
-  "alliya info",
-  "thank you",
-  "thanks"
-];
-
-greetingIntents.forEach(g => {
-  if (g.includes(query)) {
-    suggestions.add(g);
-  }
-});
-
-/* Founder & Location Suggestions */
-const identityIntents = [
-  "shahid",
-  "founder",
-  "ghutra",
-  "ghutra tech",
-  "ghutra goods",
-  "grains hub",
-  "grains",
-  "dubai",
-  "al ras",
-  "alras",
-  "deira"
-];
-
-identityIntents.forEach(i => {
-  if (i.includes(query)) {
-    suggestions.add(i);
-  }
-});
+      "fcl",
+      "stock",
+      "supplier",
+      "market",
+      "pulse",
+      "docs",
+      "documentation",
+      "compliance",
+      "grains",
+      "dubai",
+      "alras",
+      "al ras",
+      "ghutra",
+      "rice",
+      "shahid",
+      "grains hub",
+      "fcl booking",
+      "book fcl",
+      "open fcl page",
+      "open stock page",
+      "open supplier directory",
+      "open market pulse",
+      "download buyer pack",
+      "download supplier onboarding pack",
+      "download fcl guide",
+      "download compliance guide",
+      "download market analysis report",
+      "open documentation page"
+    ];
 
     intents.forEach(i => {
+      if (i.includes(query)) {
+        suggestions.add(i);
+      }
+    });
+
+    /* Greeting & Small‑Talk Suggestions */
+    const greetingIntents = [
+      "hi",
+      "hello",
+      "hey",
+      "how are you",
+      "who are you",
+      "who is alliya",
+      "what is alliya",
+      "tell me about alliya",
+      "alliya assistant",
+      "alliya info",
+      "thank you",
+      "thanks"
+    ];
+
+    greetingIntents.forEach(g => {
+      if (g.includes(query)) {
+        suggestions.add(g);
+      }
+    });
+
+    /* Founder & Location Suggestions */
+    const identityIntents = [
+      "shahid",
+      "founder",
+      "ghutra",
+      "ghutra tech",
+      "ghutra goods",
+      "grains hub",
+      "grains",
+      "dubai",
+      "al ras",
+      "alras",
+      "deira"
+    ];
+
+    identityIntents.forEach(i => {
       if (i.includes(query)) {
         suggestions.add(i);
       }
@@ -326,9 +327,9 @@ function buildAlliyaResponse(title, summary, sections) {
     <p><em>All trade is executed through Ghutra Goods Wholesaler LLC under UAE wholesale regulations.</em></p>
   `;
 }
+
 /* -----------------------------------------
    ALLIYA v6.0 – Personality Engine
-   (Natural replies for greetings, identity, small talk)
 ----------------------------------------- */
 
 window.alliyaPersonality = function (query) {
@@ -395,7 +396,76 @@ window.alliyaPersonality = function (query) {
     };
   }
 
-  return null; // No personality match
+  return null;
+};
+
+/* -----------------------------------------
+   ALLIYA v6.0 – Error Recovery Engine
+----------------------------------------- */
+
+window.alliyaRecover = function (type, detail = "") {
+  switch (type) {
+
+    case "empty":
+      return {
+        title: "I’m here to help",
+        summary: "Please type something so I can assist you.",
+        details: "Try asking about products, suppliers, FCL booking, compliance, or documentation."
+      };
+
+    case "network":
+      return {
+        title: "Connection Issue",
+        summary: "I couldn’t load live stock or supplier data.",
+        details: `
+          This may be due to a temporary network issue.<br><br>
+          - Try again in a moment<br>
+          - Or browse stock directly: <a href="https://grains.ae/shop" target="_blank">Open Stock Page</a><br>
+          - Or submit FCL: <a href="https://grains.ae/fcl/" target="_blank">Book FCL Shipment</a>
+        `
+      };
+
+    case "json":
+      return {
+        title: "Data Loading Issue",
+        summary: "Some datasets could not be loaded (stock, suppliers, or knowledge).",
+        details: `
+          This usually happens if:<br>
+          - JSON file has a missing comma<br>
+          - JSON file has a broken bracket<br>
+          - JSON file is not valid<br><br>
+          Please verify your JSON files in /assets/data/.
+        `
+      };
+
+    case "unknown":
+      return {
+        title: "I’m here to help",
+        summary: `I couldn’t find a direct match for "${detail}".`,
+        details: `
+          Try asking about:<br>
+          - Products<br>
+          - Suppliers<br>
+          - FCL booking<br>
+          - Documentation<br>
+          - Compliance<br>
+          - Market prices<br><br>
+          You can also browse stock directly:<br>
+          <a href="https://grains.ae/shop" target="_blank">Open Stock Page</a>
+        `
+      };
+
+    default:
+      return {
+        title: "Something went wrong",
+        summary: "I couldn’t process your request.",
+        details: `
+          Please try again.<br><br>
+          If the issue continues, browse stock:<br>
+          <a href="https://grains.ae/shop" target="_blank">Open Stock Page</a>
+        `
+      };
+  }
 };
 
 /* -----------------------------------------
@@ -403,10 +473,20 @@ window.alliyaPersonality = function (query) {
 ----------------------------------------- */
 
 window.askAlliya = async function () {
-  const userQuery = document.getElementById('alliyaQuery').value.trim().toLowerCase();
-  if (!userQuery) return;
-
   const replyBox = document.getElementById('alliyaResponse');
+  const userQuery = document.getElementById('alliyaQuery').value.trim().toLowerCase();
+
+  if (!userQuery) {
+    const err = alliyaRecover("empty");
+    replyBox.style.display = 'block';
+    replyBox.innerHTML = buildAlliyaResponse(
+      err.title,
+      err.summary,
+      [{ heading: "Details", body: err.details }]
+    );
+    return;
+  }
+
   replyBox.style.display = 'block';
   replyBox.innerHTML = 'Alliya is checking live stock…';
 
@@ -422,7 +502,7 @@ window.askAlliya = async function () {
     ]);
 
     /* -----------------------------------------
-       PRIORITY OVERRIDE (Fixes "hi", "what is alliya", etc.)
+       PRIORITY OVERRIDE
     ----------------------------------------- */
     const priorityKeywords = [
       "hi",
@@ -457,24 +537,25 @@ window.askAlliya = async function () {
         return;
       }
     }
-// Personality Engine Check
-const personality = alliyaPersonality(userQuery);
-if (personality) {
-  replyBox.innerHTML = buildAlliyaResponse(
-    personality.title,
-    personality.summary,
-    [
-      {
-        heading: "Details",
-        body: personality.details
-      }
-    ]
-  );
-  return;
-}
+
+    /* Personality Engine Check */
+    const personality = alliyaPersonality(userQuery);
+    if (personality) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        personality.title,
+        personality.summary,
+        [
+          {
+            heading: "Details",
+            body: personality.details
+          }
+        ]
+      );
+      return;
+    }
 
     /* -----------------------------------------
-       1. Stock Match (Only if NOT greeting/identity)
+       1. Stock Match
     ----------------------------------------- */
     const matches = findStockMatches(stock, terms);
 
@@ -549,7 +630,7 @@ if (personality) {
     }
 
     /* -----------------------------------------
-       3. Knowledge Base Match (Improved Matching)
+       3. Knowledge Base Match
     ----------------------------------------- */
     const kbMatch = knowledge.find(item => {
       const q = item.question.toLowerCase();
@@ -570,200 +651,184 @@ if (personality) {
       return;
     }
 
-   /* -----------------------------------------
-   4. Intent Router (Instant Actions)
------------------------------------------ */
+    /* -----------------------------------------
+       4. Intent Router (Instant Actions)
+    ----------------------------------------- */
 
-const intent = userQuery.toLowerCase();
+    const intent = userQuery.toLowerCase();
 
-// Supplier Directory
-if (intent.includes("supplier directory") || intent.includes("suppliers")) {
-  replyBox.innerHTML = buildAlliyaResponse(
-    "Supplier Directory",
-    "Browse all verified suppliers listed on Grains Hub.",
-    [
-      {
-        heading: "Open Directory",
-        body: `<a href="https://grains.ae/suppliers/" target="_blank">View Suppliers</a>`
-      }
-    ]
-  );
-  return;
-}
+    // Supplier Directory
+    if (intent.includes("supplier directory") || intent.includes("suppliers")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "Supplier Directory",
+        "Browse all verified suppliers listed on Grains Hub.",
+        [
+          {
+            heading: "Open Directory",
+            body: `<a href="https://grains.ae/suppliers/" target="_blank">View Suppliers</a>`
+          }
+        ]
+      );
+      return;
+    }
 
-// Market Pulse
-if (intent.includes("market pulse") || intent.includes("pulse") || intent.includes("market")) {
-  replyBox.innerHTML = buildAlliyaResponse(
-    "Market Pulse",
-    "Live grain pricing updated every 60 seconds.",
-    [
-      {
-        heading: "Open Market Pulse",
-        body: `<a href="https://grains.ae/pulse/index.html" target="_blank">Open Market Pulse</a>`
-      }
-    ]
-  );
-  return;
-}
+    // Market Pulse
+    if (intent.includes("market pulse") || intent.includes("pulse") || intent.includes("market")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "Market Pulse",
+        "Live grain pricing updated every 60 seconds.",
+        [
+          {
+            heading: "Open Market Pulse",
+            body: `<a href="https://grains.ae/pulse/index.html" target="_blank">Open Market Pulse</a>`
+          }
+        ]
+      );
+      return;
+    }
 
-// FCL Booking
-if (intent.includes("fcl") || intent.includes("book fcl") || intent.includes("fcl booking")) {
-  replyBox.innerHTML = buildAlliyaResponse(
-    "FCL Booking",
-    "Submit your full container load requirement instantly.",
-    [
-      {
-        heading: "Book Shipment",
-        body: `<a href="https://grains.ae/fcl/" target="_blank">Book FCL Shipment</a>`
-      }
-    ]
-  );
-  return;
-}
+    // FCL Booking
+    if (intent.includes("fcl") || intent.includes("book fcl") || intent.includes("fcl booking")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "FCL Booking",
+        "Submit your full container load requirement instantly.",
+        [
+          {
+            heading: "Book Shipment",
+            body: `<a href="https://grains.ae/fcl/" target="_blank">Book FCL Shipment</a>`
+          }
+        ]
+      );
+      return;
+    }
 
-// Compliance
-if (intent.includes("compliance") || intent.includes("verification")) {
-  replyBox.innerHTML = buildAlliyaResponse(
-    "Compliance & Verification",
-    "Download the official compliance and verification guide.",
-    [
-      {
-        heading: "Download Guide",
-        body: `<a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a>`
-      }
-    ]
-  );
-  return;
-}
+    // Compliance
+    if (intent.includes("compliance") || intent.includes("verification")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "Compliance & Verification",
+        "Download the official compliance and verification guide.",
+        [
+          {
+            heading: "Download Guide",
+            body: `<a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a>`
+          }
+        ]
+      );
+      return;
+    }
 
-// Stock Page
-if (intent.includes("stock") || intent.includes("open stock page")) {
-  replyBox.innerHTML = buildAlliyaResponse(
-    "Live Stock",
-    "Browse all available AED stock and USD booking options.",
-    [
-      {
-        heading: "Open Stock",
-        body: `<a href="https://grains.ae/shop" target="_blank">Open Stock Page</a>`
-      }
-    ]
-  );
-  return;
-}
+    // Stock Page
+    if (intent.includes("stock") || intent.includes("open stock page")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "Live Stock",
+        "Browse all available AED stock and USD booking options.",
+        [
+          {
+            heading: "Open Stock",
+            body: `<a href="https://grains.ae/shop" target="_blank">Open Stock Page</a>`
+          }
+        ]
+      );
+      return;
+    }
 
-// Documentation Hub
-if (intent.includes("documentation") || intent.includes("docs") || intent.includes("documents")) {
-  replyBox.innerHTML = buildAlliyaResponse(
-    "Documentation Hub",
-    "All official Grains Hub documents are available below.",
-    [
-      {
-        heading: "Downloads",
-        body: `
-          <a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank">Buyer Pack</a><br>
-          <a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank">Supplier Onboarding Pack</a><br>
-          <a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank">FCL Guide</a><br>
-          <a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a><br>
-          <a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank">Market Analysis 2025</a>
-        `
-      }
-    ]
-  );
-  return;
-}
+    // Documentation Hub
+    if (intent.includes("documentation") || intent.includes("docs") || intent.includes("documents")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "Documentation Hub",
+        "All official Grains Hub documents are available below.",
+        [
+          {
+            heading: "Downloads",
+            body: `
+              <a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank">Buyer Pack</a><br>
+              <a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank">Supplier Onboarding Pack</a><br>
+              <a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank">FCL Guide</a><br>
+              <a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a><br>
+              <a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank">Market Analysis 2025</a>
+            `
+          }
+        ]
+      );
+      return;
+    }
 
-// Download Packs
-if (intent.includes("buyer pack")) {
-  replyBox.innerHTML = buildAlliyaResponse(
-    "Buyer Pack",
-    "Download the official Buyer Pack.",
-    [
-      {
-        heading: "Download",
-        body: `<a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank">Buyer Pack</a>`
-      }
-    ]
-  );
-  return;
-}
+    // Download Packs
+    if (intent.includes("buyer pack")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "Buyer Pack",
+        "Download the official Buyer Pack.",
+        [
+          {
+            heading: "Download",
+            body: `<a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank">Buyer Pack</a>`
+          }
+        ]
+      );
+      return;
+    }
 
-if (intent.includes("supplier onboarding pack") || intent.includes("supplier pack")) {
-  replyBox.innerHTML = buildAlliyaResponse(
-    "Supplier Onboarding Pack",
-    "Download the Supplier Onboarding Pack.",
-    [
-      {
-        heading: "Download",
-        body: `<a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank">Supplier Onboarding Pack</a>`
-      }
-    ]
-  );
-  return;
-}
+    if (intent.includes("supplier onboarding pack") || intent.includes("supplier pack")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "Supplier Onboarding Pack",
+        "Download the Supplier Onboarding Pack.",
+        [
+          {
+            heading: "Download",
+            body: `<a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank">Supplier Onboarding Pack</a>`
+          }
+        ]
+      );
+      return;
+    }
 
-if (intent.includes("fcl guide")) {
-  replyBox.innerHTML = buildAlliyaResponse(
-    "FCL Guide",
-    "Download the official FCL Booking Guide.",
-    [
-      {
-        heading: "Download",
-        body: `<a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank">FCL Guide</a>`
-      }
-    ]
-  );
-  return;
-}
+    if (intent.includes("fcl guide")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "FCL Guide",
+        "Download the official FCL Booking Guide.",
+        [
+          {
+            heading: "Download",
+            body: `<a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank">FCL Guide</a>`
+          }
+        ]
+      );
+      return;
+    }
 
-if (intent.includes("market analysis")) {
-  replyBox.innerHTML = buildAlliyaResponse(
-    "Market Analysis Report",
-    "Download the Market Analysis Report 2025.",
-    [
-      {
-        heading: "Download",
-        body: `<a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank">Market Analysis 2025</a>`
-      }
-    ]
-  );
-  return;
-}
+    if (intent.includes("market analysis")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "Market Analysis Report",
+        "Download the Market Analysis Report 2025.",
+        [
+          {
+            heading: "Download",
+            body: `<a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank">Market Analysis 2025</a>`
+          }
+        ]
+      );
+      return;
+    }
 
     /* -----------------------------------------
-       5. Fallback
+       5. Fallback (Unknown Query)
     ----------------------------------------- */
+    const errPack = alliyaRecover("unknown", userQuery);
     replyBox.innerHTML = buildAlliyaResponse(
-      "I’m here to help",
-      `I couldn’t find a direct match for "${userQuery}".`,
-      [
-        {
-          heading: "Try asking about:",
-          body: `
-            - Products<br>
-            - Suppliers<br>
-            - FCL booking<br>
-            - Documentation<br>
-            - Compliance<br>
-            - Market prices
-          `
-        }
-      ]
+      errPack.title,
+      errPack.summary,
+      [{ heading: "Details", body: errPack.details }]
     );
+    return;
 
   } catch (err) {
     console.warn('Alliya v6.0 error:', err);
+
+    const errPack = alliyaRecover("network");
     replyBox.innerHTML = buildAlliyaResponse(
-      "Connection Issue",
-      "There was a problem checking live stock.",
-      [
-        {
-          heading: "Next Steps",
-          body: `
-            <a href="https://grains.ae/shop" target="_blank">Browse stock</a><br>
-            <a href="https://grains.ae/fcl/" target="_blank">Submit FCL requirement</a>
-          `
-        }
-      ]
+      errPack.title,
+      errPack.summary,
+      [{ heading: "Details", body: errPack.details }]
     );
   }
 };
