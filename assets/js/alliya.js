@@ -219,6 +219,48 @@ window.showSuggestions = async function () {
   "download market analysis report",
   "open documentation page"
 ];
+/* Greeting & Small‑Talk Suggestions */
+const greetingIntents = [
+  "hi",
+  "hello",
+  "hey",
+  "how are you",
+  "who are you",
+  "who is alliya",
+  "what is alliya",
+  "tell me about alliya",
+  "alliya assistant",
+  "alliya info",
+  "thank you",
+  "thanks"
+];
+
+greetingIntents.forEach(g => {
+  if (g.includes(query)) {
+    suggestions.add(g);
+  }
+});
+
+/* Founder & Location Suggestions */
+const identityIntents = [
+  "shahid",
+  "founder",
+  "ghutra",
+  "ghutra tech",
+  "ghutra goods",
+  "grains hub",
+  "grains",
+  "dubai",
+  "al ras",
+  "alras",
+  "deira"
+];
+
+identityIntents.forEach(i => {
+  if (i.includes(query)) {
+    suggestions.add(i);
+  }
+});
 
     intents.forEach(i => {
       if (i.includes(query)) {
