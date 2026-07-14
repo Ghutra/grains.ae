@@ -1,660 +1,1220 @@
-/**
- * ALLIYA v8.1 - GRAINS GOLD THEME + DEBUG
- * Simplified for immediate testing
- */
-(function AlliyaV8() {
-  'use strict';
+/* ========================================================
+   ALLIYA v7.2 - GRAINS GOLD EDITION
+   ========================================================
+   Based on your working v7.1 with:
+   - Gold theme + flashing gold button
+   - All original functionality intact
+   ======================================================== */
 
-  const CONFIG = {
-    BASE_URL: window.location.origin,
-    DATA: {
-      STOCK: '/assets/data/stock.json',
-      SUPPLIERS: '/assets/data/suppliers.json',
-      KNOWLEDGE: '/assets/data/alliya-knowledge.json',
-    },
-  };
-
-  const State = {
-    cache: { stock: null, suppliers: null, knowledge: null },
-  };
-
-  const Utils = {
-    normalize: (str) => (str || '').toLowerCase().trim(),
-    sanitize: (text) => {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    },
-    timestamp: () => new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
-  };
-
-  const DataLoader = {
-    async fetchJSON(url, cacheKey) {
-      if (State.cache[cacheKey]) return State.cache[cacheKey];
-      try {
-        const res = await fetch(`${CONFIG.BASE_URL}${url}`, { cache: 'no-cache' });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        State.cache[cacheKey] = data;
-        console.log(`[Alliya] Loaded ${cacheKey}:`, data);
-        return data;
-      } catch (err) {
-        console.error(`[Alliya] Failed to load ${cacheKey}:`, err);
-        return null;
-      }
-    },
-    loadStock: () => DataLoader.fetchJSON(CONFIG.DATA.STOCK, 'stock'),
-    loadSuppliers: () => DataLoader.fetchJSON(CONFIG.DATA.SUPPLIERS, 'suppliers'),
-    loadKnowledge: () => DataLoader.fetchJSON(CONFIG.DATA.KNOWLEDGE, 'knowledge'),
-  };
-
-  // ==== SIMPLIFIED RESPONSE BUILDER ====
-  function buildResponse(title, summary, sections = [], actions = []) {
-    let html = `
-      <div class="alliya-bubble">
-        <div class="alliya-bubble-header">
-          <span class="alliya-icon">🤖</span>
-          <span class="alliya-title">${Utils.sanitize(title)}</span>
-          <span class="alliya-time">${Utils.timestamp()}</span>
-        </div>
-        <div class="alliya-bubble-body">
-          <p>${Utils.sanitize(summary)}</p>
-    `;
-    sections.forEach(sec => {
-      html += `<div class="alliya-section"><h4>${Utils.sanitize(sec.heading)}</h4><p>${Utils.sanitize(sec.body)}</p></div>`;
-    });
-    if (actions.length) {
-      html += `<div class="alliya-actions">`;
-      actions.forEach(a => {
-        html += `<button class="alliya-action-btn" onclick="window.Alliya.ask('${Utils.sanitize(a)}')">${Utils.sanitize(a)}</button>`;
-      });
-      html += `</div>`;
+(function injectAlliyaCSS() {
+  // ===== GOLD THEME STYLES =====
+  const goldStyles = `
+    /* ============================================
+       ALLIYA GOLD THEME - Grains.ae
+       ============================================ */
+    
+    /* ---- Floating Button ---- */
+    .alliya-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(135deg, #D4AF37 0%, #F5E56B 30%, #D4AF37 60%, #B8960F 100%);
+      background-size: 200% 200%;
+      color: #1a1a2e;
+      border: 2px solid #D4AF37;
+      border-radius: 50px;
+      padding: 14px 24px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 32px rgba(212, 175, 55, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 9999;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      /* FLASHING GOLD ANIMATION */
+      animation: goldPulse 2s ease-in-out infinite;
+      font-family: inherit;
     }
-    html += `</div></div>`;
-    return html;
+
+    .alliya-float:hover {
+      transform: scale(1.08);
+      box-shadow: 0 12px 48px rgba(212, 175, 55, 0.6);
+      animation-play-state: paused;
+    }
+
+    .alliya-float img {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: white;
+      padding: 3px;
+    }
+
+    @keyframes goldPulse {
+      0%, 100% {
+        box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+        transform: scale(1);
+        background-position: 0% 50%;
+      }
+      25% {
+        box-shadow: 0 8px 48px rgba(212, 175, 55, 0.7);
+        transform: scale(1.03);
+        background-position: 50% 50%;
+      }
+      50% {
+        box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+        transform: scale(1);
+        background-position: 100% 50%;
+      }
+      75% {
+        box-shadow: 0 8px 48px rgba(212, 175, 55, 0.7);
+        transform: scale(1.03);
+        background-position: 50% 50%;
+      }
+    }
+
+    /* ---- Modal ---- */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      z-index: 10000;
+      padding: 20px;
+      animation: modalFadeIn 0.3s ease;
+    }
+
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal-content {
+      max-width: 650px;
+      width: 100%;
+      max-height: 85vh;
+      margin: 40px auto;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 10px 50px rgba(212, 175, 55, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ---- Gold Header ---- */
+    .modal-content .alliya-box h2 {
+      background: linear-gradient(135deg, #D4AF37 0%, #F5E56B 30%, #D4AF37 60%, #B8960F 100%);
+      background-size: 200% 200%;
+      animation: goldPulse 4s ease-in-out infinite;
+      margin: 0;
+      padding: 18px 24px;
+      color: #1a1a2e;
+      font-size: 20px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 3px solid #D4AF37;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .modal-content .alliya-box h2::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: goldShine 3s ease-in-out infinite;
+    }
+
+    @keyframes goldShine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .modal-content .alliya-box h2 img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: white;
+      padding: 4px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ---- Close Button ---- */
+    .modal-content .close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #1a1a2e;
+      cursor: pointer;
+      z-index: 5;
+      opacity: 0.7;
+      transition: 0.3s;
+      line-height: 1;
+    }
+
+    .modal-content .close:hover {
+      opacity: 1;
+      transform: rotate(90deg);
+    }
+
+    /* ---- Modal Body ---- */
+    .alliya-box {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .alliya-intro {
+      padding: 16px 24px 8px 24px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .alliya-intro p {
+      margin: 4px 0;
+    }
+
+    .alliya-intro strong {
+      color: #B8960F;
+    }
+
+    /* ---- Input Area ---- */
+    .alliya-box > div[style*="position:relative;"] {
+      padding: 12px 24px;
+      position: relative;
+    }
+
+    #alliyaQuery {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid rgba(212, 175, 55, 0.3);
+      border-radius: 25px;
+      font-size: 14px;
+      outline: none;
+      transition: 0.3s;
+      background: #fff;
+      color: #333;
+      box-sizing: border-box;
+    }
+
+    #alliyaQuery:focus {
+      border-color: #D4AF37;
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+    }
+
+    #alliyaQuery::placeholder {
+      color: #aaa;
+    }
+
+    /* ---- Send Button ---- */
+    .alliya-box > button {
+      margin: 0 24px 12px 24px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #D4AF37 0%, #F5E56B 30%, #D4AF37 60%, #B8960F 100%);
+      background-size: 200% 200%;
+      color: #1a1a2e;
+      border: none;
+      border-radius: 25px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.3s;
+      animation: goldPulse 3s ease-in-out infinite;
+    }
+
+    .alliya-box > button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
+      animation-play-state: paused;
+    }
+
+    /* ---- Response Area ---- */
+    .reply {
+      padding: 12px 24px 20px 24px;
+      flex: 1;
+      overflow-y: auto;
+      max-height: 350px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #333;
+      display: none;
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
+    }
+
+    .reply .alliya-block h2 {
+      font-size: 17px;
+      color: #B8960F;
+      margin: 8px 0 6px 0;
+      padding: 0;
+      background: none;
+      animation: none;
+      border: none;
+    }
+
+    .reply .alliya-block h2::after {
+      display: none;
+    }
+
+    .reply .alliya-block h3 {
+      font-size: 14px;
+      color: #D4AF37;
+      margin: 12px 0 4px 0;
+    }
+
+    .reply .alliya-block p {
+      margin: 6px 0;
+    }
+
+    .reply .alliya-block a {
+      color: #B8960F;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .reply .alliya-block a:hover {
+      text-decoration: underline;
+    }
+
+    .reply hr {
+      border: none;
+      border-top: 2px solid rgba(212, 175, 55, 0.2);
+      margin: 16px 0;
+    }
+
+    .reply .alliya-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 8px 0;
+    }
+
+    .reply .alliya-cta p {
+      margin: 0;
+      padding: 10px 14px;
+      background: rgba(212, 175, 55, 0.08);
+      border-radius: 10px;
+      flex: 1;
+      min-width: 140px;
+      border-left: 3px solid #D4AF37;
+    }
+
+    .reply .alliya-cta p strong {
+      color: #B8960F;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* ---- Suggestions ---- */
+    .suggestions {
+      position: absolute;
+      bottom: 52px;
+      left: 24px;
+      right: 24px;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      max-height: 180px;
+      overflow-y: auto;
+      display: none;
+      z-index: 20;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    .suggestions .alliya-suggestion-item {
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: 0.2s;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      font-size: 13px;
+      color: #333;
+    }
+
+    .suggestions .alliya-suggestion-item:hover {
+      background: rgba(212, 175, 55, 0.1);
+    }
+
+    .suggestions .alliya-suggestion-item:last-child {
+      border-bottom: none;
+    }
+
+    /* ---- Scrollbar ---- */
+    .reply::-webkit-scrollbar,
+    .suggestions::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .reply::-webkit-scrollbar-thumb,
+    .suggestions::-webkit-scrollbar-thumb {
+      background: #D4AF37;
+      border-radius: 10px;
+    }
+
+    .reply::-webkit-scrollbar-track,
+    .suggestions::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 600px) {
+      .modal-content {
+        max-height: 95vh;
+        margin: 0;
+        border-radius: 0;
+      }
+
+      .alliya-float {
+        bottom: 16px;
+        right: 16px;
+        padding: 12px 16px;
+        font-size: 14px;
+      }
+
+      .alliya-float span {
+        display: none;
+      }
+
+      .reply .alliya-cta p {
+        min-width: 100px;
+        padding: 8px 12px;
+      }
+
+      .alliya-intro {
+        padding: 12px 16px 4px 16px;
+        font-size: 13px;
+      }
+
+      .alliya-box > div[style*="position:relative;"] {
+        padding: 8px 16px;
+      }
+
+      .reply {
+        padding: 10px 16px 16px 16px;
+        max-height: 250px;
+      }
+
+      .alliya-box > button {
+        margin: 0 16px 10px 16px;
+        padding: 10px 16px;
+        font-size: 14px;
+      }
+
+      .modal-content .alliya-box h2 {
+        font-size: 17px;
+        padding: 14px 16px;
+      }
+
+      .modal-content .close {
+        top: 12px;
+        right: 14px;
+        font-size: 24px;
+      }
+
+      .suggestions {
+        left: 16px;
+        right: 16px;
+        bottom: 48px;
+      }
+    }
+  `;
+
+  const styleEl = document.createElement('style');
+  styleEl.textContent = goldStyles;
+  document.head.appendChild(styleEl);
+
+  // Also load external CSS if exists (fallback)
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = '/css/alliya.css';
+  document.head.appendChild(link);
+})();
+
+/* -----------------------------------------
+   Alliya v7.2 Modal + Float Button (Gold)
+----------------------------------------- */
+(function injectAlliyaModal() {
+  const modalHTML = `
+    <div id="alliyaModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="alliya-box">
+          <h2>
+            <img src="/assets/img/alliya-icon.ico" width="26">
+            Ask Alliya
+          </h2>
+          <div class="alliya-intro" id="alliyaIntro"></div>
+          <div style="position:relative;">
+            <input type="text" id="alliyaQuery"
+              placeholder="Ask about products, suppliers, FCL, docs..."
+              oninput="showSuggestions()"
+              autocomplete="off">
+            <div id="alliyaSuggestions" class="suggestions"></div>
+          </div>
+          <button onclick="askAlliya()">✨ Send Question</button>
+          <div id="alliyaResponse" class="reply"></div>
+        </div>
+      </div>
+    </div>
+    <div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
+      <img src="/assets/img/alliya-icon.ico" width="26">
+      <span>Ask Alliya</span>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+})();
+
+/* -----------------------------------------
+   Modal Open / Close + Auto Greeting
+----------------------------------------- */
+window.openModal = function () {
+  const modal = document.getElementById('alliyaModal');
+  const intro = document.getElementById('alliyaIntro');
+  const replyBox = document.getElementById('alliyaResponse');
+
+  if (modal) modal.style.display = 'block';
+  if (intro) {
+    intro.innerHTML = `
+      <p><strong>✨ Hello!</strong> I'm Alliya, your grain trade assistant at Grains Hub.</p>
+      <p>Ask me about stock, suppliers, FCL booking, compliance, or documentation.</p>
+    `;
+  }
+  if (replyBox) {
+    replyBox.style.display = 'none';
+    replyBox.innerHTML = '';
+  }
+  document.body.style.overflow = 'hidden';
+};
+
+window.closeModal = function () {
+  const modal = document.getElementById('alliyaModal');
+  if (modal) modal.style.display = 'none';
+  document.body.style.overflow = '';
+};
+
+/* -----------------------------------------
+   Data URLs
+----------------------------------------- */
+const STOCK_URL = '/assets/data/stock.json';
+const SUPPLIERS_URL = window.location.origin + '/assets/data/suppliers.json';
+const KNOWLEDGE_URL = window.location.origin + '/assets/data/alliya-knowledge.json';
+
+let alliyaStockCache = null;
+let alliyaSuppliersCache = null;
+let alliyaKnowledgeCache = null;
+
+/* -----------------------------------------
+   Loaders
+----------------------------------------- */
+async function loadStock() {
+  if (!alliyaStockCache) {
+    const res = await fetch(STOCK_URL, { cache: 'no-cache' });
+    alliyaStockCache = await res.json();
+  }
+  return alliyaStockCache;
+}
+
+async function loadSuppliers() {
+  if (!alliyaSuppliersCache) {
+    const res = await fetch(SUPPLIERS_URL, { cache: 'no-cache' });
+    alliyaSuppliersCache = await res.json();
+  }
+  return alliyaSuppliersCache;
+}
+
+async function loadKnowledge() {
+  if (!alliyaKnowledgeCache) {
+    const res = await fetch(KNOWLEDGE_URL, { cache: 'no-cache' });
+    alliyaKnowledgeCache = await res.json();
+  }
+  return alliyaKnowledgeCache;
+}
+
+/* -----------------------------------------
+   Helpers
+----------------------------------------- */
+function normalize(str) {
+  return (str || '').toLowerCase().trim();
+}
+
+function similarityScore(a, b) {
+  const wordsA = normalize(a).split(/\s+/);
+  const wordsB = normalize(b).split(/\s+/);
+  let score = 0;
+  wordsA.forEach(w => {
+    if (wordsB.includes(w)) score += 2;
+    else if (wordsB.some(wb => wb.includes(w) || w.includes(wb))) score += 1;
+  });
+  return score;
+}
+
+function findStockMatches(stock, queryTerms) {
+  return stock.filter(item => {
+    const name = normalize(item.name);
+    const origin = normalize(item.origin);
+    const packaging = normalize(item.packaging || '');
+    return queryTerms.some(term =>
+      name.includes(term) ||
+      origin.includes(term) ||
+      packaging.includes(term)
+    );
+  });
+}
+
+function findSupplierForProduct(suppliers, productName) {
+  const q = normalize(productName);
+  return suppliers.find(s => {
+    const products = Array.isArray(s.products) ? s.products : [];
+    return products.some(p => normalize(p).includes(q));
+  }) || null;
+}
+
+/* -----------------------------------------
+   Suggestion Engine
+----------------------------------------- */
+function buildSuggestionItem(text) {
+  const safeText = text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+  return `
+    <div class="alliya-suggestion-item"
+         onclick="applySuggestion('${safeText}')">
+      ${text}
+    </div>
+  `;
+}
+
+window.applySuggestion = function (text) {
+  const input = document.getElementById('alliyaQuery');
+  const box = document.getElementById('alliyaSuggestions');
+  if (input) input.value = text;
+  if (box) box.innerHTML = '';
+  // Auto-ask if user clicks suggestion
+  setTimeout(() => {
+    if (text && text.trim()) {
+      askAlliya();
+    }
+  }, 100);
+};
+
+window.showSuggestions = async function () {
+  const input = document.getElementById('alliyaQuery');
+  const box = document.getElementById('alliyaSuggestions');
+  if (!input || !box) return;
+
+  const query = normalize(input.value);
+  if (!query || query.length < 2) {
+    box.innerHTML = '';
+    box.style.display = 'none';
+    return;
   }
 
-  // ==== MAIN ENGINE ====
-  const Engine = {
-    async process(query) {
-      console.log('[Alliya] Processing:', query);
-      
-      const body = document.getElementById('alliyaBody');
-      if (!body) return;
+  try {
+    const [stock, suppliers, knowledge] = await Promise.all([
+      loadStock(),
+      loadSuppliers(),
+      loadKnowledge()
+    ]);
 
-      // Show user message
-      body.insertAdjacentHTML('beforeend', `
-        <div class="alliya-bubble user">
-          <div class="alliya-bubble-header">
-            <span class="alliya-icon">👤</span>
-            <span class="alliya-title">You</span>
-            <span class="alliya-time">${Utils.timestamp()}</span>
-          </div>
-          <div class="alliya-bubble-body"><p>${Utils.sanitize(query)}</p></div>
-        </div>
-      `);
+    const suggestions = new Set();
 
-      // Show typing
-      document.getElementById('alliyaTyping').style.display = 'flex';
-      body.scrollTop = body.scrollHeight;
-
-      try {
-        // Load data
-        const [stock, suppliers, knowledge] = await Promise.all([
-          DataLoader.loadStock(),
-          DataLoader.loadSuppliers(),
-          DataLoader.loadKnowledge(),
-        ]);
-
-        console.log('[Alliya] Data loaded:', { stock: !!stock, suppliers: !!suppliers, knowledge: !!knowledge });
-
-        await new Promise(r => setTimeout(r, 600)); // Simulate thinking
-
-        // ===== SIMPLE RESPONSE LOGIC =====
-        const q = Utils.normalize(query);
-        let response = null;
-
-        // 1. Greetings
-        if (['hi', 'hello', 'hey', 'salam', 'assalamualikum'].some(g => q.includes(g))) {
-          response = {
-            title: '👋 Hello!',
-            summary: `I'm Alliya, your AI grain assistant at Grains Hub. How can I help?`,
-            sections: [{ heading: '💡 Try asking:', body: '• Show me stock\n• Who are your suppliers?\n• How to book FCL?' }],
-            actions: ['Show me stock', 'Who are your suppliers?', 'How to book FCL?']
-          };
-        }
-
-        // 2. About Alliya
-        else if (q.includes('who') && q.includes('alliya') || q.includes('what is alliya')) {
-          response = {
-            title: '🤖 About Alliya',
-            summary: 'I\'m Dubai\'s first AI grain assistant, built by Shahid Bashir for Grains Hub.',
-            sections: [
-              { heading: '📍 Location', body: 'Al Ras, Deira — Dubai\'s historic wholesale grain district.' },
-              { heading: '💡 Purpose', body: 'To simplify grain trade with instant stock, supplier, and FCL info.' }
-            ]
-          };
-        }
-
-        // 3. Stock
-        else if (q.includes('stock') || q.includes('product') || q.includes('rice') || q.includes('grain')) {
-          if (stock && stock.length > 0) {
-            const items = stock.slice(0, 3).map(item => 
-              `• **${item.name}** — ${item.origin} | ${item.price} AED/${item.size}kg`
-            ).join('\n');
-            response = {
-              title: '📦 Available Stock',
-              summary: `Here are some products from our inventory:`,
-              sections: [{ heading: 'Products', body: items }],
-              actions: ['View all stock', 'Book FCL']
-            };
-          } else {
-            response = {
-              title: '📦 Stock Unavailable',
-              summary: 'I couldn\'t load stock data. Please try again or visit the shop page.',
-              actions: ['Open shop']
-            };
-          }
-        }
-
-        // 4. Suppliers
-        else if (q.includes('supplier') || q.includes('vendor') || q.includes('partner')) {
-          if (suppliers && suppliers.length > 0) {
-            const items = suppliers.map(s => 
-              `• **${s.name}** — ${s.city}, ${s.country} (${s.badge || 'Verified'})`
-            ).join('\n');
-            response = {
-              title: '🏢 Verified Suppliers',
-              summary: `Our trusted partners:`,
-              sections: [{ heading: 'Suppliers', body: items }],
-              actions: ['Contact a supplier']
-            };
-          } else {
-            response = {
-              title: '🏢 Suppliers Unavailable',
-              summary: 'I couldn\'t load supplier data. Please try again.',
-            };
-          }
-        }
-
-        // 5. FCL
-        else if (q.includes('fcl') || q.includes('container') || q.includes('shipment') || q.includes('ship')) {
-          response = {
-            title: '🚢 FCL Booking',
-            summary: 'Book your full container load shipment:',
-            sections: [
-              { heading: '📋 Process', body: '1. Choose commodity\n2. Select container (20ft/40ft)\n3. Submit booking' },
-              { heading: '📄 Documents', body: 'Invoice • Packing List • Bill of Lading • Certificate of Origin' }
-            ],
-            actions: ['Book FCL now', 'Download FCL guide']
-          };
-        }
-
-        // 6. Documentation
-        else if (q.includes('doc') || q.includes('guide') || q.includes('pack') || q.includes('compliance')) {
-          response = {
-            title: '📄 Documentation Hub',
-            summary: 'Access all official documents:',
-            sections: [
-              { heading: '📚 Available', body: '• [Buyer Pack](/docs/buyer-pack.pdf)\n• [Supplier Pack](/docs/supplier-onboarding-pack.pdf)\n• [FCL Guide](/docs/fcl-guide.pdf)\n• [Compliance Guide](/docs/compliance-guide.pdf)' }
-            ],
-            actions: ['Download compliance guide', 'Download buyer pack']
-          };
-        }
-
-        // 7. Market
-        else if (q.includes('market') || q.includes('price') || q.includes('pulse') || q.includes('trend')) {
-          response = {
-            title: '📊 Market Pulse',
-            summary: 'Live market updates:',
-            sections: [
-              { heading: '📈 Latest Trends', body: '• Rice: Stable demand\n• Wheat: Slight upward trend\n• Corn: Seasonal fluctuation' }
-            ],
-            actions: ['Open Market Pulse']
-          };
-        }
-
-        // 8. Help / Fallback
-        else {
-          response = {
-            title: '🤔 Let me help you',
-            summary: `I didn't quite understand "${query}". Here's what I can do:`,
-            sections: [
-              { heading: '🔍 Try asking about:', body: '• **Stock** — "Show me rice stock"\n• **Suppliers** — "Who are your suppliers?"\n• **FCL** — "How to book FCL?"\n• **Docs** — "Download compliance guide"\n• **Market** — "What are current prices?"' }
-            ],
-            actions: ['Show me stock', 'Who are your suppliers?', 'How to book FCL?']
-          };
-        }
-
-        // Render response
-        document.getElementById('alliyaTyping').style.display = 'none';
-        const html = buildResponse(response.title, response.summary, response.sections || [], response.actions || []);
-        body.insertAdjacentHTML('beforeend', html);
-        body.scrollTop = body.scrollHeight;
-
-        // Clear input
-        document.getElementById('alliyaInput').value = '';
-
-      } catch (err) {
-        console.error('[Alliya] Error:', err);
-        document.getElementById('alliyaTyping').style.display = 'none';
-        const html = buildResponse(
-          '⚠️ Oops!',
-          'Something went wrong. Please check the console (F12) for details.',
-          [{ heading: 'Error', body: err.message || 'Unknown error' }]
-        );
-        body.insertAdjacentHTML('beforeend', html);
-        body.scrollTop = body.scrollHeight;
+    // Stock products
+    stock.forEach(item => {
+      if (normalize(item.name).includes(query)) {
+        suggestions.add(item.name);
       }
+    });
+
+    // Supplier names
+    suppliers.forEach(s => {
+      if (normalize(s.name).includes(query)) {
+        suggestions.add(`show ${s.name.toLowerCase()} profile`);
+      }
+    });
+
+    // Knowledge questions
+    knowledge.forEach(k => {
+      if (normalize(k.question).includes(query)) {
+        suggestions.add(k.question);
+      }
+    });
+
+    // Smart intents
+    const intents = [
+      "fcl",
+      "stock",
+      "supplier",
+      "market",
+      "pulse",
+      "docs",
+      "documentation",
+      "compliance",
+      "grains",
+      "dubai",
+      "alras",
+      "al ras",
+      "ghutra",
+      "rice",
+      "shahid",
+      "grains hub",
+      "fcl booking",
+      "book fcl",
+      "open fcl page",
+      "open stock page",
+      "open supplier directory",
+      "open market pulse",
+      "download buyer pack",
+      "download supplier onboarding pack",
+      "download fcl guide",
+      "download compliance guide",
+      "download market analysis report",
+      "open documentation page"
+    ];
+
+    intents.forEach(i => {
+      if (i.includes(query)) {
+        suggestions.add(i);
+      }
+    });
+
+    // Greeting & small talk
+    const greetingIntents = [
+      "hi",
+      "hello",
+      "hey",
+      "how are you",
+      "who are you",
+      "who is alliya",
+      "what is alliya",
+      "tell me about alliya",
+      "alliya assistant",
+      "alliya info",
+      "thank you",
+      "thanks"
+    ];
+
+    greetingIntents.forEach(g => {
+      if (g.includes(query)) {
+        suggestions.add(g);
+      }
+    });
+
+    // Founder & location
+    const identityIntents = [
+      "shahid",
+      "founder",
+      "ghutra",
+      "ghutra tech",
+      "ghutra goods",
+      "grains hub",
+      "grains",
+      "dubai",
+      "al ras",
+      "alras",
+      "deira"
+    ];
+
+    identityIntents.forEach(i => {
+      if (i.includes(query)) {
+        suggestions.add(i);
+      }
+    });
+
+    const list = Array.from(suggestions).slice(0, 8);
+    if (list.length === 0) {
+      box.innerHTML = '';
+      box.style.display = 'none';
+      return;
     }
-  };
 
-  // ===== UI =====
-  const UI = {
-    injectStyles() {
-      const styles = `
-        :root {
-          --alliya-primary: #D4AF37;
-          --alliya-primary-dark: #B8960F;
-          --alliya-gold-gradient: linear-gradient(135deg, #D4AF37 0%, #F5E56B 30%, #D4AF37 60%, #B8960F 100%);
-          --alliya-bg: #ffffff;
-          --alliya-text: #333333;
-          --alliya-shadow: 0 10px 40px rgba(212, 175, 55, 0.25);
-        }
+    box.innerHTML = list.map(buildSuggestionItem).join('');
+    box.style.display = 'block';
 
-        #alliyaFloatBtn {
-          position: fixed;
-          bottom: 30px;
-          right: 30px;
-          background: var(--alliya-gold-gradient);
-          background-size: 200% 200%;
-          color: #1a1a2e;
-          border: 2px solid #D4AF37;
-          border-radius: 50px;
-          padding: 14px 24px;
-          font-size: 16px;
-          font-weight: 700;
-          cursor: pointer;
-          box-shadow: 0 8px 32px rgba(212, 175, 55, 0.4);
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          z-index: 9999;
-          animation: alliyaGoldPulse 2s ease-in-out infinite;
-          transition: 0.3s;
-        }
+  } catch (err) {
+    console.warn('Alliya suggestions error:', err);
+    box.innerHTML = '';
+    box.style.display = 'none';
+  }
+};
 
-        #alliyaFloatBtn:hover {
-          transform: scale(1.08);
-          box-shadow: 0 12px 48px rgba(212, 175, 55, 0.6);
-          animation-play-state: paused;
-        }
+/* -----------------------------------------
+   Hybrid UX Response Builder
+----------------------------------------- */
+function buildAlliyaResponse(title, summary, sections = []) {
+  let html = `
+    <div class="alliya-block">
+      <h2><strong>${title}</strong></h2>
+      <p>${summary}</p>
+  `;
 
-        #alliyaFloatBtn img {
-          width: 28px;
-          height: 28px;
-          border-radius: 50%;
-          background: white;
-          padding: 3px;
-        }
-
-        @keyframes alliyaGoldPulse {
-          0%, 100% { box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3); transform: scale(1); background-position: 0% 50%; }
-          25% { box-shadow: 0 8px 48px rgba(212, 175, 55, 0.7); transform: scale(1.03); background-position: 50% 50%; }
-          50% { box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3); transform: scale(1); background-position: 100% 50%; }
-          75% { box-shadow: 0 8px 48px rgba(212, 175, 55, 0.7); transform: scale(1.03); background-position: 50% 50%; }
-        }
-
-        .alliya-modal {
-          display: none;
-          position: fixed;
-          inset: 0;
-          background: rgba(0,0,0,0.6);
-          backdrop-filter: blur(8px);
-          z-index: 10000;
-          padding: 20px;
-          animation: alliyaFadeIn 0.3s ease;
-        }
-
-        @keyframes alliyaFadeIn {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
-        }
-
-        .alliya-modal-content {
-          max-width: 700px;
-          width: 100%;
-          height: 85vh;
-          max-height: 700px;
-          margin: 40px auto;
-          background: var(--alliya-bg);
-          border-radius: 16px;
-          box-shadow: var(--alliya-shadow);
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-        }
-
-        .alliya-header {
-          padding: 16px 20px;
-          background: var(--alliya-gold-gradient);
-          background-size: 200% 200%;
-          animation: alliyaGoldPulse 4s ease-in-out infinite;
-          color: #1a1a2e;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-shrink: 0;
-        }
-
-        .alliya-header-left {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .alliya-header-left img {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          background: white;
-          padding: 4px;
-        }
-
-        .alliya-header-left h2 {
-          margin: 0;
-          font-size: 18px;
-          font-weight: 600;
-          color: #1a1a2e;
-        }
-
-        .alliya-header-actions button {
-          background: rgba(26, 26, 46, 0.15);
-          border: none;
-          color: #1a1a2e;
-          width: 34px;
-          height: 34px;
-          border-radius: 50%;
-          cursor: pointer;
-          font-size: 16px;
-          transition: 0.3s;
-        }
-
-        .alliya-header-actions button:hover {
-          background: rgba(26, 26, 46, 0.3);
-        }
-
-        .alliya-body {
-          flex: 1;
-          overflow-y: auto;
-          padding: 20px;
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          background: var(--alliya-bg);
-        }
-
-        .alliya-body::-webkit-scrollbar {
-          width: 5px;
-        }
-        .alliya-body::-webkit-scrollbar-thumb {
-          background: #D4AF37;
-          border-radius: 10px;
-        }
-
-        .alliya-bubble {
-          max-width: 85%;
-          padding: 14px 18px;
-          border-radius: 16px;
-          animation: alliyaSlideIn 0.3s ease;
-          align-self: flex-start;
-          background: #f5f5f5;
-          color: var(--alliya-text);
-          box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .alliya-bubble.user {
-          align-self: flex-end;
-          background: #FDF8E7;
-        }
-
-        @keyframes alliyaSlideIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .alliya-bubble-header {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          margin-bottom: 8px;
-          font-size: 13px;
-          opacity: 0.7;
-        }
-
-        .alliya-bubble-header .alliya-title {
-          font-weight: 600;
-        }
-
-        .alliya-bubble-header .alliya-time {
-          margin-left: auto;
-          font-size: 11px;
-        }
-
-        .alliya-bubble-body {
-          line-height: 1.6;
-        }
-        .alliya-bubble-body p { margin: 0 0 8px 0; }
-        .alliya-bubble-body h4 { margin: 12px 0 6px 0; font-size: 14px; color: #D4AF37; }
-
-        .alliya-section {
-          margin: 10px 0;
-          padding: 10px 12px;
-          background: rgba(0,0,0,0.03);
-          border-radius: 10px;
-        }
-
-        .alliya-actions {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-top: 12px;
-        }
-
-        .alliya-action-btn {
-          background: var(--alliya-gold-gradient);
-          background-size: 200% 200%;
-          color: #1a1a2e;
-          border: none;
-          padding: 8px 16px;
-          border-radius: 20px;
-          font-size: 13px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: 0.3s;
-        }
-
-        .alliya-action-btn:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
-        }
-
-        .alliya-typing {
-          display: none;
-          align-self: flex-start;
-          padding: 12px 18px;
-          background: #f5f5f5;
-          border-radius: 16px;
-        }
-
-        .alliya-typing span {
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #999;
-          margin: 0 2px;
-          animation: alliyaTyping 1.4s infinite both;
-        }
-        .alliya-typing span:nth-child(2) { animation-delay: 0.2s; }
-        .alliya-typing span:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes alliyaTyping {
-          0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
-          40% { transform: scale(1); opacity: 1; }
-        }
-
-        .alliya-footer {
-          padding: 16px 20px;
-          border-top: 1px solid rgba(0,0,0,0.08);
-          display: flex;
-          gap: 10px;
-          flex-shrink: 0;
-          background: var(--alliya-bg);
-        }
-
-        .alliya-footer input {
-          flex: 1;
-          padding: 12px 16px;
-          border: 2px solid rgba(0,0,0,0.1);
-          border-radius: 25px;
-          font-size: 14px;
-          outline: none;
-          transition: 0.3s;
-          color: var(--alliya-text);
-          background: transparent;
-        }
-
-        .alliya-footer input:focus {
-          border-color: #D4AF37;
-          box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
-        }
-
-        .alliya-footer button {
-          background: var(--alliya-gold-gradient);
-          background-size: 200% 200%;
-          color: #1a1a2e;
-          width: 44px;
-          height: 44px;
-          border: none;
-          border-radius: 50%;
-          font-size: 18px;
-          cursor: pointer;
-          transition: 0.3s;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .alliya-footer button:hover {
-          transform: scale(1.05);
-          box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
-        }
-
-        @media (max-width: 600px) {
-          .alliya-modal-content { height: 95vh; max-height: none; margin: 0; border-radius: 0; }
-          #alliyaFloatBtn { bottom: 16px; right: 16px; padding: 12px 16px; font-size: 14px; }
-          #alliyaFloatBtn span { display: none; }
-          .alliya-bubble { max-width: 92%; }
-        }
-      `;
-      const style = document.createElement('style');
-      style.textContent = styles;
-      document.head.appendChild(style);
-    },
-
-    injectHTML() {
-      const html = `
-        <div id="alliyaModal" class="alliya-modal">
-          <div class="alliya-modal-content">
-            <div class="alliya-header">
-              <div class="alliya-header-left">
-                <img src="/assets/img/alliya-icon.ico" alt="Alliya">
-                <h2>Ask Alliya</h2>
-              </div>
-              <div class="alliya-header-actions">
-                <button onclick="window.Alliya.closeModal()">✕</button>
-              </div>
-            </div>
-            <div id="alliyaBody" class="alliya-body">
-              <div class="alliya-bubble">
-                <div class="alliya-bubble-header">
-                  <span class="alliya-icon">👋</span>
-                  <span class="alliya-title">Welcome</span>
-                  <span class="alliya-time">${Utils.timestamp()}</span>
-                </div>
-                <div class="alliya-bubble-body">
-                  <p>Hello! I'm <strong>Alliya</strong>, your AI grain assistant.</p>
-                  <p>Ask me about stock, suppliers, FCL, or documentation.</p>
-                </div>
-              </div>
-            </div>
-            <div id="alliyaTyping" class="alliya-typing">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="alliya-footer">
-              <input id="alliyaInput" type="text" placeholder="Ask me anything..." autocomplete="off">
-              <button id="alliyaSendBtn">➤</button>
-            </div>
-          </div>
-        </div>
-        <button id="alliyaFloatBtn" onclick="window.Alliya.openModal()">
-          <img src="/assets/img/alliya-icon.ico" alt="Alliya">
-          <span>Ask Alliya</span>
-        </button>
-      `;
-      document.body.insertAdjacentHTML('beforeend', html);
-    },
-
-    setupListeners() {
-      const input = document.getElementById('alliyaInput');
-      const sendBtn = document.getElementById('alliyaSendBtn');
-      
-      input?.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          window.Alliya.ask(input.value);
-        }
-      });
-      
-      sendBtn?.addEventListener('click', () => {
-        window.Alliya.ask(input?.value || '');
-      });
-
-      document.getElementById('alliyaModal')?.addEventListener('click', (e) => {
-        if (e.target === e.currentTarget) window.Alliya.closeModal();
-      });
-    },
-
-    openModal() {
-      document.getElementById('alliyaModal').style.display = 'block';
-      document.body.style.overflow = 'hidden';
-      setTimeout(() => document.getElementById('alliyaInput').focus(), 300);
-    },
-
-    closeModal() {
-      document.getElementById('alliyaModal').style.display = 'none';
-      document.body.style.overflow = '';
-    },
-  };
-
-  // ===== PUBLIC API =====
-  window.Alliya = {
-    ask: (query) => {
-      if (!query || !query.trim()) return;
-      Engine.process(query.trim());
-    },
-    openModal: UI.openModal,
-    closeModal: UI.closeModal,
-  };
-
-  // ===== INIT =====
-  document.addEventListener('DOMContentLoaded', () => {
-    UI.injectStyles();
-    UI.injectHTML();
-    UI.setupListeners();
-    console.log('%c🤖 Alliya v8.1 (Gold Edition) Loaded', 'font-size:18px; font-weight:bold; color:#D4AF37;');
-    console.log('%c💡 Try asking: "Show me stock"', 'font-size:12px; color:#D4AF37;');
+  sections.forEach(sec => {
+    html += `<h3>${sec.heading}</h3><p>${sec.body}</p>`;
   });
 
-})();
+  html += `
+    </div>
+    <hr>
+    <div class="alliya-cta">
+      <p><strong>📦 Browse Stock</strong><br>
+        <a href="https://grains.ae/shop" target="_blank">Open stock page</a>
+      </p>
+      <p><strong>🚢 Book FCL Shipment</strong><br>
+        <a href="https://grains.ae/fcl/" target="_blank">Book full container</a>
+      </p>
+      <p><strong>📊 Market Pulse</strong><br>
+        <a href="https://grains.ae/pulse/index.html" target="_blank">Open live Market Pulse</a>
+      </p>
+    </div>
+    <hr>
+    <p><em>All trade is executed through Ghutra Goods Wholesaler LLC under UAE wholesale regulations.</em></p>
+  `;
+  return html;
+}
+
+/* -----------------------------------------
+   Personality Engine
+----------------------------------------- */
+window.alliyaPersonality = function (query) {
+  const q = normalize(query);
+
+  if (["hi", "hello", "hey"].includes(q)) {
+    return {
+      title: "✨ Hello!",
+      summary: "I'm Alliya, your grain trade assistant at Grains Hub. How can I help you today?"
+    };
+  }
+
+  if (q.includes("who are you") || q.includes("who is alliya")) {
+    return {
+      title: "✨ About Alliya",
+      summary: "I'm Alliya — Dubai's first AI grain assistant, built for verified grain trade."
+    };
+  }
+
+  if (q.includes("what is alliya")) {
+    return {
+      title: "✨ Alliya – AI Assistant",
+      summary: "I'm the official AI assistant of Grains Hub, helping with stock, suppliers, FCL, and compliance."
+    };
+  }
+
+  if (q.includes("how are you")) {
+    return {
+      title: "✨ I'm doing great!",
+      summary: "Always ready to help you with grain trade, stock, suppliers, and shipments."
+    };
+  }
+
+  if (q.includes("thank")) {
+    return {
+      title: "✨ You're welcome!",
+      summary: "Happy to help anytime. You can ask me about stock, suppliers, or FCL booking."
+    };
+  }
+
+  if (q.includes("shahid")) {
+    return {
+      title: "✨ About Shahid Bashir",
+      summary: "Founder of Grains Hub, GhutraTech, and Ghutra Goods Wholesaler LLC, architecting every layer of grains.ae."
+    };
+  }
+
+  if (q.includes("dubai") || q.includes("al ras") || q.includes("alras")) {
+    return {
+      title: "✨ Dubai & Al Ras",
+      summary: "Grains Hub operates from Al Ras, Deira — Dubai's historic wholesale grain district."
+    };
+  }
+
+  return null;
+};
+
+/* -----------------------------------------
+   Error Recovery Engine
+----------------------------------------- */
+window.alliyaRecover = function (type, detail = "") {
+  switch (type) {
+    case "empty":
+      return {
+        title: "✨ I'm here to help",
+        summary: "Please type a question so I can assist you. Try asking about stock, suppliers, FCL, or docs."
+      };
+    case "network":
+      return {
+        title: "⚠️ Connection issue",
+        summary: "I couldn't load live data. You can still browse stock or submit FCL using the links below."
+      };
+    case "unknown":
+      return {
+        title: "✨ I'm here to help",
+        summary: `I couldn't find a direct match for "${detail}". Try asking about products, suppliers, FCL, documentation, or market prices.`
+      };
+    default:
+      return {
+        title: "⚠️ Something went wrong",
+        summary: "I couldn't process your request. Please try again or use the stock and FCL links below."
+      };
+  }
+};
+
+/* -----------------------------------------
+   Main Engine – Alliya v7.2 Gold
+----------------------------------------- */
+window.askAlliya = async function () {
+  const replyBox = document.getElementById('alliyaResponse');
+  const userQueryRaw = document.getElementById('alliyaQuery').value;
+  const userQuery = userQueryRaw.trim();
+
+  if (!replyBox) return;
+
+  if (!userQuery) {
+    const err = alliyaRecover("empty");
+    replyBox.style.display = 'block';
+    replyBox.innerHTML = buildAlliyaResponse(err.title, err.summary);
+    return;
+  }
+
+  replyBox.style.display = 'block';
+  replyBox.innerHTML = '⏳ Alliya is checking…';
+
+  const q = normalize(userQuery);
+  const terms = q.split(/\s+/).filter(Boolean);
+
+  try {
+    const [stock, suppliers, knowledge] = await Promise.all([
+      loadStock(),
+      loadSuppliers(),
+      loadKnowledge()
+    ]);
+
+    /* Priority override for Alliya identity */
+    const priorityKeywords = [
+      "hi",
+      "hello",
+      "hey",
+      "alliya",
+      "what is alliya",
+      "who is alliya",
+      "tell me about alliya",
+      "how alliya works",
+      "who are you",
+      "alliya assistant",
+      "alliya info"
+    ];
+
+    if (priorityKeywords.some(k => q.includes(k))) {
+      const kbMatchExact = knowledge.find(item =>
+        normalize(item.question) === q
+      );
+      if (kbMatchExact) {
+        replyBox.innerHTML = buildAlliyaResponse(
+          "✨ Your Answer",
+          kbMatchExact.answer,
+          [{ heading: "Details", body: kbMatchExact.answer }]
+        );
+        return;
+      }
+    }
+
+    /* Personality layer */
+    const personality = alliyaPersonality(userQuery);
+    if (personality) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        personality.title,
+        personality.summary
+      );
+      return;
+    }
+
+    /* Knowledge base – exact + fuzzy */
+    let kbMatch = knowledge.find(k =>
+      normalize(k.question) === q ||
+      normalize(k.question).includes(q) ||
+      q.includes(normalize(k.question))
+    );
+
+    if (!kbMatch) {
+      kbMatch = knowledge.reduce((best, current) => {
+        const score = similarityScore(current.question, userQuery);
+        return score > (best.score || 0) ? { ...current, score } : best;
+      }, { score: 0 });
+      if (kbMatch.score < 3) kbMatch = null;
+    }
+
+    if (kbMatch) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "✨ Your Answer",
+        kbMatch.answer,
+        [{ heading: "Details", body: kbMatch.answer }]
+      );
+      return;
+    }
+
+    /* Stock match */
+    const stockMatches = findStockMatches(stock, terms);
+    if (stockMatches.length > 0) {
+      const primary = stockMatches[0];
+      const supplier = findSupplierForProduct(suppliers, primary.name);
+
+      const isBooking = String(primary.price).toUpperCase().includes('USD');
+      const priceRaw = parseFloat(primary.price);
+      const sizeKG = parseInt(primary.size);
+      const pricePerKg = (!isNaN(priceRaw) && !isNaN(sizeKG))
+        ? (priceRaw / sizeKG).toFixed(2)
+        : null;
+
+      const originFlag =
+        normalize(primary.origin).includes('india') ? '🇮🇳' :
+        normalize(primary.origin).includes('pakistan') ? '🇵🇰' :
+        normalize(primary.origin).includes('thailand') ? '🇹🇭' : '🌍';
+
+      replyBox.innerHTML = buildAlliyaResponse(
+        `${originFlag} ${primary.name}`,
+        `${primary.name} is available in live stock.`,
+        [
+          {
+            heading: "📋 Product overview",
+            body: `
+              <strong>Origin:</strong> ${primary.origin}<br>
+              <strong>Packaging:</strong> ${primary.packaging || 'Standard bags'}<br>
+              <strong>Stock:</strong> ${primary.stock || 'Prompt shipment'}
+            `
+          },
+          {
+            heading: "💰 Pricing",
+            body: isBooking
+              ? `${primary.price} (Booking / FOB or C&F)`
+              : `${primary.price} / ${primary.size}kg${pricePerKg ? ` → ${pricePerKg} AED/kg` : ''}`
+          },
+          {
+            heading: "🏢 Supplier",
+            body: supplier
+              ? `${supplier.name} (${supplier.badge}) – ${supplier.city}, ${supplier.country}`
+              : `${primary.badge || 'Verified Supplier'}`
+          }
+        ]
+      );
+      return;
+    }
+
+    /* Supplier match */
+    const supplierMatch = suppliers.find(s =>
+      normalize(s.name).includes(q)
+    );
+
+    if (supplierMatch) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        `🏅 Verified Supplier: ${supplierMatch.name}`,
+        `${supplierMatch.name} is a verified supplier listed on Grains Hub.`,
+        [
+          {
+            heading: "📋 Supplier details",
+            body: `
+              <strong>Location:</strong> ${supplierMatch.city}, ${supplierMatch.country}<br>
+              <strong>Badge:</strong> ${supplierMatch.badge}<br>
+              <strong>Products:</strong> ${Array.isArray(supplierMatch.products) ? supplierMatch.products.join(', ') : 'Listed products'}
+            `
+          }
+        ]
+      );
+      return;
+    }
+
+    /* Intent router */
+    const intent = q;
+
+    // Supplier Directory
+    if (intent.includes("supplier directory") || intent.includes("suppliers")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "🏢 Supplier Directory",
+        "Browse all verified suppliers listed on Grains Hub.",
+        [
+          {
+            heading: "🔗 Open directory",
+            body: `<a href="https://grains.ae/suppliers/" target="_blank">View suppliers</a>`
+          }
+        ]
+      );
+      return;
+    }
+
+    // Market Pulse
+    if (intent.includes("market pulse") || intent.includes("pulse") || intent.includes("market")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "📊 Market Pulse",
+        "Live grain pricing updated every 60 seconds.",
+        [
+          {
+            heading: "🔗 Open Market Pulse",
+            body: `<a href="https://grains.ae/pulse/index.html" target="_blank">Open Market Pulse</a>`
+          }
+        ]
+      );
+      return;
+    }
+
+    // FCL Booking
+    if (intent.includes("fcl") || intent.includes("book fcl") || intent.includes("fcl booking")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "🚢 FCL Booking",
+        "Submit your full container load requirement instantly.",
+        [
+          {
+            heading: "🔗 Book shipment",
+            body: `<a href="https://grains.ae/fcl/" target="_blank">Book FCL shipment</a>`
+          }
+        ]
+      );
+      return;
+    }
+
+    // Compliance
+    if (intent.includes("compliance") || intent.includes("verification")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "📄 Compliance & Verification",
+        "Download the official compliance and verification guide.",
+        [
+          {
+            heading: "🔗 Download guide",
+            body: `<a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a>`
+          }
+        ]
+      );
+      return;
+    }
+
+    // Stock Page
+    if (intent.includes("stock") || intent.includes("open stock page")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "📦 Live Stock",
+        "Browse all available AED stock and USD booking options.",
+        [
+          {
+            heading: "🔗 Open stock",
+            body: `<a href="https://grains.ae/shop" target="_blank">Open stock page</a>`
+          }
+        ]
+      );
+      return;
+    }
+
+    // Documentation Hub
+    if (intent.includes("documentation") || intent.includes("docs") || intent.includes("documents")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "📄 Documentation Hub",
+        "All official Grains Hub documents are available below.",
+        [
+          {
+            heading: "📚 Downloads",
+            body: `
+              <a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank">Buyer Pack</a><br>
+              <a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank">Supplier Onboarding Pack</a><br>
+              <a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank">FCL Guide</a><br>
+              <a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a><br>
+              <a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank">Market Analysis 2025</a>
+            `
+          }
+        ]
+      );
+      return;
+    }
+
+    // Download Packs
+    if (intent.includes("buyer pack")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "📄 Buyer Pack",
+        "Download the official Buyer Pack.",
+        [
+          {
+            heading: "🔗 Download",
+            body: `<a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank">Buyer Pack</a>`
+          }
+        ]
+      );
+      return;
+    }
+
+    if (intent.includes("supplier onboarding pack") || intent.includes("supplier pack")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "📄 Supplier Onboarding Pack",
+        "Download the Supplier Onboarding Pack.",
+        [
+          {
+            heading: "🔗 Download",
+            body: `<a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank">Supplier Onboarding Pack</a>`
+          }
+        ]
+      );
+      return;
+    }
+
+    if (intent.includes("fcl guide")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "📄 FCL Guide",
+        "Download the official FCL Booking Guide.",
+        [
+          {
+            heading: "🔗 Download",
+            body: `<a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank">FCL Guide</a>`
+          }
+        ]
+      );
+      return;
+    }
+
+    if (intent.includes("market analysis")) {
+      replyBox.innerHTML = buildAlliyaResponse(
+        "📊 Market Analysis Report",
+        "Download the Market Analysis Report 2025.",
+        [
+          {
+            heading: "🔗 Download",
+            body: `<a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank">Market Analysis 2025</a>`
+          }
+        ]
+      );
+      return;
+    }
+
+    /* Fallback */
+    const errPack = alliyaRecover("unknown", userQuery);
+    replyBox.innerHTML = buildAlliyaResponse(
+      errPack.title,
+      errPack.summary,
+      [
+        {
+          heading: "💡 Try asking about:",
+          body: `
+            • Products (1121 Sella, IRRI 6, 1509, etc.)<br>
+            • Suppliers<br>
+            • FCL booking<br>
+            • Documentation<br>
+            • Compliance<br>
+            • Market prices
+          `
+        }
+      ]
+    );
+
+  } catch (err) {
+    console.warn('Alliya v7.2 error:', err);
+    const errPack = alliyaRecover("network");
+    replyBox.innerHTML = buildAlliyaResponse(errPack.title, errPack.summary);
+  }
+};
+
+// Log that Alliya is ready
+console.log('%c✨ Alliya v7.2 - Grains Gold Edition Loaded', 'font-size:18px; font-weight:bold; color:#D4AF37;');
+console.log('%c💡 Try asking: "Show me stock" or "Who are your suppliers?"', 'font-size:13px; color:#B8960F;');
