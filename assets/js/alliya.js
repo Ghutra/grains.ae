@@ -1,60 +1,60 @@
 /* ============================================================
-   ALLIYA v8.2 - Self-Contained Gold Edition
-   No external dependencies - Everything in one file
+   ALLIYA v8.3 - Scoped Gold Edition
+   No layout conflicts - Only affects Alliya elements
    ============================================================ */
 
 (function AlliyaV8() {
   'use strict';
 
   // ============================================================
-  // 1. COMPLETE CSS (Self-Contained)
+  // 1. SCOPED CSS (Only affects #alliyaModal and #alliyaFloatBtn)
   // ============================================================
   const ALLIYA_STYLES = `
     /* ============================================================
-       ALLIYA v8.2 - Complete Styles
+       ALLIYA v8.3 - Scoped Styles
+       Only affects elements with #alliyaModal and #alliyaFloatBtn
        ============================================================ */
     
-    /* ---- Floating Button ---- */
+    /* ---- Floating Button (Scoped) ---- */
     #alliyaFloatBtn {
-      position: fixed !important;
-      bottom: 30px !important;
-      right: 30px !important;
-      z-index: 999999 !important;
-      background: linear-gradient(135deg, #c49b3f 0%, #e3c46a 30%, #c49b3f 60%, #a8842e 100%) !important;
-      background-size: 200% 200% !important;
-      color: #111111 !important;
-      padding: 12px 22px !important;
-      border-radius: 999px !important;
-      display: flex !important;
-      align-items: center !important;
-      gap: 10px !important;
-      font-size: 14px !important;
-      font-weight: 700 !important;
-      cursor: pointer !important;
-      box-shadow: 0 8px 32px rgba(196, 155, 63, 0.4) !important;
-      border: 2px solid #c49b3f !important;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      animation: goldPulse 2.5s ease-in-out infinite !important;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-      text-decoration: none !important;
-      user-select: none !important;
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 999999;
+      background: linear-gradient(135deg, #c49b3f 0%, #e3c46a 30%, #c49b3f 60%, #a8842e 100%);
+      background-size: 200% 200%;
+      color: #111111;
+      padding: 12px 22px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 32px rgba(196, 155, 63, 0.4);
+      border: 2px solid #c49b3f;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: alliyaGoldPulse 2.5s ease-in-out infinite;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      user-select: none;
     }
 
     #alliyaFloatBtn:hover {
-      transform: scale(1.08) translateY(-2px) !important;
-      box-shadow: 0 12px 48px rgba(196, 155, 63, 0.6) !important;
-      animation-play-state: paused !important;
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 12px 48px rgba(196, 155, 63, 0.6);
+      animation-play-state: paused;
     }
 
     #alliyaFloatBtn img {
-      width: 24px !important;
-      height: 24px !important;
-      border-radius: 6px !important;
-      background: white !important;
-      padding: 3px !important;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: white;
+      padding: 3px;
     }
 
-    @keyframes goldPulse {
+    @keyframes alliyaGoldPulse {
       0%, 100% {
         box-shadow: 0 8px 32px rgba(196, 155, 63, 0.3);
         transform: scale(1);
@@ -77,384 +77,384 @@
       }
     }
 
-    /* ---- Modal ---- */
+    /* ---- Modal (Scoped) ---- */
     #alliyaModal {
-      display: none !important;
-      position: fixed !important;
-      z-index: 999998 !important;
-      left: 0 !important;
-      top: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
-      overflow: auto !important;
-      background: rgba(0, 0, 0, 0.5) !important;
-      backdrop-filter: blur(4px) !important;
-      animation: modalFadeIn 0.3s ease !important;
+      display: none;
+      position: fixed;
+      z-index: 999998;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      animation: alliyaModalFadeIn 0.3s ease;
     }
 
     #alliyaModal.active {
-      display: block !important;
+      display: block;
     }
 
-    @keyframes modalFadeIn {
+    @keyframes alliyaModalFadeIn {
       from { opacity: 0; transform: scale(0.95); }
       to { opacity: 1; transform: scale(1); }
     }
 
-    #alliyaModal .modal-content {
-      background: #ffffff !important;
-      margin: 40px auto !important;
-      padding: 0 !important;
-      border-radius: 16px !important;
-      max-width: 560px !important;
-      width: 92% !important;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
-      border: 1px solid rgba(196, 155, 63, 0.2) !important;
-      overflow: hidden !important;
-      position: relative !important;
-      max-height: 90vh !important;
+    #alliyaModal .alliya-modal-content {
+      background: #ffffff;
+      margin: 40px auto;
+      padding: 0;
+      border-radius: 16px;
+      max-width: 560px;
+      width: 92%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(196, 155, 63, 0.2);
+      overflow: hidden;
+      position: relative;
+      max-height: 90vh;
     }
 
-    /* ---- Modal Header ---- */
-    #alliyaModal .modal-header {
-      background: linear-gradient(135deg, #c49b3f 0%, #e3c46a 30%, #c49b3f 60%, #a8842e 100%) !important;
-      background-size: 200% 200% !important;
-      animation: goldPulse 4s ease-in-out infinite !important;
-      padding: 16px 20px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: space-between !important;
-      position: relative !important;
-      overflow: hidden !important;
+    /* ---- Modal Header (Scoped) ---- */
+    #alliyaModal .alliya-modal-header {
+      background: linear-gradient(135deg, #c49b3f 0%, #e3c46a 30%, #c49b3f 60%, #a8842e 100%);
+      background-size: 200% 200%;
+      animation: alliyaGoldPulse 4s ease-in-out infinite;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
     }
 
-    #alliyaModal .modal-header::after {
-      content: '' !important;
-      position: absolute !important;
-      top: 0 !important;
-      left: -100% !important;
-      width: 200% !important;
-      height: 100% !important;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent) !important;
-      animation: goldShine 3s ease-in-out infinite !important;
+    #alliyaModal .alliya-modal-header::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+      animation: alliyaGoldShine 3s ease-in-out infinite;
     }
 
-    @keyframes goldShine {
+    @keyframes alliyaGoldShine {
       0% { transform: translateX(-100%); }
       100% { transform: translateX(100%); }
     }
 
-    #alliyaModal .modal-header .header-left {
-      display: flex !important;
-      align-items: center !important;
-      gap: 10px !important;
-      position: relative !important;
-      z-index: 1 !important;
+    #alliyaModal .alliya-modal-header .alliya-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
     }
 
-    #alliyaModal .modal-header .header-left img {
-      width: 28px !important;
-      height: 28px !important;
-      border-radius: 6px !important;
-      background: white !important;
-      padding: 4px !important;
+    #alliyaModal .alliya-modal-header .alliya-header-left img {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: white;
+      padding: 4px;
     }
 
-    #alliyaModal .modal-header .header-left h2 {
-      margin: 0 !important;
-      font-size: 18px !important;
-      font-weight: 700 !important;
-      color: #111111 !important;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    #alliyaModal .alliya-modal-header .alliya-header-left h2 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: #111111;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    #alliyaModal .modal-header .close {
-      color: #111111 !important;
-      font-size: 28px !important;
-      font-weight: 400 !important;
-      cursor: pointer !important;
-      transition: all 0.3s ease !important;
-      position: relative !important;
-      z-index: 1 !important;
-      line-height: 1 !important;
-      opacity: 0.7 !important;
-      background: none !important;
-      border: none !important;
-      padding: 0 4px !important;
+    #alliyaModal .alliya-modal-header .alliya-close-btn {
+      color: #111111;
+      font-size: 28px;
+      font-weight: 400;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+      line-height: 1;
+      opacity: 0.7;
+      background: none;
+      border: none;
+      padding: 0 4px;
     }
 
-    #alliyaModal .modal-header .close:hover {
-      opacity: 1 !important;
-      transform: rotate(90deg) !important;
+    #alliyaModal .alliya-modal-header .alliya-close-btn:hover {
+      opacity: 1;
+      transform: rotate(90deg);
     }
 
-    /* ---- Modal Body ---- */
+    /* ---- Modal Body (Scoped) ---- */
     #alliyaModal .alliya-box {
-      padding: 20px 24px 24px !important;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-      color: #222 !important;
-      max-height: 75vh !important;
-      overflow-y: auto !important;
+      padding: 20px 24px 24px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #222;
+      max-height: 75vh;
+      overflow-y: auto;
     }
 
     #alliyaModal .alliya-box::-webkit-scrollbar {
-      width: 4px !important;
+      width: 4px;
     }
     #alliyaModal .alliya-box::-webkit-scrollbar-thumb {
-      background: #c49b3f !important;
-      border-radius: 10px !important;
+      background: #c49b3f;
+      border-radius: 10px;
     }
     #alliyaModal .alliya-box::-webkit-scrollbar-track {
-      background: transparent !important;
+      background: transparent;
     }
 
-    /* ---- Intro ---- */
+    /* ---- Intro (Scoped) ---- */
     #alliyaModal .alliya-intro {
-      padding: 0 0 12px 0 !important;
-      font-size: 14px !important;
-      line-height: 1.6 !important;
-      color: #333 !important;
+      padding: 0 0 12px 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333;
     }
 
     #alliyaModal .alliya-intro p {
-      margin: 4px 0 !important;
+      margin: 4px 0;
     }
 
     #alliyaModal .alliya-intro strong {
-      color: #a8842e !important;
+      color: #a8842e;
     }
 
-    /* ---- Input ---- */
-    #alliyaModal .input-wrapper {
-      position: relative !important;
-      margin: 0 0 10px 0 !important;
+    /* ---- Input (Scoped) ---- */
+    #alliyaModal .alliya-input-wrapper {
+      position: relative;
+      margin: 0 0 10px 0;
     }
 
-    #alliyaQuery {
-      width: 100% !important;
-      padding: 12px 16px !important;
-      border-radius: 10px !important;
-      border: 2px solid #e0e0e0 !important;
-      font-size: 14px !important;
-      outline: none !important;
-      transition: all 0.3s ease !important;
-      background: #fafafa !important;
-      color: #222 !important;
-      box-sizing: border-box !important;
-      font-family: inherit !important;
+    #alliyaModal #alliyaQuery {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 2px solid #e0e0e0;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s ease;
+      background: #fafafa;
+      color: #222;
+      box-sizing: border-box;
+      font-family: inherit;
     }
 
-    #alliyaQuery:focus {
-      border-color: #c49b3f !important;
-      box-shadow: 0 0 0 4px rgba(196, 155, 63, 0.12) !important;
-      background: #ffffff !important;
+    #alliyaModal #alliyaQuery:focus {
+      border-color: #c49b3f;
+      box-shadow: 0 0 0 4px rgba(196, 155, 63, 0.12);
+      background: #ffffff;
     }
 
-    #alliyaQuery::placeholder {
-      color: #aaa !important;
+    #alliyaModal #alliyaQuery::placeholder {
+      color: #aaa;
     }
 
-    /* ---- Send Button ---- */
-    #alliyaModal .send-btn {
-      width: 100% !important;
-      padding: 12px 16px !important;
-      border-radius: 10px !important;
-      border: none !important;
-      background: linear-gradient(135deg, #c49b3f, #e3c46a) !important;
-      color: #111111 !important;
-      font-weight: 700 !important;
-      font-size: 15px !important;
-      cursor: pointer !important;
-      transition: all 0.3s ease !important;
-      font-family: inherit !important;
-      margin: 0 0 4px 0 !important;
+    /* ---- Send Button (Scoped) ---- */
+    #alliyaModal .alliya-send-btn {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #c49b3f, #e3c46a);
+      color: #111111;
+      font-weight: 700;
+      font-size: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      margin: 0 0 4px 0;
     }
 
-    #alliyaModal .send-btn:hover {
-      transform: translateY(-2px) !important;
-      box-shadow: 0 4px 20px rgba(196, 155, 63, 0.4) !important;
+    #alliyaModal .alliya-send-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(196, 155, 63, 0.4);
     }
 
-    #alliyaModal .send-btn:active {
-      transform: scale(0.98) !important;
+    #alliyaModal .alliya-send-btn:active {
+      transform: scale(0.98);
     }
 
-    /* ---- Suggestions ---- */
-    .suggestions {
-      position: absolute !important;
-      top: 48px !important;
-      left: 0 !important;
-      right: 0 !important;
-      background: #ffffff !important;
-      border: 1px solid #e0e0e0 !important;
-      border-radius: 10px !important;
-      z-index: 999999 !important;
-      max-height: 200px !important;
-      overflow-y: auto !important;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12) !important;
-      display: none !important;
+    /* ---- Suggestions (Scoped) ---- */
+    #alliyaModal .alliya-suggestions {
+      position: absolute;
+      top: 48px;
+      left: 0;
+      right: 0;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      z-index: 999999;
+      max-height: 200px;
+      overflow-y: auto;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+      display: none;
     }
 
-    .suggestions.show {
-      display: block !important;
+    #alliyaModal .alliya-suggestions.show {
+      display: block;
     }
 
-    .suggestions::-webkit-scrollbar {
-      width: 4px !important;
+    #alliyaModal .alliya-suggestions::-webkit-scrollbar {
+      width: 4px;
     }
-    .suggestions::-webkit-scrollbar-thumb {
-      background: #c49b3f !important;
-      border-radius: 10px !important;
-    }
-
-    .alliya-suggestion-item {
-      padding: 10px 14px !important;
-      font-size: 13px !important;
-      cursor: pointer !important;
-      border-bottom: 1px solid #f1f1f1 !important;
-      color: #222 !important;
-      transition: all 0.2s ease !important;
+    #alliyaModal .alliya-suggestions::-webkit-scrollbar-thumb {
+      background: #c49b3f;
+      border-radius: 10px;
     }
 
-    .alliya-suggestion-item:last-child {
-      border-bottom: none !important;
+    #alliyaModal .alliya-suggestion-item {
+      padding: 10px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      border-bottom: 1px solid #f1f1f1;
+      color: #222;
+      transition: all 0.2s ease;
     }
 
-    .alliya-suggestion-item:hover {
-      background: #f7f4eb !important;
-      padding-left: 18px !important;
+    #alliyaModal .alliya-suggestion-item:last-child {
+      border-bottom: none;
     }
 
-    /* ---- Response ---- */
-    .reply {
-      margin-top: 14px !important;
-      padding: 16px 16px 14px !important;
-      border-radius: 12px !important;
-      border: 1px solid #eee !important;
-      background: #fafafa !important;
-      font-size: 14px !important;
-      line-height: 1.7 !important;
-      max-height: 55vh !important;
-      overflow-y: auto !important;
-      display: none !important;
+    #alliyaModal .alliya-suggestion-item:hover {
+      background: #f7f4eb;
+      padding-left: 18px;
     }
 
-    .reply.show {
-      display: block !important;
+    /* ---- Response (Scoped) ---- */
+    #alliyaModal .alliya-reply {
+      margin-top: 14px;
+      padding: 16px 16px 14px;
+      border-radius: 12px;
+      border: 1px solid #eee;
+      background: #fafafa;
+      font-size: 14px;
+      line-height: 1.7;
+      max-height: 55vh;
+      overflow-y: auto;
+      display: none;
     }
 
-    .reply::-webkit-scrollbar {
-      width: 4px !important;
-    }
-    .reply::-webkit-scrollbar-thumb {
-      background: #c49b3f !important;
-      border-radius: 10px !important;
+    #alliyaModal .alliya-reply.show {
+      display: block;
     }
 
-    .reply .alliya-block h2 {
-      font-size: 17px !important;
-      color: #a8842e !important;
-      margin: 0 0 8px 0 !important;
-      font-weight: 700 !important;
+    #alliyaModal .alliya-reply::-webkit-scrollbar {
+      width: 4px;
+    }
+    #alliyaModal .alliya-reply::-webkit-scrollbar-thumb {
+      background: #c49b3f;
+      border-radius: 10px;
     }
 
-    .reply .alliya-block h3 {
-      font-size: 14px !important;
-      color: #c49b3f !important;
-      margin: 14px 0 4px 0 !important;
-      font-weight: 600 !important;
+    #alliyaModal .alliya-reply .alliya-block h2 {
+      font-size: 17px;
+      color: #a8842e;
+      margin: 0 0 8px 0;
+      font-weight: 700;
     }
 
-    .reply .alliya-block p {
-      margin: 6px 0 !important;
+    #alliyaModal .alliya-reply .alliya-block h3 {
+      font-size: 14px;
+      color: #c49b3f;
+      margin: 14px 0 4px 0;
+      font-weight: 600;
     }
 
-    .reply .alliya-block strong {
-      color: #a8842e !important;
+    #alliyaModal .alliya-reply .alliya-block p {
+      margin: 6px 0;
     }
 
-    .reply .alliya-block a {
-      color: #c49b3f !important;
-      font-weight: 600 !important;
-      text-decoration: none !important;
-      border-bottom: 2px solid rgba(196, 155, 63, 0.2) !important;
-      padding-bottom: 1px !important;
-      transition: all 0.2s ease !important;
-      cursor: pointer !important;
+    #alliyaModal .alliya-reply .alliya-block strong {
+      color: #a8842e;
     }
 
-    .reply .alliya-block a:hover {
-      color: #a8842e !important;
-      border-bottom-color: #c49b3f !important;
+    #alliyaModal .alliya-reply .alliya-block a {
+      color: #c49b3f;
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 2px solid rgba(196, 155, 63, 0.2);
+      padding-bottom: 1px;
+      transition: all 0.2s ease;
+      cursor: pointer;
     }
 
-    .reply .alliya-block a[href*="whatsapp"],
-    .reply .alliya-block a[href*="wa.me"] {
-      color: #25D366 !important;
-      border-bottom-color: rgba(37, 211, 102, 0.3) !important;
+    #alliyaModal .alliya-reply .alliya-block a:hover {
+      color: #a8842e;
+      border-bottom-color: #c49b3f;
     }
 
-    .reply .alliya-block a[href*="mailto"] {
-      color: #D44638 !important;
-      border-bottom-color: rgba(212, 70, 56, 0.3) !important;
+    #alliyaModal .alliya-reply .alliya-block a[href*="whatsapp"],
+    #alliyaModal .alliya-reply .alliya-block a[href*="wa.me"] {
+      color: #25D366;
+      border-bottom-color: rgba(37, 211, 102, 0.3);
     }
 
-    .reply .alliya-block a[href*="tel"] {
-      color: #1a73e8 !important;
-      border-bottom-color: rgba(26, 115, 232, 0.3) !important;
+    #alliyaModal .alliya-reply .alliya-block a[href*="mailto"] {
+      color: #D44638;
+      border-bottom-color: rgba(212, 70, 56, 0.3);
     }
 
-    .reply .alliya-cta {
-      display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)) !important;
-      gap: 10px !important;
-      margin: 12px 0 8px 0 !important;
+    #alliyaModal .alliya-reply .alliya-block a[href*="tel"] {
+      color: #1a73e8;
+      border-bottom-color: rgba(26, 115, 232, 0.3);
     }
 
-    .reply .alliya-cta p {
-      margin: 0 !important;
-      padding: 12px 14px !important;
-      background: rgba(196, 155, 63, 0.08) !important;
-      border-radius: 10px !important;
-      border-left: 3px solid #c49b3f !important;
-      font-size: 13px !important;
+    #alliyaModal .alliya-reply .alliya-cta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 12px 0 8px 0;
     }
 
-    .reply .alliya-cta p strong {
-      color: #a8842e !important;
-      display: block !important;
-      margin-bottom: 4px !important;
-      font-size: 13px !important;
+    #alliyaModal .alliya-reply .alliya-cta p {
+      margin: 0;
+      padding: 12px 14px;
+      background: rgba(196, 155, 63, 0.08);
+      border-radius: 10px;
+      border-left: 3px solid #c49b3f;
+      font-size: 13px;
     }
 
-    .reply hr {
-      border: none !important;
-      border-top: 2px solid rgba(196, 155, 63, 0.15) !important;
-      margin: 14px 0 !important;
+    #alliyaModal .alliya-reply .alliya-cta p strong {
+      color: #a8842e;
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
     }
 
-    .reply .alliya-footer-note {
-      font-size: 12px !important;
-      color: #888 !important;
-      text-align: center !important;
-      margin: 10px 0 0 0 !important;
-      font-style: italic !important;
+    #alliyaModal .alliya-reply hr {
+      border: none;
+      border-top: 2px solid rgba(196, 155, 63, 0.15);
+      margin: 14px 0;
     }
 
-    .reply .alliya-loading {
-      color: #888 !important;
-      font-style: italic !important;
-      display: flex !important;
-      align-items: center !important;
-      gap: 8px !important;
+    #alliyaModal .alliya-reply .alliya-footer-note {
+      font-size: 12px;
+      color: #888;
+      text-align: center;
+      margin: 10px 0 0 0;
+      font-style: italic;
     }
 
-    .reply .alliya-loading::after {
-      content: '...' !important;
-      animation: dots 1.5s steps(4, end) infinite !important;
+    #alliyaModal .alliya-reply .alliya-loading {
+      color: #888;
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    @keyframes dots {
+    #alliyaModal .alliya-reply .alliya-loading::after {
+      content: '...';
+      animation: alliyaDots 1.5s steps(4, end) infinite;
+    }
+
+    @keyframes alliyaDots {
       0% { content: ''; }
       25% { content: '.'; }
       50% { content: '..'; }
@@ -462,85 +462,85 @@
       100% { content: ''; }
     }
 
-    /* ---- Responsive ---- */
+    /* ---- Responsive (Scoped) ---- */
     @media (max-width: 640px) {
-      #alliyaModal .modal-content {
-        margin: 20px 12px !important;
-        max-width: 100% !important;
-        border-radius: 14px !important;
+      #alliyaModal .alliya-modal-content {
+        margin: 20px 12px;
+        max-width: 100%;
+        border-radius: 14px;
       }
 
       #alliyaModal .alliya-box {
-        padding: 16px 16px 20px !important;
-        max-height: 80vh !important;
+        padding: 16px 16px 20px;
+        max-height: 80vh;
       }
 
-      .reply {
-        max-height: 50vh !important;
-        padding: 12px 14px !important;
+      #alliyaModal .alliya-reply {
+        max-height: 50vh;
+        padding: 12px 14px;
       }
 
       #alliyaFloatBtn {
-        bottom: 16px !important;
-        right: 16px !important;
-        padding: 10px 14px !important;
-        font-size: 13px !important;
+        bottom: 16px;
+        right: 16px;
+        padding: 10px 14px;
+        font-size: 13px;
       }
 
       #alliyaFloatBtn span {
-        display: none !important;
+        display: none;
       }
 
       #alliyaFloatBtn img {
-        width: 22px !important;
-        height: 22px !important;
+        width: 22px;
+        height: 22px;
       }
 
-      #alliyaModal .modal-header {
-        padding: 14px 16px !important;
+      #alliyaModal .alliya-modal-header {
+        padding: 14px 16px;
       }
 
-      #alliyaModal .modal-header .header-left h2 {
-        font-size: 16px !important;
+      #alliyaModal .alliya-modal-header .alliya-header-left h2 {
+        font-size: 16px;
       }
 
-      .reply .alliya-cta {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 8px !important;
+      #alliyaModal .alliya-reply .alliya-cta {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
       }
 
-      .reply .alliya-cta p {
-        padding: 10px 12px !important;
-        font-size: 12px !important;
+      #alliyaModal .alliya-reply .alliya-cta p {
+        padding: 10px 12px;
+        font-size: 12px;
       }
 
-      #alliyaQuery {
-        font-size: 13px !important;
-        padding: 10px 14px !important;
+      #alliyaModal #alliyaQuery {
+        font-size: 13px;
+        padding: 10px 14px;
       }
 
-      #alliyaModal .send-btn {
-        font-size: 14px !important;
-        padding: 10px 14px !important;
+      #alliyaModal .alliya-send-btn {
+        font-size: 14px;
+        padding: 10px 14px;
       }
 
-      .suggestions {
-        top: 42px !important;
-        max-height: 160px !important;
+      #alliyaModal .alliya-suggestions {
+        top: 42px;
+        max-height: 160px;
       }
     }
 
     @media (max-width: 400px) {
-      .reply .alliya-cta {
-        grid-template-columns: 1fr !important;
+      #alliyaModal .alliya-reply .alliya-cta {
+        grid-template-columns: 1fr;
       }
 
       #alliyaModal .alliya-box {
-        padding: 12px 12px 16px !important;
+        padding: 12px 12px 16px;
       }
 
       #alliyaModal .alliya-intro {
-        font-size: 13px !important;
+        font-size: 13px;
       }
     }
   `;
@@ -556,16 +556,16 @@
       if (el) el.remove();
     });
 
-    // Remove any elements with .alliya-float, .modal, etc.
-    document.querySelectorAll('.alliya-float, .modal, .alliya-box, .alliya-suggestion-item').forEach(el => {
-      if (el.id !== 'alliyaModal' && el.id !== 'alliyaFloatBtn') {
+    // Remove any elements with Alliya classes
+    document.querySelectorAll('.alliya-float, .alliya-modal, .alliya-box, .alliya-suggestion-item, .alliya-reply').forEach(el => {
+      if (!el.id || !el.id.startsWith('alliya')) {
         el.remove();
       }
     });
 
-    // Remove any inline styles that might be conflicting
+    // Remove any Alliya style tags
     document.querySelectorAll('style').forEach(el => {
-      if (el.textContent && el.textContent.includes('alliya-float')) {
+      if (el.id === 'alliya-styles' || (el.textContent && el.textContent.includes('alliyaGoldPulse'))) {
         el.remove();
       }
     });
@@ -581,32 +581,32 @@
     styleEl.id = 'alliya-styles';
     styleEl.textContent = ALLIYA_STYLES;
     document.head.appendChild(styleEl);
-    console.log('[Alliya] Styles injected');
+    console.log('[Alliya] Scoped styles injected');
   }
 
   // ============================================================
-  // 4. INJECT HTML
+  // 4. INJECT HTML (All classes prefixed with 'alliya-')
   // ============================================================
   function injectHTML() {
     const html = `
       <!-- Alliya Modal -->
       <div id="alliyaModal">
-        <div class="modal-content">
-          <div class="modal-header">
-            <div class="header-left">
+        <div class="alliya-modal-content">
+          <div class="alliya-modal-header">
+            <div class="alliya-header-left">
               <img src="/assets/img/alliya-icon.ico" alt="Alliya" onerror="this.style.display='none'">
               <h2>Ask Alliya</h2>
             </div>
-            <button class="close" id="alliyaCloseBtn">&times;</button>
+            <button class="alliya-close-btn" id="alliyaCloseBtn">&times;</button>
           </div>
           <div class="alliya-box">
             <div class="alliya-intro" id="alliyaIntro"></div>
-            <div class="input-wrapper">
+            <div class="alliya-input-wrapper">
               <input type="text" id="alliyaQuery" placeholder="Ask about products, suppliers, FCL, docs..." autocomplete="off">
-              <div id="alliyaSuggestions" class="suggestions"></div>
+              <div id="alliyaSuggestions" class="alliya-suggestions"></div>
             </div>
-            <button class="send-btn" id="alliyaSendBtn">✨ Send Question</button>
-            <div id="alliyaResponse" class="reply"></div>
+            <button class="alliya-send-btn" id="alliyaSendBtn">✨ Send Question</button>
+            <div id="alliyaResponse" class="alliya-reply"></div>
           </div>
         </div>
       </div>
@@ -619,7 +619,7 @@
     `;
 
     document.body.insertAdjacentHTML('beforeend', html);
-    console.log('[Alliya] HTML injected');
+    console.log('[Alliya] HTML injected with scoped classes');
   }
 
   // ============================================================
@@ -1098,12 +1098,9 @@
     injectHTML();
     setupEvents();
 
-    console.log('%c✨ Alliya v8.2 - Self-Contained Gold Edition', 'font-size:20px; font-weight:bold; color:#c49b3f;');
+    console.log('%c✨ Alliya v8.3 - Scoped Gold Edition', 'font-size:20px; font-weight:bold; color:#c49b3f;');
     console.log('%c💡 Click the gold button to open', 'font-size:14px; color:#a8842e;');
     console.log('%c🔗 All links, emails, and phone numbers are clickable!', 'font-size:13px; color:#c49b3f;');
-
-    // Auto-open on first visit (optional - remove if you don't want this)
-    // setTimeout(openModal, 1000);
   }
 
   // ============================================================
@@ -1120,7 +1117,7 @@
     ask: askAlliya,
     open: openModal,
     close: closeModal,
-    version: '8.2'
+    version: '8.3'
   };
 
 })();
