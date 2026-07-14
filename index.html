@@ -160,72 +160,7 @@
     </div>
   </section>
 
-  <!-- Alliya Float Button -->
-<div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
-  <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya
-</div>
-
-<!-- Alliya Float Button -->
-<div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
-  <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26">
-  Ask Alliya
-</div>
-
-<!-- Alliya Modal -->
-<div id="alliyaModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-
-    <div class="alliya-box">
-      <h2>
-        <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26">
-        Ask Alliya
-      </h2>
-
-      <div style="position:relative;">
-  <input type="text" id="alliyaQuery"
-    placeholder="Ask about prices, FCL, trends..."
-    oninput="showSuggestions()"
-    autocomplete="off">
-  <div id="alliyaSuggestions" class="suggestions"></div>
-</div>
-
-      <button onclick="askAlliya()">Send Question</button>
-
-      <div id="alliyaResponse" class="reply"></div>
-    </div>
-  </div>
-</div>
-
-<script>
-  // Open Modal
-  function openModal() {
-    const modal = document.getElementById('alliyaModal');
-    modal.classList.add('active');
-    document.getElementById('alliyaQuery').focus();
-  }
-
-  // Close Modal
-  function closeModal() {
-  const modal = document.getElementById('alliyaModal');
-  const reply = document.getElementById('alliyaResponse');
-  const suggestions = document.getElementById('alliyaSuggestions');
-
-  if (modal) modal.classList.remove('active');
-  if (reply) reply.innerHTML = '';
-  if (suggestions) suggestions.innerHTML = '';
-}
-
-
-  // Close when clicking outside modal-content
-  window.onclick = function(event) {
-  const modal = document.getElementById('alliyaModal');
-  if (modal && event.target === modal) {
-    closeModal();
-  }
-};
-</script>
-  <!-- CTA -->
+   <!-- CTA -->
   <section class="cta-banner">
     <h2>Ready to Trade with Confidence?</h2>
     <p>Join Dubai’s most trusted B2B grain network. Compliance-first. Al Ras powered.</p>
