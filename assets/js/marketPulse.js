@@ -1,7 +1,6 @@
 /* ============================================================
    MARKET PULSE - Grains Hub
-   Merged: pulse.js (Bloomberg style) + marketPulse.js (Cards)
-   Version: 2.0
+   Version: 2.1 - Fixed Table & Cards
    ============================================================ */
 
 // ============================================================
@@ -9,8 +8,8 @@
 // ============================================================
 const CONFIG = {
   DATA_URL: '/assets/data/stock.json?t=',
-  REFRESH_INTERVAL: 60000, // 60 seconds
-  NEWS_INTERVAL: 8000, // 8 seconds
+  REFRESH_INTERVAL: 60000,
+  NEWS_INTERVAL: 8000,
   MAX_CARDS: 6,
 };
 
@@ -31,8 +30,6 @@ const newsFeed = [
   "Jebel Ali FCL arrivals: +20 containers this week",
   "Thai White 5% Broken: $485 FOB – 20ft ready",
   "1121 Sella Premium: AED 6.2/kg – Al Ras stock",
-  "Sawarna Rice booking at $475 FOB Dubai",
-  "Indian Creamy Sella USD 1040 • Indian Steam Rice USD 1100"
 ];
 
 // ============================================================
@@ -89,15 +86,19 @@ async function loadPulseData() {
     if (tbody) {
       tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px; color:#a07c3b;">⏳ Loading live prices...</td></tr>';
     }
-    if (lastUpdated) lastUpdated.textContent = 'Updating...';
 
     const res = await fetch(CONFIG.DATA_URL + Date.now());
+    if (!res.ok) throw new Error('Failed to fetch data');
     const data = await res.json();
+
+    if (!data || data.length === 0) {
+      throw new Error('No data in stock.json');
+    }
 
     pulseData = data.map(item => {
       const trendChange = (Math.random() * 6 - 3).toFixed(1);
       const trendChangeNum = parseFloat(trendChange);
-      const isBooking = item.price.toUpperCase().includes('USD');
+      const isBooking = String(item.price).toUpperCase().includes('USD');
       const numericPrice = parseFloat(item.price);
 
       if (isBooking) {
@@ -112,9 +113,9 @@ async function loadPulseData() {
           trendChange: trendChangeNum,
           trendClass: getTrendClass(trendChangeNum),
           trendArrow: getTrendArrow(trendChangeNum),
-          supplier: item.stock,
+          supplier: item.stock || 'Booking',
           badge: item.badge || 'Pre-Booking',
-          size: item.size,
+          size: item.size || 'MT',
           image: item.img || null,
         };
       }
@@ -134,13 +135,14 @@ async function loadPulseData() {
         trendChange: trendChangeNum,
         trendClass: getTrendClass(trendChangeNum),
         trendArrow: getTrendArrow(trendChangeNum),
-        supplier: item.stock,
+        supplier: item.stock || 'In Stock',
         badge: item.badge || 'Verified Supplier',
-        size: item.size,
+        size: item.size || 'kg',
         image: item.img || null,
       };
     });
 
+    console.log('✅ Loaded ' + pulseData.length + ' products from stock.json');
     applyFiltersAndRender();
     updateLastUpdated();
     updateMarketMood();
@@ -158,14 +160,12 @@ async function loadPulseData() {
 // 5. FILTERING & SEARCH
 // ============================================================
 function applyFiltersAndRender() {
-  // Apply filters
   filteredData = pulseData.filter(item => {
     const matchesFilter = currentFilter === 'all' || item.origin === currentFilter;
     const matchesSearch = item.product.toLowerCase().includes(currentSearch.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
-  // Apply sorting
   if (currentSort.key) {
     const { key, dir } = currentSort;
     filteredData = filteredData.slice().sort((a, b) => {
@@ -185,7 +185,7 @@ function applyFiltersAndRender() {
 }
 
 // ============================================================
-// 6. RENDER CARDS (from marketPulse.js)
+// 6. RENDER CARDS (Fixed Size)
 // ============================================================
 function renderCards(data) {
   const container = document.getElementById('priceCards');
@@ -234,16 +234,21 @@ function renderCards(data) {
 }
 
 // ============================================================
-// 7. RENDER TABLE (Bloomberg style from pulse.js)
+// 7. RENDER TABLE (FIXED - using pulse-table ID)
 // ============================================================
 function renderTable(data) {
   const tbody = document.getElementById('pulse-table');
-  if (!tbody) return;
-
-  if (data.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px; color:#999;">No data for this filter.</td></tr>';
+  if (!tbody) {
+    console.warn('Table body not found');
     return;
   }
+
+  if (!data || data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px; color:#999;">No data available. Please check stock.json</td></tr>';
+    return;
+  }
+
+  console.log('✅ Rendering ' + data.length + ' rows in table');
 
   tbody.innerHTML = data.map(item => {
     const rowClass = getRowClass(item);
@@ -393,180 +398,21 @@ function setupAlliyaButton() {
 // 13. INITIALIZATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
-  // Load data
+  console.log('🚀 Market Pulse initializing...');
   loadPulseData();
-
-  // Setup filters
   setupFilters();
-
-  // Setup sorting
   initSorting();
-
-  // Setup Alliya button
   setupAlliyaButton();
 
-  // News ticker rotation
   setInterval(renderNewsFeed, CONFIG.NEWS_INTERVAL);
   renderNewsFeed();
 
-  // Auto-refresh
   setInterval(loadPulseData, CONFIG.REFRESH_INTERVAL);
 
-  // Expose filter function globally
   window.filterPulse = function(filter) {
     currentFilter = filter;
     applyFiltersAndRender();
   };
 
-  console.log('✅ Market Pulse v2.0 loaded successfully');
-  console.log('📊 Bloomberg-style table + modern cards');
-  console.log('🔄 Auto-refreshing every ' + (CONFIG.REFRESH_INTERVAL / 1000) + ' seconds');
+  console.log('✅ Market Pulse v2.1 loaded');
 });
-
-// ============================================================
-// 14. INJECT BLOOMBERG STYLES
-// ============================================================
-(function injectStyles() {
-  const style = document.createElement('style');
-  style.textContent = `
-    /* ============================================================
-       MARKET PULSE - Bloomberg Style Overrides
-       ============================================================ */
-
-    /* ---- Row Styling ---- */
-    #pulse-table tr.row-booking {
-      background: rgba(255, 215, 0, 0.06);
-      border-left: 3px solid #d4af37;
-    }
-    #pulse-table tr.row-local {
-      background: rgba(255, 255, 255, 0.01);
-    }
-    #pulse-table tr + tr {
-      border-top: 1px solid rgba(0, 0, 0, 0.04);
-    }
-
-    /* ---- Column Widths ---- */
-    .col-product { width: 28%; }
-    .col-price { width: 22%; }
-    .col-trend { width: 14%; }
-    .col-supplier { width: 22%; }
-    .col-meta { width: 8%; }
-    .col-action { width: 6%; }
-
-    /* ---- Product Column ---- */
-    .col-product {
-      text-align: left;
-      white-space: normal;
-    }
-    .col-product strong {
-      display: inline-block;
-      margin-bottom: 2px;
-    }
-    .origin-flag {
-      font-size: 14px;
-      margin-right: 4px;
-    }
-    .origin-text {
-      font-size: 11px;
-      opacity: 0.7;
-      margin-left: 2px;
-    }
-
-    /* ---- Price Column ---- */
-    .col-price {
-      text-align: right;
-    }
-    .price-main {
-      font-weight: 600;
-      font-size: 14px;
-    }
-    .price-sub {
-      font-size: 11px;
-      color: #999;
-    }
-
-    /* ---- Trend Column ---- */
-    .col-trend {
-      text-align: right;
-      white-space: nowrap;
-    }
-    .trend-arrow { margin-right: 4px; font-size: 12px; }
-    .trend-value { font-size: 13px; }
-    .trend-up { color: #2ecc71; }
-    .trend-down { color: #e74c3c; }
-    .trend-flat { color: #bdc3c7; }
-
-    /* ---- Supplier Column ---- */
-    .col-supplier {
-      text-align: right;
-    }
-    .supplier-main { font-size: 12px; }
-    .badge-supplier {
-      background: rgba(46, 204, 113, 0.12);
-      color: #2ecc71;
-      border: 1px solid rgba(46, 204, 113, 0.4);
-    }
-    .badge-booking {
-      background: rgba(212, 175, 55, 0.15);
-      color: #f1c40f;
-      border: 1px solid rgba(212, 175, 55, 0.4);
-    }
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    /* ---- Meta Column ---- */
-    .col-meta {
-      text-align: center;
-    }
-    .meta-verified {
-      font-size: 11px;
-      color: #d4af37;
-    }
-
-    /* ---- Action Column ---- */
-    .col-action {
-      text-align: center;
-    }
-    .whatsapp-link {
-      color: #25D366;
-      font-size: 18px;
-      transition: all 0.3s ease;
-    }
-    .whatsapp-link:hover {
-      color: #128C7E;
-      transform: scale(1.2);
-    }
-
-    /* ---- Responsive Table ---- */
-    @media (max-width: 768px) {
-      .col-product { width: 35%; }
-      .col-price { width: 20%; }
-      .col-trend { width: 15%; }
-      .col-supplier { width: 20%; }
-      .col-meta { display: none; }
-      .col-action { width: 10%; }
-
-      #pulse-table td {
-        padding: 8px 6px;
-        font-size: 12px;
-      }
-      .price-main { font-size: 12px; }
-      .supplier-main { font-size: 11px; }
-    }
-
-    @media (max-width: 480px) {
-      .col-product { width: 40%; }
-      .col-price { width: 25%; }
-      .col-trend { display: none; }
-      .col-supplier { width: 25%; }
-      .col-action { width: 10%; }
-    }
-  `;
-  document.head.appendChild(style);
-})();
