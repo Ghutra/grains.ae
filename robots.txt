@@ -1,9 +1,12 @@
 # ============================================================
 # ROBOTS.TXT - Grains Hub
 # Hosted on GitHub Pages
+# Version: 2.0
 # ============================================================
 
-# Allow all crawlers
+# ============================================================
+# ALLOW ALL MAJOR CRAWLERS
+# ============================================================
 User-agent: *
 Allow: /
 
@@ -13,10 +16,10 @@ Allow: /
 Sitemap: https://grains.ae/sitemap.xml
 
 # ============================================================
-# DISALLOW (Keep these hidden from search engines)
+# DISALLOW - Protect sensitive files & directories
 # ============================================================
 
-# GitHub-specific files
+# GitHub-specific files (don't index repo internals)
 Disallow: /.git/
 Disallow: /.github/
 Disallow: /CNAME
@@ -28,50 +31,58 @@ Disallow: /node_modules/
 Disallow: /package.json
 Disallow: /package-lock.json
 
-# Asset files (mostly images, CSS, JS)
-Disallow: /assets/js/
+# Asset files (CSS, JS, Images - not useful for search)
 Disallow: /assets/css/
-Disallow: /assets/img/
+Disallow: /assets/js/
 Allow: /assets/data/
+Allow: /assets/img/
 
 # Partial includes (not full pages)
 Disallow: /partials/
 
-# Admin/Login
+# Admin/Login (don't index these)
 Disallow: /login.html
 Disallow: /register.html
 Disallow: /reset-password.html
 Disallow: /verify-email.html
 Disallow: /auth-handler.html
+Disallow: /dashboard.html
 
-# System files
+# System & unused files
 Disallow: /old-style-unused.css
 Disallow: /firebase-config.js
+Disallow: /firebase-init.js
 
-# API endpoints
+# API endpoints (if any)
 Disallow: /api/
 
+# Old/unused pages
+Disallow: /market.html
+Disallow: /services.html
+Disallow: /reviews.html
+Disallow: /scan-log.html
+
 # ============================================================
-# CRAWL DELAY (Be nice to servers)
+# CRAWL DELAY (Be nice to GitHub Pages servers)
 # ============================================================
 Crawl-delay: 5
 
 # ============================================================
-# CHROME / GOOGLE BOT SPECIFIC
+# GOOGLE BOT (Specific optimizations)
 # ============================================================
 User-agent: Googlebot
 Allow: /
 Crawl-delay: 2
 
 # ============================================================
-# BING BOT SPECIFIC
+# BING BOT
 # ============================================================
 User-agent: bingbot
 Allow: /
 Crawl-delay: 5
 
 # ============================================================
-# DUCKDUCKGO BOT
+# DUCKDUCKGO
 # ============================================================
 User-agent: DuckDuckBot
 Allow: /
@@ -92,7 +103,7 @@ Allow: /
 Crawl-delay: 10
 
 # ============================================================
-# SEO BOTS (Allow all major SEO bots)
+# SEO TOOLS (Allow but be respectful)
 # ============================================================
 User-agent: AhrefsBot
 Allow: /
@@ -115,7 +126,7 @@ Allow: /
 Crawl-delay: 10
 
 # ============================================================
-# SOCIAL MEDIA BOTS
+# SOCIAL MEDIA BOTS (Allow for rich previews)
 # ============================================================
 User-agent: FacebookBot
 Allow: /
@@ -126,8 +137,11 @@ Allow: /
 User-agent: LinkedInBot
 Allow: /
 
+User-agent: Pinterestbot
+Allow: /
+
 # ============================================================
-# BLOCK BAD BOTS (Spam/scrapers)
+# BAD BOTS (Block known scrapers/spammers)
 # ============================================================
 User-agent: 007ac9
 Disallow: /
@@ -144,7 +158,28 @@ Disallow: /
 User-agent: AcoiRobot
 Disallow: /
 
+User-agent: AhrefsSiteAudit
+Disallow: /
+
+User-agent: BPBot
+Disallow: /
+
+User-agent: CazoodleBot
+Disallow: /
+
+User-agent: CRAWL-E
+Disallow: /
+
+User-agent: DataCha0s
+Disallow: /
+
+User-agent: DataFy
+Disallow: /
+
+User-agent: DictioBot
+Disallow: /
+
 # ============================================================
-# HOST
+# HOST (Helps search engines identify canonical domain)
 # ============================================================
 Host: https://grains.ae
