@@ -17,952 +17,58 @@
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Schema.org Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    "name": "Market Pulse",
-    "description": "Real-time grain prices from Dubai's Jebel Ali and Al Ras markets.",
-    "url": "https://grains.ae/pulse/index.html",
-    "about": {
-      "@type": "Product",
-      "name": "Grain Price Data",
-      "description": "Real-time B2B grain prices in Dubai"
-    }
-  }
-  </script>
+  <script type="application/ld+json" src="/pulse/schema.json"></script>
+
+  <!-- CSS - Separated by Concern -->
+  <link rel="stylesheet" href="/assets/css/core.css">
+  <link rel="stylesheet" href="/assets/css/header.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+  <link rel="stylesheet" href="/assets/css/pulse.css">
 
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="/assets/css/style.css">
+
   <style>
-    /* ============================================================
-       ROOT VARIABLES - Gold Theme Match
-       ============================================================ */
-    :root {
-      --gold-primary: #C1A875;
-      --gold-dark: #a07c3b;
-      --gold-light: #d4c09e;
-      --gold-gradient: linear-gradient(135deg, #c49b3f 0%, #e3c46a 30%, #c49b3f 60%, #a8842e 100%);
-      --gold-gradient-hover: linear-gradient(135deg, #a8842e 0%, #c49b3f 30%, #e3c46a 60%, #c49b3f 100%);
-      
-      --text-dark: #1a1a2e;
-      --text-muted: #666;
-      --bg-light: #fdfdf9;
-      --bg-white: #ffffff;
-      --border-light: #e8e4d8;
-      
-      --success: #2d9b4e;
-      --danger: #e63939;
-      --warning: #f59e0b;
-      
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-      --shadow-md: 0 8px 30px rgba(0,0,0,0.10);
-      --shadow-lg: 0 20px 60px rgba(0,0,0,0.15);
-      
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
-      --radius-xl: 24px;
-      
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Page-specific overrides (minimal) */
+    .pulse-hero {
+      background: url('/assets/img/hero-home.jpg') center/cover no-repeat;
     }
-
-    /* ============================================================
-       RESET & BASE
-       ============================================================ */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg-light);
-      color: var(--text-dark);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ============================================================
-       OFFER BANNER
-       ============================================================ */
-    .offer-banner {
-      background: var(--gold-gradient);
-      background-size: 200% 200%;
-      animation: goldPulse 4s ease-in-out infinite;
-      color: #1a1a2e;
-      padding: 14px 20px;
-      text-align: center;
-      font-weight: 600;
-      font-size: 14px;
-      overflow: hidden;
-      white-space: nowrap;
-      position: relative;
-      border-bottom: 2px solid var(--gold-dark);
-    }
-
-    .offer-banner .banner-text {
-      display: inline-block;
-      animation: scrollBanner 30s linear infinite;
-    }
-
-    .offer-banner:hover .banner-text {
-      animation-play-state: paused;
-    }
-
-    @keyframes scrollBanner {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-
-    @keyframes goldPulse {
-      0%, 100% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-    }
-
-    .offer-banner .highlight {
-      background: rgba(255,255,255,0.25);
-      padding: 2px 12px;
-      border-radius: 20px;
-      font-weight: 700;
-    }
-
-    /* ============================================================
-       NAVBAR - MATCHES ALLIYA THEME
-       ============================================================ */
-    .navbar {
-      background: var(--gold-primary);
-      padding: 14px 24px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 20px rgba(193, 168, 117, 0.25);
-    }
-
-    .logo {
-      color: #fff;
-      font-weight: 800;
-      font-size: 1.35rem;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo img {
-      width: 30px;
-      height: 30px;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 8px;
-      margin: 0;
-      padding: 0;
-    }
-
-    .nav-links a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      padding: 8px 16px;
-      border-radius: var(--radius-sm);
-      transition: var(--transition);
-    }
-
-    .nav-links a:hover,
-    .nav-links a.active {
-      background: #fff;
-      color: var(--gold-primary);
-    }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .trader-login {
-      background: #fff;
-      color: var(--gold-primary);
-      padding: 8px 20px;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 13px;
-      text-decoration: none;
-      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-
-    .trader-login:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.18);
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      background: transparent;
-      border: none;
-      padding: 4px;
-      gap: 4px;
-    }
-
-    .hamburger span {
-      width: 26px;
-      height: 3px;
-      background: #fff;
-      border-radius: 2px;
-      transition: var(--transition);
-    }
-
-    .hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -5px);
-    }
-
-    @media (max-width: 768px) {
-      .navbar {
-        padding: 12px 16px;
-        flex-wrap: wrap;
-      }
-
-      .hamburger {
-        display: flex;
-      }
-
-      .nav-links {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: var(--gold-primary);
-        flex-direction: column;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s ease, padding 0.4s ease;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        padding: 0;
-        width: 100%;
-        z-index: 999;
-      }
-
-      .nav-links.open {
-        max-height: 500px;
-        padding: 10px 0;
-      }
-
-      .nav-links li {
-        width: 100%;
-      }
-
-      .nav-links a {
-        text-align: center;
-        padding: 14px 20px;
-        display: block;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-        font-size: 15px;
-      }
-
-      .nav-links a:last-child {
-        border-bottom: none;
-      }
-
-      .nav-actions .trader-login {
-        display: none;
-      }
-
-      .nav-links .trader-login-mobile {
-        display: block !important;
-        margin: 10px auto;
-        width: fit-content;
-        background: #fff;
-        color: var(--gold-primary);
-        padding: 10px 24px;
-        border-radius: 50px;
-        font-weight: 700;
-        text-decoration: none;
-        text-align: center;
-      }
-    }
-
-    @media (min-width: 769px) {
-      .nav-links .trader-login-mobile {
-        display: none !important;
-      }
-    }
-
-    /* ============================================================
-       HERO SECTION
-       ============================================================ */
-    .hero {
-      background: var(--gold-gradient);
-      background-size: 200% 200%;
-      animation: goldPulse 6s ease-in-out infinite;
-      padding: 60px 20px 50px;
-      text-align: center;
-      color: #1a1a2e;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 200%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-      animation: shine 4s ease-in-out infinite;
-    }
-
-    @keyframes shine {
-      0% { transform: translateX(-100%); }
-      100% { transform: translateX(100%); }
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero h1 {
-      font-size: 38px;
-      font-weight: 800;
-      margin-bottom: 12px;
-      letter-spacing: -0.5px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      max-width: 600px;
-      margin: 0 auto;
-      opacity: 0.9;
-    }
-
-    .hero .last-updated {
-      margin-top: 16px;
-      font-size: 14px;
-      font-weight: 500;
-      opacity: 0.8;
-    }
-
-    .hero .last-updated i {
-      margin-right: 6px;
-    }
-
-    /* ============================================================
-       CONTAINER
-       ============================================================ */
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 30px 20px 60px;
-    }
-
-    /* ============================================================
-       FILTER BAR
-       ============================================================ */
-    .filter-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 30px;
-      background: var(--bg-white);
-      padding: 16px 20px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-light);
-    }
-
-    .filter-bar .filters {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .filter-btn {
-      padding: 8px 18px;
-      border: 2px solid var(--border-light);
-      border-radius: 50px;
-      background: transparent;
-      color: var(--text-muted);
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      transition: var(--transition);
-      font-family: inherit;
-    }
-
-    .filter-btn:hover {
-      border-color: var(--gold-primary);
-      color: var(--gold-dark);
-    }
-
-    .filter-btn.active {
-      background: var(--gold-primary);
-      border-color: var(--gold-primary);
-      color: #fff;
-    }
-
-    .filter-bar .search-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--bg-light);
-      padding: 4px 16px;
-      border-radius: 50px;
-      border: 2px solid var(--border-light);
-      transition: var(--transition);
-    }
-
-    .filter-bar .search-box:focus-within {
-      border-color: var(--gold-primary);
-      box-shadow: 0 0 0 3px rgba(193, 168, 117, 0.15);
-    }
-
-    .filter-bar .search-box input {
-      border: none;
-      background: transparent;
-      padding: 8px 0;
-      font-size: 14px;
-      outline: none;
-      font-family: inherit;
-      width: 160px;
-      color: var(--text-dark);
-    }
-
-    .filter-bar .search-box input::placeholder {
-      color: var(--text-muted);
-    }
-
-    .filter-bar .search-box i {
-      color: var(--text-muted);
-    }
-
-    /* ============================================================
-       PRICE CARDS
-       ============================================================ */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 18px;
-      margin-bottom: 40px;
-    }
-
-    .price-card {
-      background: var(--bg-white);
-      border-radius: var(--radius-md);
-      padding: 20px 22px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-light);
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .price-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 3px;
-      background: var(--gold-gradient);
-      opacity: 0;
-      transition: var(--transition);
-    }
-
-    .price-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .price-card:hover::before {
-      opacity: 1;
-    }
-
-    .price-card .product-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 10px;
-    }
-
-    .price-card .product-name {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text-dark);
-    }
-
-    .price-card .flag {
-      font-size: 1.5rem;
-    }
-
+    
+    /* Price cards */
     .price-card .price {
       font-size: 1.8rem;
-      font-weight: 800;
-      color: var(--gold-dark);
-    }
-
-    .price-card .price small {
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--text-muted);
-    }
-
-    .price-card .price-details {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-top: 6px;
-    }
-
-    .price-card .trend {
-      font-weight: 600;
-      font-size: 14px;
-      padding: 2px 10px;
-      border-radius: 20px;
-    }
-
-    .price-card .trend.up {
-      color: var(--success);
-      background: rgba(45, 155, 78, 0.1);
-    }
-
-    .price-card .trend.down {
-      color: var(--danger);
-      background: rgba(230, 57, 57, 0.1);
-    }
-
-    .price-card .trend.stable {
-      color: var(--warning);
-      background: rgba(245, 158, 11, 0.1);
-    }
-
-    .price-card .stock-info {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .price-card .stock-info .badge {
-      background: rgba(45, 155, 78, 0.1);
-      color: var(--success);
-      padding: 2px 12px;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 12px;
-    }
-
-    .price-card .book-btn {
-      margin-top: 12px;
-      padding: 8px 16px;
-      background: var(--gold-primary);
-      color: #fff;
-      border: none;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-family: inherit;
-      text-decoration: none;
-    }
-
-    .price-card .book-btn:hover {
-      background: var(--gold-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(193, 168, 117, 0.4);
-    }
-
-    /* ============================================================
-       MARKET TABLE
-       ============================================================ */
-    .table-section {
-      background: var(--bg-white);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--border-light);
-      overflow: hidden;
-    }
-
-    .table-section .table-header {
-      padding: 18px 22px;
-      background: var(--bg-light);
-      border-bottom: 1px solid var(--border-light);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .table-section .table-header h2 {
-      font-size: 18px;
       font-weight: 700;
+      color: #a07c3b;
     }
-
-    .table-section .table-header .count {
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    .table-wrapper {
-      overflow-x: auto;
-      padding: 0 4px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
-
-    th {
-      background: var(--bg-light);
-      padding: 14px 18px;
-      text-align: left;
-      font-weight: 600;
-      color: var(--text-muted);
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-bottom: 2px solid var(--border-light);
-    }
-
-    td {
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--border-light);
-      vertical-align: middle;
-    }
-
-    tr:last-child td {
-      border-bottom: none;
-    }
-
-    tr:hover td {
-      background: rgba(193, 168, 117, 0.04);
-    }
-
-    .product-cell {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .product-cell .flag-icon {
-      font-size: 1.3rem;
-    }
-
-    .product-cell .product-name {
-      font-weight: 600;
-    }
-
-    .price-cell .main-price {
-      font-weight: 700;
-      color: var(--gold-dark);
-      font-size: 15px;
-    }
-
-    .price-cell .sub-price {
-      font-size: 12px;
-      color: var(--text-muted);
-      display: block;
-    }
-
-    .trend-cell .trend-badge {
-      padding: 2px 12px;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 12px;
-      display: inline-block;
-    }
-
-    .trend-cell .trend-badge.up {
-      background: rgba(45, 155, 78, 0.1);
-      color: var(--success);
-    }
-
-    .trend-cell .trend-badge.down {
-      background: rgba(230, 57, 57, 0.1);
-      color: var(--danger);
-    }
-
-    .trend-cell .trend-badge.stable {
-      background: rgba(245, 158, 11, 0.1);
-      color: var(--warning);
-    }
-
-    .supplier-cell .verified {
-      color: var(--success);
-      font-weight: 600;
-    }
-
-    .supplier-cell .verified i {
-      margin-right: 4px;
-    }
-
-    .action-cell .whatsapp-link {
-      color: #25D366;
-      font-weight: 600;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .action-cell .whatsapp-link:hover {
-      color: #128C7E;
-    }
-
-    /* ============================================================
-       CTA SECTION
-       ============================================================ */
-    .cta-section {
-      text-align: center;
-      margin-top: 40px;
-      padding: 40px 20px;
-      background: var(--bg-white);
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border-light);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .cta-section h3 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .cta-section p {
-      color: var(--text-muted);
-      margin-bottom: 20px;
-    }
-
-    .cta-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 14px;
-    }
-
-    .cta-btn {
-      padding: 14px 28px;
-      border: none;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-family: inherit;
-      text-decoration: none;
-    }
-
-    .cta-btn.primary {
-      background: var(--gold-gradient);
-      background-size: 200% 200%;
-      color: #1a1a2e;
-      animation: goldPulse 4s ease-in-out infinite;
-    }
-
-    .cta-btn.primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(193, 168, 117, 0.4);
-    }
-
-    .cta-btn.whatsapp {
-      background: #25D366;
-      color: #fff;
-    }
-
-    .cta-btn.whatsapp:hover {
-      background: #128C7E;
-      transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.3);
-    }
-
-    .cta-btn.outline {
-      background: transparent;
-      color: var(--gold-primary);
-      border: 2px solid var(--gold-primary);
-    }
-
-    .cta-btn.outline:hover {
-      background: var(--gold-primary);
-      color: #fff;
-      transform: translateY(-3px);
-    }
-
-    /* ============================================================
-       RESPONSIVE
-       ============================================================ */
-    @media (max-width: 992px) {
-      .cards-grid {
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      }
-    }
-
+    
     @media (max-width: 640px) {
-      .hero h1 {
-        font-size: 28px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .filter-bar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .filter-bar .filters {
-        justify-content: center;
-      }
-
-      .filter-bar .search-box input {
-        width: 100%;
-      }
-
-      .filter-bar .search-box {
-        flex: 1;
-      }
-
-      .cards-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .price-card .price {
-        font-size: 1.5rem;
-      }
-
-      .table-section .table-header {
-        flex-direction: column;
-        text-align: center;
-        gap: 6px;
-      }
-
-      .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .cta-btn {
-        width: 100%;
-        max-width: 300px;
-        justify-content: center;
-      }
-
-      .offer-banner {
-        font-size: 12px;
-        padding: 10px 12px;
-        white-space: normal;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 16px 12px 40px;
-      }
-
-      .price-card {
-        padding: 16px;
-      }
-
-      td, th {
-        padding: 10px 12px;
-        font-size: 13px;
-      }
+      .pulse-hero h1 { font-size: 28px; }
+      .pulse-hero p { font-size: 16px; }
     }
   </style>
 </head>
 <body>
 
   <!-- ============================================================
-     OFFER BANNER
+     HEADER - Universal Include
   ============================================================ -->
-  <div class="offer-banner">
-    <span class="banner-text">
-      🔥 <strong>Grains Hub Offer:</strong> 
-      <span class="highlight">Irri-6 Broken 5% — 56 AED / 35Kg Bag</span> • 
-      FCL India → Jebel Ali: <span class="highlight">Creamy Sella USD 1040</span> • 
-      <span class="highlight">1121 Sella XXL AED 160/40kg</span> • 
-      New Stock: Indian Steam Rice USD 1100
-    </span>
-  </div>
+  <div include-html="/partials/header.html"></div>
 
   <!-- ============================================================
-     NAVBAR
+     HERO - Pulse Specific
   ============================================================ -->
-  <nav class="navbar">
-    <a href="/" class="logo">
-      <img src="/grains-logo.png" alt="Grains Hub" onerror="this.style.display='none'">
-      Grains Hub
-    </a>
-
-    <ul class="nav-links" id="navLinks">
-      <li><a href="/">Home</a></li>
-      <li><a href="/why">Why</a></li>
-      <li><a href="/pulse/index.html" class="active">Pulse</a></li>
-      <li><a href="/trust">Trust</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/shop">Shop</a></li>
-      <li><a href="/login.html" class="trader-login-mobile">Trader Login</a></li>
-    </ul>
-
-    <div class="nav-actions">
-      <a href="/login.html" class="trader-login">Trader Login</a>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </div>
-  </nav>
-
-  <!-- ============================================================
-     HERO
-  ============================================================ -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1>🌾 Market Pulse</h1>
-      <p>Real-time grain prices from Jebel Ali, Al Ras &amp; verified suppliers.</p>
-      <p class="last-updated">
-        <i class="fas fa-clock"></i>
-        Last updated: <strong id="lastUpdated">Loading...</strong>
-        <span style="margin-left:12px;font-weight:400;opacity:0.6;">• Auto-refreshes every 30 mins</span>
-      </p>
-    </div>
+  <section class="pulse-hero">
+    <img src="/grains-logo.png" alt="Grains Hub Logo" />
+    <h1>🌾 Market Pulse</h1>
+    <p>Real-time grain prices from Jebel Ali, Al Ras &amp; verified suppliers.</p>
+    <p class="last-updated">
+      <i class="fas fa-clock"></i>
+      Last updated: <strong id="lastUpdated">Loading...</strong>
+      <span style="margin-left:12px;font-weight:400;opacity:0.6;">• Auto-refreshes every 30 mins</span>
+    </p>
   </section>
 
   <!-- ============================================================
@@ -974,8 +80,8 @@
     <div class="filter-bar">
       <div class="filters">
         <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="India">🇮🇳 India</button>
         <button class="filter-btn" data-filter="Pakistan">🇵🇰 Pakistan</button>
+        <button class="filter-btn" data-filter="India">🇮🇳 India</button>
         <button class="filter-btn" data-filter="Thailand">🇹🇭 Thailand</button>
         <button class="filter-btn" data-filter="booking">📋 Booking</button>
       </div>
@@ -988,79 +94,18 @@
 
     <!-- Price Cards -->
     <div class="cards-grid" id="priceCards">
-      <!-- Card 1 -->
-      <div class="price-card" data-origin="Pakistan" data-category="rice">
-        <div class="product-header">
-          <span class="product-name">Irri-6 5% Broken</span>
-          <span class="flag">🇵🇰</span>
-        </div>
-        <div class="price">56.00 AED <small>/35kg</small></div>
-        <div class="price-details">
-          <span class="trend down">▼ 2.2% today</span>
-          <span style="font-size:13px;color:#666;">1.60/kg</span>
-        </div>
-        <div class="stock-info">
-          <span>📦 2,700 bags</span>
-          <span class="badge">✅ Verified</span>
-          <span style="font-size:12px;color:#999;">Al Ras Stock</span>
-        </div>
-        <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20Irri-6%205%25%20Broken" class="book-btn" target="_blank">
-          <i class="fab fa-whatsapp"></i> Book Now
-        </a>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="price-card" data-origin="India" data-category="rice">
-        <div class="product-header">
-          <span class="product-name">1121 Sella Basmati</span>
-          <span class="flag">🇮🇳</span>
-        </div>
-        <div class="price">160.00 AED <small>/40kg</small></div>
-        <div class="price-details">
-          <span class="trend up">▲ 2.1% today</span>
-          <span style="font-size:13px;color:#666;">4.00/kg</span>
-        </div>
-        <div class="stock-info">
-          <span>📦 1,350 bags</span>
-          <span class="badge">✅ Verified</span>
-          <span style="font-size:12px;color:#999;">Premium Quality</span>
-        </div>
-        <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%201121%20Sella%20Basmati" class="book-btn" target="_blank">
-          <i class="fab fa-whatsapp"></i> Book Now
-        </a>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="price-card" data-origin="India" data-category="rice">
-        <div class="product-header">
-          <span class="product-name">1509 Creamy Sella</span>
-          <span class="flag">🇮🇳</span>
-        </div>
-        <div class="price">1,040 USD <small>/MT</small></div>
-        <div class="price-details">
-          <span class="trend stable">— Booking Open</span>
-          <span style="font-size:13px;color:#666;">FCL</span>
-        </div>
-        <div class="stock-info">
-          <span>📋 Prompt Shipment</span>
-          <span class="badge">✅ Verified</span>
-          <span style="font-size:12px;color:#999;">Jebel Ali</span>
-        </div>
-        <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%201509%20Creamy%20Sella" class="book-btn" target="_blank">
-          <i class="fab fa-whatsapp"></i> Book Now
-        </a>
-      </div>
+      <!-- Cards will be populated from stock.json -->
     </div>
 
     <!-- Market Table -->
     <div class="table-section">
       <div class="table-header">
         <h2>📊 Full Market Data</h2>
-        <span class="count" id="rowCount">3 products</span>
+        <span class="count" id="rowCount">Loading...</span>
       </div>
 
       <div class="table-wrapper">
-        <table>
+        <table class="pulse-table">
           <thead>
             <tr>
               <th>Product</th>
@@ -1072,97 +117,24 @@
             </tr>
           </thead>
           <tbody id="tableBody">
-            <tr data-origin="Pakistan" data-name="Irri-6 5% Broken">
-              <td>
-                <div class="product-cell">
-                  <span class="flag-icon">🇵🇰</span>
-                  <span class="product-name">Irri-6 5% Broken</span>
-                </div>
-              </td>
-              <td class="price-cell">
-                <span class="main-price">56.00 AED</span>
-                <span class="sub-price">/35kg · 1.60/kg</span>
-              </td>
-              <td class="trend-cell">
-                <span class="trend-badge down">▼ 2.2%</span>
-              </td>
-              <td>2,700 bags</td>
-              <td class="supplier-cell">
-                <span class="verified"><i class="fas fa-check-circle"></i> Verified</span>
-              </td>
-              <td class="action-cell">
-                <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20Irri-6%205%25%20Broken" class="whatsapp-link" target="_blank">
-                  <i class="fab fa-whatsapp"></i> WhatsApp
-                </a>
-              </td>
-            </tr>
-
-            <tr data-origin="India" data-name="1121 Sella Basmati">
-              <td>
-                <div class="product-cell">
-                  <span class="flag-icon">🇮🇳</span>
-                  <span class="product-name">1121 Sella Basmati</span>
-                </div>
-              </td>
-              <td class="price-cell">
-                <span class="main-price">160.00 AED</span>
-                <span class="sub-price">/40kg · 4.00/kg</span>
-              </td>
-              <td class="trend-cell">
-                <span class="trend-badge up">▲ 2.1%</span>
-              </td>
-              <td>1,350 bags</td>
-              <td class="supplier-cell">
-                <span class="verified"><i class="fas fa-check-circle"></i> Verified</span>
-              </td>
-              <td class="action-cell">
-                <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%201121%20Sella%20Basmati" class="whatsapp-link" target="_blank">
-                  <i class="fab fa-whatsapp"></i> WhatsApp
-                </a>
-              </td>
-            </tr>
-
-            <tr data-origin="India" data-name="1509 Creamy Sella">
-              <td>
-                <div class="product-cell">
-                  <span class="flag-icon">🇮🇳</span>
-                  <span class="product-name">1509 Creamy Sella</span>
-                </div>
-              </td>
-              <td class="price-cell">
-                <span class="main-price">1,040 USD</span>
-                <span class="sub-price">/MT · FCL</span>
-              </td>
-              <td class="trend-cell">
-                <span class="trend-badge stable">— Booking</span>
-              </td>
-              <td>Prompt Shipment</td>
-              <td class="supplier-cell">
-                <span class="verified"><i class="fas fa-check-circle"></i> Verified</span>
-              </td>
-              <td class="action-cell">
-                <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%201509%20Creamy%20Sella" class="whatsapp-link" target="_blank">
-                  <i class="fab fa-whatsapp"></i> WhatsApp
-                </a>
-              </td>
-            </tr>
+            <!-- Populated by pulse.js -->
           </tbody>
         </table>
       </div>
     </div>
 
     <!-- CTA Section -->
-    <div class="cta-section">
-      <h3>🚀 Ready to Trade?</h3>
-      <p>Get verified prices, book FCL shipments, or ask Alliya for instant insights.</p>
-      <div class="cta-buttons">
-        <a href="https://wa.me/971585521976" class="cta-btn whatsapp" target="_blank">
+    <div class="cta-section" style="text-align:center;margin-top:40px;padding:40px 20px;background:#fff;border-radius:16px;border:1px solid #e8e4d8;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+      <h3 style="font-size:22px;font-weight:700;margin-bottom:8px;">🚀 Ready to Trade?</h3>
+      <p style="color:#666;margin-bottom:20px;">Get verified prices, book FCL shipments, or ask Alliya for instant insights.</p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;">
+        <a href="https://wa.me/971585521976" class="cta-btn whatsapp" target="_blank" style="padding:14px 28px;border:none;border-radius:50px;font-weight:700;font-size:15px;cursor:pointer;transition:all 0.3s ease;display:inline-flex;align-items:center;gap:10px;font-family:inherit;text-decoration:none;background:#25D366;color:#fff;">
           <i class="fab fa-whatsapp"></i> Order on WhatsApp
         </a>
-        <button class="cta-btn primary" id="askAlliyaBtn">
+        <button class="cta-btn primary" id="askAlliyaBtn" style="padding:14px 28px;border:none;border-radius:50px;font-weight:700;font-size:15px;cursor:pointer;transition:all 0.3s ease;display:inline-flex;align-items:center;gap:10px;font-family:inherit;text-decoration:none;background:linear-gradient(135deg,#c49b3f 0%,#e3c46a 30%,#c49b3f 60%,#a8842e 100%);background-size:200% 200%;color:#1a1a2e;animation:goldPulse 4s ease-in-out infinite;">
           <i class="fas fa-robot"></i> Ask Alliya (AI Assistant)
         </button>
-        <a href="/shop" class="cta-btn outline">
+        <a href="/shop" class="cta-btn outline" style="padding:14px 28px;border:2px solid #C1A875;border-radius:50px;font-weight:700;font-size:15px;cursor:pointer;transition:all 0.3s ease;display:inline-flex;align-items:center;gap:10px;font-family:inherit;text-decoration:none;background:transparent;color:#C1A875;">
           <i class="fas fa-store"></i> Browse Shop
         </a>
       </div>
@@ -1171,145 +143,26 @@
   </div>
 
   <!-- ============================================================
-     JAVASCRIPT
-  ============================================================ -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // ============================================================
-      // 1. HAMBURGER MENU
-      // ============================================================
-      const hamburger = document.getElementById('hamburger');
-      const navLinks = document.getElementById('navLinks');
-
-      if (hamburger && navLinks) {
-        hamburger.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          navLinks.classList.toggle('open');
-          hamburger.classList.toggle('active');
-        });
-
-        navLinks.querySelectorAll('a').forEach(function(link) {
-          link.addEventListener('click', function() {
-            navLinks.classList.remove('open');
-            hamburger.classList.remove('active');
-          });
-        });
-
-        document.addEventListener('click', function(e) {
-          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-            navLinks.classList.remove('open');
-            hamburger.classList.remove('active');
-          }
-        });
-      }
-
-      // ============================================================
-      // 2. FILTER BUTTONS
-      // ============================================================
-      const filterBtns = document.querySelectorAll('.filter-btn');
-      const tableRows = document.querySelectorAll('#tableBody tr');
-      const priceCards = document.querySelectorAll('.price-card');
-      const searchInput = document.getElementById('searchInput');
-
-      function filterProducts(filter, searchTerm = '') {
-        const term = searchTerm.toLowerCase().trim();
-
-        // Filter table rows
-        tableRows.forEach(function(row) {
-          const origin = row.dataset.origin || '';
-          const name = row.dataset.name || '';
-          const matchesFilter = filter === 'all' || origin === filter || 
-            (filter === 'booking' && row.querySelector('.trend-badge.stable'));
-          const matchesSearch = name.toLowerCase().includes(term);
-          row.style.display = (matchesFilter && matchesSearch) ? '' : 'none';
-        });
-
-        // Filter price cards
-        priceCards.forEach(function(card) {
-          const origin = card.dataset.origin || '';
-          const name = card.querySelector('.product-name')?.textContent || '';
-          const matchesFilter = filter === 'all' || origin === filter;
-          const matchesSearch = name.toLowerCase().includes(term);
-          card.style.display = (matchesFilter && matchesSearch) ? '' : 'none';
-        });
-
-        // Update row count
-        const visible = document.querySelectorAll('#tableBody tr[style*="display: none"]');
-        const total = tableRows.length;
-        const visibleCount = total - visible.length;
-        const countEl = document.getElementById('rowCount');
-        if (countEl) {
-          countEl.textContent = visibleCount + ' product' + (visibleCount !== 1 ? 's' : '');
-        }
-      }
-
-      filterBtns.forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          filterBtns.forEach(function(b) { b.classList.remove('active'); });
-          btn.classList.add('active');
-          const filter = btn.dataset.filter;
-          filterProducts(filter, searchInput.value);
-        });
-      });
-
-      // ============================================================
-      // 3. SEARCH
-      // ============================================================
-      searchInput.addEventListener('input', function() {
-        const activeFilter = document.querySelector('.filter-btn.active');
-        const filter = activeFilter ? activeFilter.dataset.filter : 'all';
-        filterProducts(filter, this.value);
-      });
-
-      // ============================================================
-      // 4. LAST UPDATED
-      // ============================================================
-      const now = new Date();
-      const formatted = now.toLocaleString('en-GB', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-      });
-      const lastUpdated = document.getElementById('lastUpdated');
-      if (lastUpdated) {
-        lastUpdated.textContent = formatted + ' GST';
-      }
-
-      // ============================================================
-      // 5. ASK ALLIYA BUTTON
-      // ============================================================
-      document.getElementById('askAlliyaBtn')?.addEventListener('click', function() {
-        // Try to open Alliya via global function or modal
-        if (window.Alliya && typeof window.Alliya.open === 'function') {
-          window.Alliya.open();
-        } else if (typeof openModal === 'function') {
-          openModal();
-        } else {
-          // Fallback: open WhatsApp with a message
-          window.open('https://wa.me/971585521976?text=Hi%20Alliya%2C%20I%20need%20help%20with%20grain%20prices', '_blank');
-        }
-      });
-
-      console.log('✅ Market Pulse v2.0 loaded successfully');
-      console.log('📊 ' + tableRows.length + ' products loaded');
-      console.log('🔍 Filter and search enabled');
-      console.log('📱 Mobile menu fixed');
-    });
-  </script>
-
-  <!-- ============================================================
-     ALLIYA v8.3 - Your Main AI Assistant
-  ============================================================ -->
-  <script src="/assets/js/alliya.js?v=8.3"></script>
-
-  <!-- ============================================================
-     FOOTER (via include)
+     FOOTER - Universal Include
   ============================================================ -->
   <div include-html="/partials/footer.html"></div>
+
+  <!-- ============================================================
+     JAVASCRIPT - Core + Page Specific
+  ============================================================ -->
+  <!-- Firebase (if needed) -->
+  <script src="/assets/js/firebase-init.js"></script>
+  
+  <!-- Stock Data -->
+  <script src="/assets/js/stock.js"></script>
+  
+  <!-- Market Pulse Logic -->
+  <script src="/assets/js/marketPulse.js"></script>
+  
+  <!-- Alliya v8.3 (Universal AI Assistant) -->
+  <script src="/assets/js/alliya.js?v=8.3"></script>
+  
+  <!-- Include Handler (must be last) -->
   <script src="/assets/js/include.js"></script>
 
 </body>
