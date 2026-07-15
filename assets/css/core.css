@@ -1,0 +1,49 @@
+/* ============================================================
+   CORE CSS - Grains Hub
+   Global reset, typography, and utilities
+   ============================================================ */
+
+/* ---------- RESET ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #fdfdf9;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  color: #222;
+  line-height: 1.7;
+}
+
+a {
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------- UTILITY ---------- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.text-center { text-align: center; }
+.text-gold { color: #C1A875; }
+.text-dark { color: #1a1a2e; }
+.bg-light { background: #fdfdf9; }
+.bg-gold { background: #C1A875; }
