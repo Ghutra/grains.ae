@@ -1,74 +1,169 @@
 /* ============================================================
    SHOP.JS - Grains Hub
    Dynamic product grid with filtering
-   Version: 2.0
+   Version: 2.1 - Fixed loading from stock.json
    ============================================================ */
 
 let allListings = [];
 let currentFilters = { origin: '', tier: '', type: '' };
 
 // ============================================================
-// 1. LOAD PRODUCTS
+// 1. LOAD PRODUCTS - Priority: stock.json first
 // ============================================================
 async function loadShop() {
   const grid = document.getElementById('productGrid');
+  
+  // Show loading state
+  grid.innerHTML = `
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Loading verified grains...</p>
+    </div>
+  `;
 
   try {
-    // Try Firestore first
-    if (window.db && window.collection && window.getDocs) {
-      const productsRef = window.collection(window.db, 'products');
-      const snapshot = await window.getDocs(productsRef);
-
-      if (!snapshot.empty) {
-        allListings = [];
-        snapshot.forEach(doc => {
-          const item = doc.data();
-          allListings.push({
-            id: doc.id,
-            name: item.name || 'Unnamed Product',
-            origin: item.origin || 'Unknown',
-            packaging: item.packaging || 'Standard',
-            price: item.price || 'Contact',
-            size: item.size || 'N/A',
-            stock: item.stock || 'Available',
-            badge: item.badge || 'Verified Supplier',
-            img: item.imageName || 'placeholder.jpg',
-            keywords: item.keywords || []
-          });
-        });
+    // TRY 1: Load from stock.json (Primary source)
+    console.log('📦 Loading from stock.json...');
+    const stockRes = await fetch('/assets/data/stock.json?t=' + Date.now());
+    
+    if (stockRes.ok) {
+      const data = await stockRes.json();
+      
+      if (data && data.length > 0) {
+        allListings = data.map(item => ({
+          name: item.name || 'Unnamed Product',
+          origin: item.origin || 'Unknown',
+          packaging: item.packaging || 'Standard',
+          price: item.price || 'Contact',
+          size: item.size || 'N/A',
+          stock: item.stock || 'Available',
+          badge: item.badge || 'Verified Supplier',
+          img: item.img || 'placeholder.jpg',
+          keywords: item.keywords || []
+        }));
+        
+        console.log('✅ Loaded ' + allListings.length + ' products from stock.json');
         renderShop(allListings);
         updateCount(allListings.length);
         return;
       }
     }
 
-    // Fallback: Load from stock.json
-    const res = await fetch('/assets/data/stock.json?t=' + Date.now());
-    if (!res.ok) throw new Error('Failed to load stock data');
-    const data = await res.json();
+    // TRY 2: Fallback to Firestore
+    console.log('📦 stock.json failed, trying Firestore...');
+    if (window.db && window.collection && window.getDocs) {
+      try {
+        const productsRef = window.collection(window.db, 'products');
+        const snapshot = await window.getDocs(productsRef);
+        
+        if (!snapshot.empty) {
+          allListings = [];
+          snapshot.forEach(doc => {
+            const item = doc.data();
+            allListings.push({
+              name: item.name || 'Unnamed Product',
+              origin: item.origin || 'Unknown',
+              packaging: item.packaging || 'Standard',
+              price: item.price || 'Contact',
+              size: item.size || 'N/A',
+              stock: item.stock || 'Available',
+              badge: item.badge || 'Verified Supplier',
+              img: item.imageName || 'placeholder.jpg',
+              keywords: item.keywords || []
+            });
+          });
+          
+          console.log('✅ Loaded ' + allListings.length + ' products from Firestore');
+          renderShop(allListings);
+          updateCount(allListings.length);
+          return;
+        }
+      } catch (firestoreErr) {
+        console.warn('Firestore error:', firestoreErr);
+      }
+    }
 
-    allListings = data.map(item => ({
-      name: item.name || 'Unnamed Product',
-      origin: item.origin || 'Unknown',
-      packaging: item.packaging || 'Standard',
-      price: item.price || 'Contact',
-      size: item.size || 'N/A',
-      stock: item.stock || 'Available',
-      badge: item.badge || 'Verified Supplier',
-      img: item.img || 'placeholder.jpg',
-      keywords: []
-    }));
+    // TRY 3: Hardcoded fallback products
+    console.log('📦 Using hardcoded fallback products...');
+    allListings = [
+      {
+        name: '1121 Sella Basmati Rice',
+        origin: 'India',
+        packaging: '4×10 = 40kg Nonwoven',
+        price: '160 AED',
+        size: '40kg',
+        stock: '1350 bags',
+        badge: 'Verified Supplier',
+        img: 'basmati-india.jpg'
+      },
+      {
+        name: 'Irri 6 White Rice Broken 5%',
+        origin: 'Pakistan',
+        packaging: '35kg PP Bags',
+        price: '56 AED',
+        size: '35kg',
+        stock: '3000 bags',
+        badge: 'Verified Supplier',
+        img: 'irri6-5.jpg'
+      },
+      {
+        name: '1509 Creamy Sella Rice',
+        origin: 'India',
+        packaging: '10×4 = 40kg Nonwoven',
+        price: '1100 USD',
+        size: '40kg',
+        stock: 'Booking only',
+        badge: 'Pre-Booking',
+        img: '1509-creamy.jpg'
+      },
+      {
+        name: 'Sona Massori',
+        origin: 'India',
+        packaging: '18kg Nonwoven',
+        price: '48 AED',
+        size: '18kg',
+        stock: '1350 bags',
+        badge: 'Verified Supplier',
+        img: 'sona-massori.jpg'
+      },
+      {
+        name: '1121 Sella Basmati Rice',
+        origin: 'Pakistan',
+        packaging: '4×10 = 40kg Nonwoven',
+        price: '230 AED',
+        size: '40kg',
+        stock: '1350 bags',
+        badge: 'Verified Supplier',
+        img: 'basmati-pak.jpg'
+      },
+      {
+        name: 'Golden Sella Basmati Rice',
+        origin: 'India',
+        packaging: '4×10 = 40kg Nonwoven',
+        price: '160 AED',
+        size: '40kg',
+        stock: '1350 bags',
+        badge: 'Peer Rated',
+        img: 'golden-sella.jpg'
+      }
+    ];
 
+    console.log('✅ Using ' + allListings.length + ' fallback products');
     renderShop(allListings);
     updateCount(allListings.length);
 
   } catch (err) {
-    console.error('Shop load error:', err);
+    console.error('❌ Shop load error:', err);
     grid.innerHTML = `
       <div class="empty-state">
         <i class="fas fa-exclamation-triangle" style="font-size:2rem;color:#e74c3c;margin-bottom:12px;display:block;"></i>
         <p>Unable to load products. Please try again.</p>
-        <p class="suggestion">Contact us directly on <a href="https://wa.me/971585521976" style="color:#25D366;font-weight:600;">WhatsApp</a></p>
+        <p class="suggestion">
+          <a href="https://wa.me/971585521976" style="color:#25D366;font-weight:600;text-decoration:none;">
+            <i class="fab fa-whatsapp"></i> Contact us on WhatsApp
+          </a>
+          for custom sourcing
+        </p>
       </div>
     `;
   }
@@ -86,37 +181,45 @@ function renderShop(listings) {
       <div class="empty-state">
         <i class="fas fa-search" style="font-size:2rem;color:#C1A875;margin-bottom:12px;display:block;"></i>
         <p>No products match your filters.</p>
-        <p class="suggestion">Try adjusting your filters or <a href="https://wa.me/971585521976" style="color:#25D366;font-weight:600;">contact us</a> for custom sourcing.</p>
+        <p class="suggestion">Try adjusting your filters or <a href="https://wa.me/971585521976" style="color:#25D366;font-weight:600;text-decoration:none;">contact us</a> for custom sourcing.</p>
       </div>
     `;
     return;
   }
 
   listings.forEach(item => {
-    const isBooking = item.stock.toLowerCase().includes('booking');
-    const isUsd = item.price.includes('USD');
+    const isBooking = String(item.stock).toLowerCase().includes('booking');
+    const isUsd = String(item.price).toUpperCase().includes('USD');
     const priceDisplay = item.price;
-    const kgPrice = !isUsd && item.size !== 'N/A' && !isNaN(parseFloat(item.price.replace(/[^0-9.]/g, ''))) && !isNaN(parseInt(item.size))
-      ? (parseFloat(item.price.replace(/[^0-9.]/g, '')) / parseInt(item.size)).toFixed(2)
-      : null;
+    
+    // Calculate kg price
+    let kgPrice = null;
+    if (!isUsd && item.size !== 'N/A' && !isNaN(parseFloat(String(item.price).replace(/[^0-9.]/g, ''))) && !isNaN(parseInt(item.size))) {
+      const priceNum = parseFloat(String(item.price).replace(/[^0-9.]/g, ''));
+      const sizeNum = parseInt(item.size);
+      if (priceNum > 0 && sizeNum > 0) {
+        kgPrice = (priceNum / sizeNum).toFixed(2);
+      }
+    }
 
     // Badge class
     let badgeClass = 'verified';
-    if (item.badge.toLowerCase().includes('peer')) badgeClass = 'peer';
-    if (item.badge.toLowerCase().includes('pre-booking')) badgeClass = 'booking';
+    const badgeLower = String(item.badge).toLowerCase();
+    if (badgeLower.includes('peer')) badgeClass = 'peer';
+    if (badgeLower.includes('pre-booking') || badgeLower.includes('booking')) badgeClass = 'booking';
 
     // Stock status
-    const stockStatus = isBooking ? 'booking' : 'in-stock';
     const stockText = isBooking ? '📋 Booking' : '✅ In Stock';
+    const stockStatus = isBooking ? 'booking' : 'in-stock';
 
-    // Image fallback
-    const imgSrc = `/assets/img/${item.img}`;
+    // Image
+    const imgSrc = item.img ? `/assets/img/${item.img}` : '/assets/img/placeholder.jpg';
 
     const card = document.createElement('div');
     card.className = 'product-card';
     card.dataset.origin = item.origin;
     card.dataset.badge = item.badge;
-    card.dataset.type = item.name.toLowerCase();
+    card.dataset.type = String(item.name).toLowerCase();
 
     card.innerHTML = `
       <div class="image-wrapper">
@@ -163,15 +266,15 @@ function filterProducts() {
   let filtered = allListings;
 
   if (origin) {
-    filtered = filtered.filter(item => item.origin === origin);
+    filtered = filtered.filter(item => String(item.origin) === origin);
   }
 
   if (tier) {
-    filtered = filtered.filter(item => item.badge.toLowerCase().includes(tier.toLowerCase()));
+    filtered = filtered.filter(item => String(item.badge).toLowerCase().includes(tier.toLowerCase()));
   }
 
   if (type) {
-    filtered = filtered.filter(item => item.name.toLowerCase().includes(type.toLowerCase()));
+    filtered = filtered.filter(item => String(item.name).toLowerCase().includes(type.toLowerCase()));
   }
 
   renderShop(filtered);
@@ -201,18 +304,25 @@ function resetFilters() {
 // 6. INITIALIZATION
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
+  console.log('🚀 Shop v2.1 initializing...');
+  
   // Load products
   loadShop();
 
   // Filter on change
-  document.getElementById('filterOrigin').addEventListener('change', filterProducts);
-  document.getElementById('filterTier').addEventListener('change', filterProducts);
-  document.getElementById('filterType').addEventListener('change', filterProducts);
+  const originFilter = document.getElementById('filterOrigin');
+  const tierFilter = document.getElementById('filterTier');
+  const typeFilter = document.getElementById('filterType');
+
+  if (originFilter) originFilter.addEventListener('change', filterProducts);
+  if (tierFilter) tierFilter.addEventListener('change', filterProducts);
+  if (typeFilter) typeFilter.addEventListener('change', filterProducts);
 
   // Reset button
-  document.getElementById('resetFilters').addEventListener('click', resetFilters);
+  const resetBtn = document.getElementById('resetFilters');
+  if (resetBtn) resetBtn.addEventListener('click', resetFilters);
 
-  console.log('✅ Shop v2.0 loaded');
+  console.log('✅ Shop v2.1 ready');
 });
 
 // ============================================================
@@ -221,3 +331,4 @@ document.addEventListener('DOMContentLoaded', function() {
 window.filterShop = filterProducts;
 window.resetShopFilters = resetFilters;
 window.loadShop = loadShop;
+window.allListings = allListings;
