@@ -32,21 +32,386 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    /* Page-specific overrides (minimal) */
+    /* ============================================================
+       PULSE PAGE - Additional Styles
+       ============================================================ */
+
+    /* Hero */
     .pulse-hero {
-      background: url('/assets/img/hero-home.jpg') center/cover no-repeat;
+      padding: 80px 20px 60px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 50%, #1a1a2e 100%);
+      position: relative;
+      color: #fff;
+      text-align: center;
     }
-    
-    /* Price cards */
+
+    .pulse-hero h1 {
+      font-size: 38px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .pulse-hero p {
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+      opacity: 0.9;
+    }
+
+    .pulse-hero .last-updated {
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+    }
+
+    /* ============================================================
+       CARDS GRID - FIXED SIZE
+       ============================================================ */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .price-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border: 1px solid #e8e4d8;
+      transition: all 0.3s ease;
+    }
+
+    .price-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    .price-card .product-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .price-card .product-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a2e;
+    }
+
+    .price-card .flag {
+      font-size: 1.2rem;
+    }
+
     .price-card .price {
-      font-size: 1.8rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: #a07c3b;
     }
-    
-    @media (max-width: 640px) {
+
+    .price-card .price small {
+      font-size: 0.65rem;
+      font-weight: 400;
+      color: #999;
+    }
+
+    .price-card .price-details {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 4px 0;
+    }
+
+    .price-card .trend {
+      font-size: 12px;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .price-card .trend.trend-up {
+      background: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+    }
+
+    .price-card .trend.trend-down {
+      background: rgba(231, 76, 60, 0.1);
+      color: #e74c3c;
+    }
+
+    .price-card .trend.trend-flat {
+      background: rgba(189, 195, 199, 0.1);
+      color: #bdc3c7;
+    }
+
+    .price-card .stock-info {
+      font-size: 12px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .price-card .badge {
+      font-size: 10px;
+      padding: 2px 10px;
+      border-radius: 20px;
+      background: rgba(193, 168, 117, 0.12);
+      color: #a07c3b;
+      font-weight: 600;
+    }
+
+    .price-card .book-btn {
+      margin-top: 10px;
+      padding: 6px 14px;
+      font-size: 12px;
+      border-radius: 50px;
+      background: #C1A875;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .price-card .book-btn:hover {
+      background: #a07c3b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(193, 168, 117, 0.3);
+    }
+
+    /* ============================================================
+       TABLE SECTION
+       ============================================================ */
+    .table-section {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      border: 1px solid #e8e4d8;
+      overflow: hidden;
+    }
+
+    .table-header {
+      padding: 16px 20px;
+      background: #f8f5ec;
+      border-bottom: 1px solid #e8e4d8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a1a2e;
+    }
+
+    .table-header .count {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      padding: 0;
+    }
+
+    #pulse-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    #pulse-table th {
+      background: #f8f5ec;
+      padding: 12px 16px;
+      text-align: left;
+      font-weight: 600;
+      color: #666;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid #e8e4d8;
+    }
+
+    #pulse-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #f0ece6;
+      vertical-align: middle;
+    }
+
+    #pulse-table tr:hover td {
+      background: rgba(193, 168, 117, 0.04);
+    }
+
+    /* Bloomberg-style columns */
+    .col-product { width: 28%; }
+    .col-price { width: 20%; }
+    .col-trend { width: 14%; }
+    .col-supplier { width: 22%; }
+    .col-meta { width: 10%; }
+    .col-action { width: 6%; }
+
+    .col-product strong {
+      display: block;
+      font-size: 14px;
+    }
+    .origin-flag { font-size: 14px; margin-right: 4px; }
+    .origin-text { font-size: 11px; color: #999; }
+
+    .price-main { font-weight: 600; font-size: 14px; }
+    .price-sub { font-size: 11px; color: #999; }
+
+    .trend-arrow { margin-right: 4px; font-size: 12px; }
+    .trend-value { font-size: 13px; }
+    .trend-up { color: #2ecc71; }
+    .trend-down { color: #e74c3c; }
+    .trend-flat { color: #bdc3c7; }
+
+    .badge-supplier {
+      background: rgba(46, 204, 113, 0.1);
+      color: #2ecc71;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+    .badge-booking {
+      background: rgba(212, 175, 55, 0.15);
+      color: #f1c40f;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+    .meta-verified { font-size: 11px; color: #d4af37; }
+    .whatsapp-link { color: #25D366; font-size: 18px; transition: all 0.3s ease; }
+    .whatsapp-link:hover { color: #128C7E; }
+
+    /* ============================================================
+       CTA SECTION
+       ============================================================ */
+    .cta-section {
+      text-align: center;
+      margin-top: 40px;
+      padding: 40px 20px;
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e8e4d8;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+
+    .cta-section h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1a1a2e;
+    }
+
+    .cta-section p {
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .cta-btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: inherit;
+      text-decoration: none;
+    }
+
+    .cta-btn.whatsapp {
+      background: #25D366;
+      color: #fff;
+    }
+
+    .cta-btn.whatsapp:hover {
+      background: #128C7E;
+      transform: translateY(-3px);
+    }
+
+    .cta-btn.primary {
+      background: linear-gradient(135deg, #c49b3f, #e3c46a);
+      color: #1a1a2e;
+    }
+
+    .cta-btn.primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(193, 168, 117, 0.3);
+    }
+
+    .cta-btn.outline {
+      background: transparent;
+      color: #C1A875;
+      border: 2px solid #C1A875;
+    }
+
+    .cta-btn.outline:hover {
+      background: #C1A875;
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
       .pulse-hero h1 { font-size: 28px; }
       .pulse-hero p { font-size: 16px; }
+
+      .cards-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .price-card {
+        padding: 14px 14px;
+      }
+
+      .price-card .product-name { font-size: 13px; }
+      .price-card .price { font-size: 1rem; }
+
+      .col-meta { display: none; }
+      .table-header { flex-direction: column; text-align: center; gap: 6px; }
+
+      .cta-buttons { flex-direction: column; align-items: center; }
+      .cta-btn { width: 100%; max-width: 280px; justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .cards-grid { grid-template-columns: 1fr; }
+      .price-card { padding: 12px; }
     }
   </style>
 </head>
@@ -58,17 +423,17 @@
   <div include-html="/partials/header.html"></div>
 
   <!-- ============================================================
-     HERO - Pulse Specific
+     HERO
   ============================================================ -->
   <section class="pulse-hero">
-    <img src="/grains-logo.png" alt="Grains Hub Logo" />
     <h1>🌾 Market Pulse</h1>
     <p>Real-time grain prices from Jebel Ali, Al Ras &amp; verified suppliers.</p>
     <p class="last-updated">
       <i class="fas fa-clock"></i>
-      Last updated: <strong id="lastUpdated">Loading...</strong>
+      Last updated: <strong id="last-updated">Loading...</strong>
       <span style="margin-left:12px;font-weight:400;opacity:0.6;">• Auto-refreshes every 30 mins</span>
     </p>
+    <p id="market-mood" style="margin-top:8px;font-size:14px;opacity:0.8;"></p>
   </section>
 
   <!-- ============================================================
@@ -77,27 +442,27 @@
   <div class="container">
 
     <!-- Filter Bar -->
-    <div class="filter-bar">
-      <div class="filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="Pakistan">🇵🇰 Pakistan</button>
-        <button class="filter-btn" data-filter="India">🇮🇳 India</button>
-        <button class="filter-btn" data-filter="Thailand">🇹🇭 Thailand</button>
-        <button class="filter-btn" data-filter="booking">📋 Booking</button>
+    <div class="filter-bar" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:30px;background:#fff;padding:14px 20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);border:1px solid #e8e4d8;">
+      <div class="filters" style="display:flex;flex-wrap:wrap;gap:8px;">
+        <button class="filter-btn active" data-filter="all" style="padding:8px 16px;border:2px solid #e8e4d8;border-radius:50px;background:transparent;color:#666;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.3s ease;font-family:inherit;">All</button>
+        <button class="filter-btn" data-filter="Pakistan" style="padding:8px 16px;border:2px solid #e8e4d8;border-radius:50px;background:transparent;color:#666;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.3s ease;font-family:inherit;">🇵🇰 Pakistan</button>
+        <button class="filter-btn" data-filter="India" style="padding:8px 16px;border:2px solid #e8e4d8;border-radius:50px;background:transparent;color:#666;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.3s ease;font-family:inherit;">🇮🇳 India</button>
+        <button class="filter-btn" data-filter="Thailand" style="padding:8px 16px;border:2px solid #e8e4d8;border-radius:50px;background:transparent;color:#666;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.3s ease;font-family:inherit;">🇹🇭 Thailand</button>
+        <button class="filter-btn" data-filter="booking" style="padding:8px 16px;border:2px solid #e8e4d8;border-radius:50px;background:transparent;color:#666;font-weight:600;font-size:13px;cursor:pointer;transition:all 0.3s ease;font-family:inherit;">📋 Booking</button>
       </div>
 
-      <div class="search-box">
-        <i class="fas fa-search"></i>
-        <input type="text" id="searchInput" placeholder="Search products..." />
+      <div class="search-box" style="display:flex;align-items:center;gap:8px;background:#fdfdf9;padding:4px 14px;border-radius:50px;border:2px solid #e8e4d8;transition:all 0.3s ease;">
+        <i class="fas fa-search" style="color:#999;"></i>
+        <input type="text" id="searchInput" placeholder="Search products..." style="border:none;background:transparent;padding:8px 0;font-size:14px;outline:none;font-family:inherit;width:160px;color:#222;" />
       </div>
     </div>
 
     <!-- Price Cards -->
     <div class="cards-grid" id="priceCards">
-      <!-- Cards will be populated from stock.json -->
+      <!-- Rendered by marketPulse.js -->
     </div>
 
-    <!-- Market Table -->
+    <!-- Market Table - FIXED ID -->
     <div class="table-section">
       <div class="table-header">
         <h2>📊 Full Market Data</h2>
@@ -105,36 +470,36 @@
       </div>
 
       <div class="table-wrapper">
-        <table class="pulse-table">
+        <table>
           <thead>
             <tr>
-              <th>Product</th>
-              <th>Price</th>
-              <th>Trend</th>
-              <th>Qty Available</th>
-              <th>Supplier</th>
-              <th>Action</th>
+              <th class="col-product" data-sort="product" style="cursor:pointer;">Product ↕</th>
+              <th class="col-price" data-sort="priceRaw" style="cursor:pointer;">Price ↕</th>
+              <th class="col-trend" data-sort="trendChange" style="cursor:pointer;">Trend ↕</th>
+              <th class="col-supplier" data-sort="supplier" style="cursor:pointer;">Qty Available ↕</th>
+              <th class="col-meta">Supplier</th>
+              <th class="col-action">Action</th>
             </tr>
           </thead>
-          <tbody id="tableBody">
-            <!-- Populated by pulse.js -->
+          <tbody id="pulse-table">
+            <!-- Rendered by marketPulse.js -->
           </tbody>
         </table>
       </div>
     </div>
 
     <!-- CTA Section -->
-    <div class="cta-section" style="text-align:center;margin-top:40px;padding:40px 20px;background:#fff;border-radius:16px;border:1px solid #e8e4d8;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-      <h3 style="font-size:22px;font-weight:700;margin-bottom:8px;">🚀 Ready to Trade?</h3>
-      <p style="color:#666;margin-bottom:20px;">Get verified prices, book FCL shipments, or ask Alliya for instant insights.</p>
-      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;">
-        <a href="https://wa.me/971585521976" class="cta-btn whatsapp" target="_blank" style="padding:14px 28px;border:none;border-radius:50px;font-weight:700;font-size:15px;cursor:pointer;transition:all 0.3s ease;display:inline-flex;align-items:center;gap:10px;font-family:inherit;text-decoration:none;background:#25D366;color:#fff;">
+    <div class="cta-section">
+      <h3>🚀 Ready to Trade?</h3>
+      <p>Get verified prices, book FCL shipments, or ask Alliya for instant insights.</p>
+      <div class="cta-buttons">
+        <a href="https://wa.me/971585521976" class="cta-btn whatsapp" target="_blank">
           <i class="fab fa-whatsapp"></i> Order on WhatsApp
         </a>
-        <button class="cta-btn primary" id="askAlliyaBtn" style="padding:14px 28px;border:none;border-radius:50px;font-weight:700;font-size:15px;cursor:pointer;transition:all 0.3s ease;display:inline-flex;align-items:center;gap:10px;font-family:inherit;text-decoration:none;background:linear-gradient(135deg,#c49b3f 0%,#e3c46a 30%,#c49b3f 60%,#a8842e 100%);background-size:200% 200%;color:#1a1a2e;animation:goldPulse 4s ease-in-out infinite;">
+        <button class="cta-btn primary" id="askAlliyaBtn">
           <i class="fas fa-robot"></i> Ask Alliya (AI Assistant)
         </button>
-        <a href="/shop" class="cta-btn outline" style="padding:14px 28px;border:2px solid #C1A875;border-radius:50px;font-weight:700;font-size:15px;cursor:pointer;transition:all 0.3s ease;display:inline-flex;align-items:center;gap:10px;font-family:inherit;text-decoration:none;background:transparent;color:#C1A875;">
+        <a href="/shop" class="cta-btn outline">
           <i class="fas fa-store"></i> Browse Shop
         </a>
       </div>
@@ -148,20 +513,20 @@
   <div include-html="/partials/footer.html"></div>
 
   <!-- ============================================================
-     JAVASCRIPT - Core + Page Specific
+     JAVASCRIPT
   ============================================================ -->
+
   <!-- Firebase (if needed) -->
   <script src="/assets/js/firebase-init.js"></script>
-  
-  <!-- Stock Data -->
-  <script src="/assets/js/stock.js"></script>
-  
+
+  <!-- Stock Data (not needed separately as marketPulse loads it) -->
+
   <!-- Market Pulse Logic -->
   <script src="/assets/js/marketPulse.js"></script>
-  
+
   <!-- Alliya v8.3 (Universal AI Assistant) -->
   <script src="/assets/js/alliya.js?v=8.3"></script>
-  
+
   <!-- Include Handler (must be last) -->
   <script src="/assets/js/include.js"></script>
 
