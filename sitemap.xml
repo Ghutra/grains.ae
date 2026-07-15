@@ -1,46 +1,165 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
-  <!-- Core Pages -->
+  <!-- ============================================================
+     CORE PAGES - Highest Priority
+     ============================================================ -->
+
+  <!-- Homepage -->
   <url>
     <loc>https://grains.ae/</loc>
-  </url>
-  <url>
-    <loc>https://grains.ae/market-pulse.html</loc>
-  </url>
-  <url>
-    <loc>https://grains.ae/alliya.html</loc>
-  </url>
-  <url>
-    <loc>https://grains.ae/products.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
   </url>
 
-  <!-- Company Pages -->
+  <!-- Market Pulse - Live Grain Prices -->
   <url>
-    <loc>https://grains.ae/about.html</loc>
+    <loc>https://grains.ae/pulse/index.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.95</priority>
   </url>
+
+  <!-- Shop - Products -->
+  <url>
+    <loc>https://grains.ae/shop/index.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- ============================================================
+     COMPANY PAGES - High Priority
+     ============================================================ -->
+
+  <!-- About Us -->
+  <url>
+    <loc>https://grains.ae/about/index.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Why Grains Hub -->
+  <url>
+    <loc>https://grains.ae/why/index.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Trust & Compliance -->
+  <url>
+    <loc>https://grains.ae/trust/index.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- FCL Booking -->
+  <url>
+    <loc>https://grains.ae/fcl/index.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <!-- ============================================================
+     PRODUCT PAGES - Medium Priority
+     ============================================================ -->
+
+  <!-- Individual Product Pages (Add more as you have them) -->
+  <url>
+    <loc>https://grains.ae/shop/1121-sella-basmati.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://grains.ae/shop/irri-6-white-rice.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://grains.ae/shop/1509-creamy-sella.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Supplier Pages -->
+  <url>
+    <loc>https://grains.ae/suppliers/al-arab-rice-mills.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- ============================================================
+     SUPPORT PAGES - Medium Priority
+     ============================================================ -->
+
+  <!-- Contact -->
   <url>
     <loc>https://grains.ae/contact.html</loc>
-  </url>
-  <url>
-    <loc>https://grains.ae/compliance.html</loc>
-  </url>
-  <url>
-    <loc>https://grains.ae/trust.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 
-  <!-- Legal Pages -->
+  <!-- Compliance -->
+  <url>
+    <loc>https://grains.ae/compliance.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Tracker -->
+  <url>
+    <loc>https://grains.ae/track/index.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- ============================================================
+     LEGAL PAGES - Low Priority
+     ============================================================ -->
+
   <url>
     <loc>https://grains.ae/terms.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
+
   <url>
     <loc>https://grains.ae/privacy.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
+
   <url>
     <loc>https://grains.ae/disclaimer.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
+
   <url>
     <loc>https://grains.ae/cookies.html</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
   </url>
 
 </urlset>
