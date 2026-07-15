@@ -26,11 +26,13 @@
     "url": "https://grains.ae/pulse/index.html"
   }
   </script>
-<script type="application/ld+json" src="/pulse/schema.json"></script>
+  <script type="application/ld+json" src="/pulse/schema.json"></script>
+  
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/style.css">
+  
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
     body { background:#fdfdf9; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; color:#222; line-height:1.7; }
@@ -51,7 +53,7 @@
     }
     .logo { color:#fff; font-weight:bold; font-size:1.35rem; text-decoration:none; display:flex; align-items:center; gap:10px; }
     .logo img { width:28px; height:28px; }
-    .nav-links { display:flex; list-style:none; gap:28px; }
+    .nav-links { display:flex; list-style:none; gap:28px; margin:0; padding:0; }
     .nav-links a {
       color:#fff; text-decoration:none; font-weight:600; font-size:14px; padding:8px 14px; border-radius:6px;
       transition:background .3s, color .3s;
@@ -59,27 +61,50 @@
     .nav-links a:hover, .nav-links a.active { background:#fff; color:#C1A875; }
     .trader-login {
       background:#fff; color:#C1A875; padding:10px 20px; border-radius:50px; font-weight:bold; font-size:14px;
-      text-decoration:none; box-shadow:0 3px 10px rgba(0,0,0,.15);
+      text-decoration:none; box-shadow:0 3px 10px rgba(0,0,0,.15); white-space:nowrap;
     }
     .trader-login:hover { background:#f0f0f0; transform:translateY(-2px); }
-    .hamburger { display:none; cursor:pointer; padding:4px; }
-    .hamburger span { width:26px; height:3px; background:#fff; display:block; margin:3px 0; border-radius:2px; transition:.3s; }
+    .hamburger { display:none; cursor:pointer; padding:4px; background:transparent; border:none; }
+    .hamburger span { 
+      width:26px; height:3px; background:#fff; display:block; margin:3px 0; border-radius:2px; 
+      transition:0.3s; 
+    }
+    /* Hamburger animation */
+    .hamburger.active span:nth-child(1) { transform:rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity:0; }
+    .hamburger.active span:nth-child(3) { transform:rotate(-45deg) translate(5px, -5px); }
 
     @media (max-width: 992px) {
       .nav-links { gap:18px; }
       .nav-links a { font-size:13px; padding:6px 10px; }
     }
     @media (max-width: 768px) {
-      .navbar { padding:12px 16px; }
+      .navbar { padding:12px 16px; flex-wrap:wrap; }
       .hamburger { display:block; }
       .nav-links {
         position:absolute; top:100%; left:0; right:0; background:#C1A875;
-        flex-direction:column; max-height:0; overflow:hidden; transition:max-height .4s ease;
+        flex-direction:column; max-height:0; overflow:hidden; 
+        transition:max-height 0.4s ease, padding 0.4s ease;
         box-shadow:0 6px 15px rgba(0,0,0,.15);
+        padding:0;
+        width:100%;
+        z-index:1000;
       }
-      .nav-links.active { max-height:500px; }
-      .nav-links a { text-align:center; padding:16px; border-bottom:1px solid rgba(255,255,255,.1); }
-      .trader-login { margin:15px auto; display:block; width:fit-content; }
+      .nav-links.open { max-height:500px; padding:10px 0; }
+      .nav-links li { width:100%; }
+      .nav-links a { 
+        text-align:center; padding:14px 20px; display:block; 
+        border-bottom:1px solid rgba(255,255,255,.1);
+        font-size:16px;
+      }
+      .nav-links a:last-child { border-bottom:none; }
+      .trader-login { 
+        margin:10px auto; display:block; width:fit-content; 
+        font-size:14px; padding:10px 24px;
+      }
+      /* Hide trader login in mobile menu when nav is closed */
+      .navbar .trader-login { display:block; }
+      .nav-links .trader-login { display:none; }
     }
 
     /* Hero */
@@ -140,32 +165,82 @@
     .trend.down { color:#2a9d8f; }
     .trend.stable { color:#999; }
 
-    /* Alliya Float & Modal */
-    .alliya-float {
-      position:fixed; right:20px; bottom:20px; background:#C1A875; color:#fff; padding:16px 24px;
-      border-radius:50px; cursor:pointer; box-shadow:0 6px 20px rgba(0,0,0,.25); display:flex; align-items:center; gap:12px;
-      font-weight:bold; z-index:999; font-size:15px; transition:all .3s;
-    }
-    .alliya-float:hover { background:#a07c3b; transform:scale(1.08); }
-    @media (max-width:768px) { .alliya-float { bottom:80px; right:15px; padding:14px 20px; } }
-
-    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:1001; justify-content:center; align-items:center; padding:20px; }
-    .modal.active { display:flex; }
-    .modal-content { background:#fff; border-radius:16px; width:90%; max-width:520px; padding:30px; position:relative; box-shadow:0 15px 40px rgba(0,0,0,.3); }
-    .close { position:absolute; top:14px; right:18px; font-size:32px; cursor:pointer; color:#999; }
-    .close:hover { color:#000; }
-    .alliya-box h2 { display:flex; align-items:center; gap:12px; color:#a07c3b; font-size:22px; margin-bottom:20px; }
-    .alliya-box input { width:100%; padding:16px; border:1px solid #ddd; border-radius:10px; font-size:16px; }
-    .alliya-box input:focus { outline:none; border-color:#C1A875; box-shadow:0 0 0 4px rgba(193,168,117,.25); }
-    .alliya-box button { margin-top:16px; padding:14px; background:#C1A875; color:#fff; border:none; border-radius:10px; font-weight:bold; font-size:16px; cursor:pointer; width:100%; }
-    .alliya-box button:hover { background:#a07c3b; }
-    .reply { margin-top:20px; padding:16px; background:#f8f5ec; border-radius:10px; font-size:15px; line-height:1.6; display:none; }
-    .suggestions { position:absolute; inset:100% 0 auto 0; background:#fff; border:1px solid #eee; border-radius:10px; max-height:160px; overflow-y:auto; z-index:10; margin-top:4px; width:100%; }
-    .suggestions div { padding:12px; cursor:pointer; border-bottom:1px solid #f0f0f0; font-size:14px; }
-    .suggestions div:hover { background:#f8f5ec; }
+    /* Price animations */
     .price-up { color: #0a8f3c; transition: color 0.3s; }
-.price-down { color: #c0392b; transition: color 0.3s; }
+    .price-down { color: #c0392b; transition: color 0.3s; }
 
+    /* Alliya Float - Already in main alliya.js */
+    /* But override for pulse page if needed */
+    #alliyaFloatBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      z-index: 999999;
+      background: linear-gradient(135deg, #c49b3f 0%, #e3c46a 30%, #c49b3f 60%, #a8842e 100%);
+      background-size: 200% 200%;
+      color: #111111;
+      padding: 12px 22px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 32px rgba(196, 155, 63, 0.4);
+      border: 2px solid #c49b3f;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: goldPulse 2.5s ease-in-out infinite;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #alliyaFloatBtn:hover {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 12px 48px rgba(196, 155, 63, 0.6);
+      animation-play-state: paused;
+    }
+
+    #alliyaFloatBtn img {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: white;
+      padding: 3px;
+    }
+
+    @keyframes goldPulse {
+      0%, 100% {
+        box-shadow: 0 8px 32px rgba(196, 155, 63, 0.3);
+        transform: scale(1);
+        background-position: 0% 50%;
+      }
+      25% {
+        box-shadow: 0 8px 48px rgba(196, 155, 63, 0.7);
+        transform: scale(1.03);
+        background-position: 50% 50%;
+      }
+      50% {
+        box-shadow: 0 8px 32px rgba(196, 155, 63, 0.3);
+        transform: scale(1);
+        background-position: 100% 50%;
+      }
+      75% {
+        box-shadow: 0 8px 48px rgba(196, 155, 63, 0.7);
+        transform: scale(1.03);
+        background-position: 50% 50%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      #alliyaFloatBtn {
+        bottom: 16px;
+        right: 16px;
+        padding: 10px 14px;
+        font-size: 13px;
+      }
+      #alliyaFloatBtn span { display: none; }
+      #alliyaFloatBtn img { width: 22px; height: 22px; }
+    }
   </style>
 </head>
 <body>
@@ -173,7 +248,7 @@
   <!-- Rotating Top Banner -->
   <div class="top-banner">
     <div class="banner-text">
-      Grains Hub Offer: Irri-6 Broken 5% Avaliable Stock 56AED for 35Kg PP Bag! • FCL India → Jebel Ali: Indian Creamy Sella USD 1040• Indian Steam Rice USD 1100 • New Stock: Indian 1121 Sella xxl  AED 160/40KG 
+      Grains Hub Offer: Irri-6 Broken 5% Available Stock 56AED for 35Kg PP Bag! • FCL India → Jebel Ali: Indian Creamy Sella USD 1040• Indian Steam Rice USD 1100 • New Stock: Indian 1121 Sella xxl AED 160/40KG 
     </div>
   </div>
 
@@ -191,9 +266,11 @@
       <li><a href="/shop">Shop</a></li>
     </ul>
     <a href="/login.html" class="trader-login">Trader Login</a>
-    <div class="hamburger" id="hamburger">
-      <span></span><span></span><span></span>
-    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </nav>
 
   <!-- Hero -->
@@ -218,109 +295,37 @@
   </div>
 
   <!-- Table -->
-<div class="table-container">
-  <table class="pulse-table">
-    <thead>
-      <tr>
-        <th>Product</th>
-        <th>Price</th>
-        <th>Trend</th>
-         <th>Quantity</th>
-        <th>Verified Supplier</th>
-      </tr>
-    </thead>
-
-    <tbody id="pulse-table">
-      <!-- Filled by pulse.js -->
-    </tbody>
-  </table>
-</div>
-  
-<script>
-  // IDs you’ll use in HTML:
-  // #pulse-basmati1121, #pulse-irri6, etc.
-  // #pulse-last-updated
-  // #pulse-news-list
-
-  document.addEventListener('DOMContentLoaded', () => {
-    if (!window.db || !window.doc || !window.onSnapshot) return;
-
-    const pulseRef = window.doc(window.db, 'marketPulse', 'live');
-
-    window.onSnapshot(pulseRef, (snap) => {
-      if (!snap.exists()) return;
-      const data = snap.data();
-
-      // 1. Prices
-      if (data.prices) {
-        updatePriceCard('basmati1121', data.prices.basmati1121);
-        updatePriceCard('irri6', data.prices.irri6);
-        // add more as needed
-      }
-
-      // 2. Last updated
-      if (data.lastUpdated) {
-        const el = document.getElementById('pulse-last-updated');
-        if (el) {
-          const d = data.lastUpdated.toDate ? data.lastUpdated.toDate() : new Date(data.lastUpdated);
-          el.textContent = 'Updated: ' + d.toLocaleString();
-        }
-      }
-
-      // 3. News
-      if (Array.isArray(data.news)) {
-        const list = document.getElementById('pulse-news-list');
-        if (list) {
-          list.innerHTML = '';
-          data.news.forEach(item => {
-            const li = document.createElement('li');
-            li.textContent = item.title;
-            list.appendChild(li);
-          });
-        }
-      }
-    });
-  });
-
-  function updatePriceCard(id, priceObj) {
-    if (!priceObj) return;
-    const el = document.getElementById('pulse-' + id);
-    if (!el) return;
-
-    const oldValue = parseFloat(el.getAttribute('data-last') || '0');
-    const newValue = priceObj.aed;
-
-    el.textContent = `AED ${newValue} / MT`;
-    el.setAttribute('data-last', newValue);
-
-    if (oldValue && newValue) {
-      if (newValue > oldValue) {
-        el.classList.remove('price-down');
-        el.classList.add('price-up');
-      } else if (newValue < oldValue) {
-        el.classList.remove('price-up');
-        el.classList.add('price-down');
-      }
-      setTimeout(() => {
-        el.classList.remove('price-up', 'price-down');
-      }, 1500);
-    }
-  }
-</script>
-
-  <!-- Alliya Float Button -->
-  <div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
-    <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya
+  <div class="table-container">
+    <table class="pulse-table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Trend</th>
+          <th>Quantity</th>
+          <th>Verified Supplier</th>
+        </tr>
+      </thead>
+      <tbody id="pulse-table">
+        <!-- Filled by pulse.js -->
+      </tbody>
+    </table>
   </div>
 
-  <!-- Alliya Modal -->
-  <div id="alliyaModal" class="modal">
+  <!-- Alliya Float Button -->
+  <div id="alliyaFloatBtn" onclick="window.Alliya?.open ? window.Alliya.open() : openModal()">
+    <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="24">
+    <span>Ask Alliya</span>
+  </div>
+
+  <!-- Alliya Modal (Legacy fallback - main alliya.js injects its own) -->
+  <div id="alliyaModal" class="modal" style="display:none;">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
       <div class="alliya-box">
         <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya</h2>
         <div style="position:relative;">
-          <input type="text" id="alliyaQuery" placeholder="Ask about prices, FCL, trends..." oninput="showSuggestions(this.value)" autocomplete="off">
+          <input type="text" id="alliyaQuery" placeholder="Ask about prices, FCL, trends..." autocomplete="off">
           <div id="suggestions" class="suggestions"></div>
         </div>
         <button onclick="askAlliya()">Send Question</button>
@@ -355,158 +360,209 @@
   </script>
 
   <script>
-    // Hamburger Menu
-    document.addEventListener('DOMContentLoaded', () => {
+    // ============================================================
+    // 1. HAMBURGER MENU - FIXED (No conflicts)
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
       const hamburger = document.getElementById('hamburger');
       const navLinks = document.getElementById('navLinks');
+
       if (hamburger && navLinks) {
-        hamburger.onclick = () => navLinks.classList.toggle('active');
-        navLinks.querySelectorAll('a').forEach(a => a.onclick = () => navLinks.classList.remove('active'));
-      }
-    });
-
-    // TAB FILTERING (assuming pulse.js defines filterPulse or similar – keep compatible)
-    document.querySelectorAll('.tab-button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        if (typeof window.filterPulse === 'function') {
-          window.filterPulse(filter);
-        }
-      });
-    });
-
-    // Alliya Modal
-    function openModal() {
-      document.getElementById('alliyaModal').classList.add('active');
-      document.getElementById('alliyaQuery').focus();
-    }
-
-    function closeModal() {
-      document.getElementById('alliyaModal').classList.remove('active');
-      document.getElementById('alliyaResponse').style.display = 'none';
-      document.getElementById('suggestions').innerHTML = '';
-    }
-
-    // Suggestions
-    const suggestionsList = ['basmati 1121 price', 'irri 6 trend', 'FCL India cost', 'Jebel Ali arrivals', 'Thai white rice'];
-    function showSuggestions(val) {
-      const box = document.getElementById('suggestions');
-      box.innerHTML = '';
-      if (val.length < 2) return;
-      suggestionsList
-        .filter(s => s.toLowerCase().includes(val.toLowerCase()))
-        .slice(0, 5)
-        .forEach(s => {
-          const div = document.createElement('div');
-          div.textContent = s;
-          div.onclick = () => {
-            document.getElementById('alliyaQuery').value = s;
-            box.innerHTML = '';
-            askAlliya();
-          };
-          box.appendChild(div);
+        // Toggle menu on hamburger click
+        hamburger.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          navLinks.classList.toggle('open');
+          hamburger.classList.toggle('active');
         });
-    }
 
-    // ULTIMATE ALLIYA – Render + Firestore + Instant Fallback
-    async function askAlliya() {
-      const userQuery = document.getElementById('alliyaQuery').value.trim().toLowerCase();
-      if (!userQuery) return;
-
-      const replyBox = document.getElementById('alliyaResponse');
-      replyBox.style.display = 'block';
-      replyBox.innerHTML = 'Alliya is checking live stock & Firestore…';
-
-      const terms = userQuery.split(' ').map(w => w.trim().toLowerCase()).filter(Boolean);
-      let found = false;
-
-      // 1. Try Firestore query
-      try {
-        const stockRef = window.collection(window.db, 'products');
-        const q = window.query(stockRef, window.where('keywords', 'array-contains-any', terms));
-        const snapshot = await window.getDocs(q);
-
-        if (!snapshot.empty) {
-          const item = snapshot.docs[0].data();
-          replyBox.innerHTML = `
-            <strong>Live from Firestore</strong><br>
-            ${item.name} → ${item.price}<br>
-            Stock: ${item.stock} bags<br><br>
-            <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(item.name)}" 
-               style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
-               Book via WhatsApp
-            </a>`;
-          found = true;
-        }
-      } catch (err) {
-        console.warn("Firestore query failed:", err);
-      }
-
-      // 2. Fuzzy match fallback
-      if (!found) {
-        try {
-          const allDocs = await window.getDocs(window.collection(window.db, 'products'));
-          allDocs.forEach(doc => {
-            const data = doc.data();
-            const keywords = Array.isArray(data.keywords)
-              ? data.keywords.map(k => k.toLowerCase())
-              : [];
-            if (terms.some(term => keywords.includes(term))) {
-              replyBox.innerHTML = `
-                <strong>Matched via Fuzzy Scan</strong><br>
-                ${data.name} → ${data.price}<br>
-                Stock: ${data.stock} bags<br><br>
-                <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(data.name)}" 
-                   style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
-                   Book via WhatsApp
-                </a>`;
-              found = true;
-            }
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(function(link) {
+          link.addEventListener('click', function() {
+            navLinks.classList.remove('open');
+            hamburger.classList.remove('active');
           });
-        } catch (err) {
-          console.warn("Fuzzy scan failed:", err);
-        }
-      }
+        });
 
-      // 3. Render backend fallback
-      if (!found) {
-        try {
-          const res = await fetch(`https://grains-backend.onrender.com/api/alliya?q=${encodeURIComponent(userQuery)}`, { cache: 'no-cache' });
-          if (res.ok) {
-            const data = await res.json();
-            if (data.reply) {
-              replyBox.innerHTML = data.reply;
-              found = true;
-            }
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            navLinks.classList.remove('open');
+            hamburger.classList.remove('active');
           }
-        } catch (err) {
-          console.warn("Render backend failed:", err);
+        });
+      }
+
+      // ============================================================
+      // 2. TAB FILTERING
+      // ============================================================
+      document.querySelectorAll('.tab-button').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.tab-button').forEach(function(b) {
+            b.classList.remove('active');
+          });
+          btn.classList.add('active');
+          const filter = btn.dataset.filter;
+          if (typeof window.filterPulse === 'function') {
+            window.filterPulse(filter);
+          }
+        });
+      });
+
+      // ============================================================
+      // 3. ALLIYA MODAL (Legacy - main alliya.js will handle)
+      // ============================================================
+      // These are fallbacks in case the main alliya.js doesn't load
+      window.openModal = function() {
+        const modal = document.getElementById('alliyaModal');
+        if (modal) {
+          modal.style.display = 'flex';
+          const input = document.getElementById('alliyaQuery');
+          if (input) setTimeout(function() { input.focus(); }, 300);
         }
+      };
+
+      window.closeModal = function() {
+        const modal = document.getElementById('alliyaModal');
+        if (modal) modal.style.display = 'none';
+      };
+
+      // ============================================================
+      // 4. ALLIYA SUGGESTIONS (Fallback)
+      // ============================================================
+      const suggestionsList = [
+        'basmati 1121 price', 
+        'irri 6 trend', 
+        'FCL India cost', 
+        'Jebel Ali arrivals', 
+        'Thai white rice',
+        'show me stock',
+        'who are your suppliers',
+        'how to book FCL'
+      ];
+
+      window.showSuggestions = function(val) {
+        const box = document.getElementById('suggestions');
+        if (!box) return;
+        box.innerHTML = '';
+        if (val.length < 2) return;
+        suggestionsList
+          .filter(function(s) { return s.toLowerCase().includes(val.toLowerCase()); })
+          .slice(0, 5)
+          .forEach(function(s) {
+            const div = document.createElement('div');
+            div.textContent = s;
+            div.style.cssText = 'padding:10px 14px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:14px;';
+            div.onmouseover = function() { this.style.background = '#f8f5ec'; };
+            div.onmouseout = function() { this.style.background = 'transparent'; };
+            div.onclick = function() {
+              const input = document.getElementById('alliyaQuery');
+              if (input) input.value = s;
+              box.innerHTML = '';
+              askAlliya();
+            };
+            box.appendChild(div);
+          });
+      };
+
+      // ============================================================
+      // 5. ALLIYA ASK (Fallback - tries main alliya.js first)
+      // ============================================================
+      window.askAlliya = async function() {
+        const input = document.getElementById('alliyaQuery');
+        const replyBox = document.getElementById('alliyaResponse');
+        if (!input || !replyBox) return;
+
+        const userQuery = input.value.trim();
+        if (!userQuery) return;
+
+        // Try main Alliya first (if loaded via v8.3)
+        if (window.Alliya && typeof window.Alliya.ask === 'function') {
+          window.Alliya.ask(userQuery);
+          return;
+        }
+
+        // Fallback logic
+        replyBox.style.display = 'block';
+        replyBox.innerHTML = '⏳ Alliya is checking…';
+
+        try {
+          const terms = userQuery.toLowerCase().split(' ').filter(Boolean);
+          
+          // Try Firestore
+          if (window.db && window.collection && window.getDocs && window.query && window.where) {
+            try {
+              const stockRef = window.collection(window.db, 'products');
+              const q = window.query(stockRef, window.where('keywords', 'array-contains-any', terms));
+              const snapshot = await window.getDocs(q);
+              if (!snapshot.empty) {
+                const item = snapshot.docs[0].data();
+                replyBox.innerHTML = `
+                  <strong>✅ Live from Firestore</strong><br>
+                  <strong>${item.name}</strong><br>
+                  Price: ${item.price}<br>
+                  Stock: ${item.stock} bags<br><br>
+                  <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(item.name)}" 
+                     style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;text-decoration:none;">
+                     📱 Book via WhatsApp
+                  </a>
+                `;
+                return;
+              }
+            } catch (e) { console.warn('Firestore fallback error:', e); }
+          }
+
+          // Final fallback
+          replyBox.innerHTML = `
+            <strong>✨ Yes, I found information about "${userQuery}"</strong><br><br>
+            Let me connect you with our trade desk for the latest price and availability.<br><br>
+            <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(userQuery)}" 
+               style="background:#25D366;color:white;padding:12px 24px;border-radius:50px;display:inline-block;text-decoration:none;font-weight:bold;">
+               📱 WhatsApp Now
+            </a>
+          `;
+
+        } catch (err) {
+          replyBox.innerHTML = '⚠️ Sorry, I encountered an issue. Please try again or contact us via WhatsApp.';
+          console.error('Alliya error:', err);
+        }
+      };
+
+      // Close modal on backdrop click
+      const modal = document.getElementById('alliyaModal');
+      if (modal) {
+        modal.addEventListener('click', function(e) {
+          if (e.target === this) window.closeModal();
+        });
       }
 
-      // 4. Final graceful fallback
-      if (!found) {
-        replyBox.innerHTML = `
-          Yes, <strong>${userQuery}</strong> is available today!<br><br>
-          Let me get you the freshest price in seconds →<br>
-          <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(userQuery)}" 
-             style="background:#25D366;color:white;padding:12px 24px;border-radius:50px;display:inline-block;margin-top:12px;text-decoration:none;font-weight:bold;">
-             WhatsApp Me Now
-          </a>`;
+      // Enter key to submit
+      const queryInput = document.getElementById('alliyaQuery');
+      if (queryInput) {
+        queryInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            window.askAlliya();
+          }
+        });
       }
-    }
 
-    // Close on outside click
-    window.onclick = (e) => { if (e.target.classList.contains('modal')) closeModal(); };
+      console.log('✅ Market Pulse loaded successfully');
+      console.log('📱 Mobile menu fixed');
+      console.log('🤖 Alliya ready (v8.3 fallback available)');
+    });
   </script>
 
   <!-- Load pulse.js for table population and filtering -->
   <script src="pulse.js"></script>
-  <!-- Modular scripts -->
-  <script src="/assets/js/alliya.js?v=6.0"></script>
+  
+  <!-- Alliya v8.3 (Your main AI assistant) -->
+  <script src="/assets/js/alliya.js?v=8.3"></script>
+  
+  <!-- Stock data -->
   <script src="/assets/js/stock.js"></script>
+  
+  <!-- Footer include -->
   <div include-html="/partials/footer.html"></div>
   <script src="/assets/js/include.js"></script>
 </body>
