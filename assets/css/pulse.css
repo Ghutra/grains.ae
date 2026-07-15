@@ -181,3 +181,108 @@
 .search-box i {
   color: #999;
 }
+/* ============================================================
+   FIX: Card Sizes - Desktop
+   ============================================================ */
+
+/* Cards Grid */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  margin-bottom: 40px;
+}
+
+/* Price Cards - Desktop Size */
+.price-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 1px solid #e8e4d8;
+  transition: all 0.3s ease;
+}
+
+.price-card .product-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.price-card .price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #a07c3b;
+}
+
+.price-card .price small {
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #666;
+}
+
+.price-card .trend {
+  font-size: 12px;
+  padding: 2px 10px;
+  border-radius: 20px;
+}
+
+.price-card .stock-info {
+  font-size: 12px;
+  color: #666;
+}
+
+.price-card .badge {
+  font-size: 10px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  background: rgba(193, 168, 117, 0.1);
+  color: #a07c3b;
+}
+
+.price-card .book-btn {
+  margin-top: 10px;
+  padding: 6px 14px;
+  font-size: 12px;
+  border-radius: 50px;
+  background: #C1A875;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.price-card .book-btn:hover {
+  background: #a07c3b;
+  transform: translateY(-2px);
+}
+
+/* Price Cards - Mobile */
+@media (max-width: 768px) {
+  .cards-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .price-card {
+    padding: 14px 16px;
+  }
+
+  .price-card .product-name {
+    font-size: 13px;
+  }
+
+  .price-card .price {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
