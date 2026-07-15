@@ -1,3 +1,150 @@
+# ============================================================
+# ROBOTS.TXT - Grains Hub
+# Hosted on GitHub Pages
+# ============================================================
+
+# Allow all crawlers
 User-agent: *
 Allow: /
+
+# ============================================================
+# SITEMAP LOCATION
+# ============================================================
 Sitemap: https://grains.ae/sitemap.xml
+
+# ============================================================
+# DISALLOW (Keep these hidden from search engines)
+# ============================================================
+
+# GitHub-specific files
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /CNAME
+Disallow: /README.md
+Disallow: /LICENSE
+
+# Development files
+Disallow: /node_modules/
+Disallow: /package.json
+Disallow: /package-lock.json
+
+# Asset files (mostly images, CSS, JS)
+Disallow: /assets/js/
+Disallow: /assets/css/
+Disallow: /assets/img/
+Allow: /assets/data/
+
+# Partial includes (not full pages)
+Disallow: /partials/
+
+# Admin/Login
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /reset-password.html
+Disallow: /verify-email.html
+Disallow: /auth-handler.html
+
+# System files
+Disallow: /old-style-unused.css
+Disallow: /firebase-config.js
+
+# API endpoints
+Disallow: /api/
+
+# ============================================================
+# CRAWL DELAY (Be nice to servers)
+# ============================================================
+Crawl-delay: 5
+
+# ============================================================
+# CHROME / GOOGLE BOT SPECIFIC
+# ============================================================
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 2
+
+# ============================================================
+# BING BOT SPECIFIC
+# ============================================================
+User-agent: bingbot
+Allow: /
+Crawl-delay: 5
+
+# ============================================================
+# DUCKDUCKGO BOT
+# ============================================================
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 10
+
+# ============================================================
+# BAIDU (Chinese search engine)
+# ============================================================
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 10
+
+# ============================================================
+# YANDEX (Russian search engine)
+# ============================================================
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 10
+
+# ============================================================
+# SEO BOTS (Allow all major SEO bots)
+# ============================================================
+User-agent: AhrefsBot
+Allow: /
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Allow: /
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Allow: /
+Crawl-delay: 10
+
+User-agent: DotBot
+Allow: /
+Crawl-delay: 10
+
+User-agent: rogerbot
+Allow: /
+Crawl-delay: 10
+
+# ============================================================
+# SOCIAL MEDIA BOTS
+# ============================================================
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# ============================================================
+# BLOCK BAD BOTS (Spam/scrapers)
+# ============================================================
+User-agent: 007ac9
+Disallow: /
+
+User-agent: 008
+Disallow: /
+
+User-agent: Abonti
+Disallow: /
+
+User-agent: Aboundex
+Disallow: /
+
+User-agent: AcoiRobot
+Disallow: /
+
+# ============================================================
+# HOST
+# ============================================================
+Host: https://grains.ae
