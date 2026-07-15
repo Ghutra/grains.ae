@@ -25,7 +25,11 @@
     "url": "https://grains.ae",
     "logo": "https://grains.ae/grains-logo.png",
     "description": "Dubai's trusted B2B grain platform. Verified suppliers. Compliance-first.",
-    "address": { "@type": "PostalAddress", "addressLocality": "Al Ras, Dubai", "addressCountry": "AE" },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Al Ras, Dubai",
+      "addressCountry": "AE"
+    },
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+971585521976",
@@ -35,195 +39,243 @@
   }
   </script>
 
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/core.css">
+  <link rel="stylesheet" href="/assets/css/header.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/style.css">
+
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { background:#fdfdf9; font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; color:#222; line-height:1.7; }
-    a { transition:all 0.3s ease; }
+    /* ============================================================
+       WHY PAGE - Specific Styles
+       ============================================================ */
 
-    /* Rotating Banner */
-    .top-banner {
-      background:#a07c3b; color:#fff; padding:14px; text-align:center; font-weight:500; font-size:15px;
-      overflow:hidden; white-space:nowrap; position:relative;
-    }
-    .banner-text { display:inline-block; animation: scroll 25s linear infinite; }
-    @keyframes scroll { 0% { transform:translateX(100%); } 100% { transform:translateX(-100%); } }
-
-    /* Navbar - Fixed & Beautiful */
-    .navbar {
-      background:#C1A875; padding:12px 20px; position:sticky; top:0; z-index:1000;
-      display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 15px rgba(0,0,0,.12);
-    }
-    .logo { color:#fff; font-weight:bold; font-size:1.35rem; text-decoration:none; display:flex; align-items:center; gap:10px; }
-    .logo img { width:28px; height:28px; }
-    .nav-links { display:flex; list-style:none; gap:28px; }
-    .nav-links a {
-      color:#fff; text-decoration:none; font-weight:600; font-size:14px; padding:8px 14px; border-radius:6px;
-      transition:background .3s, color .3s;
-    }
-    .nav-links a:hover, .nav-links a.active { background:#fff; color:#C1A875; }
-    .trader-login {
-      background:#fff; color:#C1A875; padding:10px 20px; border-radius:50px; font-weight:bold; font-size:14px;
-      text-decoration:none; box-shadow:0 3px 10px rgba(0,0,0,.15);
-    }
-    .trader-login:hover { background:#f0f0f0; transform:translateY(-2px); }
-    .hamburger { display:none; cursor:pointer; padding:4px; }
-    .hamburger span { width:26px; height:3px; background:#fff; display:block; margin:3px 0; border-radius:2px; transition:.3s; }
-
-    @media (max-width: 992px) {
-      .nav-links { gap:18px; }
-      .nav-links a { font-size:13px; padding:6px 10px; }
-    }
-    @media (max-width: 768px) {
-      .navbar { padding:12px 16px; }
-      .hamburger { display:block; }
-      .nav-links {
-        position:absolute; top:100%; left:0; right:0; background:#C1A875;
-        flex-direction:column; max-height:0; overflow:hidden; transition:max-height .4s ease;
-        box-shadow:0 6px 15px rgba(0,0,0,.15);
-      }
-      .nav-links.active { max-height:500px; }
-      .nav-links a { text-align:center; padding:16px; border-bottom:1px solid rgba(255,255,255,.1); }
-      .trader-login { margin:15px auto; display:block; width:fit-content; }
+    body {
+      background: #fdfdf9;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #222;
+      line-height: 1.7;
     }
 
     /* Hero */
-    header {
-      padding:100px 20px 80px; background:url('/assets/img/why-hero.jpg') center/cover no-repeat;
-      position:relative; color:#fff; text-align:center;
+    .why-hero {
+      padding: 100px 20px 80px;
+      background: url('/assets/img/why-hero.jpg') center/cover no-repeat;
+      position: relative;
+      color: #fff;
+      text-align: center;
     }
-    header::before { content:''; position:absolute; inset:0; background:rgba(0,0,0,.55); z-index:1; }
-    header > * { position:relative; z-index:2; }
-    header img { width:140px; margin-bottom:16px; }
-    header h1 { font-size:38px; font-weight:500; margin-bottom:12px; }
-    header p { font-size:18px; max-width:700px; margin:10px auto; opacity:.95; }
+
+    .why-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 1;
+    }
+
+    .why-hero > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .why-hero img {
+      width: 140px;
+      margin-bottom: 16px;
+    }
+
+    .why-hero h1 {
+      font-size: 38px;
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+
+    .why-hero p {
+      font-size: 18px;
+      max-width: 700px;
+      margin: 10px auto;
+      opacity: 0.95;
+    }
 
     /* 3 Golden Pillars */
     .pillars {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 32px; max-width: 1200px; margin: 80px auto; padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
     }
+
     .pillar {
-      background: #fff; border-radius: 16px; padding: 36px;
-      box-shadow: 0 8px 24px rgba(0,0,0,.1); text-align: center;
-      transition: transform .3s, box-shadow .3s;
+      background: #fff;
+      border-radius: 16px;
+      padding: 36px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
+
     .pillar:hover {
-      transform: translateY(-10px); box-shadow: 0 16px 36px rgba(0,0,0,.16);
+      transform: translateY(-10px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16);
     }
+
     .pillar i {
-      font-size: 3em; color: #C1A875; margin-bottom: 20px;
+      font-size: 3em;
+      color: #C1A875;
+      margin-bottom: 20px;
     }
+
     .pillar h3 {
-      font-size: 22px; color: #a07c3b; margin-bottom: 16px;
+      font-size: 22px;
+      color: #a07c3b;
+      margin-bottom: 16px;
     }
+
     .pillar p {
-      font-size: 16px; color: #555;
+      font-size: 16px;
+      color: #555;
     }
 
     /* Live Stats */
     .stats {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 24px; max-width: 1000px; margin: 80px auto; padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 24px;
+      max-width: 1000px;
+      margin: 80px auto;
+      padding: 0 20px;
       text-align: center;
     }
+
     .stat {
-      background: #f8f5ec; border-radius: 12px; padding: 28px 20px;
-      font-weight: bold; color: #a07c3b;
+      background: #f8f5ec;
+      border-radius: 12px;
+      padding: 28px 20px;
+      font-weight: bold;
+      color: #a07c3b;
     }
+
     .stat .num {
-      font-size: 2.5em; color: #C1A875; display: block;
+      font-size: 2.5em;
+      color: #C1A875;
+      display: block;
     }
+
     .stat .label {
-      font-size: 14px; color: #777; margin-top: 8px;
+      font-size: 14px;
+      color: #777;
+      margin-top: 8px;
     }
 
     /* FCL CTA */
     .fcl-cta {
-      background: linear-gradient(135deg, #C1A875, #a07c3b); color: #fff;
-      padding: 60px 20px; text-align: center; border-radius: 16px;
-      margin: 80px 20px;
+      background: linear-gradient(135deg, #C1A875, #a07c3b);
+      color: #fff;
+      padding: 60px 20px;
+      text-align: center;
+      border-radius: 16px;
+      max-width: 900px;
+      margin: 80px auto;
     }
+
     .fcl-cta h2 {
-      font-size: 30px; margin-bottom: 16px;
+      font-size: 30px;
+      margin-bottom: 16px;
     }
+
     .fcl-cta p {
-      font-size: 17px; max-width: 700px; margin: 0 auto 24px; opacity: .95;
+      font-size: 17px;
+      max-width: 700px;
+      margin: 0 auto 24px;
+      opacity: 0.95;
     }
+
     .btn-fcl {
-      display: inline-block; padding: 14px 32px; background: #fff; color: #C1A875;
-      border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px;
-      transition: background .3s, color .3s;
+      display: inline-block;
+      padding: 14px 32px;
+      background: #fff;
+      color: #C1A875;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 16px;
+      transition: background 0.3s, color 0.3s;
     }
+
     .btn-fcl:hover {
-      background: #f8f5ec; color: #a07c3b;
+      background: #f8f5ec;
+      color: #a07c3b;
+      transform: translateY(-2px);
     }
 
-    /* Alliya Float & Modal */
-    .alliya-float {
-      position:fixed; right:20px; bottom:20px; background:#C1A875; color:#fff; padding:16px 24px;
-      border-radius:50px; cursor:pointer; box-shadow:0 6px 20px rgba(0,0,0,.25); display:flex; align-items:center; gap:12px;
-      font-weight:bold; z-index:999; font-size:15px; transition:all .3s;
+    /* Responsive */
+    @media (max-width: 768px) {
+      .why-hero h1 {
+        font-size: 28px;
+      }
+      .why-hero p {
+        font-size: 16px;
+      }
+      .pillars {
+        grid-template-columns: 1fr;
+        margin: 40px auto;
+        gap: 20px;
+      }
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+        margin: 40px auto;
+      }
+      .stat .num {
+        font-size: 2em;
+      }
+      .fcl-cta {
+        margin: 40px 16px;
+        padding: 40px 16px;
+      }
+      .fcl-cta h2 {
+        font-size: 24px;
+      }
     }
-    .alliya-float:hover { background:#a07c3b; transform:scale(1.08); }
-    @media (max-width:768px) { .alliya-float { bottom:80px; right:15px; padding:14px 20px; } }
 
-    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:1001; justify-content:center; align-items:center; padding:20px; }
-    .modal.active { display:flex; }
-    .modal-content { background:#fff; border-radius:16px; width:90%; max-width:520px; padding:30px; position:relative; box-shadow:0 15px 40px rgba(0,0,0,.3); }
-    .close { position:absolute; top:14px; right:18px; font-size:32px; cursor:pointer; color:#999; }
-    .close:hover { color:#000; }
-    .alliya-box h2 { display:flex; align-items:center; gap:12px; color:#a07c3b; font-size:22px; margin-bottom:20px; }
-    .alliya-box input { width:100%; padding:16px; border:1px solid #ddd; border-radius:10px; font-size:16px; }
-    .alliya-box input:focus { outline:none; border-color:#C1A875; box-shadow:0 0 0 4px rgba(193,168,117,.25); }
-    .alliya-box button { margin-top:16px; padding:14px; background:#C1A875; color:#fff; border:none; border-radius:10px; font-weight:bold; font-size:16px; cursor:pointer; width:100%; }
-    .alliya-box button:hover { background:#a07c3b; }
-    .reply { margin-top:20px; padding:16px; background:#f8f5ec; border-radius:10px; font-size:15px; line-height:1.6; display:none; }
-    .suggestions { position:absolute; inset:100% 0 auto 0; background:#fff; border:1px solid #eee; border-radius:10px; max-height:160px; overflow-y:auto; z-index:10; margin-top:4px; width:100%; }
-    .suggestions div { padding:12px; cursor:pointer; border-bottom:1px solid #f0f0f0; font-size:14px; }
-    .suggestions div:hover { background:#f8f5ec; }
-
+    @media (max-width: 480px) {
+      .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .stat {
+        padding: 20px 12px;
+      }
+      .stat .num {
+        font-size: 1.6em;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Rotating Top Banner -->
-  <div class="top-banner">
-    <div class="banner-text">
-       Grains Hub Offer: Irri-6 Broken 5% Avaliable Stock 56AED for 35Kg PP Bag! • FCL India → Jebel Ali: Indian Creamy Sella USD 920• Indian Steam Rice USD 1000 • New Stock: Indian 1121 Sella xxl  AED 160/40KG 
-    </div>
-  </div>
+  <!-- ============================================================
+     HEADER - Universal Include
+  ============================================================ -->
+  <div include-html="/partials/header.html"></div>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <a href="/" class="logo">
-      <img src="/grains-logo.png" alt="Grains Hub"> Grains Hub
-    </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="/">Home</a></li>
-      <li><a href="/why" class="active">Why</a></li>
-      <li><a href="/pulse/index.html">Pulse</a></li>
-      <li><a href="/trust">Trust</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/shop">Shop</a></li>
-    </ul>
-    <a href="/login.html" class="trader-login">Trader Login</a>
-    <div class="hamburger" id="hamburger">
-      <span></span><span></span><span></span>
-    </div>
-  </nav>
-
-  <!-- Hero -->
-  <header>
+  <!-- ============================================================
+     WHY HERO
+  ============================================================ -->
+  <section class="why-hero">
     <img src="/grains-logo.png" alt="Grains Hub Logo" />
     <h1>Why Grains Hub</h1>
-    <p>We didn’t chase scale. We earned trust.</p>
-  </header>
+    <p>We didn't chase scale. We earned trust.</p>
+  </section>
 
-  <!-- 3 Golden Pillars -->
+  <!-- ============================================================
+     3 GOLDEN PILLARS
+  ============================================================ -->
   <section class="pillars">
     <div class="pillar">
       <i class="fas fa-shield-alt"></i>
@@ -242,7 +294,9 @@
     </div>
   </section>
 
-  <!-- Live Stats -->
+  <!-- ============================================================
+     LIVE STATS
+  ============================================================ -->
   <section class="stats">
     <div class="stat">
       <span class="num" id="suppliers">12</span>
@@ -262,42 +316,75 @@
     </div>
   </section>
 
-  <!-- FCL CTA -->
+  <!-- ============================================================
+     FCL CTA
+  ============================================================ -->
   <section class="fcl-cta">
     <h2>Ready for FCL?</h2>
     <p>Verified suppliers. Compliance cleared. One message to book your full container load from Jebel Ali.</p>
-    <a href="https://grains.ae/fcl/?text=Inquiry: FCL Booking via Grains Hub" class="btn-fcl" target="_blank">
+    <a href="https://grains.ae/fcl/" class="btn-fcl" target="_blank">
       Book FCL Now
     </a>
   </section>
 
-  <!-- Alliya Float Button -->
-  <div id="alliyaFloatBtn" class="alliya-float" onclick="openModal()">
-    <img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya
-  </div>
-
-  <!-- Alliya Modal -->
-  <div id="alliyaModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <div class="alliya-box">
-        <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya</h2>
-        <div style="position:relative;">
-          <input type="text" id="alliyaQuery" placeholder="Ask about price, stock, FCL, compliance..." oninput="showSuggestions(this.value)" autocomplete="off">
-          <div id="suggestions" class="suggestions"></div>
-        </div>
-        <button onclick="askAlliya()">Send Question</button>
-        <div id="alliyaResponse" class="reply"></div>
-      </div>
-    </div>
-  </div>
- 
-  <!-- Modular scripts -->
-  <script type="module" src="/assets/js/firebase-init.js"></script>
-  <script src="/assets/js/alliya.js"></script>
-  <script src="/assets/js/stock.js"></script>
+  <!-- ============================================================
+     FOOTER - Universal Include
+  ============================================================ -->
   <div include-html="/partials/footer.html"></div>
+
+  <!-- ============================================================
+     JAVASCRIPT
+  ============================================================ -->
+
+  <!-- Alliya v8.3 (Universal AI Assistant) -->
+  <script src="/assets/js/alliya.js?v=8.3"></script>
+
+  <!-- Stock Data -->
+  <script src="/assets/js/stock.js"></script>
+
+  <!-- Include Handler (must be last) -->
   <script src="/assets/js/include.js"></script>
+
+  <!-- Stats Counter Animation -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animate stats on scroll
+      const stats = document.querySelectorAll('.stat .num');
+
+      const animateStats = function() {
+        stats.forEach(stat => {
+          const target = parseInt(stat.textContent);
+          if (!isNaN(target) && target > 0) {
+            let current = 0;
+            const increment = Math.ceil(target / 40);
+            const interval = setInterval(() => {
+              current += increment;
+              if (current >= target) {
+                current = target;
+                clearInterval(interval);
+              }
+              stat.textContent = current.toLocaleString();
+            }, 30);
+          }
+        });
+      };
+
+      // Intersection Observer for stats
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateStats();
+            observer.disconnect();
+          }
+        });
+      });
+
+      const statSection = document.querySelector('.stats');
+      if (statSection) {
+        observer.observe(statSection);
+      }
+    });
+  </script>
 
 </body>
 </html>
