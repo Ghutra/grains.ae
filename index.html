@@ -4,16 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Grains Hub – Dubai’s Compliance‑First B2B Grain Supplier</title>
+  <title>Grains Hub – Dubai's Compliance‑First B2B Grain Supplier</title>
 
-  <meta name="description" content="Grains Hub is Dubai’s compliance‑first B2B grain supplier. Direct wholesale, verified sourcing, Market Pulse insights, and a licensed presence in Al Ras." />
+  <meta name="description" content="Grains Hub is Dubai's compliance‑first B2B grain supplier. Direct wholesale, verified sourcing, Market Pulse insights, and a licensed presence in Al Ras." />
   <meta name="keywords" content="Grains Hub, Dubai grain supplier, B2B grains UAE, wholesale grains Dubai, Al Ras grain trade, compliance-first grain supply" />
 
   <link rel="canonical" href="https://grains.ae/" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Grains Hub – Dubai’s Compliance‑First B2B Grain Supplier" />
+  <meta property="og:title" content="Grains Hub – Dubai's Compliance‑First B2B Grain Supplier" />
   <meta property="og:description" content="Direct B2B grain supply. Verified sourcing. Market Pulse insights. Built in Al Ras, trusted globally." />
   <meta property="og:image" content="https://grains.ae/assets/img/home-hero.jpg" />
   <meta property="og:url" content="https://grains.ae/" />
@@ -27,7 +27,7 @@
     "name": "Grains Hub",
     "url": "https://grains.ae",
     "logo": "https://grains.ae/grains-logo.png",
-    "description": "Dubai’s compliance‑first B2B grain supplier. Direct wholesale, verified sourcing, and real‑time Market Pulse insights.",
+    "description": "Dubai's compliance‑first B2B grain supplier. Direct wholesale, verified sourcing, and real‑time Market Pulse insights.",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "M‑01, Al Ras",
@@ -46,129 +46,645 @@
 
   <!-- Fonts & Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Main CSS -->
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- CSS - Separated -->
+  <link rel="stylesheet" href="/assets/css/core.css">
+  <link rel="stylesheet" href="/assets/css/header.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+
+  <style>
+    /* ============================================================
+       HOMEPAGE - Next Level Styles
+       ============================================================ */
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fdfdf9;
+      color: #1a1a2e;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---------- HERO ---------- */
+    .hero-home {
+      padding: 100px 20px 80px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 50%, #1a1a2e 100%);
+      position: relative;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-home::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('/assets/img/grain-texture.png') center/cover no-repeat;
+      opacity: 0.05;
+      z-index: 0;
+    }
+
+    .hero-home > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-home img {
+      width: 160px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 8px 30px rgba(0,0,0,0.3));
+    }
+
+    .hero-home h1 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-home p {
+      font-size: 20px;
+      max-width: 600px;
+      margin: 10px auto;
+      opacity: 0.9;
+    }
+
+    .hero-home .founder {
+      font-size: 16px;
+      color: #C1A875;
+      margin-top: 16px;
+      font-weight: 500;
+    }
+
+    .hero-home .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .hero-home .hero-cta a {
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-home .hero-cta .btn-primary {
+      background: linear-gradient(135deg, #c49b3f, #e3c46a);
+      color: #1a1a2e;
+    }
+
+    .hero-home .hero-cta .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(196, 155, 63, 0.4);
+    }
+
+    .hero-home .hero-cta .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .hero-home .hero-cta .btn-secondary:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-3px);
+    }
+
+    /* ---------- TRUST BAR ---------- */
+    .trust-bar {
+      background: #f8f5ec;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      font-size: 14px;
+      color: #a07c3b;
+      flex-wrap: wrap;
+      font-weight: 600;
+      border-bottom: 1px solid #e8e4d8;
+    }
+
+    .trust-bar span {
+      position: relative;
+      padding-left: 26px;
+    }
+
+    .trust-bar span::before {
+      content: "✓";
+      color: #C1A875;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: -1px;
+      font-size: 18px;
+    }
+
+    /* ---------- CARDS ---------- */
+    .cards-home {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 28px;
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 20px;
+    }
+
+    .card-home {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      transition: all 0.4s ease;
+      border: 1px solid #f0ece6;
+    }
+
+    .card-home:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-home img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-home .content {
+      padding: 28px;
+    }
+
+    .card-home h3 {
+      font-size: 1.3rem;
+      color: #a07c3b;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    .card-home p {
+      color: #555;
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    .btn-card-home {
+      background: #C1A875;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-card-home:hover {
+      background: #a07c3b;
+      transform: translateX(4px);
+    }
+
+    /* ---------- PULSE TEASER ---------- */
+    .pulse-teaser {
+      background: #1a1a2e;
+      color: #fff;
+      padding: 60px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .pulse-teaser:hover {
+      background: #222240;
+    }
+
+    .pulse-teaser h2 {
+      font-size: 28px;
+      color: #C1A875;
+      margin-bottom: 32px;
+      font-weight: 700;
+    }
+
+    .pulse-teaser .pulse-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .pulse-teaser .pulse-item {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 24px 20px;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .pulse-teaser .pulse-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-4px);
+    }
+
+    .pulse-teaser .pulse-item h4 {
+      font-size: 1rem;
+      color: #C1A875;
+      margin-bottom: 8px;
+    }
+
+    .pulse-teaser .pulse-item .price {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+      margin: 8px 0;
+    }
+
+    .pulse-teaser .pulse-item .change {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    .pulse-teaser .pulse-item .change.up {
+      color: #2ecc71;
+    }
+    .pulse-teaser .pulse-item .change.down {
+      color: #e74c3c;
+    }
+    .pulse-teaser .pulse-item .change.stable {
+      color: #f39c12;
+    }
+
+    /* ---------- STOCK TEASER ---------- */
+    .stock-teaser {
+      background: #f8f5ec;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .stock-teaser h2 {
+      font-size: 28px;
+      color: #a07c3b;
+      margin-bottom: 32px;
+      font-weight: 700;
+    }
+
+    .stock-teaser .stock-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .stock-teaser .stock-item {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid #e8e4d8;
+    }
+
+    .stock-teaser .stock-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .stock-teaser .stock-item .stock-icon {
+      font-size: 2rem;
+      width: 50px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .stock-teaser .stock-item .stock-info {
+      flex: 1;
+    }
+
+    .stock-teaser .stock-item .stock-info h4 {
+      font-size: 0.95rem;
+      color: #a07c3b;
+      margin-bottom: 2px;
+    }
+
+    .stock-teaser .stock-item .stock-info p {
+      font-size: 0.85rem;
+      color: #666;
+      margin: 0;
+    }
+
+    .stock-teaser .stock-item .stock-price {
+      font-weight: 700;
+      color: #1a1a2e;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* ---------- CTA BANNER ---------- */
+    .cta-banner {
+      background: linear-gradient(135deg, #C1A875, #a07c3b);
+      padding: 80px 20px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .cta-banner h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .cta-banner p {
+      font-size: 18px;
+      max-width: 700px;
+      margin: 0 auto 24px;
+      opacity: 0.95;
+    }
+
+    .btn-cta-home {
+      background: #fff;
+      color: #C1A875;
+      padding: 16px 40px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .btn-cta-home:hover {
+      transform: scale(1.05);
+      background: #f8f8f8;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ---------- TRUST BLOCK ---------- */
+    .trust-block-home {
+      text-align: center;
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 40px 20px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      border: 1px solid #f0ece6;
+    }
+
+    .trust-block-home h2 {
+      font-size: 28px;
+      color: #C1A875;
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .trust-block-home p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+
+    .trust-block-home ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 auto 20px;
+      max-width: 600px;
+      text-align: left;
+    }
+
+    .trust-block-home ul li {
+      font-size: 15px;
+      color: #555;
+      margin: 12px 0;
+      padding-left: 28px;
+      position: relative;
+    }
+
+    .trust-block-home ul li::before {
+      content: "✓";
+      color: #C1A875;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      top: -1px;
+      font-size: 18px;
+    }
+
+    .trust-block-home ul li strong {
+      color: #a07c3b;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 768px) {
+      .hero-home h1 {
+        font-size: 32px;
+      }
+      .hero-home p {
+        font-size: 17px;
+      }
+      .hero-home .hero-cta {
+        flex-direction: column;
+        align-items: center;
+      }
+      .hero-home .hero-cta a {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
+
+      .cards-home {
+        grid-template-columns: 1fr;
+        margin: 40px auto;
+        gap: 20px;
+      }
+
+      .trust-bar {
+        gap: 20px;
+        font-size: 13px;
+        padding: 12px 16px;
+      }
+
+      .pulse-teaser .pulse-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stock-teaser .stock-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-banner h2 {
+        font-size: 24px;
+      }
+
+      .trust-block-home {
+        margin: 40px 16px;
+        padding: 30px 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-home {
+        padding: 60px 16px 50px;
+      }
+      .hero-home h1 {
+        font-size: 26px;
+      }
+      .hero-home img {
+        width: 120px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-  <!-- Rotating Top Banner -->
-  <div class="top-banner">
-    <div class="banner-text">
-      Grains Hub Offer: Irri-6 Broken 5% Available Stock 56 AED for 35Kg PP Bag! • FCL India → Jebel Ali: Indian Creamy Sella USD 1100 • Indian Steam Rice USD 1150 • New Stock: Indian 1121 Sella XXL AED 160 / 40KG
-    </div>
-  </div>
+  <!-- ============================================================
+     HEADER - Universal Include
+  ============================================================ -->
+  <div include-html="/partials/header.html"></div>
 
- <!-- Navbar -->
-  <nav class="navbar">
-    <a href="/" class="logo">
-      <img src="/grains-logo.png" alt="Grains Hub"> Grains Hub
-    </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="/">Home</a></li>
-      <li><a href="/why" class="active">Why</a></li>
-      <li><a href="/pulse/index.html">Pulse</a></li>
-      <li><a href="/trust">Trust</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/shop">Shop</a></li>
-    </ul>
-    <a href="/login.html" class="trader-login">Trader Login</a>
-    <div class="hamburger" id="hamburger">
-      <span></span><span></span><span></span>
-    </div>
-  </nav>
+  <!-- ============================================================
+     TICKER - Auto-injected by ticker.js
+     Container will be auto-created if not present
+  ============================================================ -->
 
-
-  <!-- Hero -->
-  <header>
+  <!-- ============================================================
+     HERO - Next Level
+  ============================================================ -->
+  <section class="hero-home">
     <img src="/grains-logo.png" alt="Grains Hub Logo" />
     <h1>Grains Hub</h1>
     <p>Built with restraint. Trusted across borders.</p>
     <p class="founder">— Shahid Bashir, Founder</p>
-  </header>
 
-  <!-- Trust Bar -->
+    <div class="hero-cta">
+      <a href="/shop" class="btn-primary">
+        <i class="fas fa-shopping-bag"></i> Explore Marketplace
+      </a>
+      <a href="/pulse/index.html" class="btn-secondary">
+        <i class="fas fa-chart-line"></i> View Market Pulse
+      </a>
+      <a href="https://wa.me/971585521976" class="btn-secondary" target="_blank">
+        <i class="fab fa-whatsapp"></i> WhatsApp Us
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+     TRUST BAR
+  ============================================================ -->
   <div class="trust-bar">
     <span>Verified Suppliers</span>
     <span>Al Ras, Dubai</span>
     <span>Jebel Ali Ready</span>
+    <span>Compliance First</span>
   </div>
 
-  <!-- Diamond Cards -->
-  <section class="cards">
-    <div class="card">
+  <!-- ============================================================
+     CARDS - Next Level
+  ============================================================ -->
+  <section class="cards-home">
+    <div class="card-home">
       <img src="/assets/img/cards/shop.jpg" alt="Marketplace">
       <div class="content">
-        <h3>The Grains Shop</h3>
+        <h3>🛒 The Grains Shop</h3>
         <p>10+ verified listings. Real-time stock. B2B pricing.</p>
-        <a href="/shop" class="btn-card"><i class="fas fa-shopping-bag"></i> Explore More </a>
+        <a href="/shop" class="btn-card-home"><i class="fas fa-shopping-bag"></i> Explore More</a>
       </div>
     </div>
 
-    <div class="card">
+    <div class="card-home">
       <img src="/assets/img/cards/fcl.jpg" alt="FCL Booking">
       <div class="content">
-        <h3>FCL Booking</h3>
+        <h3>🚢 FCL Booking</h3>
         <p>20ft from India, Pakistan, Thailand. Prompt shipment.</p>
-        <a href="https://grains.ae/fcl/" class="btn-card" target="_blank">
+        <a href="https://grains.ae/fcl/" class="btn-card-home" target="_blank">
           <i class="fas fa-shipping-fast"></i> Book Now
         </a>
       </div>
     </div>
 
-    <div class="card">
+    <div class="card-home">
       <img src="/assets/img/cards/compliance.jpg" alt="Compliance">
       <div class="content">
-        <h3>Compliance First</h3>
+        <h3>🛡️ Compliance First</h3>
         <p>VAT-ready. Scan logs. Peer-rated suppliers.</p>
-        <a href="/trust" class="btn-card"><i class="fas fa-shield-alt"></i> Learn More</a>
+        <a href="/trust" class="btn-card-home"><i class="fas fa-shield-alt"></i> Learn More</a>
       </div>
     </div>
   </section>
 
-  <!-- Market Pulse Teaser -->
+  <!-- ============================================================
+     MARKET PULSE TEASER
+  ============================================================ -->
   <a href="/pulse/index.html" style="text-decoration:none; color:inherit;">
     <section class="pulse-teaser">
-      <h2>Market Pulse</h2>
+      <h2>📊 Market Pulse</h2>
       <div class="pulse-grid">
         <div class="pulse-item">
-          <h4>Basmati 1121</h4>
+          <h4>1121 Sella Basmati</h4>
           <p class="price">AED 160</p>
-          <p class="change">↑ 2.5% today</p>
+          <p class="change up">↑ 2.5% today</p>
         </div>
         <div class="pulse-item">
-          <h4>Irri 6 5%</h4>
+          <h4>Irri 6 5% Broken</h4>
           <p class="price">AED 56</p>
-          <p class="change">Stable</p>
+          <p class="change stable">■ Stable</p>
         </div>
         <div class="pulse-item">
           <h4>FCL India → Jebel Ali</h4>
-          <p class="price">USD 1100</p>
-          <p class="change">Booking open</p>
+          <p class="price">USD 1040</p>
+          <p class="change up">↑ Booking Open</p>
+        </div>
+        <div class="pulse-item">
+          <h4>Sona Massori</h4>
+          <p class="price">AED 48</p>
+          <p class="change stable">■ In Stock</p>
         </div>
       </div>
     </section>
   </a>
 
-  <!-- Live Stock Highlights -->
+  <!-- ============================================================
+     LIVE STOCK HIGHLIGHTS
+  ============================================================ -->
   <section class="stock-teaser">
-    <h2>Live Stock Highlights</h2>
+    <h2>📦 Live Stock Highlights</h2>
     <div class="stock-grid" id="stock-grid">
-      <p style="text-align:center; color:#a07c3b;">Loading fresh stock...</p>
+      <p style="text-align:center; color:#a07c3b; grid-column:1/-1;">Loading fresh stock...</p>
     </div>
   </section>
 
-   <!-- CTA -->
+  <!-- ============================================================
+     CTA BANNER
+  ============================================================ -->
   <section class="cta-banner">
     <h2>Ready to Trade with Confidence?</h2>
-    <p>Join Dubai’s most trusted B2B grain network. Compliance-first. Al Ras powered.</p>
-    <a href="/shop" class="btn-cta"><i class="fas fa-arrow-right"></i> Explore Marketplace</a>
+    <p>Join Dubai's most trusted B2B grain network. Compliance-first. Al Ras powered.</p>
+    <a href="/shop" class="btn-cta-home"><i class="fas fa-arrow-right"></i> Explore Marketplace</a>
   </section>
 
-  <!-- Trust Block -->
-  <section class="trust-block">
+  <!-- ============================================================
+     TRUST BLOCK
+  ============================================================ -->
+  <section class="trust-block-home">
     <h2>Trusted. Licensed. Dubai‑Anchored.</h2>
     <p>Grains Hub is operated by <strong>Ghutra Goods Wholesaler LLC</strong>, a licensed B2B wholesaler based in Al Ras, Dubai.</p>
 
@@ -182,12 +698,71 @@
     <p>Our commitment is simple: clarity, compliance, and verified trade.</p>
   </section>
 
-  <!-- Scripts -->
-  <script type="module" src="/assets/js/firebase-init.js"></script>
-  <script src="/assets/js/stock.js"></script>
+  <!-- ============================================================
+     FOOTER - Universal Include
+  ============================================================ -->
   <div include-html="/partials/footer.html"></div>
+
+  <!-- ============================================================
+     JAVASCRIPT
+  ============================================================ -->
+
+  <!-- Firebase -->
+  <script type="module" src="/assets/js/firebase-init.js"></script>
+
+  <!-- Stock Data -->
+  <script src="/assets/js/stock.js"></script>
+
+  <!-- Universal Ticker -->
+  <script src="/assets/js/ticker.js"></script>
+
+  <!-- Alliya v8.3 -->
+  <script src="/assets/js/alliya.js?v=8.3"></script>
+
+  <!-- Include Handler (must be last) -->
   <script src="/assets/js/include.js"></script>
- <script src="/assets/js/alliya.js"></script>
+
+  <!-- Stock Highlights Loader -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load stock highlights from stock.json
+      async function loadStockHighlights() {
+        const container = document.getElementById('stock-grid');
+        if (!container) return;
+
+        try {
+          const res = await fetch('/assets/data/stock.json?t=' + Date.now());
+          if (!res.ok) throw new Error('Failed to load stock data');
+          const data = await res.json();
+
+          // Take first 4 items
+          const highlights = data.slice(0, 4);
+
+          if (highlights.length === 0) {
+            container.innerHTML = '<p style="color:#a07c3b;grid-column:1/-1;">No stock available</p>';
+            return;
+          }
+
+          container.innerHTML = highlights.map(item => `
+            <div class="stock-item">
+              <div class="stock-icon">🌾</div>
+              <div class="stock-info">
+                <h4>${item.name}</h4>
+                <p>${item.origin} • ${item.size}</p>
+              </div>
+              <div class="stock-price">${item.price}</div>
+            </div>
+          `).join('');
+
+        } catch (err) {
+          console.warn('Stock highlights error:', err);
+          container.innerHTML = '<p style="color:#a07c3b;grid-column:1/-1;">Unable to load stock</p>';
+        }
+      }
+
+      loadStockHighlights();
+    });
+  </script>
 
 </body>
 </html>
