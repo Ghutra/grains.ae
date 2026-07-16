@@ -1,6 +1,6 @@
 <!-- ============================================================
    UNIVERSAL HEADER - Grains Hub
-   COMPLETE FIX - Version 4.1
+   COMPLETE FIX - Version 4.2
    ============================================================ -->
 
 <!-- Rotating Banner -->
@@ -12,7 +12,7 @@
   </div>
 </div>
 
-<!-- Ticker Container -->
+<!-- Ticker -->
 <div class="ticker-container">
   <div class="ticker-wrapper">
     <div class="ticker-content" id="tickerContent">
@@ -30,7 +30,7 @@
     <img src="/grains-logo.png" alt="Grains Hub" onerror="this.style.display='none'">
     Grains Hub
   </a>
- 
+
   <ul class="nav-links" id="navLinks">
     <li><a href="/" id="navHome">Home</a></li>
     <li><a href="/why" id="navWhy">Why</a></li>
@@ -38,12 +38,11 @@
     <li><a href="/trust" id="navTrust">Trust</a></li>
     <li><a href="/about" id="navAbout">About</a></li>
     <li><a href="/shop" id="navShop">Shop</a></li>
-    <li><a href="/login.html" class="trader-login-mobile">Trader Login</a></li>
   </ul>
- 
+
   <a href="/login.html" class="trader-login">Trader Login</a>
- 
-  <!-- Hamburger Button -->
+
+  <!-- Hamburger -->
   <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
     <span></span>
     <span></span>
@@ -51,65 +50,49 @@
   </button>
 </nav>
 
-<!-- ============================================================
-   JAVASCRIPT - FIXED & RELIABLE
-   ============================================================ -->
 <script>
   (function() {
     'use strict';
 
     function initHeader() {
-      console.log('✅ Header v4.1 initializing...');
+      console.log('✅ Header v4.2 starting...');
 
       const hamburger = document.getElementById('hamburger');
       const navLinks = document.getElementById('navLinks');
 
-      if (hamburger && navLinks) {
-        function toggleMenu(e) {
-          if (e) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-          }
-
-          const isOpen = !navLinks.classList.contains('active');
-          
-          navLinks.classList.toggle('active');
-          hamburger.classList.toggle('active');
-          hamburger.setAttribute('aria-expanded', isOpen);
-
-          console.log('🍔 Menu toggled:', isOpen ? 'OPEN' : 'CLOSED');
-        }
-
-        // Click on hamburger
-        hamburger.addEventListener('click', toggleMenu);
-
-        // Close when clicking any link
-        navLinks.querySelectorAll('a').forEach(link => {
-          link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
-            hamburger.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', 'false');
-          });
-        });
-
-        // Close when clicking outside
-        document.addEventListener('click', function(e) {
-          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-            navLinks.classList.remove('active');
-            hamburger.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', 'false');
-          }
-        });
-
-        console.log('✅ Hamburger menu fully ready');
+      if (!hamburger || !navLinks) {
+        console.error('❌ Hamburger or navLinks not found!');
+        return;
       }
 
-      // Active nav link
-      const currentPath = window.location.pathname;
-      const navMap = { /* ... your existing map ... */ };
-      // (keeping your active nav logic unchanged)
+      function toggleMenu() {
+        const isOpen = navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
+        hamburger.setAttribute('aria-expanded', isOpen);
+        console.log('🍔 Menu:', isOpen ? 'OPEN' : 'CLOSED');
+      }
 
-      console.log('✅ Header v4.1 ready');
+      hamburger.addEventListener('click', toggleMenu);
+
+      // Close menu when clicking a link
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          hamburger.classList.remove('active');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      // Close when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+          navLinks.classList.remove('active');
+          hamburger.classList.remove('active');
+          hamburger.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      console.log('✅ Hamburger menu fixed and ready');
     }
 
     if (document.readyState === 'loading') {
