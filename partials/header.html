@@ -1,6 +1,6 @@
 <!-- ============================================================
    UNIVERSAL HEADER - Grains Hub
-   SIMPLIFIED WORKING VERSION - Version 5.0
+   GOLD EDITION - FINAL WORKING VERSION v6.0
    ============================================================ -->
 
 <!-- Rotating Banner -->
@@ -25,12 +25,14 @@
 </div>
 
 <!-- Navbar -->
-<nav class="navbar">
+<nav class="navbar" role="navigation">
+  <!-- Logo -->
   <a href="/" class="logo">
-    <img src="/grains-logo.png" alt="Grains Hub" onerror="this.style.display='none'">
+    <img src="/grains-logo.png" alt="Grains Hub">
     Grains Hub
   </a>
-  
+
+  <!-- Navigation Links -->
   <ul class="nav-links" id="navLinks">
     <li><a href="/" id="navHome">Home</a></li>
     <li><a href="/why" id="navWhy">Why</a></li>
@@ -40,9 +42,11 @@
     <li><a href="/shop" id="navShop">Shop</a></li>
     <li><a href="/login.html" class="trader-login-mobile">Trader Login</a></li>
   </ul>
-  
+
+  <!-- Trader Login (Desktop) -->
   <a href="/login.html" class="trader-login">Trader Login</a>
-  
+
+  <!-- Hamburger Menu -->
   <div class="hamburger" id="hamburger">
     <span></span>
     <span></span>
@@ -51,75 +55,94 @@
 </nav>
 
 <!-- ============================================================
-   JAVASCRIPT - SIMPLE & WORKING
+   JAVASCRIPT - CLEAN & WORKING
    ============================================================ -->
 <script>
-  // Wait for DOM to load
-  document.addEventListener('DOMContentLoaded', function() {
-    
-    // ============================================================
-    // 1. HAMBURGER MENU - SIMPLE
-    // ============================================================
-    var hamburger = document.getElementById('hamburger');
-    var navLinks = document.getElementById('navLinks');
-    
-    if (hamburger && navLinks) {
-      // Toggle menu on click
-      hamburger.addEventListener('click', function(e) {
-        e.preventDefault();
-        navLinks.classList.toggle('active');
-        hamburger.classList.toggle('active');
-      });
-      
-      // Close menu when a link is clicked
-      navLinks.querySelectorAll('a').forEach(function(link) {
-        link.addEventListener('click', function() {
-          navLinks.classList.remove('active');
-          hamburger.classList.remove('active');
+  (function() {
+    'use strict';
+
+    // Wait for DOM
+    function init() {
+      // ============================================================
+      // 1. HAMBURGER MENU
+      // ============================================================
+      var hamburger = document.getElementById('hamburger');
+      var navLinks = document.getElementById('navLinks');
+
+      if (hamburger && navLinks) {
+        // Toggle menu
+        hamburger.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          navLinks.classList.toggle('active');
+          hamburger.classList.toggle('active');
         });
-      });
-    }
-    
-    // ============================================================
-    // 2. ACTIVE NAV STATE
-    // ============================================================
-    var currentPath = window.location.pathname;
-    var navMap = {
-      '/': 'navHome',
-      '/index.html': 'navHome',
-      '/why': 'navWhy',
-      '/why/': 'navWhy',
-      '/why/index.html': 'navWhy',
-      '/pulse/index.html': 'navPulse',
-      '/pulse': 'navPulse',
-      '/trust': 'navTrust',
-      '/trust/': 'navTrust',
-      '/trust/index.html': 'navTrust',
-      '/about': 'navAbout',
-      '/about/': 'navAbout',
-      '/about/index.html': 'navAbout',
-      '/shop': 'navShop',
-      '/shop/': 'navShop',
-      '/shop/index.html': 'navShop'
-    };
-    
-    var activeId = navMap[currentPath] || null;
-    
-    if (!activeId) {
-      if (currentPath.includes('/pulse/')) activeId = 'navPulse';
-      else if (currentPath.includes('/shop/')) activeId = 'navShop';
-      else if (currentPath.includes('/about/')) activeId = 'navAbout';
-      else if (currentPath.includes('/trust/')) activeId = 'navTrust';
-      else if (currentPath.includes('/why/')) activeId = 'navWhy';
-    }
-    
-    if (activeId) {
-      var activeLink = document.getElementById(activeId);
-      if (activeLink) {
-        activeLink.classList.add('active');
+
+        // Close on link click
+        var links = navLinks.querySelectorAll('a');
+        for (var i = 0; i < links.length; i++) {
+          links[i].addEventListener('click', function() {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+          });
+        }
+
+        // Close on outside click
+        document.addEventListener('click', function(e) {
+          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+          }
+        });
       }
+
+      // ============================================================
+      // 2. ACTIVE NAV STATE
+      // ============================================================
+      var currentPath = window.location.pathname;
+      var navMap = {
+        '/': 'navHome',
+        '/index.html': 'navHome',
+        '/why': 'navWhy',
+        '/why/': 'navWhy',
+        '/why/index.html': 'navWhy',
+        '/pulse/index.html': 'navPulse',
+        '/pulse': 'navPulse',
+        '/trust': 'navTrust',
+        '/trust/': 'navTrust',
+        '/trust/index.html': 'navTrust',
+        '/about': 'navAbout',
+        '/about/': 'navAbout',
+        '/about/index.html': 'navAbout',
+        '/shop': 'navShop',
+        '/shop/': 'navShop',
+        '/shop/index.html': 'navShop'
+      };
+
+      var activeId = navMap[currentPath] || null;
+      if (!activeId) {
+        if (currentPath.includes('/pulse/')) activeId = 'navPulse';
+        else if (currentPath.includes('/shop/')) activeId = 'navShop';
+        else if (currentPath.includes('/about/')) activeId = 'navAbout';
+        else if (currentPath.includes('/trust/')) activeId = 'navTrust';
+        else if (currentPath.includes('/why/')) activeId = 'navWhy';
+      }
+
+      if (activeId) {
+        var activeLink = document.getElementById(activeId);
+        if (activeLink) {
+          activeLink.classList.add('active');
+        }
+      }
+
+      console.log('✅ Header Gold v6.0 loaded');
     }
-    
-    console.log('✅ Header loaded - Hamburger should work');
-  });
+
+    // Run
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
 </script>
