@@ -1,7 +1,69 @@
 /* ============================================================
    HEADER CSS - Grains Hub
-   With FIXED Mobile Hamburger
+   COMPLETE FIX - Version 4.0
    ============================================================ */
+
+/* ---------- ROTATING BANNER ---------- */
+.top-banner {
+  background: #a07c3b;
+  color: #fff;
+  padding: 14px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 15px;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  width: 100%;
+}
+
+.top-banner .banner-text {
+  display: inline-block;
+  animation: scrollBanner 30s linear infinite;
+  padding-right: 60px;
+}
+
+.top-banner:hover .banner-text {
+  animation-play-state: paused;
+}
+
+@keyframes scrollBanner {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* ---------- TICKER ---------- */
+.ticker-container {
+  background: #f8f5ec;
+  padding: 8px 20px;
+  border-bottom: 1px solid #e8e4d8;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.ticker-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.ticker-content {
+  display: inline-block;
+  animation: tickerScroll 40s linear infinite;
+  padding-right: 60px;
+  font-size: 14px;
+  color: #a07c3b;
+}
+
+.ticker-container:hover .ticker-content {
+  animation-play-state: paused;
+}
+
+@keyframes tickerScroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
 
 /* ---------- NAVBAR ---------- */
 .navbar {
@@ -14,7 +76,8 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.12);
-  flex-wrap: wrap;
+  width: 100%;
+  flex-wrap: nowrap;
 }
 
 /* ---------- LOGO ---------- */
@@ -41,6 +104,7 @@
   gap: 28px;
   margin: 0;
   padding: 0;
+  align-items: center;
 }
 
 .nav-links a {
@@ -51,6 +115,7 @@
   padding: 8px 14px;
   border-radius: 6px;
   transition: background 0.3s, color 0.3s;
+  white-space: nowrap;
 }
 
 .nav-links a:hover,
@@ -85,7 +150,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   cursor: pointer;
   padding: 8px 6px;
   background: transparent;
@@ -93,10 +158,17 @@
   border-radius: 4px;
   transition: all 0.3s ease;
   flex-shrink: 0;
+  min-width: 40px;
+  min-height: 40px;
 }
 
 .hamburger:hover {
   background: rgba(255, 255, 255, 0.1);
+}
+
+.hamburger:focus {
+  outline: 2px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
 }
 
 .hamburger span {
@@ -128,7 +200,9 @@
   display: none;
 }
 
-/* ---------- RESPONSIVE ---------- */
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 992px) {
   .nav-links {
     gap: 18px;
@@ -212,6 +286,7 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     font-size: 15px;
     border-radius: 0;
+    white-space: normal;
   }
 
   .nav-links a:last-child {
@@ -228,6 +303,19 @@
     display: block !important;
     margin: 10px auto;
   }
+
+  /* Smaller banner on mobile */
+  .top-banner {
+    font-size: 12px;
+    padding: 10px;
+  }
+
+  .ticker-container {
+    padding: 6px 12px;
+  }
+  .ticker-content {
+    font-size: 12px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -243,9 +331,18 @@
   }
   .hamburger {
     padding: 6px 4px;
+    min-width: 36px;
+    min-height: 36px;
   }
   .hamburger span {
     width: 22px;
     height: 2.5px;
+  }
+  .top-banner {
+    font-size: 11px;
+    padding: 8px;
+  }
+  .ticker-content {
+    font-size: 11px;
   }
 }
