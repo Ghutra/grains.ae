@@ -1,7 +1,6 @@
 <!-- ============================================================
    UNIVERSAL HEADER - Grains Hub
-   Auto-detects current page and highlights correct nav item
-   Version: 2.0
+   With FIXED Hamburger Menu - Version 3.0
    ============================================================ -->
 
 <!-- Rotating Banner -->
@@ -13,7 +12,7 @@
   </div>
 </div>
 
-<!-- Ticker Container (Auto-injected by ticker.js) -->
+<!-- Ticker Container -->
 <div class="ticker-container">
   <div class="ticker-wrapper">
     <div class="ticker-content" id="tickerContent"></div>
@@ -21,7 +20,7 @@
 </div>
 
 <!-- Navbar -->
-<nav class="navbar">
+<nav class="navbar" role="navigation" aria-label="Main Navigation">
   <a href="/" class="logo">
     <img src="/grains-logo.png" alt="Grains Hub" onerror="this.style.display='none'">
     Grains Hub
@@ -39,114 +38,136 @@
   
   <a href="/login.html" class="trader-login">Trader Login</a>
   
-  <div class="hamburger" id="hamburger">
-    <span></span><span></span><span></span>
-  </div>
+  <!-- Hamburger Button - WITH CORRECT ARIA -->
+  <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
 </nav>
 
 <!-- ============================================================
-   JAVASCRIPT - Auto Active State + Hamburger Menu
+   JAVASCRIPT - FIXED Hamburger + Active State
    ============================================================ -->
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  (function() {
+    'use strict';
     
-    // ============================================================
-    // 1. AUTO ACTIVE STATE - Highlights current page in nav
-    // ============================================================
-    const currentPath = window.location.pathname;
-    
-    // Map paths to nav IDs
-    const navMap = {
-      '/': 'navHome',
-      '/index.html': 'navHome',
-      '/why': 'navWhy',
-      '/why/': 'navWhy',
-      '/why/index.html': 'navWhy',
-      '/pulse/index.html': 'navPulse',
-      '/pulse': 'navPulse',
-      '/trust': 'navTrust',
-      '/trust/': 'navTrust',
-      '/trust/index.html': 'navTrust',
-      '/about': 'navAbout',
-      '/about/': 'navAbout',
-      '/about/index.html': 'navAbout',
-      '/shop': 'navShop',
-      '/shop/': 'navShop',
-      '/shop/index.html': 'navShop'
-    };
-    
-    // Find matching nav item
-    let activeId = navMap[currentPath] || null;
-    
-    // Handle sub-pages (e.g., /shop/product.html, /pulse/details.html)
-    if (!activeId) {
-      if (currentPath.includes('/pulse/')) activeId = 'navPulse';
-      else if (currentPath.includes('/shop/')) activeId = 'navShop';
-      else if (currentPath.includes('/about/')) activeId = 'navAbout';
-      else if (currentPath.includes('/trust/')) activeId = 'navTrust';
-      else if (currentPath.includes('/why/')) activeId = 'navWhy';
-    }
-    
-    // Add active class to the matching nav item
-    if (activeId) {
-      const activeLink = document.getElementById(activeId);
-      if (activeLink) {
-        activeLink.classList.add('active');
-      }
-    }
-    
-    // Fallback: If no match found, check if any link's href matches current URL
-    if (!activeId) {
-      const navLinks = document.querySelectorAll('.nav-links a');
-      navLinks.forEach(function(link) {
-        const href = link.getAttribute('href');
-        if (href && href !== '#' && href !== '/login.html') {
-          // Check if current path ends with the href
-          if (currentPath.endsWith(href) || currentPath === href) {
-            link.classList.add('active');
+    // Wait for DOM to be fully ready
+    function initHeader() {
+      console.log('📱 Header initializing...');
+      
+      // ============================================================
+      // 1. HAMBURGER MENU - FIXED
+      // ============================================================
+      const hamburger = document.getElementById('hamburger');
+      const navLinks = document.getElementById('navLinks');
+      
+      if (hamburger && navLinks) {
+        console.log('✅ Hamburger found, setting up events...');
+        
+        // Toggle function
+        function toggleMenu(e) {
+          if (e) {
+            e.preventDefault();
+            e.stopPropagation();
           }
+          
+          const isOpen = navLinks.classList.toggle('active');
+          hamburger.classList.toggle('active');
+          hamburger.setAttribute('aria-expanded', isOpen);
+          
+          console.log('🍔 Menu toggled:', isOpen ? 'Open' : 'Closed');
         }
-      });
-    }
-    
-    // ============================================================
-    // 2. HAMBURGER MENU TOGGLE
-    // ============================================================
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
-
-    if (hamburger && navLinks) {
-      // Toggle menu on hamburger click
-      hamburger.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        navLinks.classList.toggle('active');
-        hamburger.classList.toggle('active');
-      });
-
-      // Close menu when a link is clicked
-      navLinks.querySelectorAll('a').forEach(function(link) {
-        link.addEventListener('click', function() {
-          navLinks.classList.remove('active');
-          hamburger.classList.remove('active');
+        
+        // Click event on hamburger
+        hamburger.addEventListener('click', toggleMenu);
+        
+        // Close menu when a link is clicked
+        navLinks.querySelectorAll('a').forEach(function(link) {
+          link.addEventListener('click', function() {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+          });
         });
-      });
-
-      // Close menu when clicking outside
-      document.addEventListener('click', function(e) {
-        if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-          navLinks.classList.remove('active');
-          hamburger.classList.remove('active');
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+          }
+        });
+        
+        // Close menu on ESC key
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+            navLinks.classList.remove('active');
+            hamburger.classList.remove('active');
+            hamburger.setAttribute('aria-expanded', 'false');
+            hamburger.focus();
+          }
+        });
+        
+        console.log('✅ Hamburger menu setup complete');
+      } else {
+        console.warn('⚠️ Hamburger or navLinks not found!');
+      }
+      
+      // ============================================================
+      // 2. AUTO ACTIVE STATE
+      // ============================================================
+      const currentPath = window.location.pathname;
+      
+      const navMap = {
+        '/': 'navHome',
+        '/index.html': 'navHome',
+        '/why': 'navWhy',
+        '/why/': 'navWhy',
+        '/why/index.html': 'navWhy',
+        '/pulse/index.html': 'navPulse',
+        '/pulse': 'navPulse',
+        '/trust': 'navTrust',
+        '/trust/': 'navTrust',
+        '/trust/index.html': 'navTrust',
+        '/about': 'navAbout',
+        '/about/': 'navAbout',
+        '/about/index.html': 'navAbout',
+        '/shop': 'navShop',
+        '/shop/': 'navShop',
+        '/shop/index.html': 'navShop'
+      };
+      
+      let activeId = navMap[currentPath] || null;
+      
+      if (!activeId) {
+        if (currentPath.includes('/pulse/')) activeId = 'navPulse';
+        else if (currentPath.includes('/shop/')) activeId = 'navShop';
+        else if (currentPath.includes('/about/')) activeId = 'navAbout';
+        else if (currentPath.includes('/trust/')) activeId = 'navTrust';
+        else if (currentPath.includes('/why/')) activeId = 'navWhy';
+      }
+      
+      if (activeId) {
+        const activeLink = document.getElementById(activeId);
+        if (activeLink) {
+          activeLink.classList.add('active');
+          console.log('📍 Active page:', activeId);
         }
-      });
+      }
+      
+      console.log('✅ Header initialization complete');
     }
     
-    // ============================================================
-    // 3. LOGGER (Remove in production if desired)
-    // ============================================================
-    console.log('✅ Universal Header loaded');
-    console.log('📍 Current page:', currentPath);
-    console.log('🎯 Active nav item:', activeId || 'None (fallback used)');
+    // Run on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHeader);
+    } else {
+      // DOM already loaded, run immediately
+      initHeader();
+    }
     
-  });
+  })();
 </script>
