@@ -1,34 +1,7 @@
 /* ============================================================
    HEADER CSS - Grains Hub
-   Based on Why Page design (superior mobile experience)
+   With FIXED Mobile Hamburger
    ============================================================ */
-
-/* ---------- ROTATING BANNER ---------- */
-.top-banner {
-  background: #a07c3b;
-  color: #fff;
-  padding: 14px;
-  text-align: center;
-  font-weight: 500;
-  font-size: 15px;
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-}
-
-.top-banner .banner-text {
-  display: inline-block;
-  animation: scrollBanner 25s linear infinite;
-}
-
-.top-banner:hover .banner-text {
-  animation-play-state: paused;
-}
-
-@keyframes scrollBanner {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
 
 /* ---------- NAVBAR ---------- */
 .navbar {
@@ -41,9 +14,10 @@
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.12);
+  flex-wrap: wrap;
 }
 
-/* Logo - Clean & Simple (Why Page Style) */
+/* ---------- LOGO ---------- */
 .logo {
   color: #fff;
   font-weight: bold;
@@ -52,12 +26,12 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 .logo img {
   width: 28px;
   height: 28px;
-  display: block;
 }
 
 /* ---------- NAV LINKS ---------- */
@@ -97,6 +71,7 @@
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
   white-space: nowrap;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .trader-login:hover {
@@ -107,33 +82,48 @@
 /* ---------- HAMBURGER ---------- */
 .hamburger {
   display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
   cursor: pointer;
-  padding: 4px;
+  padding: 8px 6px;
   background: transparent;
   border: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.hamburger:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .hamburger span {
+  display: block;
   width: 26px;
   height: 3px;
   background: #fff;
-  display: block;
-  margin: 3px 0;
   border-radius: 2px;
-  transition: 0.3s;
+  transition: all 0.3s ease;
+  transform-origin: center;
 }
 
+/* Hamburger animation - X shape when active */
 .hamburger.active span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
+
 .hamburger.active span:nth-child(2) {
   opacity: 0;
+  transform: scaleX(0);
 }
+
 .hamburger.active span:nth-child(3) {
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* ---------- MOBILE TRADER LOGIN (hidden on desktop) ---------- */
+/* ---------- MOBILE TRADER LOGIN ---------- */
 .trader-login-mobile {
   display: none;
 }
@@ -151,22 +141,13 @@
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 12px 16px;
-    flex-wrap: wrap;
+    padding: 10px 16px;
+    flex-wrap: nowrap;
   }
 
+  /* Show hamburger */
   .hamburger {
-    display: block;
-  }
-
-  /* Logo stays clean and small on mobile */
-  .logo {
-    font-size: 1.2rem;
-    gap: 8px;
-  }
-  .logo img {
-    width: 24px;
-    height: 24px;
+    display: flex;
   }
 
   /* Hide desktop trader login on mobile */
@@ -174,9 +155,9 @@
     display: none;
   }
 
-  /* Show mobile trader login in nav */
+  /* Mobile trader login in nav */
   .trader-login-mobile {
-    display: block;
+    display: block !important;
     background: #fff;
     color: #C1A875;
     padding: 10px 20px;
@@ -196,6 +177,7 @@
     transform: translateY(-2px);
   }
 
+  /* Nav links - slide down */
   .nav-links {
     position: absolute;
     top: 100%;
@@ -206,43 +188,64 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s ease, padding 0.4s ease;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
     padding: 0;
     width: 100%;
     z-index: 999;
+    gap: 0;
   }
 
   .nav-links.active {
-    max-height: 500px;
+    max-height: 600px;
     padding: 10px 0;
   }
 
   .nav-links li {
     width: 100%;
+    list-style: none;
   }
 
   .nav-links a {
     text-align: center;
     padding: 14px 20px;
     display: block;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     font-size: 15px;
+    border-radius: 0;
   }
 
   .nav-links a:last-child {
     border-bottom: none;
   }
 
+  .nav-links a:hover,
+  .nav-links a.active {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+  }
+
   .nav-links .trader-login-mobile {
+    display: block !important;
     margin: 10px auto;
-    display: block;
   }
 }
 
 @media (max-width: 480px) {
-  .top-banner {
-    font-size: 12px;
-    padding: 10px;
-    white-space: normal;
+  .navbar {
+    padding: 8px 12px;
+  }
+  .logo {
+    font-size: 1.1rem;
+  }
+  .logo img {
+    width: 24px;
+    height: 24px;
+  }
+  .hamburger {
+    padding: 6px 4px;
+  }
+  .hamburger span {
+    width: 22px;
+    height: 2.5px;
   }
 }
