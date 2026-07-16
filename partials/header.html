@@ -1,18 +1,21 @@
 <!-- ============================================================
    UNIVERSAL HEADER - Grains Hub
-   GOLD EDITION v7.0 (Slide Drawer + Dual Trader Login)
+   GOLD EDITION - CLEAN v7.0
+   NO DUPLICATE TRADER LOGIN
    ============================================================ -->
 
 <!-- Rotating Banner -->
 <div class="top-banner" id="topBanner">
   <div class="banner-text" id="bannerText">
     🔥 <strong>Grains Hub Offer:</strong> Irri-6 Broken 5% Available Stock 56AED for 35Kg PP Bag! • 
-    FCL India → Jebel Ali: Indian Creamy Sella USD 1040 • Indian Steam Rice USD 1100 • 
+    FCL India → Jebel Al
+
+i: Indian Creamy Sella USD 1040 • Indian Steam Rice USD 1100 • 
     New Stock: Indian 1121 Sella XXL AED 160/40KG
   </div>
 </div>
 
-<!-- Ticker -->
+<!-- Ticker Container -->
 <div class="ticker-container">
   <div class="ticker-wrapper">
     <div class="ticker-content" id="tickerContent">
@@ -24,7 +27,7 @@
   </div>
 </div>
 
-<!-- NAVBAR -->
+<!-- Navbar -->
 <nav class="navbar" role="navigation">
   <!-- Logo -->
   <a href="/" class="logo">
@@ -32,10 +35,20 @@
     Grains Hub
   </a>
 
-  <!-- Trader Login (Desktop + Mobile Header) -->
+  <!-- Navigation Links (NO Trader Login here) -->
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/" id="navHome">Home</a></li>
+    <li><a href="/why" id="navWhy">Why</a></li>
+    <li><a href="/pulse/index.html" id="navPulse">Pulse</a></li>
+    <li><a href="/trust" id="navTrust">Trust</a></li>
+    <li><a href="/about" id="navAbout">About</a></li>
+    <li><a href="/shop" id="navShop">Shop</a></li>
+  </ul>
+
+  <!-- Trader Login - PILL BUTTON (Only one, outside nav) -->
   <a href="/login.html" class="trader-login">Trader Login</a>
 
-  <!-- Hamburger -->
+  <!-- Hamburger Menu -->
   <div class="hamburger" id="hamburger">
     <span></span>
     <span></span>
@@ -43,63 +56,106 @@
   </div>
 </nav>
 
-<!-- SIDE DRAWER MENU -->
-<div class="drawer-overlay" id="drawerOverlay"></div>
-
-<div class="drawer-menu" id="drawerMenu">
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/why">Why</a></li>
-    <li><a href="/pulse/index.html">Pulse</a></li>
-    <li><a href="/trust">Trust</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/shop">Shop</a></li>
-  </ul>
-</div>
-
 <!-- ============================================================
-   JAVASCRIPT v7.0
+   JAVASCRIPT - ONE SCRIPT TO RULE THEM ALL
    ============================================================ -->
 <script>
-(function() {
-  'use strict';
+  (function() {
+    'use strict';
 
-  function init() {
-    const hamburger = document.getElementById('hamburger');
-    const drawerMenu = document.getElementById('drawerMenu');
-    const drawerOverlay = document.getElementById('drawerOverlay');
+    function initHeader() {
+      // ============================================================
+      // 1. HAMBURGER MENU - SIMPLE & RELIABLE
+      // ============================================================
+      var hamburger = document.getElementById('hamburger');
+      var navLinks = document.getElementById('navLinks');
 
-    // Toggle drawer
-    hamburger.addEventListener('click', function(e) {
-      e.preventDefault();
-      drawerMenu.classList.toggle('open');
-      drawerOverlay.classList.toggle('show');
-      hamburger.classList.toggle('active');
-    });
+      if (hamburger && navLinks) {
+        // Remove any existing listeners to prevent duplicates
+        var newHamburger = hamburger.cloneNode(true);
+        hamburger.parentNode.replaceChild(newHamburger, hamburger);
+        var newNavLinks = navLinks.cloneNode(true);
+        navLinks.parentNode.replaceChild(newNavLinks, navLinks);
 
-    // Close drawer on overlay click
-    drawerOverlay.addEventListener('click', function() {
-      drawerMenu.classList.remove('open');
-      drawerOverlay.classList.remove('show');
-      hamburger.classList.remove('active');
-    });
+        // Get fresh references
+        var freshHamburger = document.getElementById('hamburger');
+        var freshNavLinks = document.getElementById('navLinks');
 
-    // Close drawer on link click
-    drawerMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', function() {
-        drawerMenu.classList.remove('open');
-        drawerOverlay.classList.remove('show');
-        hamburger.classList.remove('active');
-      });
-    });
+        // Toggle function
+        freshHamburger.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          freshNavLinks.classList.toggle('active');
+          freshHamburger.classList.toggle('active');
+        });
 
-    console.log("🔥 Header v7.0 Loaded");
-  }
+        // Close on link click
+        var links = freshNavLinks.querySelectorAll('a');
+        for (var i = 0; i < links.length; i++) {
+          links[i].addEventListener('click', function() {
+            freshNavLinks.classList.remove('active');
+            freshHamburger.classList.remove('active');
+          });
+        }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-})();
+        // Close on outside click
+        document.addEventListener('click', function(e) {
+          if (!freshNavLinks.contains(e.target) && !freshHamburger.contains(e.target)) {
+            freshNavLinks.classList.remove('active');
+            freshHamburger.classList.remove('active');
+          }
+        });
+
+        console.log('✅ Hamburger ready');
+      }
+
+      // ============================================================
+      // 2. ACTIVE NAV STATE
+      // ============================================================
+      var currentPath = window.location.pathname;
+      var navMap = {
+        '/': 'navHome',
+        '/index.html': 'navHome',
+        '/why': 'navWhy',
+        '/why/': 'navWhy',
+        '/why/index.html': 'navWhy',
+        '/pulse/index.html': 'navPulse',
+        '/pulse': 'navPulse',
+        '/trust': 'navTrust',
+        '/trust/': 'navTrust',
+        '/trust/index.html': 'navTrust',
+        '/about': 'navAbout',
+        '/about/': 'navAbout',
+        '/about/index.html': 'navAbout',
+        '/shop': 'navShop',
+        '/shop/': 'navShop',
+        '/shop/index.html': 'navShop'
+      };
+
+      var activeId = navMap[currentPath] || null;
+      if (!activeId) {
+        if (currentPath.includes('/pulse/')) activeId = 'navPulse';
+        else if (currentPath.includes('/shop/')) activeId = 'navShop';
+        else if (currentPath.includes('/about/')) activeId = 'navAbout';
+        else if (currentPath.includes('/trust/')) activeId = 'navTrust';
+        else if (currentPath.includes('/why/')) activeId = 'navWhy';
+      }
+
+      if (activeId) {
+        var activeLink = document.getElementById(activeId);
+        if (activeLink) {
+          activeLink.classList.add('active');
+        }
+      }
+
+      console.log('✅ Header v7.0 loaded - Path:', currentPath);
+    }
+
+    // Run when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initHeader);
+    } else {
+      initHeader();
+    }
+  })();
 </script>
