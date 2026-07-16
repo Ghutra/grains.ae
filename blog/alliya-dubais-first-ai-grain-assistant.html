@@ -3,496 +3,482 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meet Alliya – Dubai’s First AI Grain Assistant | Grains Hub</title>
-  <meta name="description" content="24/7 AI assistant that knows live rice prices, stock, FCL rates and connects you instantly." />
-  <link rel="canonical" href="https://grains.ae/alliya.html" />
+  <title>Meet Alliya – Dubai's First AI Grain Assistant | Grains Hub</title>
+  <meta name="description" content="24/7 AI assistant that knows live rice prices, stock, FCL rates and connects you instantly. Ask about 1121, Irri-6, FCL rates — live answers in 1 second." />
+  <meta name="keywords" content="Alliya, AI grain assistant, Dubai, Grains Hub, rice prices, FCL, 1121 Sella, Irri-6" />
+  <link rel="canonical" href="https://grains.ae/blog/alliya-dubais-first-ai-grain-assistant.html" />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Meet Alliya – Dubai’s First AI Grain Assistant" />
+  <meta property="og:title" content="Meet Alliya – Dubai's First AI Grain Assistant" />
   <meta property="og:description" content="Ask 1121, Irri-6, FCL rates — live answers in 1 second." />
   <meta property="og:image" content="https://grains.ae/assets/img/alliya-hero.jpg" />
-  <meta property="og:url" content="https://grains.ae/alliya.html" />
+  <meta property="og:url" content="https://grains.ae/blog/alliya-dubais-first-ai-grain-assistant.html" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Font Awesome -->
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Meet Alliya – Dubai's First AI Grain Assistant",
+    "description": "24/7 AI assistant that knows live rice prices, stock, FCL rates and connects you instantly.",
+    "author": {
+      "@type": "Organization",
+      "name": "Grains Hub"
+    },
+    "datePublished": "2026-01-15",
+    "dateModified": "2026-07-16",
+    "image": "https://grains.ae/assets/img/alliya-hero.jpg",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Grains Hub",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://grains.ae/grains-logo.png"
+      }
+    }
+  }
+  </script>
+
+  <!-- Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Neue:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- CSS - Universal -->
+  <link rel="stylesheet" href="/assets/css/core.css">
+  <link rel="stylesheet" href="/assets/css/header.css">
+  <link rel="stylesheet" href="/assets/css/footer.css">
+
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#fdfdf9;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#222;line-height:1.7;}
-    .top-banner{background:#a07c3b;color:#fff;padding:14px;text-align:center;font-weight:500;font-size:15px;overflow:hidden;white-space:nowrap;}
-    .banner-text{display:inline-block;animation:scroll 25s linear infinite;}
-    @keyframes scroll{0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
+    /* ============================================================
+       ALLIYA BLOG PAGE - Next Level Styles
+       ============================================================ */
 
-    .navbar{background:#C1A875;padding:12px 20px;position:sticky;top:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 15px rgba(0,0,0,.12);}
-    .logo{color:#fff;font-weight:bold;font-size:1.35rem;text-decoration:none;display:flex;align-items:center;gap:10px;}
-    .logo img{width:28px;height:28px;}
-    .nav-links{display:flex;gap:28px;list-style:none;}
-    .nav-links a{color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:8px 14px;border-radius:6px;}
-    .nav-links a:hover{background:#fff;color:#C1A875;}
-    .trader-login{background:#fff;color:#C1A875;padding:10px 20px;border-radius:50px;font-weight:bold;text-decoration:none;}
-    .hamburger{display:none;cursor:pointer;}
-    .hamburger span{width:26px;height:3px;background:#fff;display:block;margin:3px 0;}
-
-    @media(max-width:768px){
-      .hamburger{display:block;}
-      .nav-links{position:absolute;top:100%;left:0;right:0;background:#C1A875;flex-direction:column;max-height:0;overflow:hidden;transition:max-height .4s ease;}
-      .nav-links.active{max-height:500px;}
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #fdfdf9;
+      color: #1a1a2e;
+      line-height: 1.7;
     }
 
     /* Hero */
-    .hero-alliya{
-      background:linear-gradient(rgba(0,0,0,0.68),rgba(0,0,0,0.68)),url('/assets/img/alliya-hero.jpg') center/cover no-repeat;
-      color:#fff;text-align:center;padding:160px 20px 120px;
+    .alliya-blog-hero {
+      padding: 100px 20px 80px;
+      background: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 50%, #1a1a2e 100%);
+      position: relative;
+      color: #fff;
+      text-align: center;
+      overflow: hidden;
     }
-    .hero-alliya h1{font-size:44px;margin-bottom:20px;}
-    .hero-alliya p{font-size:20px;max-width:740px;margin:0 auto 34px;opacity:0.94;}
-    .btn-cta{
-      background:#fff;color:#C1A875;padding:18px 44px;border-radius:50px;font-weight:bold;font-size:19px;
-      text-decoration:none;box-shadow:0 8px 25px rgba(0,0,0,.25);display:inline-block;transition:all .3s;
+
+    .alliya-blog-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('/assets/img/grain-texture.png') center/cover no-repeat;
+      opacity: 0.05;
+      z-index: 0;
     }
-    .btn-cta:hover{transform:translateY(-4px);}
+
+    .alliya-blog-hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .alliya-blog-hero .badge {
+      display: inline-block;
+      background: rgba(193, 168, 117, 0.2);
+      color: #C1A875;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .alliya-blog-hero h1 {
+      font-size: 44px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .alliya-blog-hero h1 .highlight {
+      color: #C1A875;
+    }
+
+    .alliya-blog-hero p {
+      font-size: 20px;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      opacity: 0.9;
+    }
+
+    .alliya-blog-hero .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .alliya-blog-hero .hero-cta a {
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .alliya-blog-hero .hero-cta .btn-primary {
+      background: linear-gradient(135deg, #c49b3f, #e3c46a);
+      color: #1a1a2e;
+    }
+
+    .alliya-blog-hero .hero-cta .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(196, 155, 63, 0.4);
+    }
+
+    .alliya-blog-hero .hero-cta .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .alliya-blog-hero .hero-cta .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-3px);
+    }
+
+    /* Content Container */
+    .alliya-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 50px 20px 60px;
+    }
 
     /* Feature Cards */
-    .features{
-      display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:40px;max-width:1100px;margin:80px auto;padding:0 20px;
-    }
-    .card{
-      background:#fff;padding:40px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.1);text-align:center;transition:transform .3s;cursor:pointer;
-    }
-    .card:hover{transform:translateY(-8px);}
-    .card i{font-size:50px;color:#C1A875;margin-bottom:20px;}
-    .card h3{font-size:24px;margin-bottom:16px;color:#a07c3b;}
-
-    /* WhatsApp section */
-    .wa-section{text-align:center;padding:90px 20px;background:#f8f5ec;}
-    .wa-section h2{color:#a07c3b;margin-bottom:16px;font-size:28px;}
-    .wa-section p{max-width:640px;margin:0 auto 30px;color:#444;}
-    .wa-btn{
-      background:#25D366;color:#fff;padding:18px 50px;border-radius:50px;font-weight:bold;font-size:19px;
-      text-decoration:none;box-shadow:0 8px 25px rgba(37,211,102,.3);display:inline-block;
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin: 40px 0;
     }
 
-    /* Alliya Modal Styles */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 10000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.4);
-      padding-top: 60px;
+    .feature-card {
+      background: #fff;
+      padding: 32px 24px;
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      border: 1px solid #f0ece6;
+      transition: all 0.4s ease;
+      cursor: pointer;
     }
-    .modal.active {
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card .icon {
+      font-size: 2.8rem;
+      color: #C1A875;
+      margin-bottom: 16px;
       display: block;
     }
-    .modal-content {
-      background-color: #fefefe;
-      margin: 5% auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 90%;
-      max-width: 500px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.2);
-      direction: ltr;
-      text-align: center;
-    }
-    /* RTL support when Arabic */
-    .modal[lang="ar"] .modal-content,
-    .modal[lang="ar"] .alliya-box,
-    .modal[lang="ar"] .reply {
-      direction: rtl;
-      text-align: right;
-    }
-    .close {
-      color: #aaa;
-      float: right;
-      font-size: 32px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .close:hover {color: #000;}
-    .alliya-box h2 {
-      margin-bottom: 24px;
-      font-size: 24px;
+
+    .feature-card h3 {
+      font-size: 20px;
       color: #a07c3b;
-    }
-    .alliya-box input {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
-    }
-    .alliya-box button {
-      background: #C1A875;
-      color: white;
-      padding: 12px 28px;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    .alliya-box button:hover {
-      background: #a07c3b;
-    }
-    .reply {
-      margin-top: 24px;
-      padding: 16px;
-      background: #f8f5ec;
-      border-radius: 12px;
-      display: none;
-      font-size: 16px;
-      line-height: 1.6;
-    }
-    .suggestions {
-      position: absolute;
-      background: white;
-      border: 1px solid #ccc;
-      width: 100%;
-      max-height: 200px;
-      overflow-y: auto;
-      z-index: 1000;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,.1);
-    }
-    .suggestions div {
-      padding: 12px;
-      cursor: pointer;
-      border-bottom: 1px solid #eee;
-    }
-    .suggestions div:hover {
-      background: #f0f0f0;
-    }
-    .suggestions div:last-child {
-      border-bottom: none;
+      margin-bottom: 10px;
+      font-weight: 700;
     }
 
-    footer{background:#2c3e50;color:#ddd;padding:60px 20px 40px;text-align:center;font-size:14px;}
-    footer a{color:#fff;margin:0 10px;text-decoration:none;}
-    footer .whatsapp i{color:#25D366;}
+    .feature-card p {
+      font-size: 15px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    /* WhatsApp Section */
+    .wa-section {
+      background: #f8f5ec;
+      border-radius: 14px;
+      padding: 50px 30px;
+      text-align: center;
+      margin: 40px 0;
+      border: 1px solid #e8e4d8;
+    }
+
+    .wa-section h2 {
+      font-size: 26px;
+      color: #a07c3b;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .wa-section p {
+      font-size: 16px;
+      color: #555;
+      max-width: 600px;
+      margin: 0 auto 24px;
+    }
+
+    .wa-btn {
+      background: #25D366;
+      color: #fff;
+      padding: 14px 40px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 17px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .wa-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+      background: #1ebe57;
+    }
+
+    /* How It Works */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .step {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .step .number {
+      display: inline-block;
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, #c49b3f, #e3c46a);
+      color: #1a1a2e;
+      border-radius: 50%;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 48px;
+      margin-bottom: 12px;
+    }
+
+    .step h4 {
+      font-size: 16px;
+      color: #a07c3b;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .step p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 768px) {
+      .alliya-blog-hero {
+        padding: 60px 16px 40px;
+      }
+      .alliya-blog-hero h1 {
+        font-size: 30px;
+      }
+      .alliya-blog-hero p {
+        font-size: 17px;
+      }
+      .alliya-blog-hero .hero-cta {
+        flex-direction: column;
+        align-items: center;
+      }
+      .alliya-blog-hero .hero-cta a {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .wa-section {
+        padding: 30px 16px;
+      }
+      .wa-section h2 {
+        font-size: 22px;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .alliya-blog-hero h1 {
+        font-size: 24px;
+      }
+      .alliya-blog-hero p {
+        font-size: 15px;
+      }
+      .feature-card {
+        padding: 24px 16px;
+      }
+    }
   </style>
 </head>
 <body>
 
-  <!-- Banner + Navbar -->
-  <div class="top-banner"><div class="banner-text">Grains Hub Offer: Irri-6 Broken 5% Avaliable Stock 56AED for 35Kg PP Bag! • FCL India → Jebel Ali: Indian Creamy Sella USD 920• Indian Steam Rice USD 1000 • New Stock: Indian 1121 Sella xxl  AED 160/40KG </div></div>
-  <nav class="navbar">
-    <a href="/" class="logo"><img src="/grains-logo.png" alt="Grains Hub"> Grains Hub</a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="/">Home</a></li>
-      <li><a href="/why">Why</a></li>
-      <li><a href="/pulse/index.html">Pulse</a></li>
-      <li><a href="/trust">Trust</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/shop">Shop</a></li>
-    </ul>
-    <a href="/login.html" class="trader-login">Trader Login</a>
-    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
-  </nav>
+  <!-- ============================================================
+     HEADER - Universal Include
+  ============================================================ -->
+  <div include-html="/partials/header.html"></div>
 
-  <!-- HERO -->
-  <section class="hero-alliya">
-    <h1>Meet Alliya</h1>
-    <p>Dubai’s first AI trader that never sleeps.<br>Ask about 1121, Irri-6, FCL rates — get live answers in 1 second.</p>
-    <a href="javascript:void(0)" onclick="openModal()" class="btn-cta">
-      Chat with Alliya Right Now
-    </a>
+  <!-- ============================================================
+     ALLIYA BLOG HERO
+  ============================================================ -->
+  <section class="alliya-blog-hero">
+    <div class="badge">🤖 AI Assistant</div>
+    <h1>Meet <span class="highlight">Alliya</span></h1>
+    <p>Dubai's first AI grain assistant that never sleeps.<br>Ask about 1121, Irri-6, FCL rates — get live answers in 1 second.</p>
+    <div class="hero-cta">
+      <a href="javascript:void(0)" onclick="window.Alliya?.open ? window.Alliya.open() : openModal()" class="btn-primary">
+        <i class="fas fa-comment-dots"></i> Chat with Alliya Now
+      </a>
+      <a href="/shop" class="btn-secondary">
+        <i class="fas fa-shopping-bag"></i> Browse Shop
+      </a>
+      <a href="https://wa.me/971585521976" class="btn-secondary" target="_blank">
+        <i class="fab fa-whatsapp"></i> WhatsApp Us
+      </a>
+    </div>
   </section>
 
-  <!-- Feature Cards -->
-  <div class="features">
-    <div class="card" onclick="openModal()">
-      <i class="fas fa-bolt"></i>
-      <h3>Real-Time Answers</h3>
-      <p>Live stock & pricing straight from Al Ras warehouse via Firebase.</p>
-    </div>
-    <div class="card" onclick="openModal()">
-      <i class="fas fa-brain"></i>
-      <h3>Understands Traders</h3>
-      <p>Powered by Microsoft Copilot AI — speaks natural English & Arabic.</p>
-    </div>
-    <div class="card" onclick="openModal()">
-      <i class="fab fa-whatsapp"></i>
-      <h3>Books Deals Instantly</h3>
-      <p>One tap → WhatsApp booking link. Never lose a lead.</p>
-    </div>
-  </div>
+  <!-- ============================================================
+     CONTENT
+  ============================================================ -->
+  <div class="alliya-container">
 
-  <!-- WhatsApp human fallback -->
-  <div class="wa-section">
-    <h2>Prefer to speak directly with our sales team?</h2>
-    <p>Tap below and connect instantly with Rana or the team leader — live prices, warehouse photos, and deals 24/7.</p>
-    <a href="https://wa.me/971585521976?text=Hi%20team%2C%20I%20saw%20Alliya%20and%20want%20to%20talk%20live%20prices%20%26%20stock" class="wa-btn">
-      Message Sales Team on WhatsApp
-    </a>
-  </div>
+    <!-- How It Works -->
+    <h2 style="text-align:center;color:#a07c3b;font-weight:700;font-size:28px;margin-bottom:8px;">How Alliya Works</h2>
+    <p style="text-align:center;color:#666;margin-bottom:30px;">Three simple steps to get your answers instantly</p>
 
-  
-
-  <!-- Alliya Modal -->
-  <div id="alliyaModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <div class="alliya-box">
-        <h2><img src="/assets/img/alliya-icon.ico" alt="Alliya" width="26"> Ask Alliya</h2>
-        <div style="position:relative;">
-          <input type="text" id="alliyaQuery" placeholder="Ask about price, stock, FCL, compliance... أو اسأل بالعربي" oninput="showSuggestions(this.value)" autocomplete="off">
-          <div id="suggestions" class="suggestions"></div>
-        </div>
-        <button onclick="askAlliya()">Send Question</button>
-        <div id="alliyaResponse" class="reply"></div>
+    <div class="steps">
+      <div class="step">
+        <div class="number">1</div>
+        <h4>Ask a Question</h4>
+        <p>Type any grain-related question in English or Arabic</p>
+      </div>
+      <div class="step">
+        <div class="number">2</div>
+        <h4>Get Live Answers</h4>
+        <p>Alliya checks live stock data and Firestore in real-time</p>
+      </div>
+      <div class="step">
+        <div class="number">3</div>
+        <h4>Book Instantly</h4>
+        <p>One tap connects you to WhatsApp for booking</p>
       </div>
     </div>
+
+    <!-- Feature Cards -->
+    <h2 style="text-align:center;color:#a07c3b;font-weight:700;font-size:28px;margin:40px 0 8px;">Why Traders Love Alliya</h2>
+    <p style="text-align:center;color:#666;margin-bottom:30px;">Built for speed, accuracy, and simplicity</p>
+
+    <div class="feature-grid">
+      <div class="feature-card" onclick="window.Alliya?.open ? window.Alliya.open() : openModal()">
+        <span class="icon"><i class="fas fa-bolt"></i></span>
+        <h3>Real-Time Answers</h3>
+        <p>Live stock & pricing straight from Al Ras warehouse via Firebase.</p>
+      </div>
+      <div class="feature-card" onclick="window.Alliya?.open ? window.Alliya.open() : openModal()">
+        <span class="icon"><i class="fas fa-brain"></i></span>
+        <h3>Understands Traders</h3>
+        <p>Powered by advanced AI — speaks natural English & Arabic.</p>
+      </div>
+      <div class="feature-card" onclick="window.Alliya?.open ? window.Alliya.open() : openModal()">
+        <span class="icon"><i class="fab fa-whatsapp"></i></span>
+        <h3>Books Deals Instantly</h3>
+        <p>One tap → WhatsApp booking link. Never lose a lead.</p>
+      </div>
+    </div>
+
+    <!-- Example Questions -->
+    <div style="background:#fff;border-radius:14px;padding:30px;border:1px solid #f0ece6;margin:30px 0;">
+      <h3 style="color:#a07c3b;margin-bottom:16px;text-align:center;">💡 Try These Questions</h3>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">
+        <button onclick="window.Alliya?.ask ? window.Alliya.ask('1121 Sella price') : askWithFallback('1121 Sella price')" style="padding:10px 20px;border:2px solid #C1A875;border-radius:50px;background:transparent;color:#a07c3b;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;font-size:14px;">🌾 1121 Sella price</button>
+        <button onclick="window.Alliya?.ask ? window.Alliya.ask('Irri 6 stock') : askWithFallback('Irri 6 stock')" style="padding:10px 20px;border:2px solid #C1A875;border-radius:50px;background:transparent;color:#a07c3b;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;font-size:14px;">📦 Irri 6 stock</button>
+        <button onclick="window.Alliya?.ask ? window.Alliya.ask('FCL India to Dubai') : askWithFallback('FCL India to Dubai')" style="padding:10px 20px;border:2px solid #C1A875;border-radius:50px;background:transparent;color:#a07c3b;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;font-size:14px;">🚢 FCL India to Dubai</button>
+        <button onclick="window.Alliya?.ask ? window.Alliya.ask('1509 Creamy Sella price') : askWithFallback('1509 Creamy Sella price')" style="padding:10px 20px;border:2px solid #C1A875;border-radius:50px;background:transparent;color:#a07c3b;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;font-size:14px;">🍚 1509 Creamy Sella</button>
+        <button onclick="window.Alliya?.ask ? window.Alliya.ask('Sona Massori price') : askWithFallback('Sona Massori price')" style="padding:10px 20px;border:2px solid #C1A875;border-radius:50px;background:transparent;color:#a07c3b;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;font-size:14px;">🏷️ Sona Massori</button>
+      </div>
+    </div>
+
+    <!-- WhatsApp Section -->
+    <div class="wa-section">
+      <h2>💬 Prefer to Speak Directly?</h2>
+      <p>Connect instantly with our sales team — live prices, warehouse photos, and deals 24/7.</p>
+      <a href="https://wa.me/971585521976?text=Hi%20team%2C%20I%20saw%20Alliya%20and%20want%20to%20talk%20live%20prices%20%26%20stock" class="wa-btn" target="_blank">
+        <i class="fab fa-whatsapp"></i> Message Sales Team on WhatsApp
+      </a>
+    </div>
+
   </div>
 
-  <!-- Firebase (Firestore-Ready) -->
-  <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-  import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+  <!-- ============================================================
+     FOOTER - Universal Include
+  ============================================================ -->
+  <div include-html="/partials/footer.html"></div>
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
-  authDomain: "grains-hub.firebaseapp.com",
-  projectId: "grains-hub",
-  storageBucket: "grains-hub.firebasestorage.app",
-  messagingSenderId: "783882873254",
-  appId: "1:783882873254:web:ba93eaaff5eca25cd6c767",
-  measurementId: "G-RHYCMRHS1Q"
-};
+  <!-- ============================================================
+     JAVASCRIPT
+  ============================================================ -->
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  <!-- Alliya v8.3 (Universal AI Assistant) -->
+  <script src="/assets/js/alliya.js?v=8.3"></script>
 
-  window.db = db;
-  window.collection = collection;
-  window.getDocs = getDocs;
-  window.query = query;
-  window.where = where;
-</script>
+  <!-- Include Handler (must be last) -->
+  <script src="/assets/js/include.js"></script>
 
-  <!-- Core Scripts -->
+  <!-- Fallback for Alliya if not loaded -->
   <script>
-    // Hamburger Menu
-    document.addEventListener('DOMContentLoaded', () => {
-      const hamburger = document.getElementById('hamburger');
-      const navLinks = document.getElementById('navLinks');
-      if (hamburger && navLinks) {
-        hamburger.onclick = () => navLinks.classList.toggle('active');
-        navLinks.querySelectorAll('a').forEach(a => a.onclick = () => navLinks.classList.remove('active'));
+    function askWithFallback(query) {
+      if (window.Alliya && typeof window.Alliya.ask === 'function') {
+        window.Alliya.ask(query);
+      } else {
+        // Open WhatsApp with the query
+        window.open('https://wa.me/971585521976?text=Hi%20Alliya%20-%20' + encodeURIComponent(query), '_blank');
       }
-    });
+    }
 
-    // Alliya Modal Functions
     function openModal() {
-      const input = document.getElementById('alliyaQuery');
-      const currentValue = input.value;
-      const isArabic = /[\u0600-\u06FF]/.test(currentValue);
-      const modal = document.getElementById('alliyaModal');
-      modal.classList.add('active');
-      if (isArabic) modal.setAttribute('lang', 'ar');
-      else modal.removeAttribute('lang');
-      input.focus();
-    }
-
-    function closeModal() {
-      const modal = document.getElementById('alliyaModal');
-      modal.classList.remove('active');
-      modal.removeAttribute('lang');
-      document.getElementById('alliyaResponse').style.display = 'none';
-      document.getElementById('suggestions').innerHTML = '';
-      document.getElementById('alliyaQuery').value = '';
-    }
-
-    // Bilingual suggestions
-    const suggestionsList = [
-      // English
-      '1121 price', 'irri 6 stock', '1509 sella', 'golden sella', 'fcl india', 'thai rice', 'booking',
-      // Arabic
-      'سعر 1121', 'ستوك إري 6', 'سعر 1509 سيلا', 'جولدن سيلا', 'أسعار الأرز', 'سعر الأرز الهندي',
-      'سعر الأرز الباكستاني', 'فول كونتينر الهند', 'كمية متوفرة', 'حجز طن', 'أقل سعر',
-      'سعر الطن', 'أرز بسمتي', 'أرز طويل', 'أرز أبيض', 'شحن كامل'
-    ];
-
-    function showSuggestions(val) {
-      const box = document.getElementById('suggestions');
-      box.innerHTML = '';
-      if (val.length < 1) return;
-      suggestionsList
-        .filter(s => s.toLowerCase().includes(val.toLowerCase()))
-        .slice(0, 6)
-        .forEach(s => {
-          const div = document.createElement('div');
-          div.textContent = s;
-          div.onclick = () => {
-            document.getElementById('alliyaQuery').value = s;
-            box.innerHTML = '';
-            askAlliya();
-          };
-          box.appendChild(div);
-        });
-    }
-
-    // Arabic to English keyword mapping
-    const arabicToEnglishMap = {
-      'سعر': 'price',
-      'ستوك': 'stock',
-      'كمية': 'stock',
-      'متوفرة': 'stock',
-      'إري': 'irri',
-      'اري': 'irri',
-      'سيلا': 'sella',
-      'جولدن': 'golden',
-      'بسمتي': 'basmati',
-      'هندي': 'india',
-      'باكستاني': 'pakistan',
-      'طن': 'ton',
-      'حجز': 'booking',
-      'فول': 'fcl',
-      'كونتينر': 'fcl',
-      'شحن': 'fcl',
-      'أرز': 'rice',
-      'أبيض': 'white',
-      'طويل': 'long',
-      'أقل': 'lowest'
-    };
-
-    // ULTIMATE ALLIYA with Arabic support
-    async function askAlliya() {
-      let originalQuery = document.getElementById('alliyaQuery').value.trim();
-      if (!originalQuery) return;
-
-      const isArabic = /[\u0600-\u06FF]/.test(originalQuery);
-      let userQuery = originalQuery.toLowerCase();
-
-      // Translate Arabic keywords to English for search
-      if (isArabic) {
-        Object.keys(arabicToEnglishMap).forEach(arWord => {
-          const enWord = arabicToEnglishMap[arWord];
-          const regex = new RegExp(arWord, 'gi');
-          userQuery = userQuery.replace(regex, enWord);
-        });
-      }
-
-      const replyBox = document.getElementById('alliyaResponse');
-      replyBox.style.display = 'block';
-      replyBox.innerHTML = isArabic 
-        ? 'عليا تبحث عن السعر والستوك الآن...'
-        : 'Alliya is checking live stock & Firestore…';
-
-      const terms = userQuery.split(' ').map(w => w.trim().toLowerCase()).filter(Boolean);
-      let found = false;
-
-      // 1. Firestore query
-      try {
-        const stockRef = window.collection(window.db, 'products');
-        const q = window.query(stockRef, window.where('keywords', 'array-contains-any', terms));
-        const snapshot = await window.getDocs(q);
-
-        if (!snapshot.empty) {
-          const item = snapshot.docs[0].data();
-          replyBox.innerHTML = isArabic ? `
-            <strong>من المستودع مباشرة</strong><br>
-            \( {item.name} → \){item.price}<br>
-            الستوك: ${item.stock} كيس<br><br>
-            <a href="https://wa.me/971585521976?text=مرحبا%20عليا%20-%20أريد%20${encodeURIComponent(item.name)}" 
-               style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
-               احجز عبر واتساب
-            </a>` : `
-            <strong>Live from Firestore</strong><br>
-            \( {item.name} → \){item.price}<br>
-            Stock: ${item.stock} bags<br><br>
-            <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(item.name)}" 
-               style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
-               Book via WhatsApp
-            </a>`;
-          found = true;
-        }
-      } catch (err) {
-        console.warn("Firestore query failed:", err);
-      }
-
-      // 2. Fuzzy scan fallback
-      if (!found) {
-        try {
-          const allDocs = await window.getDocs(window.collection(window.db, 'products'));
-          for (const doc of allDocs.docs) {
-            const data = doc.data();
-            const keywords = Array.isArray(data.keywords)
-              ? data.keywords.map(k => k.toLowerCase())
-              : [];
-            if (terms.some(term => keywords.includes(term))) {
-              replyBox.innerHTML = isArabic ? `
-                <strong>تم العثور بالبحث الذكي</strong><br>
-                \( {data.name} → \){data.price}<br>
-                الستوك: ${data.stock} كيس<br><br>
-                <a href="https://wa.me/971585521976?text=مرحبا%20عليا%20-%20أريد%20${encodeURIComponent(data.name)}" 
-                   style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
-                   احجز عبر واتساب
-                </a>` : `
-                <strong>Matched via Fuzzy Scan</strong><br>
-                \( {data.name} → \){data.price}<br>
-                Stock: ${data.stock} bags<br><br>
-                <a href="https://wa.me/971585521976?text=Hi%20Alliya%20-%20I%20want%20${encodeURIComponent(data.name)}" 
-                   style="background:#25D366;color:white;padding:10px 20px;border-radius:50px;display:inline-block;margin-top:8px;text-decoration:none;">
-                   Book via WhatsApp
-                </a>`;
-              found = true;
-              break;
-            }
-          }
-        } catch (err) {
-          console.warn("Fuzzy scan failed:", err);
-        }
-      }
-
-      // 3. Render backend fallback
-      if (!found) {
-        try {
-          const res = await fetch(`https://grains-backend.onrender.com/api/alliya?q=${encodeURIComponent(userQuery)}`, { cache: 'no-cache' });
-          if (res.ok) {
-            const data = await res.json();
-            if (data.reply) {
-              replyBox.innerHTML = data.reply;
-              found = true;
-            }
-          }
-        } catch (err) {
-          console.warn("Render backend failed:", err);
-        }
-      }
-
-      // 4. Final graceful fallback (bilingual)
-      if (!found) {
-        replyBox.innerHTML = isArabic ? `
-          نعم، <strong>${originalQuery}</strong> متوفر اليوم!<br><br>
-          دعيني أحضر لك أحدث سعر في ثوانٍ →<br>
-          <a href="https://wa.me/971585521976?text=عليا%20-%20${encodeURIComponent(originalQuery)}" 
-             style="background:#25D366;color:white;padding:12px 24px;border-radius:50px;display:inline-block;margin-top:12px;text-decoration:none;font-weight:bold;">
-             راسليني على واتساب الآن
-          </a>` : `
-          Yes, <strong>${originalQuery}</strong> is available today!<br><br>
-          Let me get you the freshest price in seconds →<br>
-          <a href="https://wa.me/971585521976?text=Alliya%20-%20${encodeURIComponent(originalQuery)}" 
-             style="background:#25D366;color:white;padding:12px 24px;border-radius:50px;display:inline-block;margin-top:12px;text-decoration:none;font-weight:bold;">
-             WhatsApp Me Now
-          </a>`;
+      // Fallback modal - but v8.3 handles this
+      if (window.Alliya && typeof window.Alliya.open === 'function') {
+        window.Alliya.open();
+      } else {
+        window.open('https://wa.me/971585521976?text=Hi%20Alliya%2C%20I%20need%20help', '_blank');
       }
     }
   </script>
-<!-- Modular scripts -->
-  <script type="module" src="/assets/js/firebase-init.js"></script>
-  <script src="/assets/js/alliya.js"></script>
-  <script src="/assets/js/stock.js"></script>
-  <div include-html="/partials/footer.html"></div>
-  <script src="/assets/js/include.js"></script>
 
 </body>
 </html>
