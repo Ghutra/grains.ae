@@ -1,18 +1,18 @@
 <!-- ============================================================
    UNIVERSAL HEADER - Grains Hub
-   COMPLETE FIX - Version 4.2
+   SIMPLIFIED WORKING VERSION - Version 5.0
    ============================================================ -->
 
 <!-- Rotating Banner -->
 <div class="top-banner" id="topBanner">
   <div class="banner-text" id="bannerText">
-    🔥 <strong>Grains Hub Offer:</strong> Irri-6 Broken 5% Available Stock 56AED for 35Kg PP Bag! •
-    FCL India → Jebel Ali: Indian Creamy Sella USD 1040 • Indian Steam Rice USD 1100 •
+    🔥 <strong>Grains Hub Offer:</strong> Irri-6 Broken 5% Available Stock 56AED for 35Kg PP Bag! • 
+    FCL India → Jebel Ali: Indian Creamy Sella USD 1040 • Indian Steam Rice USD 1100 • 
     New Stock: Indian 1121 Sella XXL AED 160/40KG
   </div>
 </div>
 
-<!-- Ticker -->
+<!-- Ticker Container -->
 <div class="ticker-container">
   <div class="ticker-wrapper">
     <div class="ticker-content" id="tickerContent">
@@ -25,12 +25,12 @@
 </div>
 
 <!-- Navbar -->
-<nav class="navbar" role="navigation" aria-label="Main Navigation">
+<nav class="navbar">
   <a href="/" class="logo">
     <img src="/grains-logo.png" alt="Grains Hub" onerror="this.style.display='none'">
     Grains Hub
   </a>
-
+  
   <ul class="nav-links" id="navLinks">
     <li><a href="/" id="navHome">Home</a></li>
     <li><a href="/why" id="navWhy">Why</a></li>
@@ -38,67 +38,88 @@
     <li><a href="/trust" id="navTrust">Trust</a></li>
     <li><a href="/about" id="navAbout">About</a></li>
     <li><a href="/shop" id="navShop">Shop</a></li>
+    <li><a href="/login.html" class="trader-login-mobile">Trader Login</a></li>
   </ul>
-
+  
   <a href="/login.html" class="trader-login">Trader Login</a>
-
-  <!-- Hamburger -->
-  <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+  
+  <div class="hamburger" id="hamburger">
     <span></span>
     <span></span>
     <span></span>
-  </button>
+  </div>
 </nav>
 
+<!-- ============================================================
+   JAVASCRIPT - SIMPLE & WORKING
+   ============================================================ -->
 <script>
-  (function() {
-    'use strict';
-
-    function initHeader() {
-      console.log('✅ Header v4.2 starting...');
-
-      const hamburger = document.getElementById('hamburger');
-      const navLinks = document.getElementById('navLinks');
-
-      if (!hamburger || !navLinks) {
-        console.error('❌ Hamburger or navLinks not found!');
-        return;
-      }
-
-      function toggleMenu() {
-        const isOpen = navLinks.classList.toggle('active');
+  // Wait for DOM to load
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    // ============================================================
+    // 1. HAMBURGER MENU - SIMPLE
+    // ============================================================
+    var hamburger = document.getElementById('hamburger');
+    var navLinks = document.getElementById('navLinks');
+    
+    if (hamburger && navLinks) {
+      // Toggle menu on click
+      hamburger.addEventListener('click', function(e) {
+        e.preventDefault();
+        navLinks.classList.toggle('active');
         hamburger.classList.toggle('active');
-        hamburger.setAttribute('aria-expanded', isOpen);
-        console.log('🍔 Menu:', isOpen ? 'OPEN' : 'CLOSED');
-      }
-
-      hamburger.addEventListener('click', toggleMenu);
-
-      // Close menu when clicking a link
-      navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
+      });
+      
+      // Close menu when a link is clicked
+      navLinks.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() {
           navLinks.classList.remove('active');
           hamburger.classList.remove('active');
-          hamburger.setAttribute('aria-expanded', 'false');
         });
       });
-
-      // Close when clicking outside
-      document.addEventListener('click', (e) => {
-        if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-          navLinks.classList.remove('active');
-          hamburger.classList.remove('active');
-          hamburger.setAttribute('aria-expanded', 'false');
-        }
-      });
-
-      console.log('✅ Hamburger menu fixed and ready');
     }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initHeader);
-    } else {
-      initHeader();
+    
+    // ============================================================
+    // 2. ACTIVE NAV STATE
+    // ============================================================
+    var currentPath = window.location.pathname;
+    var navMap = {
+      '/': 'navHome',
+      '/index.html': 'navHome',
+      '/why': 'navWhy',
+      '/why/': 'navWhy',
+      '/why/index.html': 'navWhy',
+      '/pulse/index.html': 'navPulse',
+      '/pulse': 'navPulse',
+      '/trust': 'navTrust',
+      '/trust/': 'navTrust',
+      '/trust/index.html': 'navTrust',
+      '/about': 'navAbout',
+      '/about/': 'navAbout',
+      '/about/index.html': 'navAbout',
+      '/shop': 'navShop',
+      '/shop/': 'navShop',
+      '/shop/index.html': 'navShop'
+    };
+    
+    var activeId = navMap[currentPath] || null;
+    
+    if (!activeId) {
+      if (currentPath.includes('/pulse/')) activeId = 'navPulse';
+      else if (currentPath.includes('/shop/')) activeId = 'navShop';
+      else if (currentPath.includes('/about/')) activeId = 'navAbout';
+      else if (currentPath.includes('/trust/')) activeId = 'navTrust';
+      else if (currentPath.includes('/why/')) activeId = 'navWhy';
     }
-  })();
+    
+    if (activeId) {
+      var activeLink = document.getElementById(activeId);
+      if (activeLink) {
+        activeLink.classList.add('active');
+      }
+    }
+    
+    console.log('✅ Header loaded - Hamburger should work');
+  });
 </script>
