@@ -1,71 +1,7 @@
 /* ============================================================
    HEADER CSS - Grains Hub
-   GOLD EDITION - CLEAN v7.0
+   CLEAN WORKING v8.0
    ============================================================ */
-
-/* ---------- ROTATING BANNER ---------- */
-.top-banner {
-  background: #a07c3b;
-  color: #fff;
-  padding: 14px 20px;
-  text-align: center;
-  font-weight: 500;
-  font-size: 15px;
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.top-banner .banner-text {
-  display: inline-block;
-  animation: scrollBanner 30s linear infinite;
-  padding-right: 60px;
-}
-
-.top-banner:hover .banner-text {
-  animation-play-state: paused;
-}
-
-@keyframes scrollBanner {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
-
-/* ---------- TICKER ---------- */
-.ticker-container {
-  background: #f8f5ec;
-  padding: 8px 20px;
-  border-bottom: 1px solid #e8e4d8;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.ticker-wrapper {
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-}
-
-.ticker-content {
-  display: inline-block;
-  animation: tickerScroll 40s linear infinite;
-  padding-right: 60px;
-  font-size: 14px;
-  color: #a07c3b;
-}
-
-.ticker-container:hover .ticker-content {
-  animation-play-state: paused;
-}
-
-@keyframes tickerScroll {
-  0% { transform: translateX(100%); }
-  100% { transform: translateX(-100%); }
-}
 
 /* ---------- NAVBAR ---------- */
 .navbar {
@@ -132,7 +68,7 @@
   color: #C1A875;
 }
 
-/* ---------- TRADER LOGIN - PILL BUTTON ---------- */
+/* ---------- TRADER LOGIN ---------- */
 .trader-login {
   background: #fff;
   color: #C1A875;
@@ -150,7 +86,6 @@
 .trader-login:hover {
   background: #f0f0f0;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* ---------- HAMBURGER ---------- */
@@ -167,12 +102,6 @@
   flex-shrink: 0;
   min-width: 44px;
   min-height: 44px;
-  border-radius: 4px;
-  transition: background 0.3s ease;
-}
-
-.hamburger:hover {
-  background: rgba(255, 255, 255, 0.1);
 }
 
 .hamburger span {
@@ -182,36 +111,21 @@
   background: #fff;
   border-radius: 2px;
   transition: all 0.3s ease;
-  transform-origin: center;
 }
 
 .hamburger.active span:nth-child(1) {
   transform: rotate(45deg) translate(5px, 5px);
 }
-
 .hamburger.active span:nth-child(2) {
   opacity: 0;
-  transform: scaleX(0);
 }
-
 .hamburger.active span:nth-child(3) {
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
 /* ============================================================
-   RESPONSIVE
+   MOBILE
    ============================================================ */
-
-@media (max-width: 992px) {
-  .nav-links {
-    gap: 16px;
-  }
-  .nav-links a {
-    font-size: 13px;
-    padding: 6px 12px;
-  }
-}
-
 @media (max-width: 768px) {
   .hamburger {
     display: flex;
@@ -226,7 +140,7 @@
     flex-direction: column;
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease, padding 0.4s ease;
+    transition: max-height 0.4s ease;
     padding: 0;
     width: 100%;
     z-index: 999;
@@ -246,7 +160,6 @@
   .nav-links a {
     text-align: center;
     padding: 14px 20px;
-    display: block;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     font-size: 15px;
     border-radius: 0;
@@ -256,36 +169,12 @@
     border-bottom: none;
   }
 
-  .nav-links a:hover,
-  .nav-links a.active {
-    background: rgba(255, 255, 255, 0.15);
-    color: #fff;
-  }
-
-  .top-banner {
-    font-size: 12px;
-    padding: 10px 12px;
-  }
-
-  .ticker-container {
-    padding: 6px 12px;
-  }
-  .ticker-content {
-    font-size: 12px;
-  }
-
   .logo {
     font-size: 1.2rem;
   }
   .logo img {
     width: 28px;
     height: 28px;
-  }
-
-  /* Trader Login stays as pill on mobile */
-  .trader-login {
-    font-size: 13px;
-    padding: 8px 18px;
   }
 }
 
@@ -301,25 +190,9 @@
     width: 24px;
     height: 24px;
   }
-  .hamburger {
-    min-width: 38px;
-    min-height: 38px;
-    padding: 6px;
-  }
   .hamburger span {
     width: 22px;
     height: 2.5px;
-  }
-  .top-banner {
-    font-size: 11px;
-    padding: 8px 10px;
-  }
-  .ticker-content {
-    font-size: 11px;
-  }
-  .nav-links a {
-    font-size: 14px;
-    padding: 12px 16px;
   }
   .trader-login {
     font-size: 12px;
