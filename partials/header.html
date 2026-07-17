@@ -1,33 +1,9 @@
 <!-- ============================================================
    UNIVERSAL HEADER - Grains Hub
-   GOLD EDITION - CLEAN v7.0
-   NO DUPLICATE TRADER LOGIN
+   CLEAN WORKING VERSION v8.0
    ============================================================ -->
 
-<!-- Rotating Banner -->
-<div class="top-banner" id="topBanner">
-  <div class="banner-text" id="bannerText">
-    🔥 <strong>Grains Hub Offer:</strong> Irri-6 Broken 5% Available Stock 56AED for 35Kg PP Bag! • 
-    FCL India → Jebel Al
-
-i: Indian Creamy Sella USD 1040 • Indian Steam Rice USD 1100 • 
-    New Stock: Indian 1121 Sella XXL AED 160/40KG
-  </div>
-</div>
-
-<!-- Ticker Container -->
-<div class="ticker-container">
-  <div class="ticker-wrapper">
-    <div class="ticker-content" id="tickerContent">
-      <span>📊 Market Pulse: Live prices updated every 60 seconds</span>
-      <span style="margin:0 30px;">✅ Verified Suppliers: 12+ trusted partners in Al Ras, Dubai</span>
-      <span style="margin:0 30px;">📦 Sona Massori: 48 AED / 18kg • In Stock</span>
-      <span style="margin:0 30px;">🌾 Basmati 1121: Premium quality • AED 160 / 40kg</span>
-    </div>
-  </div>
-</div>
-
-<!-- Navbar -->
+<!-- Navbar ONLY - No banner, no ticker (those come from pages) -->
 <nav class="navbar" role="navigation">
   <!-- Logo -->
   <a href="/" class="logo">
@@ -35,7 +11,7 @@ i: Indian Creamy Sella USD 1040 • Indian Steam Rice USD 1100 •
     Grains Hub
   </a>
 
-  <!-- Navigation Links (NO Trader Login here) -->
+  <!-- Navigation Links -->
   <ul class="nav-links" id="navLinks">
     <li><a href="/" id="navHome">Home</a></li>
     <li><a href="/why" id="navWhy">Why</a></li>
@@ -45,10 +21,10 @@ i: Indian Creamy Sella USD 1040 • Indian Steam Rice USD 1100 •
     <li><a href="/shop" id="navShop">Shop</a></li>
   </ul>
 
-  <!-- Trader Login - PILL BUTTON (Only one, outside nav) -->
+  <!-- Trader Login - Pill Button -->
   <a href="/login.html" class="trader-login">Trader Login</a>
 
-  <!-- Hamburger Menu -->
+  <!-- Hamburger -->
   <div class="hamburger" id="hamburger">
     <span></span>
     <span></span>
@@ -57,105 +33,75 @@ i: Indian Creamy Sella USD 1040 • Indian Steam Rice USD 1100 •
 </nav>
 
 <!-- ============================================================
-   JAVASCRIPT - ONE SCRIPT TO RULE THEM ALL
+   JAVASCRIPT - SINGLE CLEAN SCRIPT
    ============================================================ -->
 <script>
   (function() {
     'use strict';
 
-    function initHeader() {
-      // ============================================================
-      // 1. HAMBURGER MENU - SIMPLE & RELIABLE
-      // ============================================================
-      var hamburger = document.getElementById('hamburger');
-      var navLinks = document.getElementById('navLinks');
+    // Hamburger Menu
+    var hamburger = document.getElementById('hamburger');
+    var navLinks = document.getElementById('navLinks');
 
-      if (hamburger && navLinks) {
-        // Remove any existing listeners to prevent duplicates
-        var newHamburger = hamburger.cloneNode(true);
-        hamburger.parentNode.replaceChild(newHamburger, hamburger);
-        var newNavLinks = navLinks.cloneNode(true);
-        navLinks.parentNode.replaceChild(newNavLinks, navLinks);
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        navLinks.classList.toggle('active');
+        hamburger.classList.toggle('active');
+      });
 
-        // Get fresh references
-        var freshHamburger = document.getElementById('hamburger');
-        var freshNavLinks = document.getElementById('navLinks');
-
-        // Toggle function
-        freshHamburger.addEventListener('click', function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          freshNavLinks.classList.toggle('active');
-          freshHamburger.classList.toggle('active');
+      // Close on link click
+      var links = navLinks.querySelectorAll('a');
+      for (var i = 0; i < links.length; i++) {
+        links[i].addEventListener('click', function() {
+          navLinks.classList.remove('active');
+          hamburger.classList.remove('active');
         });
+      }
 
-        // Close on link click
-        var links = freshNavLinks.querySelectorAll('a');
-        for (var i = 0; i < links.length; i++) {
-          links[i].addEventListener('click', function() {
-            freshNavLinks.classList.remove('active');
-            freshHamburger.classList.remove('active');
-          });
+      // Close on outside click
+      document.addEventListener('click', function(e) {
+        if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
+          navLinks.classList.remove('active');
+          hamburger.classList.remove('active');
         }
-
-        // Close on outside click
-        document.addEventListener('click', function(e) {
-          if (!freshNavLinks.contains(e.target) && !freshHamburger.contains(e.target)) {
-            freshNavLinks.classList.remove('active');
-            freshHamburger.classList.remove('active');
-          }
-        });
-
-        console.log('✅ Hamburger ready');
-      }
-
-      // ============================================================
-      // 2. ACTIVE NAV STATE
-      // ============================================================
-      var currentPath = window.location.pathname;
-      var navMap = {
-        '/': 'navHome',
-        '/index.html': 'navHome',
-        '/why': 'navWhy',
-        '/why/': 'navWhy',
-        '/why/index.html': 'navWhy',
-        '/pulse/index.html': 'navPulse',
-        '/pulse': 'navPulse',
-        '/trust': 'navTrust',
-        '/trust/': 'navTrust',
-        '/trust/index.html': 'navTrust',
-        '/about': 'navAbout',
-        '/about/': 'navAbout',
-        '/about/index.html': 'navAbout',
-        '/shop': 'navShop',
-        '/shop/': 'navShop',
-        '/shop/index.html': 'navShop'
-      };
-
-      var activeId = navMap[currentPath] || null;
-      if (!activeId) {
-        if (currentPath.includes('/pulse/')) activeId = 'navPulse';
-        else if (currentPath.includes('/shop/')) activeId = 'navShop';
-        else if (currentPath.includes('/about/')) activeId = 'navAbout';
-        else if (currentPath.includes('/trust/')) activeId = 'navTrust';
-        else if (currentPath.includes('/why/')) activeId = 'navWhy';
-      }
-
-      if (activeId) {
-        var activeLink = document.getElementById(activeId);
-        if (activeLink) {
-          activeLink.classList.add('active');
-        }
-      }
-
-      console.log('✅ Header v7.0 loaded - Path:', currentPath);
+      });
     }
 
-    // Run when DOM is ready
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initHeader);
-    } else {
-      initHeader();
+    // Active Nav State
+    var currentPath = window.location.pathname;
+    var navMap = {
+      '/': 'navHome',
+      '/index.html': 'navHome',
+      '/why': 'navWhy',
+      '/why/': 'navWhy',
+      '/pulse/index.html': 'navPulse',
+      '/pulse': 'navPulse',
+      '/trust': 'navTrust',
+      '/trust/': 'navTrust',
+      '/about': 'navAbout',
+      '/about/': 'navAbout',
+      '/shop': 'navShop',
+      '/shop/': 'navShop'
+    };
+
+    var activeId = navMap[currentPath] || null;
+    if (!activeId) {
+      if (currentPath.includes('/pulse/')) activeId = 'navPulse';
+      else if (currentPath.includes('/shop/')) activeId = 'navShop';
+      else if (currentPath.includes('/about/')) activeId = 'navAbout';
+      else if (currentPath.includes('/trust/')) activeId = 'navTrust';
+      else if (currentPath.includes('/why/')) activeId = 'navWhy';
     }
+
+    if (activeId) {
+      var activeLink = document.getElementById(activeId);
+      if (activeLink) {
+        activeLink.classList.add('active');
+      }
+    }
+
+    console.log('✅ Header v8.0 loaded - Hamburger should work');
   })();
 </script>
