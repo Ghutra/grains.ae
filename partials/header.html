@@ -1,9 +1,9 @@
 <!-- ============================================================
    UNIVERSAL HEADER - Grains Hub
-   CLEAN WORKING VERSION v8.0
+   MINIMAL VERSION - NO JAVASCRIPT IN HEADER
    ============================================================ -->
 
-<!-- Navbar ONLY - No banner, no ticker (those come from pages) -->
+<!-- Navbar ONLY -->
 <nav class="navbar" role="navigation">
   <!-- Logo -->
   <a href="/" class="logo">
@@ -31,77 +31,3 @@
     <span></span>
   </div>
 </nav>
-
-<!-- ============================================================
-   JAVASCRIPT - SINGLE CLEAN SCRIPT
-   ============================================================ -->
-<script>
-  (function() {
-    'use strict';
-
-    // Hamburger Menu
-    var hamburger = document.getElementById('hamburger');
-    var navLinks = document.getElementById('navLinks');
-
-    if (hamburger && navLinks) {
-      hamburger.addEventListener('click', function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        navLinks.classList.toggle('active');
-        hamburger.classList.toggle('active');
-      });
-
-      // Close on link click
-      var links = navLinks.querySelectorAll('a');
-      for (var i = 0; i < links.length; i++) {
-        links[i].addEventListener('click', function() {
-          navLinks.classList.remove('active');
-          hamburger.classList.remove('active');
-        });
-      }
-
-      // Close on outside click
-      document.addEventListener('click', function(e) {
-        if (!navLinks.contains(e.target) && !hamburger.contains(e.target)) {
-          navLinks.classList.remove('active');
-          hamburger.classList.remove('active');
-        }
-      });
-    }
-
-    // Active Nav State
-    var currentPath = window.location.pathname;
-    var navMap = {
-      '/': 'navHome',
-      '/index.html': 'navHome',
-      '/why': 'navWhy',
-      '/why/': 'navWhy',
-      '/pulse/index.html': 'navPulse',
-      '/pulse': 'navPulse',
-      '/trust': 'navTrust',
-      '/trust/': 'navTrust',
-      '/about': 'navAbout',
-      '/about/': 'navAbout',
-      '/shop': 'navShop',
-      '/shop/': 'navShop'
-    };
-
-    var activeId = navMap[currentPath] || null;
-    if (!activeId) {
-      if (currentPath.includes('/pulse/')) activeId = 'navPulse';
-      else if (currentPath.includes('/shop/')) activeId = 'navShop';
-      else if (currentPath.includes('/about/')) activeId = 'navAbout';
-      else if (currentPath.includes('/trust/')) activeId = 'navTrust';
-      else if (currentPath.includes('/why/')) activeId = 'navWhy';
-    }
-
-    if (activeId) {
-      var activeLink = document.getElementById(activeId);
-      if (activeLink) {
-        activeLink.classList.add('active');
-      }
-    }
-
-    console.log('✅ Header v8.0 loaded - Hamburger should work');
-  })();
-</script>
