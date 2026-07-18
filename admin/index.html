@@ -773,4 +773,17 @@
     document.querySelector('.nav-item:last-child')?.addEventListener('click', async (e) => {
       e.preventDefault();
       await signOut(auth);
-      window.location.h
+      window.location.href = '/login.html';
+    });
+
+    // ============================================================
+    // 9. TIMESTAMP UPDATE
+    // ============================================================
+    setInterval(() => {
+      document.getElementById('lastCheck').textContent = new Date().toLocaleString();
+    }, 30000);
+
+    console.log('✅ Admin Dashboard v2.0 loaded');
+  </script>
+</body>
+</html>
