@@ -6,39 +6,25 @@
   <title>Admin Dashboard – Grains Hub</title>
   <link rel="icon" href="/favicon.png" type="image/png" />
 
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    /* ============================================================
-       ADMIN DASHBOARD - Gold Theme
-       ============================================================ */
-    
     :root {
       --gold-primary: #C1A875;
       --gold-dark: #a07c3b;
-      --gold-light: #e8dcc8;
       --gold-gradient: linear-gradient(135deg, #c49b3f, #e3c46a);
-      
       --bg-dark: #0f0f1a;
       --bg-card: #1a1a2e;
       --bg-card-hover: #222240;
-      --bg-light: #f8f5ec;
-      
       --text-primary: #ffffff;
       --text-secondary: #b0b0c0;
       --text-muted: #8888a0;
-      
       --success: #10b981;
       --warning: #f59e0b;
       --danger: #ef4444;
       --info: #3b82f6;
-      
       --border: rgba(255,255,255,0.06);
-      --shadow: 0 8px 32px rgba(0,0,0,0.3);
       --radius: 12px;
     }
 
@@ -52,9 +38,7 @@
       display: flex;
     }
 
-    /* ============================================================
-       SIDEBAR
-       ============================================================ */
+    /* Sidebar */
     .sidebar {
       width: 260px;
       background: var(--bg-card);
@@ -95,9 +79,7 @@
       font-weight: 400;
     }
 
-    .nav-menu {
-      padding: 16px 0;
-    }
+    .nav-menu { padding: 16px 0; }
 
     .nav-item {
       display: flex;
@@ -133,9 +115,7 @@
     .nav-item .badge.success { background: var(--success); }
     .nav-item .badge.warning { background: var(--warning); }
 
-    /* ============================================================
-       MAIN CONTENT
-       ============================================================ */
+    /* Main Content */
     .main-content {
       flex: 1;
       padding: 24px 32px 40px;
@@ -179,9 +159,7 @@
     .top-bar .admin-info .admin-name { font-weight: 600; }
     .top-bar .admin-info .admin-role { font-size: 12px; color: var(--text-muted); }
 
-    /* ============================================================
-       STATS CARDS
-       ============================================================ */
+    /* Stats */
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -205,13 +183,8 @@
     .stat-card .stat-icon { font-size: 28px; color: var(--gold-primary); margin-bottom: 8px; }
     .stat-card .stat-value { font-size: 28px; font-weight: 700; }
     .stat-card .stat-label { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
-    .stat-card .stat-change { font-size: 12px; font-weight: 600; margin-top: 8px; display: inline-block; }
-    .stat-card .stat-change.up { color: var(--success); }
-    .stat-card .stat-change.down { color: var(--danger); }
 
-    /* ============================================================
-       CARDS
-       ============================================================ */
+    /* Cards */
     .card {
       background: var(--bg-card);
       border-radius: var(--radius);
@@ -239,8 +212,8 @@
       border-radius: 6px;
       font-size: 12px;
       cursor: pointer;
-      transition: all 0.2s ease;
       font-family: inherit;
+      transition: all 0.2s ease;
     }
     .card-header .card-actions button:hover {
       background: rgba(255,255,255,0.12);
@@ -248,12 +221,8 @@
     }
 
     .card-body { padding: 20px 24px; }
-    .card-body .empty-state { text-align: center; color: var(--text-muted); padding: 30px 0; }
-    .card-body .empty-state i { font-size: 40px; margin-bottom: 12px; display: block; opacity: 0.4; }
 
-    /* ============================================================
-       TABLES
-       ============================================================ */
+    /* Tables */
     .table-wrapper { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th {
@@ -279,11 +248,8 @@
     .status-badge.active { background: rgba(16, 185, 129, 0.15); color: var(--success); }
     .status-badge.pending { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
     .status-badge.inactive { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
-    .status-badge.verified { background: rgba(59, 130, 246, 0.15); color: var(--info); }
 
-    /* ============================================================
-       HAMBURGER (Mobile)
-       ============================================================ */
+    /* Hamburger */
     .hamburger {
       display: none;
       flex-direction: column;
@@ -305,9 +271,7 @@
     .hamburger.active span:nth-child(2) { opacity: 0; }
     .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-    /* ============================================================
-       RESPONSIVE
-       ============================================================ */
+    /* Responsive */
     @media (max-width: 768px) {
       .sidebar {
         position: fixed;
@@ -334,7 +298,7 @@
 </head>
 <body>
 
-  <!-- Hamburger (Mobile) -->
+  <!-- Hamburger -->
   <div class="hamburger" id="hamburger">
     <span></span><span></span><span></span>
   </div>
@@ -348,7 +312,7 @@
         <span>Admin Dashboard</span>
       </div>
     </div>
-    
+
     <nav class="nav-menu">
       <a href="#overview" class="nav-item active" data-view="overview">
         <i class="fas fa-home"></i> Overview
@@ -394,7 +358,7 @@
 
     <!-- Overview View -->
     <div id="view-overview">
-      <div class="stats-grid" id="statsGrid">
+      <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-users"></i></div>
           <div class="stat-value" id="statUsers">0</div>
@@ -443,16 +407,16 @@
       <div class="card">
         <div class="card-header"><h3>⚡ Quick Actions</h3></div>
         <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <button onclick="window.location.href='/admin/traders.html'" style="padding:14px;background:rgba(193,168,117,0.1);border:1px solid var(--gold-primary);border-radius:8px;color:var(--gold-primary);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
+          <button onclick="alert('Add Trader functionality coming soon')" style="padding:14px;background:rgba(193,168,117,0.1);border:1px solid var(--gold-primary);border-radius:8px;color:var(--gold-primary);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
             <i class="fas fa-user-plus"></i> Add Trader
           </button>
-          <button onclick="window.location.href='/admin/bookings.html'" style="padding:14px;background:rgba(16,185,129,0.1);border:1px solid var(--success);border-radius:8px;color:var(--success);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
+          <button onclick="alert('New Booking functionality coming soon')" style="padding:14px;background:rgba(16,185,129,0.1);border:1px solid var(--success);border-radius:8px;color:var(--success);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
             <i class="fas fa-plus"></i> New Booking
           </button>
-          <button onclick="window.location.href='/admin/reports.html'" style="padding:14px;background:rgba(59,130,246,0.1);border:1px solid var(--info);border-radius:8px;color:var(--info);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
+          <button onclick="alert('Reports functionality coming soon')" style="padding:14px;background:rgba(59,130,246,0.1);border:1px solid var(--info);border-radius:8px;color:var(--info);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
             <i class="fas fa-file-alt"></i> View Reports
           </button>
-          <button onclick="window.location.href='/admin/settings.html'" style="padding:14px;background:rgba(245,158,11,0.1);border:1px solid var(--warning);border-radius:8px;color:var(--warning);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
+          <button onclick="alert('Settings functionality coming soon')" style="padding:14px;background:rgba(245,158,11,0.1);border:1px solid var(--warning);border-radius:8px;color:var(--warning);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
             <i class="fas fa-sliders-h"></i> System Settings
           </button>
         </div>
@@ -467,10 +431,10 @@
           <div class="table-wrapper">
             <table>
               <thead>
-                <tr><th>User</th><th>Email</th><th>Status</th><th>Joined</th><th>Actions</th></tr>
+                <tr><th>User</th><th>Email</th><th>Status</th><th>Bookings</th></tr>
               </thead>
               <tbody id="usersTable">
-                <tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:20px;">
+                <tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:20px;">
                   <i class="fas fa-spinner fa-spin"></i> Loading users...
                 </td></tr>
               </tbody>
@@ -509,10 +473,10 @@
           <div class="table-wrapper">
             <table>
               <thead>
-                <tr><th>Query</th><th>Response</th><th>Source</th><th>Date</th></tr>
+                <tr><th>Question</th><th>Answer</th><th>Source</th></tr>
               </thead>
               <tbody id="queriesTable">
-                <tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:20px;">
+                <tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">
                   <i class="fas fa-spinner fa-spin"></i> Loading queries...
                 </td></tr>
               </tbody>
@@ -555,12 +519,12 @@
   </main>
 
   <!-- ============================================================
-     JAVASCRIPT
+     JAVASCRIPT - Cleaned (No Render)
      ============================================================ -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-    import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
@@ -577,28 +541,35 @@
     const db = getFirestore(app);
 
     // ============================================================
-    // 1. ADMIN AUTH CHECK
+    // ADMIN AUTH CHECK - FIXED
     // ============================================================
-    let isAdmin = false;
-    let currentUser = null;
-
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
+        console.log('No user, redirecting to login');
         window.location.href = '/login.html';
         return;
       }
 
-      currentUser = user;
+      console.log('User logged in:', user.email, user.uid);
 
-      // Check if admin
       try {
-        const adminDoc = await getDoc(doc(db, "admins", user.uid));
+        // Check if user is admin
+        const adminDocRef = doc(db, "admins", user.uid);
+        const adminDoc = await getDoc(adminDocRef);
+        
+        console.log('Admin doc exists:', adminDoc.exists());
+
         if (adminDoc.exists() && adminDoc.data().role === 'admin') {
-          isAdmin = true;
+          console.log('✅ Admin verified:', adminDoc.data().email);
+          
+          // Set admin info
           document.getElementById('adminName').textContent = user.displayName || 'Admin';
           document.getElementById('adminAvatar').textContent = (user.displayName || 'A').charAt(0).toUpperCase();
+          
+          // Load data
           loadDashboardData();
         } else {
+          console.log('❌ Not admin, redirecting to dashboard');
           window.location.href = '/dashboard.html';
         }
       } catch (err) {
@@ -608,57 +579,73 @@
     });
 
     // ============================================================
-    // 2. LOAD DASHBOARD DATA
+    // LOAD DASHBOARD DATA
     // ============================================================
     async function loadDashboardData() {
+      console.log('📊 Loading dashboard data...');
+
       try {
-        // Load Bookings from Firestore
+        // 1. Load Bookings from Firestore
         const bookingsSnapshot = await getDocs(collection(db, 'bookings'));
         const bookings = bookingsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        document.getElementById('statBookings').textContent = bookings.length;
-        document.getElementById('bookingBadge').textContent = bookings.length;
+        
+        console.log('📦 Bookings loaded:', bookings.length);
 
-        // Load Queries from JSON (since you're using JSON for Alliya)
+        // 2. Load Queries from JSON
+        let queries = [];
         try {
           const res = await fetch('/assets/data/alliya-knowledge.json?t=' + Date.now());
           if (res.ok) {
-            const queries = await res.json();
-            document.getElementById('statQueries').textContent = queries.length;
-            document.getElementById('queryBadge').textContent = queries.length;
-            renderQueries(queries);
+            queries = await res.json();
+            console.log('💬 Queries loaded:', queries.length);
           }
         } catch (e) {
-          console.log('No queries data yet');
+          console.log('No queries JSON found');
         }
 
-        // Load Traders from Auth (or users collection)
-        // For now, we'll estimate from bookings
-        const traders = new Set();
-        bookings.forEach(b => { if (b.userId) traders.add(b.userId); });
-        document.getElementById('statUsers').textContent = traders.size;
-        document.getElementById('userBadge').textContent = traders.size;
+        // 3. Count unique traders from bookings
+        const traderIds = new Set();
+        bookings.forEach(b => { 
+          if (b.userId) traderIds.add(b.userId); 
+          if (b.traderName) traderIds.add(b.traderName);
+        });
+        
+        const traderCount = traderIds.size || bookings.length;
 
-        // Active users (estimate)
-        document.getElementById('statActive').textContent = Math.min(traders.size, 5);
+        // 4. Update stats
+        document.getElementById('statBookings').textContent = bookings.length;
+        document.getElementById('statUsers').textContent = traderCount;
+        document.getElementById('statQueries').textContent = queries.length || 0;
+        document.getElementById('statActive').textContent = Math.min(traderCount || 1, 5);
 
-        // Render bookings
+        // 5. Update badges
+        document.getElementById('bookingBadge').textContent = bookings.length;
+        document.getElementById('userBadge').textContent = traderCount;
+        document.getElementById('queryBadge').textContent = queries.length || 0;
+
+        // 6. Render tables
         renderBookings(bookings);
-
-        // Render recent activity
+        renderQueries(queries);
+        renderUsers(bookings);
         renderRecentActivity(bookings);
 
-        // Update timestamp
+        // 7. Update timestamp
         document.getElementById('lastDataUpdate').textContent = new Date().toLocaleString();
 
-        console.log('✅ Dashboard data loaded:', { bookings: bookings.length, traders: traders.size });
+        console.log('✅ Dashboard data loaded successfully');
 
       } catch (err) {
         console.error('Error loading dashboard:', err);
+        // Show error state in tables
+        document.getElementById('bookingsTable').innerHTML = 
+          `<tr><td colspan="6" style="text-align:center;color:var(--danger);padding:20px;">
+            <i class="fas fa-exclamation-triangle"></i> Error loading data. Please refresh.
+          </td></tr>`;
       }
     }
 
     // ============================================================
-    // 3. RENDER FUNCTIONS
+    // RENDER FUNCTIONS
     // ============================================================
     function renderBookings(bookings) {
       const tbody = document.getElementById('bookingsTable');
@@ -669,22 +656,27 @@
         return;
       }
 
-      tbody.innerHTML = bookings.slice(0, 10).map(b => `
-        <tr>
-          <td><strong>#${(b.id || '').slice(0,8).toUpperCase()}</strong></td>
-          <td>${b.traderName || b.userId || 'N/A'}</td>
-          <td>${b.commodity || b.product || 'N/A'}</td>
-          <td>${b.quantity || b.qty || '0'}</td>
-          <td><span class="status-badge ${b.status === 'confirmed' ? 'active' : b.status === 'shipped' ? 'verified' : 'pending'}">${(b.status || 'PENDING').toUpperCase()}</span></td>
-          <td>${b.createdAt ? new Date(b.createdAt.toDate()).toLocaleDateString() : b.date || 'N/A'}</td>
-        </tr>
-      `).join('');
+      tbody.innerHTML = bookings.slice(0, 10).map(b => {
+        const status = b.status || 'pending';
+        const statusClass = status === 'confirmed' ? 'active' : 
+                           status === 'shipped' ? 'active' : 'pending';
+        return `
+          <tr>
+            <td><strong>#${(b.id || '').slice(0,8).toUpperCase()}</strong></td>
+            <td>${b.traderName || b.userId || 'N/A'}</td>
+            <td>${b.commodity || b.product || 'N/A'}</td>
+            <td>${b.quantity || b.qty || '0'}</td>
+            <td><span class="status-badge ${statusClass}">${status.toUpperCase()}</span></td>
+            <td>${b.createdAt ? new Date(b.createdAt.toDate()).toLocaleDateString() : b.date || 'N/A'}</td>
+          </tr>
+        `;
+      }).join('');
     }
 
     function renderQueries(queries) {
       const tbody = document.getElementById('queriesTable');
       if (!queries || queries.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:20px;">
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">
           <i class="fas fa-comment-dots"></i> No queries yet
         </td></tr>`;
         return;
@@ -693,9 +685,45 @@
       tbody.innerHTML = queries.slice(0, 10).map(q => `
         <tr>
           <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${q.question || 'N/A'}</td>
-          <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${q.answer || 'No response'}</td>
-          <td><span class="status-badge verified">Knowledge Base</span></td>
-          <td>${q.lastUpdated || 'N/A'}</td>
+          <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${q.answer || 'No response'}</td>
+          <td><span class="status-badge active">Knowledge Base</span></td>
+        </tr>
+      `).join('');
+    }
+
+    function renderUsers(bookings) {
+      const tbody = document.getElementById('usersTable');
+      
+      // Extract unique users from bookings
+      const userMap = new Map();
+      bookings.forEach(b => {
+        const key = b.userId || b.traderName || 'Unknown';
+        if (!userMap.has(key)) {
+          userMap.set(key, {
+            name: b.traderName || 'Trader',
+            email: b.userEmail || 'N/A',
+            bookings: 0,
+            status: 'active'
+          });
+        }
+        userMap.get(key).bookings += 1;
+      });
+
+      const users = Array.from(userMap.values());
+
+      if (users.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:20px;">
+          <i class="fas fa-users"></i> No traders found
+        </td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = users.slice(0, 10).map(u => `
+        <tr>
+          <td><strong>${u.name}</strong></td>
+          <td>${u.email}</td>
+          <td><span class="status-badge active">Active</span></td>
+          <td>${u.bookings}</td>
         </tr>
       `).join('');
     }
@@ -719,19 +747,19 @@
     }
 
     // ============================================================
-    // 4. REFRESH
+    // REFRESH
     // ============================================================
     window.refreshData = function() {
       loadDashboardData();
     };
 
     // ============================================================
-    // 5. AUTO-REFRESH
+    // AUTO-REFRESH (every 60s)
     // ============================================================
     setInterval(loadDashboardData, 60000);
 
     // ============================================================
-    // 6. SIDEBAR NAVIGATION
+    // SIDEBAR NAVIGATION
     // ============================================================
     document.querySelectorAll('.nav-item[data-view]').forEach(item => {
       item.addEventListener('click', (e) => {
@@ -760,7 +788,7 @@
     });
 
     // ============================================================
-    // 7. HAMBURGER
+    // HAMBURGER
     // ============================================================
     document.getElementById('hamburger').addEventListener('click', function() {
       document.getElementById('sidebar').classList.toggle('active');
@@ -768,7 +796,7 @@
     });
 
     // ============================================================
-    // 8. LOGOUT
+    // LOGOUT
     // ============================================================
     document.querySelector('.nav-item:last-child')?.addEventListener('click', async (e) => {
       e.preventDefault();
@@ -777,13 +805,13 @@
     });
 
     // ============================================================
-    // 9. TIMESTAMP UPDATE
+    // TIMESTAMP
     // ============================================================
     setInterval(() => {
       document.getElementById('lastCheck').textContent = new Date().toLocaleString();
     }, 30000);
 
-    console.log('✅ Admin Dashboard v2.0 loaded');
+    console.log('✅ Admin Dashboard v3.0 loaded (No Render)');
   </script>
 </body>
 </html>
