@@ -316,6 +316,7 @@
     <nav class="nav-menu">
       <a href="#overview" class="nav-item active" data-view="overview">
         <i class="fas fa-home"></i> Overview
+        <span class="badge success" id="liveBadge">● Live</span>
       </a>
       <a href="#users" class="nav-item" data-view="users">
         <i class="fas fa-users"></i> Traders
@@ -407,16 +408,16 @@
       <div class="card">
         <div class="card-header"><h3>⚡ Quick Actions</h3></div>
         <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <button onclick="alert('Add Trader functionality coming soon')" style="padding:14px;background:rgba(193,168,117,0.1);border:1px solid var(--gold-primary);border-radius:8px;color:var(--gold-primary);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
+          <button onclick="alert('Add Trader - Coming Soon')" style="padding:14px;background:rgba(193,168,117,0.1);border:1px solid var(--gold-primary);border-radius:8px;color:var(--gold-primary);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
             <i class="fas fa-user-plus"></i> Add Trader
           </button>
-          <button onclick="alert('New Booking functionality coming soon')" style="padding:14px;background:rgba(16,185,129,0.1);border:1px solid var(--success);border-radius:8px;color:var(--success);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
+          <button onclick="alert('New Booking - Coming Soon')" style="padding:14px;background:rgba(16,185,129,0.1);border:1px solid var(--success);border-radius:8px;color:var(--success);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
             <i class="fas fa-plus"></i> New Booking
           </button>
-          <button onclick="alert('Reports functionality coming soon')" style="padding:14px;background:rgba(59,130,246,0.1);border:1px solid var(--info);border-radius:8px;color:var(--info);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
+          <button onclick="alert('Reports - Coming Soon')" style="padding:14px;background:rgba(59,130,246,0.1);border:1px solid var(--info);border-radius:8px;color:var(--info);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
             <i class="fas fa-file-alt"></i> View Reports
           </button>
-          <button onclick="alert('Settings functionality coming soon')" style="padding:14px;background:rgba(245,158,11,0.1);border:1px solid var(--warning);border-radius:8px;color:var(--warning);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
+          <button onclick="alert('Settings - Coming Soon')" style="padding:14px;background:rgba(245,158,11,0.1);border:1px solid var(--warning);border-radius:8px;color:var(--warning);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
             <i class="fas fa-sliders-h"></i> System Settings
           </button>
         </div>
@@ -519,7 +520,7 @@
   </main>
 
   <!-- ============================================================
-     JAVASCRIPT - Cleaned (No Render)
+     JAVASCRIPT - CLEAN
      ============================================================ -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
@@ -550,7 +551,7 @@
         return;
       }
 
-      console.log('User logged in:', user.email, user.uid);
+      console.log('User logged in:', user.email, 'UID:', user.uid);
 
       try {
         // Check if user is admin
@@ -603,7 +604,7 @@
           console.log('No queries JSON found');
         }
 
-        // 3. Count unique traders from bookings
+        // 3. Count unique traders
         const traderIds = new Set();
         bookings.forEach(b => { 
           if (b.userId) traderIds.add(b.userId); 
@@ -636,7 +637,6 @@
 
       } catch (err) {
         console.error('Error loading dashboard:', err);
-        // Show error state in tables
         document.getElementById('bookingsTable').innerHTML = 
           `<tr><td colspan="6" style="text-align:center;color:var(--danger);padding:20px;">
             <i class="fas fa-exclamation-triangle"></i> Error loading data. Please refresh.
@@ -658,8 +658,7 @@
 
       tbody.innerHTML = bookings.slice(0, 10).map(b => {
         const status = b.status || 'pending';
-        const statusClass = status === 'confirmed' ? 'active' : 
-                           status === 'shipped' ? 'active' : 'pending';
+        const statusClass = status === 'confirmed' || status === 'shipped' ? 'active' : 'pending';
         return `
           <tr>
             <td><strong>#${(b.id || '').slice(0,8).toUpperCase()}</strong></td>
@@ -694,7 +693,6 @@
     function renderUsers(bookings) {
       const tbody = document.getElementById('usersTable');
       
-      // Extract unique users from bookings
       const userMap = new Map();
       bookings.forEach(b => {
         const key = b.userId || b.traderName || 'Unknown';
@@ -702,8 +700,7 @@
           userMap.set(key, {
             name: b.traderName || 'Trader',
             email: b.userEmail || 'N/A',
-            bookings: 0,
-            status: 'active'
+            bookings: 0
           });
         }
         userMap.get(key).bookings += 1;
@@ -754,7 +751,7 @@
     };
 
     // ============================================================
-    // AUTO-REFRESH (every 60s)
+    // AUTO-REFRESH
     // ============================================================
     setInterval(loadDashboardData, 60000);
 
@@ -811,7 +808,7 @@
       document.getElementById('lastCheck').textContent = new Date().toLocaleString();
     }, 30000);
 
-    console.log('✅ Admin Dashboard v3.0 loaded (No Render)');
+    console.log('✅ Admin Dashboard v4.0 loaded');
   </script>
 </body>
 </html>
