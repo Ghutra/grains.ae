@@ -541,44 +541,43 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // ============================================================
-    // ADMIN AUTH CHECK - FIXED
-    // ============================================================
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        console.log('No user, redirecting to login');
-        window.location.href = '/login.html';
-        return;
-      }
+   // ============================================================
+// ADMIN AUTH CHECK - FIXED
+// ============================================================
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    console.log('No user, redirecting to admin login');
+    window.location.href = '/admin/login.html';
+    return;
+  }
 
-      console.log('User logged in:', user.email, 'UID:', user.uid);
+  console.log('User logged in:', user.email, 'UID:', user.uid);
 
-      try {
-        // Check if user is admin
-        const adminDocRef = doc(db, "admins", user.uid);
-        const adminDoc = await getDoc(adminDocRef);
-        
-        console.log('Admin doc exists:', adminDoc.exists());
+  try {
+    // Check if user is admin
+    const adminDocRef = doc(db, "admins", user.uid);
+    const adminDoc = await getDoc(adminDocRef);
+    
+    console.log('Admin doc exists:', adminDoc.exists());
 
-        if (adminDoc.exists() && adminDoc.data().role === 'admin') {
-          console.log('✅ Admin verified:', adminDoc.data().email);
-          
-          // Set admin info
-          document.getElementById('adminName').textContent = user.displayName || 'Admin';
-          document.getElementById('adminAvatar').textContent = (user.displayName || 'A').charAt(0).toUpperCase();
-          
-          // Load data
-          loadDashboardData();
-        } else {
-          console.log('❌ Not admin, redirecting to dashboard');
-          window.location.href = '/dashboard.html';
-        }
-      } catch (err) {
-        console.error('Admin check error:', err);
-        window.location.href = '/dashboard.html';
-      }
-    });
-
+    if (adminDoc.exists() && adminDoc.data().role === 'admin') {
+      console.log('✅ Admin verified:', adminDoc.data().email);
+      
+      // Set admin info
+      document.getElementById('adminName').textContent = user.displayName || 'Admin';
+      document.getElementById('adminAvatar').textContent = (user.displayName || 'A').charAt(0).toUpperCase();
+      
+      // Load data
+      loadDashboardData();
+    } else {
+      console.log('❌ Not admin, redirecting to trader dashboard');
+      window.location.href = '/dashboard.html';
+    }
+  } catch (err) {
+    console.error('Admin check error:', err);
+    window.location.href = '/dashboard.html';
+  }
+});
     // ============================================================
     // LOAD DASHBOARD DATA
     // ============================================================
