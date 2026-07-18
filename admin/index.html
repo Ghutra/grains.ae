@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard – Grains Hub</title>
-  <meta name="description" content="Site owner dashboard for Grains Hub - monitor users, bookings, queries, and system health." />
   <link rel="icon" href="/favicon.png" type="image/png" />
 
   <!-- Google Fonts -->
@@ -15,7 +14,7 @@
 
   <style>
     /* ============================================================
-       ADMIN DASHBOARD - Grains Hub Gold Theme
+       ADMIN DASHBOARD - Gold Theme
        ============================================================ */
     
     :root {
@@ -43,11 +42,7 @@
       --radius: 12px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin:0; padding:0; box-sizing:border-box; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -118,17 +113,8 @@
       gap: 14px;
     }
 
-    .nav-item i {
-      width: 20px;
-      text-align: center;
-      font-size: 16px;
-    }
-
-    .nav-item:hover {
-      background: rgba(255,255,255,0.04);
-      color: #fff;
-    }
-
+    .nav-item i { width: 20px; text-align: center; font-size: 16px; }
+    .nav-item:hover { background: rgba(255,255,255,0.04); color: #fff; }
     .nav-item.active {
       background: rgba(193,168,117,0.08);
       color: var(--gold-primary);
@@ -144,14 +130,8 @@
       border-radius: 12px;
       font-weight: 700;
     }
-
-    .nav-item .badge.success {
-      background: var(--success);
-    }
-
-    .nav-item .badge.warning {
-      background: var(--warning);
-    }
+    .nav-item .badge.success { background: var(--success); }
+    .nav-item .badge.warning { background: var(--warning); }
 
     /* ============================================================
        MAIN CONTENT
@@ -163,7 +143,6 @@
       max-height: 100vh;
     }
 
-    /* Top Bar */
     .top-bar {
       display: flex;
       justify-content: space-between;
@@ -175,15 +154,8 @@
       gap: 12px;
     }
 
-    .top-bar .page-title h1 {
-      font-size: 24px;
-      font-weight: 700;
-    }
-
-    .top-bar .page-title p {
-      color: var(--text-muted);
-      font-size: 14px;
-    }
+    .top-bar .page-title h1 { font-size: 24px; font-weight: 700; }
+    .top-bar .page-title p { color: var(--text-muted); font-size: 14px; }
 
     .top-bar .admin-info {
       display: flex;
@@ -204,14 +176,8 @@
       color: #fff;
     }
 
-    .top-bar .admin-info .admin-name {
-      font-weight: 600;
-    }
-
-    .top-bar .admin-info .admin-role {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
+    .top-bar .admin-info .admin-name { font-weight: 600; }
+    .top-bar .admin-info .admin-role { font-size: 12px; color: var(--text-muted); }
 
     /* ============================================================
        STATS CARDS
@@ -236,36 +202,12 @@
       transform: translateY(-2px);
     }
 
-    .stat-card .stat-icon {
-      font-size: 28px;
-      color: var(--gold-primary);
-      margin-bottom: 8px;
-    }
-
-    .stat-card .stat-value {
-      font-size: 28px;
-      font-weight: 700;
-    }
-
-    .stat-card .stat-label {
-      color: var(--text-muted);
-      font-size: 13px;
-      margin-top: 4px;
-    }
-
-    .stat-card .stat-change {
-      font-size: 12px;
-      font-weight: 600;
-      margin-top: 8px;
-      display: inline-block;
-    }
-
-    .stat-card .stat-change.up {
-      color: var(--success);
-    }
-    .stat-card .stat-change.down {
-      color: var(--danger);
-    }
+    .stat-card .stat-icon { font-size: 28px; color: var(--gold-primary); margin-bottom: 8px; }
+    .stat-card .stat-value { font-size: 28px; font-weight: 700; }
+    .stat-card .stat-label { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+    .stat-card .stat-change { font-size: 12px; font-weight: 600; margin-top: 8px; display: inline-block; }
+    .stat-card .stat-change.up { color: var(--success); }
+    .stat-card .stat-change.down { color: var(--danger); }
 
     /* ============================================================
        CARDS
@@ -288,16 +230,7 @@
       gap: 8px;
     }
 
-    .card-header h3 {
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .card-header .card-actions {
-      display: flex;
-      gap: 8px;
-    }
-
+    .card-header h3 { font-size: 16px; font-weight: 600; }
     .card-header .card-actions button {
       background: rgba(255,255,255,0.06);
       border: none;
@@ -309,42 +242,20 @@
       transition: all 0.2s ease;
       font-family: inherit;
     }
-
     .card-header .card-actions button:hover {
       background: rgba(255,255,255,0.12);
       color: #fff;
     }
 
-    .card-body {
-      padding: 20px 24px;
-    }
-
-    .card-body .empty-state {
-      text-align: center;
-      color: var(--text-muted);
-      padding: 30px 0;
-    }
-
-    .card-body .empty-state i {
-      font-size: 40px;
-      margin-bottom: 12px;
-      display: block;
-      opacity: 0.4;
-    }
+    .card-body { padding: 20px 24px; }
+    .card-body .empty-state { text-align: center; color: var(--text-muted); padding: 30px 0; }
+    .card-body .empty-state i { font-size: 40px; margin-bottom: 12px; display: block; opacity: 0.4; }
 
     /* ============================================================
        TABLES
        ============================================================ */
-    .table-wrapper {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-
+    .table-wrapper { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
     th {
       text-align: left;
       padding: 12px 16px;
@@ -355,15 +266,8 @@
       letter-spacing: 0.5px;
       border-bottom: 1px solid var(--border);
     }
-
-    td {
-      padding: 12px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
-
-    tr:hover td {
-      background: rgba(255,255,255,0.02);
-    }
+    td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    tr:hover td { background: rgba(255,255,255,0.02); }
 
     .status-badge {
       padding: 4px 12px;
@@ -372,46 +276,10 @@
       font-weight: 600;
       display: inline-block;
     }
-
-    .status-badge.active {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--success);
-    }
-    .status-badge.pending {
-      background: rgba(245, 158, 11, 0.15);
-      color: var(--warning);
-    }
-    .status-badge.inactive {
-      background: rgba(239, 68, 68, 0.15);
-      color: var(--danger);
-    }
-    .status-badge.verified {
-      background: rgba(59, 130, 246, 0.15);
-      color: var(--info);
-    }
-
-    .user-avatar-sm {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      background: var(--gold-gradient);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 700;
-      color: #fff;
-      margin-right: 8px;
-    }
-
-    /* ============================================================
-       GRID LAYOUT
-       ============================================================ */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
+    .status-badge.active { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+    .status-badge.pending { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+    .status-badge.inactive { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+    .status-badge.verified { background: rgba(59, 130, 246, 0.15); color: var(--info); }
 
     /* ============================================================
        HAMBURGER (Mobile)
@@ -426,7 +294,6 @@
       border-radius: 8px;
       border: 1px solid var(--border);
     }
-
     .hamburger span {
       width: 24px;
       height: 2.5px;
@@ -434,26 +301,13 @@
       border-radius: 2px;
       transition: all 0.3s ease;
     }
-
-    .hamburger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -5px);
-    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
     /* ============================================================
        RESPONSIVE
        ============================================================ */
-    @media (max-width: 1024px) {
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-    }
-
     @media (max-width: 768px) {
       .sidebar {
         position: fixed;
@@ -463,68 +317,29 @@
         z-index: 1000;
         transform: translateX(-100%);
       }
-
-      .sidebar.active {
-        transform: translateX(0);
-      }
-
-      .hamburger {
-        display: flex;
-      }
-
-      .main-content {
-        padding: 16px;
-        padding-top: 72px;
-      }
-
-      .top-bar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-      }
-
-      .stat-card .stat-value {
-        font-size: 22px;
-      }
+      .sidebar.active { transform: translateX(0); }
+      .hamburger { display: flex; }
+      .main-content { padding: 16px; padding-top: 72px; }
+      .top-bar { flex-direction: column; align-items: flex-start; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+      .stat-card .stat-value { font-size: 22px; }
     }
 
     @media (max-width: 480px) {
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .card-body {
-        padding: 14px 16px;
-      }
-
-      .table-wrapper {
-        font-size: 12px;
-      }
-
-      th, td {
-        padding: 8px 10px;
-      }
+      .stats-grid { grid-template-columns: 1fr; }
+      .card-body { padding: 14px 16px; }
+      th, td { padding: 8px 10px; font-size: 12px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ============================================================
-     HAMBURGER (Mobile)
-  ============================================================ -->
+  <!-- Hamburger (Mobile) -->
   <div class="hamburger" id="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
+    <span></span><span></span><span></span>
   </div>
 
-  <!-- ============================================================
-     SIDEBAR
-  ============================================================ -->
+  <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="logo">
       <img src="/assets/img/grains-logo.png" alt="Grains Hub">
@@ -550,10 +365,6 @@
         <i class="fas fa-comment-dots"></i> Alliya Queries
         <span class="badge" id="queryBadge">0</span>
       </a>
-      <a href="#alerts" class="nav-item" data-view="alerts">
-        <i class="fas fa-bell"></i> Alerts
-        <span class="badge success" id="alertBadge">0</span>
-      </a>
       <a href="#settings" class="nav-item" data-view="settings">
         <i class="fas fa-cog"></i> Settings
       </a>
@@ -563,14 +374,10 @@
     </nav>
   </aside>
 
-  <!-- ============================================================
-     MAIN CONTENT
-  ============================================================ -->
+  <!-- Main Content -->
   <main class="main-content" id="mainContent">
 
-    <!-- ============================================================
-    TOP BAR
-    ============================================================ -->
+    <!-- Top Bar -->
     <div class="top-bar">
       <div class="page-title">
         <h1 id="pageTitle">Dashboard Overview</h1>
@@ -585,127 +392,87 @@
       </div>
     </div>
 
-    <!-- ============================================================
-    OVERVIEW VIEW
-    ============================================================ -->
+    <!-- Overview View -->
     <div id="view-overview">
-
-      <!-- Stats Grid -->
       <div class="stats-grid" id="statsGrid">
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-users"></i></div>
           <div class="stat-value" id="statUsers">0</div>
           <div class="stat-label">Total Traders</div>
-          <div class="stat-change up">↑ <span id="statUsersChange">0</span> this month</div>
         </div>
-
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-box"></i></div>
           <div class="stat-value" id="statBookings">0</div>
           <div class="stat-label">Total Bookings</div>
-          <div class="stat-change up">↑ <span id="statBookingsChange">0</span> this month</div>
         </div>
-
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-comment-dots"></i></div>
           <div class="stat-value" id="statQueries">0</div>
           <div class="stat-label">Alliya Queries</div>
-          <div class="stat-change up">↑ <span id="statQueriesChange">0</span> this month</div>
         </div>
-
         <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
           <div class="stat-value" id="statActive">0</div>
           <div class="stat-label">Active Now</div>
-          <div class="stat-change">Online <span id="statActiveTime">now</span></div>
         </div>
       </div>
 
-      <!-- Grid 2: Recent Activity + Quick Actions -->
-      <div class="grid-2">
-        <!-- Recent Activity -->
-        <div class="card">
-          <div class="card-header">
-            <h3>🕐 Recent Activity</h3>
-            <div class="card-actions">
-              <button onclick="refreshData()"><i class="fas fa-sync"></i> Refresh</button>
-            </div>
-          </div>
-          <div class="card-body">
-            <div class="table-wrapper">
-              <table>
-                <thead>
-                  <tr>
-                    <th>User</th>
-                    <th>Action</th>
-                    <th>Time</th>
-                  </tr>
-                </thead>
-                <tbody id="recentActivity">
-                  <tr>
-                    <td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">
-                      <i class="fas fa-spinner fa-spin"></i> Loading activity...
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+      <div class="card">
+        <div class="card-header">
+          <h3>🕐 Recent Activity</h3>
+          <div class="card-actions">
+            <button onclick="refreshData()"><i class="fas fa-sync"></i> Refresh</button>
           </div>
         </div>
+        <div class="card-body">
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>User</th><th>Action</th><th>Time</th></tr>
+              </thead>
+              <tbody id="recentActivity">
+                <tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">
+                  <i class="fas fa-spinner fa-spin"></i> Loading activity...
+                </td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
-        <!-- Quick Actions -->
-        <div class="card">
-          <div class="card-header">
-            <h3>⚡ Quick Actions</h3>
-          </div>
-          <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-            <button onclick="alert('Navigate to Add Trader')" style="padding:14px;background:rgba(193,168,117,0.1);border:1px solid var(--gold-primary);border-radius:8px;color:var(--gold-primary);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
-              <i class="fas fa-user-plus"></i> Add Trader
-            </button>
-            <button onclick="alert('Navigate to Create Booking')" style="padding:14px;background:rgba(16,185,129,0.1);border:1px solid var(--success);border-radius:8px;color:var(--success);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
-              <i class="fas fa-plus"></i> New Booking
-            </button>
-            <button onclick="alert('Navigate to View Reports')" style="padding:14px;background:rgba(59,130,246,0.1);border:1px solid var(--info);border-radius:8px;color:var(--info);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
-              <i class="fas fa-file-alt"></i> View Reports
-            </button>
-            <button onclick="alert('Navigate to System Settings')" style="padding:14px;background:rgba(245,158,11,0.1);border:1px solid var(--warning);border-radius:8px;color:var(--warning);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
-              <i class="fas fa-sliders-h"></i> System Settings
-            </button>
-          </div>
+      <div class="card">
+        <div class="card-header"><h3>⚡ Quick Actions</h3></div>
+        <div class="card-body" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <button onclick="window.location.href='/admin/traders.html'" style="padding:14px;background:rgba(193,168,117,0.1);border:1px solid var(--gold-primary);border-radius:8px;color:var(--gold-primary);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
+            <i class="fas fa-user-plus"></i> Add Trader
+          </button>
+          <button onclick="window.location.href='/admin/bookings.html'" style="padding:14px;background:rgba(16,185,129,0.1);border:1px solid var(--success);border-radius:8px;color:var(--success);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
+            <i class="fas fa-plus"></i> New Booking
+          </button>
+          <button onclick="window.location.href='/admin/reports.html'" style="padding:14px;background:rgba(59,130,246,0.1);border:1px solid var(--info);border-radius:8px;color:var(--info);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
+            <i class="fas fa-file-alt"></i> View Reports
+          </button>
+          <button onclick="window.location.href='/admin/settings.html'" style="padding:14px;background:rgba(245,158,11,0.1);border:1px solid var(--warning);border-radius:8px;color:var(--warning);font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
+            <i class="fas fa-sliders-h"></i> System Settings
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- ============================================================
-    USERS VIEW
-    ============================================================ -->
+    <!-- Users View -->
     <div id="view-users" style="display:none;">
       <div class="card">
-        <div class="card-header">
-          <h3>👥 All Traders</h3>
-          <div class="card-actions">
-            <button onclick="refreshData()"><i class="fas fa-sync"></i> Refresh</button>
-          </div>
-        </div>
+        <div class="card-header"><h3>👥 All Traders</h3></div>
         <div class="card-body">
           <div class="table-wrapper">
             <table>
               <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Email</th>
-                  <th>Status</th>
-                  <th>Joined</th>
-                  <th>Bookings</th>
-                  <th>Actions</th>
-                </tr>
+                <tr><th>User</th><th>Email</th><th>Status</th><th>Joined</th><th>Actions</th></tr>
               </thead>
               <tbody id="usersTable">
-                <tr>
-                  <td colspan="6" style="text-align:center;color:var(--text-muted);padding:20px;">
-                    <i class="fas fa-spinner fa-spin"></i> Loading users...
-                  </td>
-                </tr>
+                <tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:20px;">
+                  <i class="fas fa-spinner fa-spin"></i> Loading users...
+                </td></tr>
               </tbody>
             </table>
           </div>
@@ -713,37 +480,20 @@
       </div>
     </div>
 
-    <!-- ============================================================
-    BOOKINGS VIEW
-    ============================================================ -->
+    <!-- Bookings View -->
     <div id="view-bookings" style="display:none;">
       <div class="card">
-        <div class="card-header">
-          <h3>📦 All Bookings</h3>
-          <div class="card-actions">
-            <button onclick="refreshData()"><i class="fas fa-sync"></i> Refresh</button>
-          </div>
-        </div>
+        <div class="card-header"><h3>📦 All Bookings</h3></div>
         <div class="card-body">
           <div class="table-wrapper">
             <table>
               <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Trader</th>
-                  <th>Commodity</th>
-                  <th>Qty (MT)</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                  <th>Actions</th>
-                </tr>
+                <tr><th>ID</th><th>Trader</th><th>Commodity</th><th>Qty (MT)</th><th>Status</th><th>Date</th></tr>
               </thead>
               <tbody id="bookingsTable">
-                <tr>
-                  <td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px;">
-                    <i class="fas fa-spinner fa-spin"></i> Loading bookings...
-                  </td>
-                </tr>
+                <tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:20px;">
+                  <i class="fas fa-spinner fa-spin"></i> Loading bookings...
+                </td></tr>
               </tbody>
             </table>
           </div>
@@ -751,35 +501,20 @@
       </div>
     </div>
 
-    <!-- ============================================================
-    QUERIES VIEW
-    ============================================================ -->
+    <!-- Queries View -->
     <div id="view-queries" style="display:none;">
       <div class="card">
-        <div class="card-header">
-          <h3>💬 Alliya Queries</h3>
-          <div class="card-actions">
-            <button onclick="refreshData()"><i class="fas fa-sync"></i> Refresh</button>
-          </div>
-        </div>
+        <div class="card-header"><h3>💬 Alliya Queries</h3></div>
         <div class="card-body">
           <div class="table-wrapper">
             <table>
               <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Query</th>
-                  <th>Response</th>
-                  <th>Source</th>
-                  <th>Time</th>
-                </tr>
+                <tr><th>Query</th><th>Response</th><th>Source</th><th>Date</th></tr>
               </thead>
               <tbody id="queriesTable">
-                <tr>
-                  <td colspan="5" style="text-align:center;color:var(--text-muted);padding:20px;">
-                    <i class="fas fa-spinner fa-spin"></i> Loading queries...
-                  </td>
-                </tr>
+                <tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:20px;">
+                  <i class="fas fa-spinner fa-spin"></i> Loading queries...
+                </td></tr>
               </tbody>
             </table>
           </div>
@@ -787,61 +522,26 @@
       </div>
     </div>
 
-    <!-- ============================================================
-    ALERTS VIEW
-    ============================================================ -->
-    <div id="view-alerts" style="display:none;">
-      <div class="card">
-        <div class="card-header">
-          <h3>🔔 System Alerts</h3>
-        </div>
-        <div class="card-body">
-          <div id="alertsContainer">
-            <div class="empty-state">
-              <i class="fas fa-check-circle" style="color:var(--success);"></i>
-              <p>All systems operational. No alerts.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ============================================================
-    SETTINGS VIEW
-    ============================================================ -->
+    <!-- Settings View -->
     <div id="view-settings" style="display:none;">
       <div class="card">
-        <div class="card-header">
-          <h3>⚙️ Settings</h3>
-        </div>
+        <div class="card-header"><h3>⚙️ Settings</h3></div>
         <div class="card-body">
           <div style="display:grid;grid-template-columns:1fr;gap:16px;max-width:600px;">
             <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:rgba(255,255,255,0.03);border-radius:8px;">
-              <div>
-                <strong>System Status</strong>
-                <p style="color:var(--text-muted);font-size:13px;">Last check: <span id="lastCheck">Just now</span></p>
-              </div>
+              <div><strong>System Status</strong><p style="color:var(--text-muted);font-size:13px;">Last check: <span id="lastCheck">Just now</span></p></div>
               <span style="color:var(--success);font-weight:600;"><i class="fas fa-check-circle"></i> Online</span>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:rgba(255,255,255,0.03);border-radius:8px;">
-              <div>
-                <strong>Alliya AI Status</strong>
-                <p style="color:var(--text-muted);font-size:13px;">Version 8.3</p>
-              </div>
+              <div><strong>Alliya AI Status</strong><p style="color:var(--text-muted);font-size:13px;">Version 8.3</p></div>
               <span style="color:var(--success);font-weight:600;"><i class="fas fa-check-circle"></i> Active</span>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:rgba(255,255,255,0.03);border-radius:8px;">
-              <div>
-                <strong>Firebase Connection</strong>
-                <p style="color:var(--text-muted);font-size:13px;">Real-time sync</p>
-              </div>
+              <div><strong>Firebase Connection</strong><p style="color:var(--text-muted);font-size:13px;">Real-time sync</p></div>
               <span style="color:var(--success);font-weight:600;"><i class="fas fa-check-circle"></i> Connected</span>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:rgba(255,255,255,0.03);border-radius:8px;">
-              <div>
-                <strong>Last Data Update</strong>
-                <p style="color:var(--text-muted);font-size:13px;">Stock JSON</p>
-              </div>
+              <div><strong>Last Data Update</strong><p style="color:var(--text-muted);font-size:13px;">Stock JSON</p></div>
               <span style="color:var(--text-muted);" id="lastDataUpdate">Loading...</span>
             </div>
             <button onclick="refreshData()" style="padding:12px;background:var(--gold-primary);border:none;border-radius:8px;color:#fff;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.3s ease;">
@@ -856,11 +556,11 @@
 
   <!-- ============================================================
      JAVASCRIPT
-  ============================================================ -->
+     ============================================================ -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-    import { getFirestore, collection, getDocs, query, orderBy, limit, where } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
@@ -877,66 +577,181 @@
     const db = getFirestore(app);
 
     // ============================================================
-    // 1. AUTH CHECK
+    // 1. ADMIN AUTH CHECK
     // ============================================================
-    onAuthStateChanged(auth, (user) => {
+    let isAdmin = false;
+    let currentUser = null;
+
+    onAuthStateChanged(auth, async (user) => {
       if (!user) {
         window.location.href = '/login.html';
         return;
       }
 
-      // Check if user is admin (you can add admin role check here)
-      const isAdmin = true; // For now, allow any logged-in user
+      currentUser = user;
 
-      if (!isAdmin) {
+      // Check if admin
+      try {
+        const adminDoc = await getDoc(doc(db, "admins", user.uid));
+        if (adminDoc.exists() && adminDoc.data().role === 'admin') {
+          isAdmin = true;
+          document.getElementById('adminName').textContent = user.displayName || 'Admin';
+          document.getElementById('adminAvatar').textContent = (user.displayName || 'A').charAt(0).toUpperCase();
+          loadDashboardData();
+        } else {
+          window.location.href = '/dashboard.html';
+        }
+      } catch (err) {
+        console.error('Admin check error:', err);
         window.location.href = '/dashboard.html';
-        return;
       }
-
-      // Set admin name
-      const name = user.displayName || 'Admin';
-      document.getElementById('adminName').textContent = name;
-      document.getElementById('adminAvatar').textContent = name.charAt(0).toUpperCase();
-
-      // Load data
-      loadDashboardData();
     });
 
     // ============================================================
-    // 2. SIDEBAR NAVIGATION
+    // 2. LOAD DASHBOARD DATA
+    // ============================================================
+    async function loadDashboardData() {
+      try {
+        // Load Bookings from Firestore
+        const bookingsSnapshot = await getDocs(collection(db, 'bookings'));
+        const bookings = bookingsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        document.getElementById('statBookings').textContent = bookings.length;
+        document.getElementById('bookingBadge').textContent = bookings.length;
+
+        // Load Queries from JSON (since you're using JSON for Alliya)
+        try {
+          const res = await fetch('/assets/data/alliya-knowledge.json?t=' + Date.now());
+          if (res.ok) {
+            const queries = await res.json();
+            document.getElementById('statQueries').textContent = queries.length;
+            document.getElementById('queryBadge').textContent = queries.length;
+            renderQueries(queries);
+          }
+        } catch (e) {
+          console.log('No queries data yet');
+        }
+
+        // Load Traders from Auth (or users collection)
+        // For now, we'll estimate from bookings
+        const traders = new Set();
+        bookings.forEach(b => { if (b.userId) traders.add(b.userId); });
+        document.getElementById('statUsers').textContent = traders.size;
+        document.getElementById('userBadge').textContent = traders.size;
+
+        // Active users (estimate)
+        document.getElementById('statActive').textContent = Math.min(traders.size, 5);
+
+        // Render bookings
+        renderBookings(bookings);
+
+        // Render recent activity
+        renderRecentActivity(bookings);
+
+        // Update timestamp
+        document.getElementById('lastDataUpdate').textContent = new Date().toLocaleString();
+
+        console.log('✅ Dashboard data loaded:', { bookings: bookings.length, traders: traders.size });
+
+      } catch (err) {
+        console.error('Error loading dashboard:', err);
+      }
+    }
+
+    // ============================================================
+    // 3. RENDER FUNCTIONS
+    // ============================================================
+    function renderBookings(bookings) {
+      const tbody = document.getElementById('bookingsTable');
+      if (!bookings || bookings.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:20px;">
+          <i class="fas fa-box"></i> No bookings yet
+        </td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = bookings.slice(0, 10).map(b => `
+        <tr>
+          <td><strong>#${(b.id || '').slice(0,8).toUpperCase()}</strong></td>
+          <td>${b.traderName || b.userId || 'N/A'}</td>
+          <td>${b.commodity || b.product || 'N/A'}</td>
+          <td>${b.quantity || b.qty || '0'}</td>
+          <td><span class="status-badge ${b.status === 'confirmed' ? 'active' : b.status === 'shipped' ? 'verified' : 'pending'}">${(b.status || 'PENDING').toUpperCase()}</span></td>
+          <td>${b.createdAt ? new Date(b.createdAt.toDate()).toLocaleDateString() : b.date || 'N/A'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderQueries(queries) {
+      const tbody = document.getElementById('queriesTable');
+      if (!queries || queries.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align:center;color:var(--text-muted);padding:20px;">
+          <i class="fas fa-comment-dots"></i> No queries yet
+        </td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = queries.slice(0, 10).map(q => `
+        <tr>
+          <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${q.question || 'N/A'}</td>
+          <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${q.answer || 'No response'}</td>
+          <td><span class="status-badge verified">Knowledge Base</span></td>
+          <td>${q.lastUpdated || 'N/A'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderRecentActivity(bookings) {
+      const tbody = document.getElementById('recentActivity');
+      if (!bookings || bookings.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">
+          <i class="fas fa-clock"></i> No recent activity
+        </td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = bookings.slice(0, 5).map(b => `
+        <tr>
+          <td><strong>${b.traderName || 'Trader'}</strong></td>
+          <td>Booked ${b.commodity || 'grain'} (${b.quantity || '0'} MT)</td>
+          <td style="color:var(--text-muted);font-size:12px;">${b.createdAt ? new Date(b.createdAt.toDate()).toLocaleString() : 'Recently'}</td>
+        </tr>
+      `).join('');
+    }
+
+    // ============================================================
+    // 4. REFRESH
+    // ============================================================
+    window.refreshData = function() {
+      loadDashboardData();
+    };
+
+    // ============================================================
+    // 5. AUTO-REFRESH
+    // ============================================================
+    setInterval(loadDashboardData, 60000);
+
+    // ============================================================
+    // 6. SIDEBAR NAVIGATION
     // ============================================================
     document.querySelectorAll('.nav-item[data-view]').forEach(item => {
       item.addEventListener('click', (e) => {
         e.preventDefault();
-
-        // Update active
         document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
         item.classList.add('active');
 
-        // Hide all views
-        document.querySelectorAll('[id^="view-"]').forEach(view => {
-          view.style.display = 'none';
-        });
+        document.querySelectorAll('[id^="view-"]').forEach(v => v.style.display = 'none');
+        const view = document.getElementById('view-' + item.dataset.view);
+        if (view) view.style.display = 'block';
 
-        // Show selected view
-        const viewId = 'view-' + item.dataset.view;
-        const view = document.getElementById(viewId);
-        if (view) {
-          view.style.display = 'block';
-        }
-
-        // Update title
-        const titleMap = {
+        const titles = {
           'overview': 'Dashboard Overview',
           'users': 'Traders Management',
           'bookings': 'Bookings Management',
           'queries': 'Alliya Queries',
-          'alerts': 'System Alerts',
           'settings': 'Settings'
         };
-        document.getElementById('pageTitle').textContent = titleMap[item.dataset.view] || 'Dashboard';
+        document.getElementById('pageTitle').textContent = titles[item.dataset.view] || 'Dashboard';
 
-        // Close sidebar on mobile
         if (window.innerWidth <= 768) {
           document.getElementById('sidebar').classList.remove('active');
           document.getElementById('hamburger').classList.remove('active');
@@ -945,7 +760,7 @@
     });
 
     // ============================================================
-    // 3. HAMBURGER MENU
+    // 7. HAMBURGER
     // ============================================================
     document.getElementById('hamburger').addEventListener('click', function() {
       document.getElementById('sidebar').classList.toggle('active');
@@ -953,196 +768,9 @@
     });
 
     // ============================================================
-    // 4. LOAD DASHBOARD DATA
-    // ============================================================
-    async function loadDashboardData() {
-      try {
-        // Load Users
-        const usersSnapshot = await getDocs(collection(db, 'users'));
-        const users = usersSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-        // Load Bookings
-        const bookingsSnapshot = await getDocs(collection(db, 'bookings'));
-        const bookings = bookingsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-        // Load Queries (if you have a queries collection)
-        let queries = [];
-        try {
-          const queriesSnapshot = await getDocs(collection(db, 'queries'));
-          queries = queriesSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        } catch (e) {
-          console.log('No queries collection yet');
-        }
-
-        // Update stats
-        document.getElementById('statUsers').textContent = users.length;
-        document.getElementById('statBookings').textContent = bookings.length;
-        document.getElementById('statQueries').textContent = queries.length;
-        document.getElementById('statActive').textContent = Math.floor(Math.random() * 5) + 1;
-
-        // Update badges
-        document.getElementById('userBadge').textContent = users.length;
-        document.getElementById('bookingBadge').textContent = bookings.length;
-        document.getElementById('queryBadge').textContent = queries.length;
-
-        // Update users table
-        renderUsers(users);
-
-        // Update bookings table
-        renderBookings(bookings);
-
-        // Update queries table
-        renderQueries(queries);
-
-        // Update recent activity
-        renderRecentActivity(bookings, users);
-
-        // Update last data update
-        document.getElementById('lastDataUpdate').textContent = new Date().toLocaleString();
-
-        console.log('✅ Dashboard data loaded:', { users: users.length, bookings: bookings.length, queries: queries.length });
-
-      } catch (err) {
-        console.error('Error loading dashboard:', err);
-      }
-    }
-
-    // ============================================================
-    // 5. RENDER FUNCTIONS
-    // ============================================================
-    function renderUsers(users) {
-      const tbody = document.getElementById('usersTable');
-      if (!users || users.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:20px;">
-          <i class="fas fa-users"></i> No traders registered yet
-        </td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = users.slice(0, 10).map(user => `
-        <tr>
-          <td>
-            <span class="user-avatar-sm">${(user.displayName || user.email || 'U').charAt(0).toUpperCase()}</span>
-            ${user.displayName || 'Trader'}
-          </td>
-          <td>${user.email || 'N/A'}</td>
-          <td><span class="status-badge ${user.emailVerified ? 'active' : 'pending'}">${user.emailVerified ? 'Verified' : 'Pending'}</span></td>
-          <td>${user.createdAt ? new Date(user.createdAt.toDate()).toLocaleDateString() : 'N/A'}</td>
-          <td>${user.bookingsCount || 0}</td>
-          <td><a href="#" style="color:var(--gold-primary);text-decoration:none;font-weight:500;">View</a></td>
-        </tr>
-      `).join('');
-    }
-
-    function renderBookings(bookings) {
-      const tbody = document.getElementById('bookingsTable');
-      if (!bookings || bookings.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:20px;">
-          <i class="fas fa-box"></i> No bookings yet
-        </td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = bookings.slice(0, 10).map(booking => `
-        <tr>
-          <td><strong>#${(booking.id || '').slice(0,8).toUpperCase()}</strong></td>
-          <td>${booking.traderName || 'N/A'}</td>
-          <td>${booking.commodity || 'N/A'}</td>
-          <td>${booking.quantity || '0'}</td>
-          <td><span class="status-badge ${booking.status === 'confirmed' ? 'active' : booking.status === 'shipped' ? 'verified' : 'pending'}">${(booking.status || 'PENDING').toUpperCase()}</span></td>
-          <td>${booking.createdAt ? new Date(booking.createdAt.toDate()).toLocaleDateString() : 'N/A'}</td>
-          <td><a href="#" style="color:var(--gold-primary);text-decoration:none;font-weight:500;">View</a></td>
-        </tr>
-      `).join('');
-    }
-
-    function renderQueries(queries) {
-      const tbody = document.getElementById('queriesTable');
-      if (!queries || queries.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-muted);padding:20px;">
-          <i class="fas fa-comment-dots"></i> No queries yet
-        </td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = queries.slice(0, 10).map(query => `
-        <tr>
-          <td>${query.userName || 'Anonymous'}</td>
-          <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${query.question || 'N/A'}</td>
-          <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${query.answer || 'No response'}</td>
-          <td><span class="status-badge ${query.source === 'firestore' ? 'active' : 'pending'}">${query.source || 'fallback'}</span></td>
-          <td>${query.timestamp ? new Date(query.timestamp.toDate()).toLocaleString() : 'N/A'}</td>
-        </tr>
-      `).join('');
-    }
-
-    function renderRecentActivity(bookings, users) {
-      const tbody = document.getElementById('recentActivity');
-      const activities = [];
-
-      // Add user signups as activity
-      if (users && users.length > 0) {
-        users.slice(0, 3).forEach(user => {
-          activities.push({
-            user: user.displayName || user.email || 'New Trader',
-            action: 'Signed up',
-            time: user.createdAt ? new Date(user.createdAt.toDate()).toLocaleString() : 'Recently'
-          });
-        });
-      }
-
-      // Add bookings as activity
-      if (bookings && bookings.length > 0) {
-        bookings.slice(0, 3).forEach(booking => {
-          activities.push({
-            user: booking.traderName || 'Trader',
-            action: `Booked ${booking.commodity || 'grain'} (${booking.quantity || '0'} MT)`,
-            time: booking.createdAt ? new Date(booking.createdAt.toDate()).toLocaleString() : 'Recently'
-          });
-        });
-      }
-
-      // Sort by time (most recent first)
-      // For now, just show what we have
-
-      if (activities.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;color:var(--text-muted);padding:20px;">
-          <i class="fas fa-clock"></i> No recent activity
-        </td></tr>`;
-        return;
-      }
-
-      tbody.innerHTML = activities.slice(0, 5).map(activity => `
-        <tr>
-          <td><strong>${activity.user}</strong></td>
-          <td>${activity.action}</td>
-          <td style="color:var(--text-muted);font-size:12px;">${activity.time}</td>
-        </tr>
-      `).join('');
-    }
-
-    // ============================================================
-    // 6. REFRESH FUNCTION
-    // ============================================================
-    window.refreshData = function() {
-      loadDashboardData();
-    };
-
-    // ============================================================
-    // 7. AUTO-REFRESH (every 60 seconds)
-    // ============================================================
-    setInterval(loadDashboardData, 60000);
-
-    // ============================================================
     // 8. LOGOUT
     // ============================================================
     document.querySelector('.nav-item:last-child')?.addEventListener('click', async (e) => {
       e.preventDefault();
       await signOut(auth);
-      window.location.href = '/login.html';
-    });
-
-    console.log('✅ Admin Dashboard v1.0 loaded');
-  </script>
-</body>
-</html>
+      window.location.h
