@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings – Grains Hub Admin</title>
+  <link rel="icon" href="/favicon.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --gold-primary: #C1A875;
+      --gold-dark: #a07c3b;
+      --gold-gradient: linear-gradient(135deg, #c49b3f, #e3c46a);
+      --bg-dark: #0f0f1a;
+      --bg-card: #1a1a2e;
+      --bg-card-hover: #222240;
+      --text-primary: #ffffff;
+      --text-secondary: #b0b0c0;
+      --text-muted: #8888a0;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #3b82f6;
+      --border: rgba(255,255,255,0.06);
+      --radius: 12px;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--bg-card);
+      border-right: 1px solid var(--border);
+      min-height: 100vh;
+      padding: 24px 0;
+      position: sticky;
+      top: 0;
+      overflow-y: auto;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar .logo {
+      padding: 0 24px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sidebar .logo img { width: 40px; height: 40px; border-radius: 8px; }
+    .sidebar .logo h2 { font-size: 20px; font-weight: 700; color: var(--gold-primary); }
+    .sidebar .logo span { font-size: 11px; color: var(--text-muted); display: block; font-weight: 400; }
+
+    .nav-menu { padding: 16px 0; }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 24px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      gap: 14px;
+    }
+
+    .nav-item i { width: 20px; text-align: center; font-size: 16px; }
+    .nav-item:hover { background: rgba(255,255,255,0.04); color: #fff; }
+    .nav-item.active {
+      background: rgba(193,168,117,0.08);
+      color: var(--gold-primary);
+      border-left-color: var(--gold-primary);
+    }
+
+    .nav-item .badge {
+      margin-left: auto;
+      background: var(--danger);
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 700;
+    }
+    .nav-item .badge.success { background: var(--success); }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 24px 32px 40px;
+      overflow-y: auto;
+      max-height: 100vh;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .top-bar .page-title h1 { font-size: 24px; font-weight: 700; }
+    .top-bar .page-title p { color: var(--text-muted); font-size: 14px; }
+
+    .top-bar .admin-info .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gold-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: #fff;
+    }
+
+    /* Settings Grid */
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .settings-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .settings-card:hover {
+      border-color: rgba(193,168,117,0.2);
+    }
+
+    .settings-card .card-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .settings-card .card-header .icon {
+      font-size: 20px;
+      color: var(--gold-primary);
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(193,168,117,0.08);
+      border-radius: 8px;
+    }
+
+    .settings-card .card-header h3 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .settings-card .card-body {
+      padding: 20px 24px;
+    }
+
+    .settings-card .card-body .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .settings-card .card-body .setting-item:last-child {
+      border-bottom: none;
+    }
+
+    .settings-card .card-body .setting-item .label {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .settings-card .card-body .setting-item .value {
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .settings-card .card-body .setting-item .value.gold { color: var(--gold-primary); }
+    .settings-card .card-body .setting-item .value.green { color: var(--success); }
+    .settings-card .card-body .setting-item .value.blue { color: var(--info); }
+    .settings-card .card-body .setting-item .value.orange { color: var(--warning); }
+
+    /* Toggle Switch */
+    .toggle {
+      width: 44px;
+      height: 24px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .toggle.active {
+      background: var(--gold-primary);
+    }
+
+    .toggle .toggle-knob {
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: all 0.3s ease;
+    }
+
+    .toggle.active .toggle-knob {
+      left: 23px;
+    }
+
+    /* Inputs */
+    .settings-input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      margin-bottom: 12px;
+    }
+
+    .settings-input:focus {
+      outline: none;
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 0 3px rgba(193,168,117,0.1);
+    }
+
+    .settings-input::placeholder { color: var(--text-muted); }
+
+    .settings-select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      margin-bottom: 12px;
+    }
+
+    .settings-select:focus {
+      outline: none;
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 0 3px rgba(193,168,117,0.1);
+    }
+
+    .settings-select option {
+      background: var(--bg-dark);
+      color: #fff;
+    }
+
+    .btn-save {
+      padding: 10px 24px;
+      background: var(--gold-primary);
+      color: #1a1a2e;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      margin-top: 8px;
+    }
+
+    .btn-save:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(193,168,117,0.3);
+    }
+
+    .btn-save i { margin-right: 8px; }
+
+    /* Status Indicators */
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 6px;
+    }
+
+    .status-dot.online { background: var(--success); }
+    .status-dot.offline { background: var(--danger); }
+    .status-dot.warning { background: var(--warning); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+      padding: 8px;
+      background: var(--bg-card);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 2.5px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      display: none;
+      align-items: center;
+      gap: 12px;
+      z-index: 3000;
+      max-width: 400px;
+      animation: slideUp 0.3s ease;
+    }
+
+    .toast.show { display: flex; }
+
+    .toast.success { border-left: 4px solid var(--success); }
+    .toast.error { border-left: 4px solid var(--danger); }
+    .toast.warning { border-left: 4px solid var(--warning); }
+
+    .toast .toast-icon { font-size: 20px; }
+    .toast.success .toast-icon { color: var(--success); }
+    .toast.error .toast-icon { color: var(--danger); }
+    .toast.warning .toast-icon { color: var(--warning); }
+
+    .toast .toast-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 0 4px;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 1000;
+        transform: translateX(-100%);
+      }
+      .sidebar.active { transform: translateX(0); }
+      .hamburger { display: flex; }
+      .main-content { padding: 16px; padding-top: 72px; }
+      .settings-grid { grid-template-columns: 1fr; }
+      .top-bar { flex-direction: column; align-items: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      .settings-card .card-body { padding: 16px; }
+      .toast { bottom: 16px; right: 16px; left: 16px; max-width: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hamburger -->
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="logo">
+      <img src="/assets/img/grains-logo.png" alt="Grains Hub">
+      <div>
+        <h2>Grains Hub</h2>
+        <span>Admin Dashboard</span>
+      </div>
+    </div>
+
+    <nav class="nav-menu">
+      <a href="/admin/index.html" class="nav-item">
+        <i class="fas fa-home"></i> Overview
+      </a>
+      <a href="/admin/traders.html" class="nav-item">
+        <i class="fas fa-users"></i> Traders
+      </a>
+      <a href="/admin/bookings.html" class="nav-item">
+        <i class="fas fa-box"></i> Bookings
+      </a>
+      <a href="/admin/queries.html" class="nav-item">
+        <i class="fas fa-comment-dots"></i> Alliya Queries
+      </a>
+      <a href="/admin/settings.html" class="nav-item active">
+        <i class="fas fa-cog"></i> Settings
+      </a>
+      <a href="/" class="nav-item" style="margin-top:20px;border-top:1px solid var(--border);padding-top:16px;">
+        <i class="fas fa-arrow-left"></i> Back to Site
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="page-title">
+        <h1>⚙️ System Settings</h1>
+        <p>Configure your Grains Hub platform</p>
+      </div>
+      <div class="admin-info">
+        <div class="avatar" id="adminAvatar">A</div>
+      </div>
+    </div>
+
+    <!-- Settings Grid -->
+    <div class="settings-grid">
+
+      <!-- ============================================================
+      SYSTEM STATUS
+      ============================================================ -->
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-server"></i></div>
+          <h3>System Status</h3>
+        </div>
+        <div class="card-body">
+          <div class="setting-item">
+            <span class="label">Platform Status</span>
+            <span class="value green"><span class="status-dot online"></span> Online</span>
+          </div>
+          <div class="setting-item">
+            <span class="label">Firebase Connection</span>
+            <span class="value green"><i class="fas fa-check-circle"></i> Connected</span>
+          </div>
+          <div class="setting-item">
+            <span class="label">Alliya AI Status</span>
+            <span class="value green"><i class="fas fa-check-circle"></i> Active v8.3</span>
+          </div>
+          <div class="setting-item">
+            <span class="label">Last Data Update</span>
+            <span class="value gold" id="lastUpdate">Loading...</span>
+          </div>
+          <div class="setting-item">
+            <span class="label">Uptime</span>
+            <span class="value gold">99.9%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+      SECURITY
+      ============================================================ -->
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Security</h3>
+        </div>
+        <div class="card-body">
+          <div class="setting-item">
+            <span class="label">Two-Factor Authentication</span>
+            <div class="toggle active" onclick="toggleSetting(this)">
+              <div class="toggle-knob"></div>
+            </div>
+          </div>
+          <div class="setting-item">
+            <span class="label">Session Timeout</span>
+            <span class="value gold">30 minutes</span>
+          </div>
+          <div class="setting-item">
+            <span class="label">IP Whitelist</span>
+            <span class="value blue">Not configured</span>
+          </div>
+          <div class="setting-item">
+            <span class="label">SSL Certificate</span>
+            <span class="value green"><i class="fas fa-check-circle"></i> Valid</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+      TIER MANAGEMENT
+      ============================================================ -->
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-crown"></i></div>
+          <h3>Subscription Tiers</h3>
+        </div>
+        <div class="card-body">
+          <div class="setting-item">
+            <span class="label">🌱 Free Tier</span>
+            <span class="value">5 bookings/month</span>
+          </div>
+          <div class="setting-item">
+            <span class="label">🚀 Pro Tier</span>
+            <span class="value gold">$49/month</span>
+          </div>
+          <div class="setting-item">
+            <span class="label">💎 Premium Tier</span>
+            <span class="value gold">$149/month</span>
+          </div>
+          <div class="setting-item">
+            <span class="label">🏢 Enterprise</span>
+            <span class="value gold">Custom pricing</span>
+          </div>
+          <div class="setting-item" style="border-bottom:none;padding-top:4px;">
+            <button class="btn-save" onclick="showToast('Tier settings updated successfully!', 'success')">
+              <i class="fas fa-save"></i> Update Tiers
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+      EMAIL SETTINGS
+      ============================================================ -->
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-envelope"></i></div>
+          <h3>Email Settings</h3>
+        </div>
+        <div class="card-body">
+          <div class="setting-item">
+            <span class="label">Welcome Email</span>
+            <div class="toggle active" onclick="toggleSetting(this)">
+              <div class="toggle-knob"></div>
+            </div>
+          </div>
+          <div class="setting-item">
+            <span class="label">Booking Confirmations</span>
+            <div class="toggle active" onclick="toggleSetting(this)">
+              <div class="toggle-knob"></div>
+            </div>
+          </div>
+          <div class="setting-item">
+            <span class="label">Newsletter</span>
+            <div class="toggle" onclick="toggleSetting(this)">
+              <div class="toggle-knob"></div>
+            </div>
+          </div>
+          <div class="setting-item" style="border-bottom:none;padding-top:4px;">
+            <button class="btn-save" onclick="showToast('Email settings saved!', 'success')">
+              <i class="fas fa-save"></i> Save Email Settings
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+      DATA MANAGEMENT
+      ============================================================ -->
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-database"></i></div>
+          <h3>Data Management</h3>
+        </div>
+        <div class="card-body">
+          <div class="setting-item">
+            <span class="label">Auto Backup</span>
+            <span class="value green">Daily</span>
+          </div>
+          <div class="setting-item">
+            <span class="label">Data Retention</span>
+            <select class="settings-select" style="width:auto;margin-bottom:0;">
+              <option>1 Year</option>
+              <option selected>2 Years</option>
+              <option>5 Years</option>
+              <option>Indefinite</option>
+            </select>
+          </div>
+          <div class="setting-item" style="border-bottom:none;padding-top:4px;flex-wrap:wrap;gap:8px;">
+            <button class="btn-save" onclick="showToast('Backup initiated!', 'success')" style="flex:1;">
+              <i class="fas fa-cloud-upload-alt"></i> Backup Now
+            </button>
+            <button class="btn-save" onclick="showToast('Data exported!', 'success')" style="flex:1;background:rgba(255,255,255,0.06);color:#fff;">
+              <i class="fas fa-download"></i> Export
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================
+      ALLIYA AI SETTINGS
+      ============================================================ -->
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="icon"><i class="fas fa-robot"></i></div>
+          <h3>Alliya AI</h3>
+        </div>
+        <div class="card-body">
+          <div class="setting-item">
+            <span class="label">Model Version</span>
+            <span class="value gold">v8.3</span>
+          </div>
+          <div class="setting-item">
+            <span class="label">Response Timeout</span>
+            <select class="settings-select" style="width:auto;margin-bottom:0;">
+              <option>2s</option>
+              <option selected>3s</option>
+              <option>5s</option>
+              <option>10s</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <span class="label">Enable Logging</span>
+            <div class="toggle active" onclick="toggleSetting(this)">
+              <div class="toggle-knob"></div>
+            </div>
+          </div>
+          <div class="setting-item" style="border-bottom:none;padding-top:4px;">
+            <button class="btn-save" onclick="showToast('Alliya settings updated!', 'success')">
+              <i class="fas fa-save"></i> Update Alliya Settings
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <span class="toast-icon"><i class="fas fa-check-circle"></i></span>
+    <span id="toastMessage">Settings saved!</span>
+    <button class="toast-close" onclick="hideToast()">&times;</button>
+  </div>
+
+  <!-- ============================================================
+     JAVASCRIPT
+  ============================================================ -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBz2Ha_cj42LI-Dh4VYkEOOsROt2WE9fDU",
+      authDomain: "grains-hub.firebaseapp.com",
+      projectId: "grains-hub",
+      storageBucket: "grains-hub.firebasestorage.app",
+      messagingSenderId: "783882873254",
+      appId: "1:783882873254:web:ba93eaaff5eca25cd6c767",
+      measurementId: "G-RHYCMRHS1Q"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // ============================================================
+    // 1. AUTH CHECK
+    // ============================================================
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = '/admin/login.html';
+        return;
+      }
+
+      const adminDoc = await getDoc(doc(db, "admins", user.uid));
+      if (!adminDoc.exists() || adminDoc.data().role !== 'admin') {
+        window.location.href = '/dashboard.html';
+        return;
+      }
+
+      document.getElementById('adminAvatar').textContent = (user.displayName || 'A').charAt(0).toUpperCase();
+      updateTimestamp();
+    });
+
+    // ============================================================
+    // 2. UPDATE TIMESTAMP
+    // ============================================================
+    function updateTimestamp() {
+      document.getElementById('lastUpdate').textContent = new Date().toLocaleString();
+    }
+
+    // ============================================================
+    // 3. TOGGLE SETTING
+    // ============================================================
+    window.toggleSetting = function(element) {
+      element.classList.toggle('active');
+      const isActive = element.classList.contains('active');
+      const label = element.closest('.setting-item').querySelector('.label').textContent;
+      showToast(`${label}: ${isActive ? 'Enabled' : 'Disabled'}`, isActive ? 'success' : 'warning');
+    };
+
+    // ============================================================
+    // 4. TOAST NOTIFICATIONS
+    // ============================================================
+    window.showToast = function(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toastMessage');
+      const toastIcon = toast.querySelector('.toast-icon i');
+
+      toast.className = 'toast show ' + type;
+      toastMessage.textContent = message;
+
+      const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle'
+      };
+      toastIcon.className = 'fas ' + (icons[type] || icons.success);
+
+      clearTimeout(window.toastTimeout);
+      window.toastTimeout = setTimeout(hideToast, 4000);
+    };
+
+    window.hideToast = function() {
+      document.getElementById('toast').classList.remove('show');
+    };
+
+    // ============================================================
+    // 5. HAMBURGER
+    // ============================================================
+    document.getElementById('hamburger').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.toggle('active');
+      this.classList.toggle('active');
+    });
+
+    // ============================================================
+    // 6. AUTO-REFRESH TIMESTAMP
+    // ============================================================
+    setInterval(updateTimestamp, 60000);
+
+    console.log('✅ Settings page loaded');
+  </script>
+</body>
+</html>
