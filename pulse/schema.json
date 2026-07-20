@@ -75,7 +75,7 @@
       "size": "18kg",
       "offers": {
         "@type": "Offer",
-        "price": "48",
+        "price": "52",
         "priceCurrency": "AED",
         "availability": "https://schema.org/InStock"
       }
@@ -300,7 +300,7 @@
       "size": "10kg",
       "offers": {
         "@type": "Offer",
-        "price": "585",
+        "price": "685",
         "priceCurrency": "USD",
         "availability": "https://schema.org/PreOrder"
       }
@@ -315,7 +315,7 @@
       "size": "10kg",
       "offers": {
         "@type": "Offer",
-        "price": "575",
+        "price": "695",
         "priceCurrency": "USD",
         "availability": "https://schema.org/PreOrder"
       }
@@ -330,7 +330,7 @@
       "size": "18kg",
       "offers": {
         "@type": "Offer",
-        "price": "580",
+        "price": "645",
         "priceCurrency": "USD",
         "availability": "https://schema.org/PreOrder"
       }
