@@ -75,7 +75,7 @@
       "size": "18kg",
       "offers": {
         "@type": "Offer",
-        "price": "52",
+        "price": "56",
         "priceCurrency": "AED",
         "availability": "https://schema.org/InStock"
       }
