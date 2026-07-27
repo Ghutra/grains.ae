@@ -135,7 +135,7 @@
       "size": "35kg",
       "offers": {
         "@type": "Offer",
-        "price": "450",
+        "price": "430",
         "priceCurrency": "USD",
         "availability": "https://schema.org/PreOrder"
       }
@@ -150,7 +150,7 @@
       "size": "35kg",
       "offers": {
         "@type": "Offer",
-        "price": "410",
+        "price": "390",
         "priceCurrency": "USD",
         "availability": "https://schema.org/PreOrder"
       }
