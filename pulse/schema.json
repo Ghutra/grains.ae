@@ -135,7 +135,7 @@
       "size": "35kg",
       "offers": {
         "@type": "Offer",
-        "price": "430",
+        "price": "410",
         "priceCurrency": "USD",
         "availability": "https://schema.org/PreOrder"
       }
