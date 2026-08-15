@@ -907,10 +907,10 @@
 
     const userQuery = input.value.trim();
     if (!userQuery) {
-      const err = recover('empty');
-      replyBox.innerHTML = buildResponse(err.title, err.summary);
-      replyBox.classList.add('show');
-      return;
+        const err = recover('empty');
+        replyBox.innerHTML = buildResponse(err.title, err.summary);
+        replyBox.classList.add('show');
+        return;
     }
 
     replyBox.innerHTML = '<span class="alliya-loading">⏳ Alliya is checking</span>';
@@ -920,131 +920,131 @@
     const terms = q.split(/\s+/).filter(Boolean);
 
     try {
-      const [stock, suppliers, knowledge] = await Promise.all([loadStock(), loadSuppliers(), loadKnowledge()]);
+        const [stock, suppliers, knowledge] = await Promise.all([loadStock(), loadSuppliers(), loadKnowledge()]);
 
-      // Personality
-      const personality = getPersonality(userQuery);
-      if (personality) {
-        replyBox.innerHTML = buildResponse(personality.title, personality.summary);
-        return;
-      }
+        // Personality
+        const personality = getPersonality(userQuery);
+        if (personality) {
+            replyBox.innerHTML = buildResponse(personality.title, personality.summary);
+            return;
+        }
 
-      // Knowledge
-      let kbMatch = knowledge.find(k =>
-        normalize(k.question) === q ||
-        normalize(k.question).includes(q) ||
-        q.includes(normalize(k.question))
-      );
-
-      if (!kbMatch) {
-        kbMatch = knowledge.reduce((best, current) => {
-          const score = similarityScore(current.question, userQuery);
-          return score > (best.score || 0) ? { ...current, score } : best;
-        }, { score: 0 });
-        if (kbMatch.score < 3) kbMatch = null;
-      }
-
-      if (kbMatch) {
-        replyBox.innerHTML = buildResponse('✨ Your Answer', kbMatch.answer, [{ heading: 'Details', body: kbMatch.answer }]);
-        return;
-      }
-
-      // Stock      const stockMatches = findStockMatches(stock, terms);
-      if (stockMatches.length > 0) {
-        const primary = stockMatches[0];
-        const supplier = findSupplierForProduct(suppliers, primary.name);
-        const isBooking = String(primary.price).toUpperCase().includes('USD');
-        const priceRaw = parseFloat(primary.price);
-        const sizeKG = parseInt(primary.size);
-        const pricePerKg = (!isNaN(priceRaw) && !isNaN(sizeKG)) ? (priceRaw / sizeKG).toFixed(2) : null;
-        const originFlag = normalize(primary.origin).includes('india') ? '🇮🇳' :
-          normalize(primary.origin).includes('pakistan') ? '🇵🇰' :
-          normalize(primary.origin).includes('thailand') ? '🇹🇭' : '🌍';
-
-        replyBox.innerHTML = buildResponse(
-          `${originFlag} ${primary.name}`,
-          `${primary.name} is available in live stock.`,
-          [
-            { heading: '📋 Product overview', body: `<strong>Origin:</strong> ${primary.origin}<br><strong>Packaging:</strong> ${primary.packaging || 'Standard bags'}<br><strong>Stock:</strong> ${primary.stock || 'Prompt shipment'}` },
-            { heading: '💰 Pricing', body: isBooking ? `${primary.price} (Booking / FOB or C&F)` : `${primary.price} / ${primary.size}kg${pricePerKg ? ` → ${pricePerKg} AED/kg` : ''}` },
-            { heading: '🏢 Supplier', body: supplier ? `${supplier.name} (${supplier.badge}) – ${supplier.city}, ${supplier.country}` : `${primary.badge || 'Verified Supplier'}` }
-          ]
+        // Knowledge
+        let kbMatch = knowledge.find(k =>
+            normalize(k.question) === q ||
+            normalize(k.question).includes(q) ||
+            q.includes(normalize(k.question))
         );
-        return;
-      }
 
-      // Supplier
-      const supplierMatch = suppliers.find(s => normalize(s.name).includes(q));
-      if (supplierMatch) {
-        replyBox.innerHTML = buildResponse(
-          `🏅 Verified Supplier: ${supplierMatch.name}`,
-          `${supplierMatch.name} is a verified supplier listed on Grains Hub.`,
-          [{ heading: '📋 Supplier details', body: `<strong>Location:</strong> ${supplierMatch.city}, ${supplierMatch.country}<br><strong>Badge:</strong> ${supplierMatch.badge}<br><strong>Products:</strong> ${Array.isArray(supplierMatch.products) ? supplierMatch.products.join(', ') : 'Listed products'}` }]
-        );
-        return;
-      }
+        if (!kbMatch) {
+            kbMatch = knowledge.reduce((best, current) => {
+                const score = similarityScore(current.question, userQuery);
+                return score > (best.score || 0) ? { ...current, score } : best;
+            }, { score: 0 });
+            if (kbMatch.score < 3) kbMatch = null;
+        }
 
-      // Intent routing
-      const intent = q;
-      if (intent.includes('supplier')) {
-        replyBox.innerHTML = buildResponse('🏢 Supplier Directory', 'Browse all verified suppliers.', [{ heading: '🔗 Open directory', body: '<a href="https://grains.ae/suppliers/" target="_blank">View suppliers</a>' }]);
-        return;
-      }
-      if (intent.includes('market') || intent.includes('pulse')) {
-        replyBox.innerHTML = buildResponse('📊 Market Pulse', 'Live grain pricing updated every 60 seconds.', [{ heading: '🔗 Open Market Pulse', body: '<a href="https://grains.ae/pulse/index.html" target="_blank">Open Market Pulse</a>' }]);
-        return;
-      }
-      if (intent.includes('fcl') || intent.includes('container')) {
-        replyBox.innerHTML = buildResponse('🚢 FCL Booking', 'Submit your full container load requirement instantly.', [{ heading: '🔗 Book shipment', body: '<a href="https://grains.ae/fcl/" target="_blank">Book FCL shipment</a>' }]);
-        return;
-      }
-      if (intent.includes('compliance')) {
-        replyBox.innerHTML = buildResponse('📄 Compliance & Verification', 'Download the official compliance guide.', [{ heading: '🔗 Download guide', body: '<a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a>' }]);
-        return;
-      }
-      if (intent.includes('stock')) {
-        replyBox.innerHTML = buildResponse('📦 Live Stock', 'Browse all available stock.', [{ heading: '🔗 Open stock', body: '<a href="https://grains.ae/shop" target="_blank">Open stock page</a>' }]);
-        return;
-      }
-      // ============================================================
-      // DOCUMENTATION HUB - FIXED with clean links
-      // ============================================================
-      if (intent.includes('docs') || intent.includes('documentation')) {
-        replyBox.innerHTML = buildResponse(
-          '📄 Documentation Hub',
-          'All official documents are available below.',
-          [{
-            heading: '📚 Downloads',
-            body: [
-              '<a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank" class="clickable-link">📄 Buyer Pack</a>',
-              '<a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank" class="clickable-link">📄 Supplier Onboarding Pack</a>',
-              '<a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank" class="clickable-link">📄 FCL Guide</a>',
-              '<a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank" class="clickable-link">📄 Compliance Guide</a>',
-              '<a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank" class="clickable-link">📄 Market Analysis 2025</a>'
-            ].join('<br>')
-          }]
-        );
-        return;
-      }
-      if (intent.includes('buyer pack')) {
-        replyBox.innerHTML = buildResponse('📄 Buyer Pack', 'Download the official Buyer Pack.', [{ heading: '🔗 Download', body: '<a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank" class="clickable-link">Buyer Pack</a>' }]);
-        return;
-      }
+        if (kbMatch) {
+            replyBox.innerHTML = buildResponse('✨ Your Answer', kbMatch.answer, [{ heading: 'Details', body: kbMatch.answer }]);
+            return;
+        }
 
-      // Fallback
-      const err = recover('unknown', userQuery);
-      replyBox.innerHTML = buildResponse(err.title, err.summary, [{
-        heading: '💡 Try asking about:',
-        body: '• Products (1121 Sella, IRRI 6, 1509, etc.)<br>• Suppliers<br>• FCL booking<br>• Documentation<br>• Compliance<br>• Market prices'
-      }]);
+        // Stock
+        const stockMatches = findStockMatches(stock, terms);
+        if (stockMatches.length > 0) {
+            const primary = stockMatches[0];
+            const supplier = findSupplierForProduct(suppliers, primary.name);
+            const isBooking = String(primary.price).toUpperCase().includes('USD');
+            const priceRaw = parseFloat(primary.price);
+            const sizeKG = parseInt(primary.size);
+            const pricePerKg = (!isNaN(priceRaw) && !isNaN(sizeKG)) ? (priceRaw / sizeKG).toFixed(2) : null;
+            const originFlag = normalize(primary.origin).includes('india') ? '🇮🇳' :
+                normalize(primary.origin).includes('pakistan') ? '🇵🇰' :
+                normalize(primary.origin).includes('thailand') ? '🇹🇭' : '🌍';
+
+            replyBox.innerHTML = buildResponse(
+                `${originFlag} ${primary.name}`,
+                `${primary.name} is available in live stock.`,
+                [
+                    { heading: '📋 Product overview', body: `<strong>Origin:</strong> ${primary.origin}<br><strong>Packaging:</strong> ${primary.packaging || 'Standard bags'}<br><strong>Stock:</strong> ${primary.stock || 'Prompt shipment'}` },
+                    { heading: '💰 Pricing', body: isBooking ? `${primary.price} (Booking / FOB or C&F)` : `${primary.price} / ${primary.size}kg${pricePerKg ? ` → ${pricePerKg} AED/kg` : ''}` },
+                    { heading: '🏢 Supplier', body: supplier ? `${supplier.name} (${supplier.badge}) – ${supplier.city}, ${supplier.country}` : `${primary.badge || 'Verified Supplier'}` }
+                ]
+            );
+            return;
+        }
+
+        // Supplier
+        const supplierMatch = suppliers.find(s => normalize(s.name).includes(q));
+        if (supplierMatch) {
+            replyBox.innerHTML = buildResponse(
+                `🏅 Verified Supplier: ${supplierMatch.name}`,
+                `${supplierMatch.name} is a verified supplier listed on Grains Hub.`,
+                [{ heading: '📋 Supplier details', body: `<strong>Location:</strong> ${supplierMatch.city}, ${supplierMatch.country}<br><strong>Badge:</strong> ${supplierMatch.badge}<br><strong>Products:</strong> ${Array.isArray(supplierMatch.products) ? supplierMatch.products.join(', ') : 'Listed products'}` }]
+            );
+            return;
+        }
+
+        // Intent routing
+        const intent = q;
+        if (intent.includes('supplier')) {
+            replyBox.innerHTML = buildResponse('🏢 Supplier Directory', 'Browse all verified suppliers.', [{ heading: '🔗 Open directory', body: '<a href="https://grains.ae/suppliers/" target="_blank">View suppliers</a>' }]);
+            return;
+        }
+        if (intent.includes('market') || intent.includes('pulse')) {
+            replyBox.innerHTML = buildResponse('📊 Market Pulse', 'Live grain pricing updated every 60 seconds.', [{ heading: '🔗 Open Market Pulse', body: '<a href="https://grains.ae/pulse/index.html" target="_blank">Open Market Pulse</a>' }]);
+            return;
+        }
+        if (intent.includes('fcl') || intent.includes('container')) {
+            replyBox.innerHTML = buildResponse('🚢 FCL Booking', 'Submit your full container load requirement instantly.', [{ heading: '🔗 Book shipment', body: '<a href="https://grains.ae/fcl/" target="_blank">Book FCL shipment</a>' }]);
+            return;
+        }
+        if (intent.includes('compliance')) {
+            replyBox.innerHTML = buildResponse('📄 Compliance & Verification', 'Download the official compliance guide.', [{ heading: '🔗 Download guide', body: '<a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a>' }]);
+            return;
+        }
+        if (intent.includes('stock')) {
+            replyBox.innerHTML = buildResponse('📦 Live Stock', 'Browse all available stock.', [{ heading: '🔗 Open stock', body: '<a href="https://grains.ae/shop" target="_blank">Open stock page</a>' }]);
+            return;
+        }
+        // ============================================================
+        // UPDATED: Match 'doc', 'docs', 'docx', 'documentation'
+        // ============================================================
+        if (intent.includes('doc') || intent.includes('documentation')) {
+            replyBox.innerHTML = buildResponse(
+                '📄 Documentation Hub',
+                'All official documents are available below.',
+                [{
+                    heading: '📚 Downloads',
+                    body: [
+                        '<a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank" class="clickable-link">📄 Buyer Pack</a>',
+                        '<a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank" class="clickable-link">📄 Supplier Onboarding Pack</a>',
+                        '<a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank" class="clickable-link">📄 FCL Guide</a>',
+                        '<a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank" class="clickable-link">📄 Compliance Guide</a>',
+                        '<a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank" class="clickable-link">📄 Market Analysis 2025</a>'
+                    ].join('<br>')
+                }]
+            );
+            return;
+        }
+        if (intent.includes('buyer pack')) {
+            replyBox.innerHTML = buildResponse('📄 Buyer Pack', 'Download the official Buyer Pack.', [{ heading: '🔗 Download', body: '<a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank" class="clickable-link">Buyer Pack</a>' }]);
+            return;
+        }
+
+        // Fallback
+        const err = recover('unknown', userQuery);
+        replyBox.innerHTML = buildResponse(err.title, err.summary, [{
+            heading: '💡 Try asking about:',
+            body: '• Products (1121 Sella, IRRI 6, 1509, etc.)<br>• Suppliers<br>• FCL booking<br>• Documentation<br>• Compliance<br>• Market prices'
+        }]);
 
     } catch (err) {
-      console.error('[Alliya] Error:', err);
-      const errPack = recover('network');
-      replyBox.innerHTML = buildResponse(errPack.title, errPack.summary);
+        console.error('[Alliya] Error:', err);
+        const errPack = recover('network');
+        replyBox.innerHTML = buildResponse(errPack.title, errPack.summary);
     }
-  }
-
+}
   // ============================================================
   // 13. MODAL CONTROLS
   // ============================================================
