@@ -1,5 +1,6 @@
 /* ============================================================
-   ALLIYA v8.3 - Scoped Gold Edition
+   ALLIYA v8.4 - Scoped Gold Edition
+   Fixed autoLinkify - Prevents double-wrapped links
    No layout conflicts - Only affects Alliya elements
    ============================================================ */
 
@@ -11,7 +12,7 @@
   // ============================================================
   const ALLIYA_STYLES = `
     /* ============================================================
-       ALLIYA v8.3 - Scoped Styles
+       ALLIYA v8.4 - Scoped Styles
        Only affects elements with #alliyaModal and #alliyaFloatBtn
        ============================================================ */
     
@@ -629,52 +630,70 @@
     return (str || '').toLowerCase().trim();
   }
 
+  // ============================================================
+  // 5a. AUTO-LINKIFY - FIXED (Prevents double-wrapping)
+  // ============================================================
   function autoLinkify(text) {
     if (!text) return '';
+
+    // If text already contains HTML anchor tags, return as-is (already linked)
+    if (/<a\s+[^>]*>.*?<\/a>/i.test(text)) {
+      return text;
+    }
+
     let html = text;
 
-    // WhatsApp
+    // 1. WhatsApp links
     html = html.replace(
       /(?:https?:\/\/)?(?:wa\.me|whatsapp\.com)\/([0-9]+)/gi,
-      '<a href="https://wa.me/$1" target="_blank">📱 WhatsApp: $1</a>'
+      '<a href="https://wa.me/$1" target="_blank" class="whatsapp-link">📱 WhatsApp: $1</a>'
     );
 
-    // Phone numbers
+    // 2. Phone numbers
     html = html.replace(
       /(\+?[0-9]{1,4}[-.\s]?)?\(?[0-9]{2,4}\)?[-.\s]?[0-9]{3,4}[-.\s]?[0-9]{3,4}/g,
-      (match) => {
+      function(match) {
         const clean = match.replace(/[\s\-()]/g, '');
         if (clean.length >= 7) {
-          return `<a href="tel:${clean}">📞 ${match}</a>`;
+          return `<a href="tel:${clean}" class="phone-link">📞 ${match}</a>`;
         }
         return match;
       }
     );
 
-    // Email
+    // 3. Email addresses
     html = html.replace(
       /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g,
-      '<a href="mailto:$1">✉️ $1</a>'
+      '<a href="mailto:$1" class="email-link">✉️ $1</a>'
     );
 
-    // URLs
+    // 4. URLs (http, https, www) - skip if already wrapped
     html = html.replace(
-      /(https?:\/\/[^\s<]+|www\.[^\s<]+)/g,
-      (match) => {
+      /(https?:\/\/[^\s<]+|www\.[^\s<]+)/gi,
+      function(match) {
+        // Skip if already inside an <a> tag
         const href = match.startsWith('www.') ? 'https://' + match : match;
         const display = match.length > 50 ? match.substring(0, 45) + '...' : match;
-        return `<a href="${href}" target="_blank">🔗 ${display}</a>`;
+        return `<a href="${href}" target="_blank" class="clickable-link">🔗 ${display}</a>`;
       }
     );
 
-    // File paths
+    // 5. File paths - clean handling (avoid double-wrapping)
     html = html.replace(
       /(\/[^\s<]+\.(pdf|doc|docx|xls|xlsx|json|csv|txt))/gi,
-      (match) => {
+      function(match) {
+        // Check if match is already inside an anchor tag
+        if (/<a\s+[^>]*>/.test(html)) {
+          return match;
+        }
         const filename = match.split('/').pop();
-        return `<a href="${match}" target="_blank">📄 ${filename}</a>`;
+        return `<a href="${match}" target="_blank" class="clickable-link">📄 ${filename}</a>`;
       }
     );
+
+    // 6. Clean up any orphaned target="_blank" or duplicate link text
+    html = html.replace(/"" target="_blank"/g, '');
+    html = html.replace(/https?:\/\/[^\s"]+(?=\s*["\'])/g, '');
 
     return html;
   }
@@ -748,14 +767,15 @@
   }
 
   // ============================================================
-  // 8. BUILD RESPONSE
+  // 8. BUILD RESPONSE - FIXED (uses updated autoLinkify)
   // ============================================================
   function buildResponse(title, summary, sections = []) {
     const linkedSummary = autoLinkify(summary);
     let html = `<div class="alliya-block"><h2><strong>${title}</strong></h2><p>${linkedSummary}</p>`;
 
     sections.forEach(sec => {
-      html += `<h3>${sec.heading}</h3><p>${autoLinkify(sec.body)}</p>`;
+      const linkedBody = autoLinkify(sec.body);
+      html += `<h3>${sec.heading}</h3><p>${linkedBody}</p>`;
     });
 
     html += `
@@ -929,8 +949,7 @@
         return;
       }
 
-      // Stock
-      const stockMatches = findStockMatches(stock, terms);
+      // Stock      const stockMatches = findStockMatches(stock, terms);
       if (stockMatches.length > 0) {
         const primary = stockMatches[0];
         const supplier = findSupplierForProduct(suppliers, primary.name);
@@ -987,15 +1006,28 @@
         replyBox.innerHTML = buildResponse('📦 Live Stock', 'Browse all available stock.', [{ heading: '🔗 Open stock', body: '<a href="https://grains.ae/shop" target="_blank">Open stock page</a>' }]);
         return;
       }
+      // ============================================================
+      // DOCUMENTATION HUB - FIXED with clean links
+      // ============================================================
       if (intent.includes('docs') || intent.includes('documentation')) {
-        replyBox.innerHTML = buildResponse('📄 Documentation Hub', 'All official documents are available below.', [{
-          heading: '📚 Downloads',
-          body: '<a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank">Buyer Pack</a><br><a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank">Supplier Onboarding Pack</a><br><a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank">FCL Guide</a><br><a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank">Compliance Guide</a>'
-        }]);
+        replyBox.innerHTML = buildResponse(
+          '📄 Documentation Hub',
+          'All official documents are available below.',
+          [{
+            heading: '📚 Downloads',
+            body: [
+              '<a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank" class="clickable-link">📄 Buyer Pack</a>',
+              '<a href="https://grains.ae/docs/supplier-onboarding-pack.pdf" target="_blank" class="clickable-link">📄 Supplier Onboarding Pack</a>',
+              '<a href="https://grains.ae/docs/fcl-guide.pdf" target="_blank" class="clickable-link">📄 FCL Guide</a>',
+              '<a href="https://grains.ae/docs/compliance-guide.pdf" target="_blank" class="clickable-link">📄 Compliance Guide</a>',
+              '<a href="https://grains.ae/docs/market-analysis-2025.pdf" target="_blank" class="clickable-link">📄 Market Analysis 2025</a>'
+            ].join('<br>')
+          }]
+        );
         return;
       }
       if (intent.includes('buyer pack')) {
-        replyBox.innerHTML = buildResponse('📄 Buyer Pack', 'Download the official Buyer Pack.', [{ heading: '🔗 Download', body: '<a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank">Buyer Pack</a>' }]);
+        replyBox.innerHTML = buildResponse('📄 Buyer Pack', 'Download the official Buyer Pack.', [{ heading: '🔗 Download', body: '<a href="https://grains.ae/docs/buyer-pack.pdf" target="_blank" class="clickable-link">Buyer Pack</a>' }]);
         return;
       }
 
@@ -1098,7 +1130,7 @@
     injectHTML();
     setupEvents();
 
-    console.log('%c✨ Alliya v8.3 - Scoped Gold Edition', 'font-size:20px; font-weight:bold; color:#c49b3f;');
+    console.log('%c✨ Alliya v8.4 - Scoped Gold Edition', 'font-size:20px; font-weight:bold; color:#c49b3f;');
     console.log('%c💡 Click the gold button to open', 'font-size:14px; color:#a8842e;');
     console.log('%c🔗 All links, emails, and phone numbers are clickable!', 'font-size:13px; color:#c49b3f;');
   }
@@ -1117,7 +1149,7 @@
     ask: askAlliya,
     open: openModal,
     close: closeModal,
-    version: '8.3'
+    version: '8.4'
   };
 
 })();
