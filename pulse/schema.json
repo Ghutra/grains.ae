@@ -334,6 +334,511 @@
         "priceCurrency": "USD",
         "availability": "https://schema.org/PreOrder"
       }
+},
+{
+  "@type": "Product",
+  "name": "1121 Raw/White Basmati Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1121-raw-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1437",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "1121 Steam Basmati Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1121-steam-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1395",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "1121 Creamy Sella Basmati Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1121-sella-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1352",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "1121 Golden Sella Basmati Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1121-golden-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1395",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+
+{
+  "@type": "Product",
+  "name": "1718 Raw/White Basmati Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1718-raw-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1395",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "1718 Steam Basmati Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1718-steam-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1362",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "1718 Creamy Sella Basmati Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1718-sella-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1319",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "1718 Golden Sella Basmati Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1718-golden-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1373",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+
+{
+  "@type": "Product",
+  "name": "1509 Steam Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1509-steam-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1288",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "1509 Creamy Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1509-sella-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1223",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "1509 Golden Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1509-golden-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1298",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "1509 Raw/White Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1509-raw-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1202",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+
+{
+  "@type": "Product",
+  "name": "1847 Steam Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1847-steam-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1277",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "1847 Creamy Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1847-sella-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1234",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "1847 Golden Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1847-golden-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1277",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+
+{
+  "@type": "Product",
+  "name": "1401 Steam Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/1401-steam-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1341",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+
+{
+  "@type": "Product",
+  "name": "Pusa Raw/White Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/pusa-raw-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1287",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "Pusa Steam Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/pusa-steam-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1287",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "Pusa Creamy Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/pusa-sella-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1245",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "Pusa Golden Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/pusa-golden-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1170",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+
+{
+  "@type": "Product",
+  "name": "Sugandha Steam Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/sugandha-steam-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1180",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "Sugandha Creamy Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/sugandha-sella-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1127",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "Sugandha Golden Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/sugandha-golden-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1180",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+
+{
+  "@type": "Product",
+  "name": "Taj Creamy Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/taj-sella-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1138",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "Taj Golden Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/taj-golden-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1180",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+
+{
+  "@type": "Product",
+  "name": "Sharbati Creamy Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/sharbati-sella-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1116",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "Sharbati Golden Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/sharbati-golden-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1116",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+
+{
+  "@type": "Product",
+  "name": "RH10 Steam Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/rh10-steam-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1127",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "RH10 Creamy Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/rh10-sella-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1041",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "RH10 Golden Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/rh10-golden-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "1084",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+
+{
+  "@type": "Product",
+  "name": "PR11 White Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/pr11-white-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "795",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "PR11 Steam Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/pr11-steam-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "795",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+  }
+},
+{
+  "@type": "Product",
+  "name": "PR11 Creamy Sella Rice",
+  "brand": "Grains Hub",
+  "image": "https://grains.ae/assets/img/pr11-sella-india.jpg",
+  "category": "Rice",
+  "originCountry": "India",
+  "size": "40kg",
+  "offers": {
+    "@type": "Offer",
+    "price": "795",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/PreOrder"
+      }
     }
   ]
 }
