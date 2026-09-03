@@ -682,17 +682,16 @@
 },
 
 {
-  "name": "PR26 White Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "710 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr26  
-}
+    "name": "PR26 White Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "710 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr26-white-india.jpg"
+  }
 ]
-
 
 
 
