@@ -990,135 +990,103 @@
      FILTER
      ============================================================ */
 
-  function applyFilters() {
+ function applyFilters() {
 
-    filteredData =
-      pulseData.filter(product => {
+  filteredData =
+    pulseData.filter(product => {
 
-        /*
-          Origin
-        */
+      /*
+        --------------------------------------------------------
+        BOOKING FILTER
+        --------------------------------------------------------
+      */
+
+      if (
+        activeOrigin === 'booking'
+      ) {
+
+        if (!isBooking(product)) {
+
+          return false;
+
+        }
+
+      }
+
+
+      /*
+        --------------------------------------------------------
+        ORIGIN FILTER
+        --------------------------------------------------------
+      */
+
+      else if (
+        activeOrigin !== 'all'
+      ) {
 
         if (
-          activeOrigin !== 'all'
+          lower(product.origin) !==
+          lower(activeOrigin)
         ) {
 
-          if (
-            lower(product.origin) !==
-            lower(activeOrigin)
-          ) {
-
-            return false;
-
-          }
+          return false;
 
         }
 
+      }
 
-        /*
-          Booking
-        */
+
+      /*
+        --------------------------------------------------------
+        SEARCH
+        --------------------------------------------------------
+      */
+
+      if (searchTerm) {
+
+        const haystack =
+          lower([
+            product.product,
+            product.origin,
+            product.supplier,
+            product.packaging,
+            product.grainType,
+            ...product.keywords
+          ].join(' '));
+
 
         if (
-          activeOrigin === 'booking'
+          !haystack.includes(
+            lower(searchTerm)
+          )
         ) {
 
-          if (!isBooking(product)) {
-
-            return false;
-
-          }
+          return false;
 
         }
 
-
-        /*
-          Search
-        */
-
-        if (searchTerm) {
-
-          const haystack =
-            lower([
-              product.product,
-              product.origin,
-              product.supplier,
-              product.packaging,
-              product.grainType,
-              ...product.keywords
-            ].join(' '));
+      }
 
 
-          if (
-            !haystack.includes(
-              lower(searchTerm)
-            )
-          ) {
+      return true;
 
-            return false;
-
-          }
-
-        }
+    });
 
 
-        return true;
+  /*
+    Apply sorting after filtering.
+  */
 
-      });
-
-
-    /*
-      Booking is a special filter.
-      It must not also be treated as an origin.
-    */
-
-    if (
-      activeOrigin === 'booking'
-    ) {
-
-      filteredData =
-        pulseData.filter(product => {
-
-          if (!isBooking(product)) {
-
-            return false;
-
-          }
+  sortData();
 
 
-          if (searchTerm) {
+  /*
+    Re-render cards and table.
+  */
 
-            const haystack =
-              lower([
-                product.product,
-                product.origin,
-                product.supplier,
-                product.packaging,
-                ...product.keywords
-              ].join(' '));
+  renderAll();
 
-
-            return haystack.includes(
-              lower(searchTerm)
-            );
-
-          }
-
-
-          return true;
-
-        });
-
-    }
-
-
-    sortData();
-
-    renderAll();
-
-  }
-
-
+}
   /* ============================================================
      SORT
      ============================================================ */
