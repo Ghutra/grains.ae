@@ -1,0 +1,15 @@
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Grains Hub B2B Grain Listings",
+  "url": "https://grains.ae/shop",
+  "description": "B2B grain and rice listings supplied directly by Ghutra Goods Wholesaler LLC. Availability and commercial terms are subject to confirmation.",
+  "itemListOrder": "https://schema.org/ItemListOrderAscending",
+  "numberOfItems": 0,
+  "itemListElement": [],
+  "publisher": {
+    "@type": "Organization",
+    "name": "Ghutra Goods Wholesaler LLC",
+    "url": "https://grains.ae/"
+  }
+}
