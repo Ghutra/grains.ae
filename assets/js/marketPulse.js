@@ -1,129 +1,148 @@
 /* ============================================================
-   MARKET PULSE - Grains Hub
-   Version: 3.2 — Lady Stark Trade Desk Edition
+   GRAINS HUB MARKET PULSE
+   Version: 3.3 — LADY STARK TRADE DESK INTELLIGENCE
 
-   PURPOSE
+   Architecture:
+
+   stock.json
+        ↓
+   grainsData.js
+        ↓
+   ┌───────────────┬────────────────┬────────────────┐
+   │ Current Stock │ Price History  │ Trade Desk     │
+   │               │                │ Intelligence   │
+   └───────────────┴────────────────┴────────────────┘
+                         ↓
+                   Market Pulse
+
+   DATA SOURCES
    ------------------------------------------------------------
-   • Current Dubai Stock prices
-   • FOB Origin prices
-   • CIF Dubai reference prices
-   • Standard PP / Custom Nonwoven
-   • Real historical price movement
-   • 24H / 7D / 30D history framework
-   • Grains Hub Market Desk sentiment
-   • Freight / local-cost intelligence
-   • Honest "not available" handling
-   • No fake/random trends
-   • No fake CIF
-   • No hardcoded market claims
-   • Preserves existing Pulse HTML/CSS
+   /assets/data/stock.json
+   /assets/data/marketHistory.json
+   /assets/data/marketSentiment.json
+   /assets/data/freight.json
+
+   IMPORTANT
+   ------------------------------------------------------------
+   • Never invent FOB prices.
+   • Never invent CIF prices.
+   • Never generate random trends.
+   • Never silently add packing premiums.
+   • Historical price movement requires dated observations.
+   • CIF reference may use documented Grains Hub cost data,
+     but must be clearly labelled as a Trade Desk reference.
    ============================================================ */
 
 (function (window, document) {
 
   'use strict';
 
-  /* ============================================================
+  /* ==========================================================
      1. CONFIGURATION
-     ============================================================ */
+     ========================================================== */
 
   const CONFIG = {
 
-    /* Current commercial source */
     STOCK_URL:
-      '/assets/data/stock.json?t=',
+      '/assets/data/stock.json',
 
-    /* Historical observations */
     HISTORY_URL:
-      '/assets/data/marketHistory.json?t=',
+      '/assets/data/marketHistory.json',
 
-    /* Human Trade Desk observations */
     SENTIMENT_URL:
-      '/assets/data/marketSentiment.json?t=',
+      '/assets/data/marketSentiment.json',
 
-    /* Freight + destination cost intelligence */
     FREIGHT_URL:
-      '/assets/data/freight.json?t=',
+      '/assets/data/freight.json',
 
-    /* Refresh current market data every 30 minutes */
     REFRESH_INTERVAL:
-      30 * 60 * 1000,
+      5 * 60 * 1000,
 
-    /* Number of market cards shown above table */
+    HISTORY_REFRESH_INTERVAL:
+      15 * 60 * 1000,
+
     MAX_CARDS:
       6,
 
-    /* Grains Hub WhatsApp */
     WHATSAPP:
       '971585521976',
 
-    /* Initial selector state */
-    DEFAULT_BASIS:
-      'DUBAI_STOCK',
+    VERSION:
+      '3.3',
 
-    DEFAULT_PACKING:
-      'STANDARD_PP'
+    DEFAULT_CIF_ADDON_USD_PER_MT:
+      null
+
   };
 
 
-  /* ============================================================
-     2. APPLICATION STATE
-     ============================================================ */
+  /* ==========================================================
+     2. STATE
+     ========================================================== */
 
   const state = {
 
-    /* Current commercial products */
-    data: [],
-
-    /* Products after filters */
-    filtered: [],
-
-    /* Historical price observations */
+    products: [],
     history: [],
-
-    /* Market Desk observations */
     sentiment: [],
+    freight: [],
 
-    /* Freight intelligence */
-    freight: null,
+    currentFilter: 'all',
+    currentSearch: '',
 
-    /* User selections */
-    basis:
-      CONFIG.DEFAULT_BASIS,
+    basis: 'FOB_ORIGIN',
+    packing: 'STANDARD_PP',
 
-    packing:
-      CONFIG.DEFAULT_PACKING,
+    sortKey: null,
+    sortDirection: 'asc',
 
-    filter:
-      'all',
+    loadedAt: null,
+    historyLoadedAt: null,
 
-    search:
-      '',
+    errors: []
 
-    sort: {
-      key: null,
-      dir: 'asc'
-    },
-
-    loadedAt:
-      null,
-
-    dataTimestamp:
-      null
   };
 
 
-  /* ============================================================
-     3. GENERAL HELPERS
-     ============================================================ */
+  /* ==========================================================
+     3. CONSTANTS
+     ========================================================== */
+
+  const BASIS = {
+
+    FOB_ORIGIN:
+      'FOB_ORIGIN',
+
+    CIF_DUBAI:
+      'CIF_DUBAI',
+
+    DUBAI_STOCK:
+      'DUBAI_STOCK'
+
+  };
+
+
+  const PACKING = {
+
+    STANDARD_PP:
+      'STANDARD_PP',
+
+    CUSTOM_NONWOVEN:
+      'CUSTOM_NONWOVEN'
+
+  };
+
+
+  /* ==========================================================
+     4. BASIC HELPERS
+     ========================================================== */
 
   function text(value) {
 
-    return String(
-      value === null || value === undefined
-        ? ''
-        : value
-    ).trim();
+    return value === null ||
+           value === undefined
+      ? ''
+      : String(value).trim();
 
   }
 
@@ -158,22 +177,19 @@
   }
 
 
-  function money(value, decimals) {
+  function formatNumber(value, decimals = 2) {
 
     const n = number(value);
 
     if (n === null) {
-      return null;
+      return '—';
     }
 
     return n.toLocaleString(
       undefined,
       {
-        minimumFractionDigits:
-          decimals === undefined ? 2 : decimals,
-
-        maximumFractionDigits:
-          decimals === undefined ? 2 : decimals
+        minimumFractionDigits: 0,
+        maximumFractionDigits: decimals
       }
     );
 
@@ -182,7 +198,7 @@
 
   function escapeHTML(value) {
 
-    return text(value)
+    return String(value ?? '')
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
@@ -192,16 +208,26 @@
   }
 
 
-  function slug(value) {
+  function normalizeName(value) {
 
     return lower(value)
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
+      .replace(/&/g, ' and ')
+      .replace(/[^a-z0-9]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
 
   }
 
 
-  function flag(origin) {
+  function slug(value) {
+
+    return normalizeName(value)
+      .replace(/\s+/g, '-');
+
+  }
+
+
+  function getFlag(origin) {
 
     const o = lower(origin);
 
@@ -226,66 +252,14 @@
   }
 
 
-  function parseDate(value) {
-
-    if (!value) {
-      return null;
-    }
-
-    const d = new Date(value);
-
-    return Number.isNaN(d.getTime())
-      ? null
-      : d;
-
-  }
-
-
-  function dateLabel(value) {
-
-    const d = parseDate(value);
-
-    if (!d) {
-      return 'Date not recorded';
-    }
-
-    return d.toLocaleDateString(
-      undefined,
-      {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-      }
-    );
-
-  }
-
-
-  function firstNumber(values) {
-
-    for (const value of values) {
-
-      const n = number(value);
-
-      if (n !== null) {
-        return n;
-      }
-
-    }
-
-    return null;
-
-  }
-
-
-  /* ============================================================
-     4. JSON LOADING
-     ============================================================ */
+  /* ==========================================================
+     5. FETCH JSON SAFELY
+     ========================================================== */
 
   async function fetchJSON(url) {
 
     const response = await fetch(
-      url + Date.now(),
+      url + (url.includes('?') ? '&' : '?') + '_=' + Date.now(),
       {
         cache: 'no-store'
       }
@@ -294,7 +268,7 @@
     if (!response.ok) {
 
       throw new Error(
-        `Failed to load ${url}: ${response.status}`
+        `${url} HTTP ${response.status}`
       );
 
     }
@@ -304,917 +278,549 @@
   }
 
 
-  function extractRecords(raw) {
-
-    if (Array.isArray(raw)) {
-      return raw;
-    }
-
-    if (!raw || typeof raw !== 'object') {
-      return [];
-    }
-
-    if (Array.isArray(raw.records)) {
-      return raw.records;
-    }
-
-    if (Array.isArray(raw.data)) {
-      return raw.data;
-    }
-
-    if (Array.isArray(raw.items)) {
-      return raw.items;
-    }
-
-    return [];
-
-  }
-
-
-  /* ============================================================
-     5. LOAD ALL MARKET DATA
-     ============================================================ */
-
-  async function loadPulseData() {
-
-    const cards =
-      document.getElementById('priceCards');
-
-    const table =
-      document.getElementById('pulse-table');
-
-    if (cards) {
-
-      cards.innerHTML = `
-        <div
-          style="
-            grid-column:1/-1;
-            text-align:center;
-            padding:35px;
-            color:#a07c3b;
-          "
-        >
-          ⏳ Loading Grains Hub Trade Desk data...
-        </div>
-      `;
-
-    }
-
-
-    try {
-
-      /* --------------------------------------------------------
-         CURRENT STOCK
-         Prefer canonical GrainsHubData layer.
-         This keeps Shop + Pulse on same commercial source.
-         -------------------------------------------------------- */
-
-      let stock;
-
-      if (
-        window.GrainsHubData &&
-        typeof window.GrainsHubData.load === 'function'
-      ) {
-
-        stock =
-          await window.GrainsHubData.load(true);
-
-      } else {
-
-        stock =
-          await fetchJSON(CONFIG.STOCK_URL);
-
-      }
-
-
-      /* --------------------------------------------------------
-         HISTORY / SENTIMENT / FREIGHT
-         These are independent intelligence layers.
-         -------------------------------------------------------- */
-
-      const results =
-        await Promise.allSettled([
-
-          fetchJSON(CONFIG.HISTORY_URL),
-
-          fetchJSON(CONFIG.SENTIMENT_URL),
-
-          fetchJSON(CONFIG.FREIGHT_URL)
-
-        ]);
-
-
-      state.history =
-        results[0].status === 'fulfilled'
-          ? extractRecords(results[0].value)
-          : [];
-
-
-      state.sentiment =
-        results[1].status === 'fulfilled'
-          ? extractRecords(results[1].value)
-          : [];
-
-
-      state.freight =
-        results[2].status === 'fulfilled'
-          ? results[2].value
-          : null;
-
-
-      /* Normalize current commercial products */
-
-      state.data =
-        normalizeStockArray(stock);
-
-
-      state.loadedAt =
-        new Date();
-
-
-      state.dataTimestamp =
-        findLatestDataDate(
-          state.data,
-          state.history
-        );
-
-
-      if (!state.data.length) {
-
-        throw new Error(
-          'No usable products found'
-        );
-
-      }
-
-
-      /* Render everything */
-
-      applyFiltersAndRender();
-
-      updateLastUpdated();
-
-      updateMarketMood();
-
-
-      console.log(
-        '[Market Pulse 3.2]',
-        'Products:',
-        state.data.length,
-        'History:',
-        state.history.length,
-        'Sentiment:',
-        state.sentiment.length
-      );
-
-
-    } catch (error) {
-
-      console.error(
-        '[Market Pulse 3.2]',
-        error
-      );
-
-
-      if (cards) {
-
-        cards.innerHTML = `
-          <div
-            style="
-              grid-column:1/-1;
-              text-align:center;
-              padding:40px;
-              color:#777;
-            "
-          >
-
-            <strong>
-              Market data is temporarily unavailable.
-            </strong>
-
-            <div
-              style="
-                margin-top:8px;
-                font-size:13px;
-              "
-            >
-              Please refresh or contact the
-              Grains Hub Trade Desk.
-            </div>
-
-          </div>
-        `;
-
-      }
-
-
-      if (table) {
-
-        table.innerHTML = `
-          <tr>
-            <td
-              colspan="6"
-              style="
-                text-align:center;
-                padding:30px;
-                color:#777;
-              "
-            >
-              Live market data is temporarily unavailable.
-            </td>
-          </tr>
-        `;
-
-      }
-
-
-      const count =
-        document.getElementById('rowCount');
-
-      if (count) {
-        count.textContent =
-          'Data unavailable';
-      }
-
-
-      const mood =
-        document.getElementById('market-mood');
-
-      if (mood) {
-
-        mood.textContent =
-          'Market Desk: data unavailable';
-
-      }
-
-    }
-
-  }
-
-
-  /* ============================================================
-     6. CURRENT PRODUCT NORMALIZATION
-     ============================================================ */
-
-  function normalizeStockArray(raw) {
-
-    const source =
-      Array.isArray(raw)
-        ? raw
-        : extractRecords(raw);
-
-
-    return source
-      .map(normalizeProduct)
-      .filter(Boolean);
-
-  }
-
-
-  function normalizeProduct(item) {
+  /* ==========================================================
+     6. LOAD CANONICAL STOCK
+     ========================================================== */
+
+  async function loadStock() {
 
     if (
-      !item ||
-      typeof item !== 'object'
+      window.GrainsHubData &&
+      typeof window.GrainsHubData.load === 'function'
     ) {
-      return null;
+
+      return window.GrainsHubData.load(true);
+
     }
 
 
-    const name =
-      text(
-        item.name ||
-        item.product ||
-        item.title
+    const json =
+      await fetchJSON(CONFIG.STOCK_URL);
+
+    const raw =
+      Array.isArray(json)
+        ? json
+        : Array.isArray(json.products)
+          ? json.products
+          : Array.isArray(json.items)
+            ? json.items
+            : [];
+
+    if (!raw.length) {
+
+      throw new Error(
+        'No products found in stock.json'
       );
 
-
-    if (!name) {
-      return null;
     }
 
 
-    const origin =
-      text(
-        item.origin ||
-        item.country ||
-        item.sourceCountry
+    return raw.map(function (item, index) {
+
+      return normalizeStockFallback(
+        item,
+        index
       );
 
+    });
 
-    const supplier =
-      text(
-        item.supplier ||
-        item.supplierName ||
-        item.vendor ||
-        item.seller
+  }
+
+
+  function normalizeStockFallback(item, index) {
+
+    const price =
+      number(
+        item.price ??
+        item.currentPrice ??
+        item.spotPrice
       );
-
-
-    const supplierTier =
-      text(
-        item.supplierTier ||
-        item.badge ||
-        item.tier
-      );
-
-
-    const availability =
-      normalizeAvailability(item);
-
 
     const packageKg =
-      firstNumber([
-
-        item.packageKg,
-
-        item.sizeKg,
-
-        item.weightKg,
-
-        parseWeight(item.size),
-
-        parseWeight(item.packaging)
-
-      ]);
-
-
-    const rawPrice =
-      firstNumber([
-
-        item.price,
-
-        item.spotPriceAEDPerMT,
-
-        item.priceAED
-
-      ]);
-
-
-    const currency =
-      text(
-
-        item.currency ||
-
-        item.priceCurrency ||
-
-        (
-          looksUSD(item.price)
-            ? 'USD'
-            : 'AED'
-        )
-
-      ).toUpperCase();
-
-
-    const priceUnit =
-      text(
-
-        item.priceUnit ||
-
-        item.unit ||
-
-        item.priceBasisUnit ||
-
-        ''
-
-      ).toUpperCase();
-
+      number(
+        item.packageKg ??
+        item.packagingKg ??
+        item.bagWeightKg
+      );
 
     const stockBags =
-      firstNumber([
+      number(
+        item.stockBags ??
+        item.bagCount ??
+        item.quantityBags
+      );
 
-        item.stockBags,
+    let stockMT =
+      number(
+        item.stockQuantityMT ??
+        item.quantityMT ??
+        item.availableMT
+      );
 
-        item.bags,
+    if (
+      stockMT === null &&
+      stockBags !== null &&
+      packageKg !== null
+    ) {
 
-        parseBags(item.stock)
+      stockMT =
+        stockBags * packageKg / 1000;
 
-      ]);
+    }
 
 
-    const stockMT =
-      firstNumber([
+    let currency =
+      text(item.currency)
+        .toUpperCase();
 
-        item.stockMT,
+    if (!currency) {
 
-        item.stockQuantityMT,
+      const p =
+        text(item.price)
+          .toUpperCase();
 
-        item.quantityMT
+      if (
+        p.includes('USD') ||
+        p.includes('$')
+      ) {
 
-      ]);
+        currency = 'USD';
+
+      } else if (
+        p.includes('AED')
+      ) {
+
+        currency = 'AED';
+
+      }
+
+    }
+
+
+    let availability =
+      lower(
+        item.availability ??
+        item.status ??
+        item.stockStatus ??
+        item.stock
+      );
+
+    if (
+      availability.includes('booking') ||
+      availability.includes('pre-booking') ||
+      availability.includes('on request')
+    ) {
+
+      availability = 'BOOKING';
+
+    } else {
+
+      availability = 'IN_STOCK';
+
+    }
 
 
     return {
 
-      raw: item,
-
       id:
+        text(item.id ?? item.sku) ||
+        `grain-${index}`,
+
+      name:
         text(
-          item.id ||
-          item.productId ||
-          slug(name)
+          item.name ??
+          item.product ??
+          item.title
         ),
 
-      name,
+      origin:
+        text(
+          item.origin ??
+          item.country
+        ),
 
-      origin,
+      supplier:
+        text(
+          item.supplier ??
+          item.supplierName
+        ),
 
-      supplier,
-
-      supplierTier,
-
-      availability,
+      supplierTier:
+        text(
+          item.supplierTier ??
+          item.badge ??
+          item.tier
+        ),
 
       packaging:
         text(
-          item.packaging ||
-          item.packing ||
-          item.package ||
-          ''
+          item.packaging ??
+          item.pack
         ),
 
       packageKg,
 
-      price:
-        rawPrice,
-
-      currency,
-
-      priceUnit,
-
-      priceBasis:
-        text(
-
-          item.priceBasis ||
-
-          item.basis ||
-
-          (
-            availability === 'BOOKING'
-              ? 'FOB'
-              : 'DUBAI_STOCK'
-          )
-
-        ).toUpperCase(),
-
-      pricePerKg:
-        firstNumber([
-
-          item.pricePerKg,
-
-          item.kgPrice,
-
-          (
-            currency === 'AED' &&
-            rawPrice &&
-            packageKg
-          )
-            ? rawPrice / packageKg
-            : null
-
-        ]),
+      availability,
 
       stockBags,
 
       stockMT,
 
-      rawStock:
-        item.stock,
+      currency,
 
-      fobPriceUSD:
-        getExplicitFOB(item),
+      price,
 
-      cifPriceUSD:
-        getExplicitCIF(item),
+      priceUnit:
+        text(
+          item.priceUnit ??
+          item.unit
+        ),
 
-      customPackingPremiumUSD:
-        firstNumber([
+      priceBasis:
+        text(
+          item.priceBasis ??
+          item.basis
+        ),
 
-          item.customPackingPremiumUSD,
+      fobUSDPerMT:
+        number(
+          item.fobUSDPerMT ??
+          item.fobPriceUSDPerMT
+        ),
 
-          item.customPackingPremium,
+      cifDubaiUSDPerMT:
+        number(
+          item.cifDubaiUSDPerMT ??
+          item.cifUSDPerMT
+        ),
 
-          item.packingPremiumUSD
-
-        ]),
-
-      freightUSDPerMT:
-        firstNumber([
-
-          item.freightUSDPerMT,
-
-          item.freightPerMT
-
-        ]),
+      customNonwovenPremiumUSDPerMT:
+        number(
+          item.customNonwovenPremiumUSDPerMT ??
+          item.customPackingPremiumUSDPerMT
+        ),
 
       image:
-        text(item.image || ''),
-
-      grainType:
         text(
-          item.grainType ||
-          item.category ||
-          ''
+          item.image ??
+          item.img ??
+          item.imageUrl
         ),
 
-      crop:
-        text(
-          item.crop ||
-          item.cropYear ||
-          ''
-        ),
-
-      keywords:
-        Array.isArray(item.keywords)
-          ? item.keywords
-          : [],
-
-      updatedAt:
-        item.updatedAt ||
-        item.lastUpdated ||
-        item.date ||
-        null
+      raw:
+        item
 
     };
 
   }
 
 
-  function normalizeAvailability(item) {
+  /* ==========================================================
+     7. LOAD MARKET HISTORY
+     ========================================================== */
 
-    const raw =
-      lower(
+  async function loadHistory() {
 
-        item.availability ||
-
-        item.status ||
-
-        item.stockStatus ||
-
-        ''
-
-      );
-
+    const json =
+      await fetchJSON(CONFIG.HISTORY_URL);
 
     if (
-
-      raw.includes('booking') ||
-
-      raw.includes('pre-book') ||
-
-      raw.includes('prebook')
-
+      Array.isArray(json)
     ) {
 
-      return 'BOOKING';
+      return json;
 
     }
 
 
     if (
-
-      raw.includes('out') ||
-
-      raw.includes('unavailable')
-
+      Array.isArray(json.records)
     ) {
 
-      return 'OUT_OF_STOCK';
+      return json.records;
 
     }
 
 
-    if (
-
-      raw.includes('in stock') ||
-
-      raw.includes('available')
-
-    ) {
-
-      return 'IN_STOCK';
-
-    }
-
-
-    /*
-     * Legacy compatibility.
-     */
-
-    if (
-
-      lower(item.stock).includes('booking') ||
-
-      (
-        looksUSD(item.price) &&
-        lower(item.stock).includes('booking')
-      )
-
-    ) {
-
-      return 'BOOKING';
-
-    }
-
-
-    return 'IN_STOCK';
+    return [];
 
   }
 
 
-  function parseWeight(value) {
+  /* ==========================================================
+     8. LOAD SENTIMENT
+     ========================================================== */
 
-    const match =
-      text(value).match(
-        /(\d+(?:\.\d+)?)\s*kg/i
-      );
+  async function loadSentiment() {
 
-
-    return match
-      ? Number(match[1])
-      : null;
-
-  }
-
-
-  function parseBags(value) {
-
-    const match =
-      text(value).match(
-        /([\d,]+(?:\.\d+)?)\s*bags?/i
-      );
-
-
-    return match
-      ? Number(
-          match[1].replace(/,/g, '')
-        )
-      : null;
-
-  }
-
-
-  function looksUSD(value) {
-
-    return /\bUSD\b|\$/i.test(
-      text(value)
-    );
-
-  }
-
-
-  /* ============================================================
-     7. FOB / CIF EXTRACTION
-     ============================================================ */
-
-  function getExplicitFOB(item) {
-
-    const direct =
-      firstNumber([
-
-        item.fobPriceUSD,
-
-        item.fobPrice,
-
-        item.priceFOBUSD,
-
-        item.priceFOB
-
-      ]);
-
-
-    if (direct !== null) {
-      return direct;
-    }
-
+    const json =
+      await fetchJSON(CONFIG.SENTIMENT_URL);
 
     if (
-      item.prices &&
-      typeof item.prices === 'object'
+      Array.isArray(json)
     ) {
 
-      return firstNumber([
-
-        item.prices.FOB,
-
-        item.prices.fob,
-
-        item.prices.fobUSD
-
-      ]);
+      return json;
 
     }
 
 
     if (
-      item.fob &&
-      typeof item.fob === 'object'
+      Array.isArray(json.records)
     ) {
 
-      return firstNumber([
-
-        item.fob.price,
-
-        item.fob.priceUSD
-
-      ]);
+      return json.records;
 
     }
 
 
-    return null;
+    return [];
 
   }
 
 
-  function getExplicitCIF(item) {
+  /* ==========================================================
+     9. LOAD FREIGHT
+     ========================================================== */
 
-    const direct =
-      firstNumber([
+  async function loadFreight() {
 
-        item.cifPriceUSD,
-
-        item.cifPrice,
-
-        item.priceCIFUSD,
-
-        item.priceCIF
-
-      ]);
-
-
-    if (direct !== null) {
-      return direct;
-    }
-
+    const json =
+      await fetchJSON(CONFIG.FREIGHT_URL);
 
     if (
-      item.prices &&
-      typeof item.prices === 'object'
+      Array.isArray(json)
     ) {
 
-      return firstNumber([
-
-        item.prices.CIF,
-
-        item.prices.cif,
-
-        item.prices.cifUSD
-
-      ]);
+      return json;
 
     }
 
 
     if (
-      item.cif &&
-      typeof item.cif === 'object'
+      Array.isArray(json.observed_costs)
     ) {
 
-      return firstNumber([
-
-        item.cif.price,
-
-        item.cif.priceUSD
-
-      ]);
+      return json.observed_costs;
 
     }
 
 
-    return null;
+    return [];
 
   }
 
 
-  /* ============================================================
-     8. HISTORICAL PRODUCT MATCHING
-     ============================================================ */
+  /* ==========================================================
+     10. HISTORY PRODUCT MATCHING
+     ========================================================== */
 
-  function historyMatchesProduct(
-    record,
-    product
+  function historyTokens(value) {
+
+    return normalizeName(value)
+      .split(' ')
+      .filter(Boolean);
+
+  }
+
+
+  function scoreHistoryMatch(
+    product,
+    history
   ) {
-
-    const recordName =
-      slug(
-        record.product ||
-        record.name ||
-        ''
-      );
-
-
-    const recordId =
-      slug(
-        record.productId ||
-        ''
-      );
-
 
     const productName =
-      slug(product.name);
+      normalizeName(product.name);
+
+    const historyName =
+      normalizeName(
+        history.product ??
+        history.name
+      );
+
+    const productOrigin =
+      normalizeName(product.origin);
+
+    const historyOrigin =
+      normalizeName(history.origin);
+
+    let score = 0;
 
 
-    const productId =
-      slug(product.id);
+    /* Origin is extremely important */
+
+    if (
+      productOrigin &&
+      historyOrigin
+    ) {
+
+      if (
+        productOrigin === historyOrigin
+      ) {
+
+        score += 20;
+
+      } else {
+
+        return -100;
+
+      }
+
+    }
 
 
-    return (
+    /* Exact normalized match */
 
-      recordName === productName ||
+    if (
+      productName === historyName
+    ) {
 
-      recordId === productId ||
+      score += 50;
 
-      recordName.includes(productName) ||
+    }
 
-      productName.includes(recordName)
 
-    );
+    /* Token matching */
+
+    const productTokens =
+      historyTokens(productName);
+
+    const historyTokensList =
+      historyTokens(historyName);
+
+
+    productTokens.forEach(function(token) {
+
+      if (
+        historyTokensList.includes(token)
+      ) {
+
+        score += 4;
+
+      }
+
+    });
+
+
+    /* Important rice identifiers */
+
+    const identifiers = [
+      '1121',
+      '1509',
+      '1718',
+      '1847',
+      '1401',
+      'pusa',
+      'sugandha',
+      'taj',
+      'sharbati',
+      'rh10',
+      'pr11',
+      'pr14',
+      'pr106',
+      'pr47',
+      'pr26',
+      'ir64',
+      'sona',
+      'masoori'
+    ];
+
+
+    identifiers.forEach(function(id) {
+
+      if (
+        productName.includes(id) &&
+        historyName.includes(id)
+      ) {
+
+        score += 8;
+
+      }
+
+    });
+
+
+    /* Processing form */
+
+    const processingWords = [
+      'raw',
+      'white',
+      'steam',
+      'steamed',
+      'creamy',
+      'sella',
+      'golden',
+      'dark',
+      'light',
+      'parboiled'
+    ];
+
+
+    processingWords.forEach(function(word) {
+
+      if (
+        productName.includes(word) &&
+        historyName.includes(word)
+      ) {
+
+        score += 6;
+
+      }
+
+    });
+
+
+    return score;
 
   }
 
 
-  function getLatestHistoryForProduct(
-    product,
-    basis
-  ) {
+  function findHistoryMatches(product) {
 
-    const wantedBasis =
-      lower(basis);
+    return state.history
+      .filter(function(record) {
 
+        return (
+          lower(record.basis) === 'fob' ||
+          lower(record.basis) === 'cif' ||
+          lower(record.basis) === 'cfr' ||
+          lower(record.basis) === 'c&f'
+        );
 
-    const matches =
-      state.history
+      })
+      .map(function(record) {
 
-        .filter(record => {
-
-          const recordBasis =
-            lower(
-
-              record.basis ||
-
-              record.priceBasis ||
-
-              ''
-
-            );
-
-
-          if (
-            recordBasis !==
-            wantedBasis
-          ) {
-
-            return false;
-
-          }
-
-
-          return historyMatchesProduct(
-            record,
-            product
-          );
-
-        })
-
-
-        .map(record => ({
+        return {
 
           record,
 
-          date:
-            parseDate(
-
-              record.quoteDate ||
-
-              record.observedAt ||
-
-              record.date ||
-
-              record.capturedAt
-
+          score:
+            scoreHistoryMatch(
+              product,
+              record
             )
 
-        }))
+        };
+
+      })
+      .filter(function(item) {
+
+        return item.score > 0;
+
+      })
+      .sort(function(a, b) {
+
+        return b.score - a.score;
+
+      });
+
+  }
 
 
-        .sort((a, b) => {
+  function bestHistoryRecord(product) {
 
-          const ad =
-            a.date
-              ? a.date.getTime()
-              : 0;
-
-          const bd =
-            b.date
-              ? b.date.getTime()
-              : 0;
-
-          return bd - ad;
-
-        });
-
+    const matches =
+      findHistoryMatches(product);
 
     return matches.length
       ? matches[0].record
@@ -1223,30 +829,348 @@
   }
 
 
-  function currentFOB(product) {
+  /* ==========================================================
+     11. HISTORY PRICE
+     ========================================================== */
+
+  function historyPrice(product) {
+
+    const record =
+      bestHistoryRecord(product);
+
+    if (!record) {
+
+      return null;
+
+    }
+
+
+    const price =
+      number(record.price);
+
+    if (price === null) {
+
+      return null;
+
+    }
+
+
+    return {
+
+      price,
+
+      currency:
+        text(record.currency)
+          .toUpperCase() ||
+        'USD',
+
+      unit:
+        text(record.unit) ||
+        'MT',
+
+      basis:
+        text(record.basis)
+          .toUpperCase(),
+
+      packing:
+        text(record.packing),
+
+      crop:
+        text(record.crop),
+
+      port:
+        text(record.port),
+
+      source:
+        text(record.source),
+
+      sourceType:
+        text(record.sourceType),
+
+      sourceDocument:
+        text(record.sourceDocument),
+
+      confidence:
+        text(record.confidence),
+
+      quoteDate:
+        record.quoteDate ||
+        record.capturedAt ||
+        null,
+
+      record
+
+    };
+
+  }
+
+
+  /* ==========================================================
+     12. HISTORICAL TREND ENGINE
+     ========================================================== */
+
+  function recordDate(record) {
+
+    const candidates = [
+      record.quoteDate,
+      record.capturedAt,
+      record.observedAt,
+      record.date,
+      record.timestamp
+    ];
+
+
+    for (
+      let i = 0;
+      i < candidates.length;
+      i++
+    ) {
+
+      if (!candidates[i]) {
+        continue;
+      }
+
+      const d =
+        new Date(candidates[i]);
+
+      if (
+        !Number.isNaN(
+          d.getTime()
+        )
+      ) {
+
+        return d;
+
+      }
+
+    }
+
+
+    return null;
+
+  }
+
+
+  function getDatedHistory(product) {
+
+    return findHistoryMatches(product)
+      .map(function(item) {
+
+        return {
+
+          record:
+            item.record,
+
+          score:
+            item.score,
+
+          date:
+            recordDate(item.record),
+
+          price:
+            number(item.record.price)
+
+        };
+
+      })
+      .filter(function(item) {
+
+        return (
+          item.date !== null &&
+          item.price !== null
+        );
+
+      })
+      .sort(function(a, b) {
+
+        return (
+          a.date.getTime() -
+          b.date.getTime()
+        );
+
+      });
+
+  }
+
+
+  function calculateTrend(product) {
+
+    const records =
+      getDatedHistory(product);
+
 
     /*
-     * First priority:
-     * explicit FOB in current stock data.
-     */
+       We deliberately require dated observations.
+
+       One current quote is NOT a trend.
+    */
 
     if (
-      product.fobPriceUSD !== null
+      records.length < 2
     ) {
 
       return {
 
-        value:
-          product.fobPriceUSD,
+        available:
+          false,
+
+        label:
+          'No trend data',
+
+        change24h:
+          null,
+
+        change7d:
+          null,
+
+        change30d:
+          null,
+
+        firstPrice:
+          null,
+
+        latestPrice:
+          null
+
+      };
+
+    }
+
+
+    const latest =
+      records[records.length - 1];
+
+
+    function findPreviousWithin(
+      days
+    ) {
+
+      const cutoff =
+        latest.date.getTime() -
+        days *
+        24 *
+        60 *
+        60 *
+        1000;
+
+
+      const eligible =
+        records.filter(function(item) {
+
+          return (
+            item.date.getTime() <=
+            cutoff
+          );
+
+        });
+
+
+      if (!eligible.length) {
+
+        return null;
+
+      }
+
+
+      return eligible[
+        eligible.length - 1
+      ];
+
+    }
+
+
+    function percentChange(previous) {
+
+      if (
+        !previous ||
+        previous.price === 0
+      ) {
+
+        return null;
+
+      }
+
+
+      return (
+        (
+          latest.price -
+          previous.price
+        ) /
+        previous.price
+      ) * 100;
+
+    }
+
+
+    const previous24 =
+      findPreviousWithin(1);
+
+    const previous7 =
+      findPreviousWithin(7);
+
+    const previous30 =
+      findPreviousWithin(30);
+
+
+    return {
+
+      available:
+        true,
+
+      label:
+        'Historical trend',
+
+      change24h:
+        percentChange(previous24),
+
+      change7d:
+        percentChange(previous7),
+
+      change30d:
+        percentChange(previous30),
+
+      firstPrice:
+        records[0].price,
+
+      latestPrice:
+        latest.price,
+
+      records
+
+    };
+
+  }
+
+
+  /* ==========================================================
+     13. CURRENT FOB
+     ========================================================== */
+
+  function getFOB(product) {
+
+    /*
+       First priority:
+       Explicit current FOB stored in stock.json.
+    */
+
+    if (
+      product.fobUSDPerMT !== null &&
+      product.fobUSDPerMT !== undefined
+    ) {
+
+      return {
+
+        price:
+          product.fobUSDPerMT,
 
         source:
-          'Current commercial data',
+          'Current stock record',
 
         confidence:
-          'High',
+          'Recorded',
 
-        observedAt:
-          product.updatedAt
+        packing:
+          product.packaging || ''
 
       };
 
@@ -1254,50 +1178,49 @@
 
 
     /*
-     * Second priority:
-     * recorded historical FOB.
-     */
+       Second priority:
+       Real Grains Hub historical/supplier observation.
+    */
 
-    const record =
-      getLatestHistoryForProduct(
-        product,
-        'FOB'
-      );
+    const historical =
+      historyPrice(product);
 
 
-    if (record) {
+    if (
+      historical &&
+      historical.basis === 'FOB'
+    ) {
 
       return {
 
-        value:
-          firstNumber([
-
-            record.price,
-
-            record.priceUSD,
-
-            record.fobPriceUSD
-
-          ]),
+        price:
+          historical.price,
 
         source:
-          record.source ||
-          record.sourceType ||
-          'Recorded market history',
+          historical.source ||
+          'Recorded supplier quotation',
+
+        sourceType:
+          historical.sourceType,
+
+        sourceDocument:
+          historical.sourceDocument,
 
         confidence:
-          record.confidence ||
+          historical.confidence ||
           'Recorded',
 
-        observedAt:
+        packing:
+          historical.packing,
 
-          record.quoteDate ||
+        crop:
+          historical.crop,
 
-          record.observedAt ||
+        port:
+          historical.port,
 
-          record.date ||
-
-          record.capturedAt
+        quoteDate:
+          historical.quoteDate
 
       };
 
@@ -1309,87 +1232,185 @@
   }
 
 
-  function currentCIF(product) {
+  /* ==========================================================
+     14. FREIGHT / ALL-IN ADDITION
+     ========================================================== */
+
+  function getCurrentAllInAddition() {
+
+    const candidates =
+      state.freight
+        .filter(function(item) {
+
+          return (
+            number(
+              item.additionalCostUSDPerMT
+            ) !== null
+          );
+
+        })
+        .map(function(item) {
+
+          return {
+
+            value:
+              number(
+                item.additionalCostUSDPerMT
+              ),
+
+            item
+
+          };
+
+        });
+
 
     /*
-     * First priority:
-     * direct CIF quotation.
-     */
+       Prefer an explicitly observed current
+       Grains Hub actual cost.
+    */
+
+    const observed =
+      candidates.find(function(candidate) {
+
+        const item =
+          candidate.item;
+
+        return (
+          lower(item.status) ===
+          'observed'
+          &&
+          lower(item.sourceType)
+            .includes('grains_hub')
+        );
+
+      });
+
+
+    if (observed) {
+
+      return {
+
+        value:
+          observed.value,
+
+        item:
+          observed.item,
+
+        label:
+          'Current Grains Hub all-in reference'
+
+      };
+
+    }
+
+
+    /*
+       Fallback to any observed additional cost.
+    */
+
+    const fallback =
+      candidates.find(function(candidate) {
+
+        return (
+          lower(
+            candidate.item.status
+          ) === 'observed'
+        );
+
+      });
+
+
+    if (fallback) {
+
+      return {
+
+        value:
+          fallback.value,
+
+        item:
+          fallback.item,
+
+        label:
+          'Observed logistics reference'
+
+      };
+
+    }
+
+
+    return null;
+
+  }
+
+
+  /* ==========================================================
+     15. EXPLICIT CUSTOM PACKING PREMIUM
+     ========================================================== */
+
+  function getCustomPackingPremium(product) {
+
+    /*
+       NEVER assume $30.
+
+       Only use a product-specific value if
+       the data actually contains one.
+    */
 
     if (
-      product.cifPriceUSD !== null
+      product.customNonwovenPremiumUSDPerMT !== null &&
+      product.customNonwovenPremiumUSDPerMT !== undefined
     ) {
 
       return {
 
         value:
-          product.cifPriceUSD,
+          product.customNonwovenPremiumUSDPerMT,
 
         source:
-          'Current commercial data',
-
-        confidence:
-          'High',
-
-        observedAt:
-          product.updatedAt,
-
-        calculated:
-          false
+          'Product-specific packing record'
 
       };
 
     }
 
 
+    return null;
+
+  }
+
+
+  /* ==========================================================
+     16. CIF ENGINE
+     ========================================================== */
+
+  function getCIF(product) {
+
     /*
-     * Second priority:
-     * historical CIF observation.
-     */
+       1. Explicit CIF in stock data.
+    */
 
-    const record =
-      getLatestHistoryForProduct(
-        product,
-        'CIF'
-      );
-
-
-    if (record) {
+    if (
+      product.cifDubaiUSDPerMT !== null &&
+      product.cifDubaiUSDPerMT !== undefined
+    ) {
 
       return {
 
-        value:
-          firstNumber([
+        price:
+          product.cifDubaiUSDPerMT,
 
-            record.price,
+        type:
+          'recorded',
 
-            record.priceUSD,
-
-            record.cifPriceUSD
-
-          ]),
+        label:
+          'Recorded CIF Dubai',
 
         source:
-          record.source ||
-          record.sourceType ||
-          'Recorded market history',
+          'Current stock record',
 
-        confidence:
-          record.confidence ||
-          'Recorded',
-
-        observedAt:
-
-          record.quoteDate ||
-
-          record.observedAt ||
-
-          record.date ||
-
-          record.capturedAt,
-
-        calculated:
-          false
+        components:
+          []
 
       };
 
@@ -1397,20 +1418,88 @@
 
 
     /*
-     * Third priority:
-     * calculate a clearly-labelled
-     * Grains Hub CURRENT REFERENCE.
-     *
-     * This is NOT presented as a supplier quote.
-     */
+       2. Look for a real CIF/CFR history observation.
+    */
+
+    const matches =
+      findHistoryMatches(product);
+
+
+    const explicitCIF =
+      matches.find(function(match) {
+
+        const basis =
+          lower(
+            match.record.basis
+          );
+
+        return (
+          basis === 'cif' ||
+          basis === 'cfr' ||
+          basis === 'c&f'
+        );
+
+      });
+
+
+    if (explicitCIF) {
+
+      const price =
+        number(
+          explicitCIF.record.price
+        );
+
+
+      if (price !== null) {
+
+        return {
+
+          price,
+
+          type:
+            'recorded',
+
+          label:
+            'Recorded CIF/CFR Dubai',
+
+          source:
+            explicitCIF.record.source ||
+            'Recorded quotation',
+
+          confidence:
+            explicitCIF.record.confidence,
+
+          components:
+            []
+
+        };
+
+      }
+
+    }
+
+
+    /*
+       3. Calculate a clearly-labelled
+          Grains Hub Trade Desk reference.
+
+       Current observed addition:
+       $260/MT for 25 MT FCL.
+
+       This is NOT presented as a permanent
+       freight rate.
+    */
 
     const fob =
-      currentFOB(product);
+      getFOB(product);
+
+    const addon =
+      getCurrentAllInAddition();
 
 
     if (
       !fob ||
-      fob.value === null
+      !addon
     ) {
 
       return null;
@@ -1418,11 +1507,143 @@
     }
 
 
-    const addOn =
-      getCurrentAllInAddOnUSDPerMT();
+    /*
+       Custom packing:
+       We do NOT silently add a premium.
+
+       If a specific premium exists,
+       add it separately.
+    */
+
+    let packingPremium =
+      0;
+
+    const components = [];
 
 
-    if (addOn === null) {
+    if (
+      state.packing ===
+      PACKING.CUSTOM_NONWOVEN
+    ) {
+
+      const customPremium =
+        getCustomPackingPremium(product);
+
+
+      if (!customPremium) {
+
+        return {
+
+          price:
+            null,
+
+          type:
+            'unavailable',
+
+          label:
+            'CIF reference unavailable',
+
+          reason:
+            'Custom packing premium is not recorded for this product.',
+
+          components:
+            []
+
+        };
+
+      }
+
+
+      packingPremium =
+        customPremium.value;
+
+
+      components.push({
+
+        name:
+          'Custom packing premium',
+
+        value:
+          packingPremium
+
+      });
+
+    }
+
+
+    components.push({
+
+      name:
+        'FOB origin',
+
+      value:
+        fob.price
+
+    });
+
+
+    components.push({
+
+      name:
+        'Current all-in Dubai addition',
+
+      value:
+        addon.value
+
+    });
+
+
+    const finalPrice =
+      fob.price +
+      addon.value +
+      packingPremium;
+
+
+    return {
+
+      price:
+        finalPrice,
+
+      type:
+        'trade_desk_reference',
+
+      label:
+        'Grains Hub Trade Desk reference',
+
+      source:
+        'Grains Hub Trade Desk',
+
+      confidence:
+        addon.item.confidence ||
+        'Observed',
+
+      components,
+
+      addonPerMT:
+        addon.value,
+
+      packingPremium:
+
+        packingPremium,
+
+      freightRecord:
+        addon.item
+
+    };
+
+  }
+
+
+  /* ==========================================================
+     17. DUBAI STOCK PRICE
+     ========================================================== */
+
+  function getDubaiStock(product) {
+
+    if (
+      product.currency !== 'AED' ||
+      product.price === null
+    ) {
 
       return null;
 
@@ -1431,199 +1652,53 @@
 
     return {
 
-      value:
-        fob.value + addOn,
+      price:
+        product.price,
 
-      source:
-        'Grains Hub current all-in cost reference',
+      unit:
+        product.priceUnit,
 
-      confidence:
-        'Reference',
+      packageKg:
+        product.packageKg,
 
-      observedAt:
-        null,
+      pricePerKg:
+        product.pricePerKg,
 
-      calculated:
-        true,
-
-      addOnUSDPerMT:
-        addOn
+      pricePerMT:
+        product.pricePerMT
 
     };
 
   }
 
 
-  /* ============================================================
-     9. CURRENT ALL-IN COST REFERENCE
-     ============================================================ */
+  /* ==========================================================
+     18. PRICE PRESENTATION
+     ========================================================== */
 
-  function getCurrentAllInAddOnUSDPerMT() {
-
-    if (
-      !state.freight ||
-      !Array.isArray(
-        state.freight.observed_costs
-      )
-    ) {
-
-      return null;
-
-    }
-
-
-    const candidates =
-      state.freight.observed_costs
-
-        .filter(item =>
-
-          item.status === 'observed' &&
-
-          item.additionalCostUSDPerMT !==
-            undefined
-
-        )
-
-
-        .sort((a, b) => {
-
-          const ad =
-            parseDate(a.observedAt);
-
-          const bd =
-            parseDate(b.observedAt);
-
-          return (
-
-            (bd
-              ? bd.getTime()
-              : 0) -
-
-            (ad
-              ? ad.getTime()
-              : 0)
-
-          );
-
-        });
-
-
-    if (!candidates.length) {
-
-      return null;
-
-    }
-
-
-    return number(
-      candidates[0]
-        .additionalCostUSDPerMT
-    );
-
-  }
-
-
-  /* ============================================================
-     10. PRICE DISPLAY
-     ============================================================ */
-
-  function getPriceView(product) {
-
-    /* ----------------------------------------------------------
-       DUBAI STOCK
-       ---------------------------------------------------------- */
+  function getDisplayedPrice(product) {
 
     if (
       state.basis ===
-      'DUBAI_STOCK'
-    ) {
-
-      if (
-        product.price === null
-      ) {
-
-        return {
-
-          available:
-            false,
-
-          text:
-            'Price on request',
-
-          sub:
-            'Dubai stock price not recorded',
-
-          value:
-            null,
-
-          currency:
-            product.currency || 'AED'
-
-        };
-
-      }
-
-
-      return {
-
-        available:
-          true,
-
-        text:
-          `${product.currency || 'AED'} ` +
-          `${money(product.price)}`,
-
-        sub:
-          product.priceUnit ||
-
-          product.priceBasis ||
-
-          'Current stock price',
-
-        value:
-          product.price,
-
-        currency:
-          product.currency || 'AED'
-
-      };
-
-    }
-
-
-    /* ----------------------------------------------------------
-       FOB ORIGIN
-       ---------------------------------------------------------- */
-
-    if (
-      state.basis === 'FOB'
+      BASIS.FOB_ORIGIN
     ) {
 
       const fob =
-        currentFOB(product);
+        getFOB(product);
 
 
-      if (
-        !fob ||
-        fob.value === null
-      ) {
+      if (!fob) {
 
         return {
 
-          available:
-            false,
-
-          text:
+          main:
             'Price on request',
 
           sub:
             'FOB price not recorded',
 
-          value:
-            null,
-
-          currency:
-            'USD'
+          available:
+            false
 
         };
 
@@ -1632,68 +1707,68 @@
 
       return {
 
-        available:
-          true,
-
-        text:
-          `USD ${money(fob.value)} / MT`,
+        main:
+          `USD ${formatNumber(
+            fob.price,
+            2
+          )} / MT`,
 
         sub:
-          fob.source +
+          [
+            fob.port ||
+              'FOB Origin',
 
-          (
-            fob.observedAt
-              ? ` • ${dateLabel(fob.observedAt)}`
+            fob.packing
+              ? `• ${fob.packing}`
+              : '',
+
+            fob.crop
+              ? `• Crop ${fob.crop}`
               : ''
-          ),
 
-        value:
-          fob.value,
-
-        currency:
-          'USD',
+          ]
+          .filter(Boolean)
+          .join(' '),
 
         source:
-          fob
+          fob.source,
+
+        confidence:
+          fob.confidence,
+
+        available:
+          true
 
       };
 
     }
 
 
-    /* ----------------------------------------------------------
-       CIF DUBAI
-       ---------------------------------------------------------- */
-
     if (
-      state.basis === 'CIF'
+      state.basis ===
+      BASIS.CIF_DUBAI
     ) {
 
       const cif =
-        currentCIF(product);
+        getCIF(product);
 
 
       if (
         !cif ||
-        cif.value === null
+        cif.price === null
       ) {
 
         return {
 
-          available:
-            false,
-
-          text:
+          main:
             'Price on request',
 
           sub:
+            cif?.reason ||
             'CIF Dubai price not recorded',
 
-          value:
-            null,
-
-          currency:
-            'USD'
+          available:
+            false
 
         };
 
@@ -1702,86 +1777,213 @@
 
       return {
 
-        available:
-          true,
-
-        text:
-          `USD ${money(cif.value)} / MT`,
+        main:
+          `USD ${formatNumber(
+            cif.price,
+            2
+          )} / MT`,
 
         sub:
-
-          cif.calculated
-
-            ? (
-                `Reference: FOB + ` +
-                `${money(cif.addOnUSDPerMT)}` +
-                ` all-in add-on`
-              )
-
-            : (
-                `${cif.source}` +
-
-                (
-                  cif.observedAt
-                    ? ` • ${dateLabel(cif.observedAt)}`
-                    : ''
-                )
-              ),
-
-        value:
-          cif.value,
-
-        currency:
-          'USD',
+          cif.label,
 
         source:
-          cif
+          cif.source,
+
+        confidence:
+          cif.confidence,
+
+        type:
+          cif.type,
+
+        available:
+          true
 
       };
+
+    }
+
+
+    const stock =
+      getDubaiStock(product);
+
+
+    if (!stock) {
+
+      return {
+
+        main:
+          'Price on request',
+
+        sub:
+          'Dubai stock price not recorded',
+
+        available:
+          false
+
+      };
+
+    }
+
+
+    let main =
+      'AED ' +
+      formatNumber(
+        stock.price,
+        2
+      );
+
+
+    if (
+      stock.priceUnit ===
+      'MT'
+    ) {
+
+      main +=
+        ' / MT';
+
+    } else if (
+      stock.priceUnit ===
+      'KG'
+    ) {
+
+      main +=
+        ' / kg';
+
+    } else if (
+      stock.packageKg
+    ) {
+
+      main +=
+        ` / ${formatNumber(
+          stock.packageKg,
+          0
+        )}kg`;
 
     }
 
 
     return {
 
-      available:
-        false,
-
-      text:
-        'Price on request',
+      main,
 
       sub:
-        'Price basis unavailable',
+        stock.pricePerKg !== null &&
+        stock.pricePerKg !== undefined
+          ? `${formatNumber(
+              stock.pricePerKg,
+              2
+            )} AED/kg`
+          : 'Dubai stock',
 
-      value:
-        null
+      available:
+        true
 
     };
 
   }
 
 
-  /* ============================================================
-     11. PACKING
-     ============================================================ */
+  /* ==========================================================
+     19. TREND PRESENTATION
+     ========================================================== */
 
-  function getPackingView(product) {
+  function getTrend(product) {
+
+    const trend =
+      calculateTrend(product);
+
+
+    /*
+       Do not invent a trend.
+
+       Existing explicit stock trend can only
+       be used if the user has actually supplied
+       one. Historical trend has priority.
+    */
 
     if (
-      state.packing ===
-      'STANDARD_PP'
+      trend.available
     ) {
+
+      const value =
+        trend.change7d ??
+        trend.change24h ??
+        trend.change30d;
+
+
+      if (
+        value === null
+      ) {
+
+        return {
+
+          text:
+            'Historical data',
+
+          className:
+            'trend-flat',
+
+          value:
+            null
+
+        };
+
+      }
+
+
+      if (
+        value > 0
+      ) {
+
+        return {
+
+          text:
+            `▲ +${formatNumber(
+              value,
+              1
+            )}% / 7D`,
+
+          className:
+            'trend-up',
+
+          value
+
+        };
+
+      }
+
+
+      if (
+        value < 0
+      ) {
+
+        return {
+
+          text:
+            `▼ ${formatNumber(
+              value,
+              1
+            )}% / 7D`,
+
+          className:
+            'trend-down',
+
+          value
+
+        };
+
+      }
+
 
       return {
 
-        label:
-          'Standard PP',
+        text:
+          '■ 0.0% / 7D',
 
-        note:
-          product.packaging ||
-          'Standard PP packing',
+        className:
+          'trend-flat',
 
-        premium:
+        value:
           0
 
       };
@@ -1789,47 +1991,15 @@
     }
 
 
-    /*
-     * Custom packing.
-     *
-     * We DO NOT silently add $30.
-     * If actual product-specific premium
-     * is not recorded, say so.
-     */
-
-    const premium =
-      product.customPackingPremiumUSD;
-
-
-    if (
-      premium !== null
-    ) {
-
-      return {
-
-        label:
-          'Custom Nonwoven',
-
-        note:
-          `Packing premium +USD ` +
-          `${money(premium)} / MT`,
-
-        premium
-
-      };
-
-    }
-
-
     return {
 
-      label:
-        'Custom Nonwoven',
+      text:
+        'No trend data',
 
-      note:
-        'Premium not recorded — confirm with Trade Desk',
+      className:
+        'trend-flat',
 
-      premium:
+      value:
         null
 
     };
@@ -1837,612 +2007,110 @@
   }
 
 
-  /* ============================================================
-     12. HISTORICAL PRICE ENGINE
-     ============================================================ */
+  /* ==========================================================
+     20. SENTIMENT
+     ========================================================== */
 
-  function historyForProduct(product) {
+  function sentimentForProduct(product) {
 
-    if (
-      state.basis !== 'FOB' &&
-      state.basis !== 'CIF'
-    ) {
-
-      return [];
-
-    }
-
-
-    const wantedBasis =
-      lower(state.basis);
-
-
-    return state.history
-
-      .filter(record => {
-
-        const basis =
-          lower(
-
-            record.basis ||
-
-            record.priceBasis ||
-
-            ''
-
-          );
-
-
-        if (
-          basis !== wantedBasis
-        ) {
-
-          return false;
-
-        }
-
-
-        return historyMatchesProduct(
-          record,
-          product
-        );
-
-      })
-
-
-      .map(record => ({
-
-        ...record,
-
-        _date:
-          parseDate(
-
-            record.quoteDate ||
-
-            record.observedAt ||
-
-            record.date ||
-
-            record.capturedAt
-
-          ),
-
-        _price:
-          firstNumber([
-
-            record.price,
-
-            record.priceUSD,
-
-            record.fobPriceUSD,
-
-            record.cifPriceUSD
-
-          ])
-
-      }))
-
-
-      .filter(record =>
-
-        record._date &&
-        record._price !== null
-
-      )
-
-
-      .sort(
-        (a, b) =>
-          a._date.getTime() -
-          b._date.getTime()
-      );
-
-  }
-
-
-  function getTrend(product) {
-
-    /*
-     * Current Dubai stock doesn't yet have
-     * a dedicated dated stock-history layer.
-     */
-
-    if (
-      state.basis ===
-      'DUBAI_STOCK'
-    ) {
-
-      return {
-
-        change24h:
-          null,
-
-        change7d:
-          null,
-
-        change30d:
-          null,
-
-        label:
-          'No trend data',
-
-        className:
-          'trend-flat',
-
-        arrow:
-          '■'
-
-      };
-
-    }
-
-
-    const history =
-      historyForProduct(product);
+    const origin =
+      lower(product.origin);
 
 
     /*
-     * Need at least two dated observations.
-     */
-
-    if (
-      history.length < 2
-    ) {
-
-      return {
-
-        change24h:
-          null,
-
-        change7d:
-          null,
-
-        change30d:
-          null,
-
-        label:
-          'No trend data',
-
-        className:
-          'trend-flat',
-
-        arrow:
-          '■'
-
-      };
-
-    }
-
-
-    const latest =
-      history[
-        history.length - 1
-      ];
-
-
-    const change24h =
-      calculateHistoricalChange(
-        latest,
-        history,
-        1
-      );
-
-
-    const change7d =
-      calculateHistoricalChange(
-        latest,
-        history,
-        7
-      );
-
-
-    const change30d =
-      calculateHistoricalChange(
-        latest,
-        history,
-        30
-      );
-
-
-    return {
-
-      change24h,
-
-      change7d,
-
-      change30d,
-
-      latestDate:
-        latest._date,
-
-      label:
-        buildTrendLabel(
-          change7d
-        ),
-
-      className:
-        trendClass(
-          change7d
-        ),
-
-      arrow:
-        trendArrow(
-          change7d
-        )
-
-    };
-
-  }
-
-
-  function calculateHistoricalChange(
-    latest,
-    history,
-    days
-  ) {
-
-    const target =
-      new Date(
-        latest._date.getTime()
-      );
-
-
-    target.setDate(
-      target.getDate() - days
-    );
-
-
-    let previous =
-      null;
-
-
-    /*
-     * Prefer an observation on/before
-     * the requested comparison date.
-     */
-
-    for (
-      let i = history.length - 1;
-      i >= 0;
-      i--
-    ) {
-
-      if (
-        history[i]._date <=
-        target
-      ) {
-
-        previous =
-          history[i];
-
-        break;
-
-      }
-
-    }
-
-
-    /*
-     * If no exact historical point exists,
-     * use an observation inside the window.
-     */
-
-    if (!previous) {
-
-      const earliest =
-        new Date(
-          latest._date.getTime()
-        );
-
-
-      earliest.setDate(
-        earliest.getDate() - days
-      );
-
-
-      const candidates =
-        history.filter(
-          record =>
-            record._date >= earliest &&
-            record._date < latest._date
-        );
-
-
-      if (
-        candidates.length
-      ) {
-
-        previous =
-          candidates[0];
-
-      }
-
-    }
-
-
-    if (
-      !previous ||
-      previous === latest
-    ) {
-
-      return null;
-
-    }
-
-
-    if (
-      previous._price === 0
-    ) {
-
-      return null;
-
-    }
-
-
-    return (
-
-      (
-        (
-          latest._price -
-          previous._price
-        ) /
-        previous._price
-      ) * 100
-
-    );
-
-  }
-
-
-  function buildTrendLabel(change) {
-
-    if (
-      change === null ||
-      change === undefined
-    ) {
-
-      return 'No trend data';
-
-    }
-
-
-    if (
-      Math.abs(change) < 0.005
-    ) {
-
-      return '■ 0.0% / 7D';
-
-    }
-
-
-    if (
-      change > 0
-    ) {
-
-      return (
-        `▲ +${change.toFixed(1)}% / 7D`
-      );
-
-    }
-
-
-    return (
-      `▼ ${change.toFixed(1)}% / 7D`
-    );
-
-  }
-
-
-  function trendClass(change) {
-
-    if (
-      change === null ||
-      change === undefined
-    ) {
-
-      return 'trend-flat';
-
-    }
-
-
-    if (change > 0) {
-      return 'trend-up';
-    }
-
-
-    if (change < 0) {
-      return 'trend-down';
-    }
-
-
-    return 'trend-flat';
-
-  }
-
-
-  function trendArrow(change) {
-
-    if (
-      change === null ||
-      change === undefined
-    ) {
-
-      return '■';
-
-    }
-
-
-    if (change > 0) {
-      return '▲';
-    }
-
-
-    if (change < 0) {
-      return '▼';
-    }
-
-
-    return '■';
-
-  }
-
-
-  /* ============================================================
-     13. MARKET SENTIMENT ENGINE
-     ============================================================ */
-
-  function sentimentFor(product) {
-
-    const productSlug =
-      slug(product.name);
-
-
-    const originSlug =
-      slug(product.origin);
-
+       Product-specific sentiment can later be
+       added by productId/product.
+
+       For now we support market/origin records.
+    */
 
     const matches =
       state.sentiment
-
-        .filter(record => {
-
-          const recordProduct =
-            slug(
-
-              record.product ||
-
-              record.productName ||
-
-              ''
-
-            );
-
-
-          const recordMarket =
-            slug(
-
-              record.market ||
-
-              ''
-
-            );
-
+        .filter(function(record) {
 
           const recordOrigin =
-            slug(
+            lower(record.origin);
 
-              record.origin ||
-
-              ''
-
-            );
-
-
-          const productMatch =
-
-            recordProduct &&
-
-            (
-
-              recordProduct ===
-                productSlug ||
-
-              recordProduct.includes(
-                productSlug
-              ) ||
-
-              productSlug.includes(
-                recordProduct
-              )
-
-            );
-
-
-          const marketMatch =
-
-            recordMarket &&
-
-            (
-
-              recordMarket ===
-                productSlug ||
-
-              recordMarket.includes(
-                productSlug
-              ) ||
-
-              productSlug.includes(
-                recordMarket
-              )
-
-            );
-
-
-          const originMatch =
-
-            recordOrigin &&
-
-            recordOrigin ===
-              originSlug;
-
+          const market =
+            lower(record.market);
 
           return (
-
-            productMatch ||
-
-            marketMatch ||
-
-            originMatch
-
+            (
+              recordOrigin &&
+              origin &&
+              recordOrigin === origin
+            )
+            ||
+            (
+              market &&
+              origin &&
+              market.includes(origin)
+            )
           );
 
         })
+        .sort(function(a, b) {
+
+          const da =
+            recordDate(a);
+
+          const db =
+            recordDate(b);
 
 
-        .sort((a, b) => {
+          if (!da && !db) {
+            return 0;
+          }
 
-          const ad =
-            parseDate(
+          if (!da) {
+            return 1;
+          }
 
-              a.observedAt ||
-
-              a.date ||
-
-              a.capturedAt
-
-            );
-
-
-          const bd =
-            parseDate(
-
-              b.observedAt ||
-
-              b.date ||
-
-              b.capturedAt
-
-            );
+          if (!db) {
+            return -1;
+          }
 
 
           return (
-
-            (bd
-              ? bd.getTime()
-              : 0) -
-
-            (ad
-              ? ad.getTime()
-              : 0)
-
+            db.getTime() -
+            da.getTime()
           );
 
         });
 
 
-    return matches.length
-      ? matches[0]
-      : null;
+    const record =
+      matches[0];
+
+
+    if (!record) {
+
+      return null;
+
+    }
+
+
+    /*
+       Do not display the seed sentiment as
+       a real Trade Desk call.
+    */
+
+    const note =
+      lower(record.note);
+
+
+    if (
+      note.includes('initial structure') ||
+      note.includes('seed record') ||
+      note.includes('replace with the trade desk')
+    ) {
+
+      return null;
+
+    }
+
+
+    return record;
 
   }
 
@@ -2450,393 +2118,1234 @@
   function sentimentLabel(record) {
 
     if (!record) {
-      return 'No desk view';
+
+      return {
+
+        label:
+          'No current desk view',
+
+        icon:
+          '⚪',
+
+        className:
+          'sentiment-neutral'
+
+      };
+
     }
 
 
-    const value =
-      text(
-
-        record.deskView ||
-
-        record.direction ||
-
-        ''
-
-      );
-
-
-    if (!value) {
-      return 'No desk view';
-    }
-
-
-    return value
-
-      .replace(/_/g, ' ')
-
-      .replace(
-        /\b\w/g,
-        character =>
-          character.toUpperCase()
-      );
-
-  }
-
-
-  function sentimentIcon(record) {
-
-    if (!record) {
-      return '—';
-    }
-
-
-    const value =
+    const direction =
       lower(
-
-        record.deskView ||
-
-        record.direction ||
-
-        ''
-
+        record.direction ??
+        record.deskView
       );
 
 
     if (
-      value.includes('strong_bull')
+      direction.includes('strong_bullish') ||
+      direction.includes('strong bullish')
     ) {
 
-      return '🟢';
+      return {
+
+        label:
+          'Strong Bullish',
+
+        icon:
+          '🟢',
+
+        className:
+          'sentiment-bullish'
+
+      };
 
     }
 
 
     if (
-      value.includes('bull')
+      direction.includes('bullish')
     ) {
 
-      return '🟢';
+      return {
+
+        label:
+          'Bullish',
+
+        icon:
+          '🟢',
+
+        className:
+          'sentiment-bullish'
+
+      };
 
     }
 
 
     if (
-      value.includes('strong_bear')
+      direction.includes('strong_bearish') ||
+      direction.includes('strong bearish')
     ) {
 
-      return '🔴';
+      return {
+
+        label:
+          'Strong Bearish',
+
+        icon:
+          '🔴',
+
+        className:
+          'sentiment-bearish'
+
+      };
 
     }
 
 
     if (
-      value.includes('bear')
+      direction.includes('bearish')
     ) {
 
-      return '🔴';
+      return {
 
-    }
+        label:
+          'Bearish',
 
+        icon:
+          '🔴',
 
-    return '🟡';
+        className:
+          'sentiment-bearish'
 
-  }
+      };
 
-
-  /* ============================================================
-     14. FREIGHT INTELLIGENCE
-     ============================================================ */
-
-  function freightSummary() {
-
-    if (!state.freight) {
-      return null;
-    }
-
-
-    const records =
-      Array.isArray(
-        state.freight.observed_costs
-      )
-        ? state.freight.observed_costs
-        : [];
-
-
-    const current =
-      records.find(item =>
-
-        item.status === 'observed' &&
-
-        item.additionalCostUSDPerMT !==
-          undefined
-
-      );
-
-
-    if (!current) {
-      return null;
     }
 
 
     return {
 
-      addOnUSDPerMT:
-        number(
-          current.additionalCostUSDPerMT
-        ),
+      label:
+        'Neutral',
 
-      status:
-        'Current reference',
+      icon:
+        '🟡',
 
-      note:
-        text(current.notes)
+      className:
+        'sentiment-neutral'
 
     };
 
   }
 
 
-  /* ============================================================
-     15. FILTERING
-     ============================================================ */
+  /* ==========================================================
+     21. STOCK DISPLAY
+     ========================================================== */
 
-  function matchesFilter(product) {
+  function stockDisplay(product) {
 
     if (
-      state.filter === 'all'
+      product.availability ===
+      'BOOKING'
     ) {
 
-      return true;
+      return {
+
+        text:
+          'On request',
+
+        className:
+          'booking'
+
+      };
 
     }
 
 
     if (
-      state.filter === 'booking'
+      product.availability ===
+      'OUT_OF_STOCK'
     ) {
 
-      return (
+      return {
+
+        text:
+          'Out of stock',
+
+        className:
+          'out-stock'
+
+      };
+
+    }
+
+
+    if (
+      product.stockMT !== null &&
+      product.stockMT !== undefined
+    ) {
+
+      return {
+
+        text:
+          `${formatNumber(
+            product.stockMT,
+            2
+          )} MT`,
+
+        className:
+          'in-stock'
+
+      };
+
+    }
+
+
+    return {
+
+      text:
+        'Contact Trade Desk',
+
+      className:
+        'unknown-stock'
+
+    };
+
+  }
+
+
+  /* ==========================================================
+     22. SUPPLIER DISPLAY
+     ========================================================== */
+
+  function supplierDisplay(product) {
+
+    return (
+      product.supplier ||
+      'Supplier on request'
+    );
+
+  }
+
+
+  function badgeDisplay(product) {
+
+    return (
+      product.supplierTier ||
+      (
         product.availability ===
         'BOOKING'
-      );
+          ? 'Pre-Booking'
+          : 'Verified Supplier'
+      )
+    );
 
-    }
+  }
+
+
+  /* ==========================================================
+     23. WHATSAPP
+     ========================================================== */
+
+  function whatsappURL(product) {
+
+    const message =
+      [
+        'Hi Grains Hub Trade Desk,',
+        '',
+        `I want a quote for ${product.name}.`,
+        product.origin
+          ? `Origin: ${product.origin}`
+          : '',
+        `Basis: ${basisLabel()}`,
+        `Packing: ${packingLabel()}`
+      ]
+      .filter(Boolean)
+      .join('\n');
 
 
     return (
-      lower(product.origin) ===
-      lower(state.filter)
+      'https://wa.me/' +
+      CONFIG.WHATSAPP +
+      '?text=' +
+      encodeURIComponent(message)
     );
 
   }
 
 
-  function matchesSearch(product) {
+  /* ==========================================================
+     24. LABELS
+     ========================================================== */
 
-    if (!state.search) {
-      return true;
+  function basisLabel() {
+
+    if (
+      state.basis ===
+      BASIS.FOB_ORIGIN
+    ) {
+
+      return 'FOB Origin';
+
     }
 
 
-    const searchable = [
+    if (
+      state.basis ===
+      BASIS.CIF_DUBAI
+    ) {
 
-      product.name,
+      return 'CIF Dubai';
 
-      product.origin,
-
-      product.supplier,
-
-      product.supplierTier,
-
-      product.packaging,
-
-      product.grainType,
-
-      product.crop,
-
-      ...product.keywords
-
-    ]
-      .join(' ')
-      .toLowerCase();
+    }
 
 
-    return searchable.includes(
-      lower(state.search)
+    return 'Dubai Stock';
+
+  }
+
+
+  function packingLabel() {
+
+    return (
+      state.packing ===
+      PACKING.CUSTOM_NONWOVEN
+        ? 'Custom Nonwoven'
+        : 'Standard PP'
     );
 
   }
 
 
-  function applyFiltersAndRender() {
+  /* ==========================================================
+     25. PRICE BASIS CONTROL
+     ========================================================== */
 
-    let result =
-      state.data.filter(product =>
+  function createBasisControls() {
 
-        matchesFilter(product) &&
+    /*
+       If v3.2 already created the controls,
+       reuse them.
 
-        matchesSearch(product)
+       Otherwise create a clean control bar.
+    */
 
+    const existing =
+      document.querySelector(
+        '[data-gh-pulse-basis-controls]'
       );
 
 
-    if (
-      state.sort.key
-    ) {
+    if (existing) {
 
-      result =
-        result
-          .slice()
-          .sort(
-            (a, b) =>
-              compareProducts(
-                a,
-                b,
-                state.sort.key,
-                state.sort.dir
-              )
-          );
+      return existing;
 
     }
 
 
-    state.filtered =
-      result;
+    const container =
+      document.querySelector(
+        '.container'
+      );
 
 
-    renderCards(result);
+    if (!container) {
 
-    renderTable(result);
+      return null;
 
-    updateRowCount(
-      result.length
+    }
+
+
+    const bar =
+      document.createElement('div');
+
+
+    bar.setAttribute(
+      'data-gh-pulse-basis-controls',
+      'true'
     );
 
-    updateMarketMood();
+
+    bar.innerHTML = `
+
+      <div class="gh-pulse-control-inner">
+
+        <div class="gh-control-group">
+
+          <span class="gh-control-label">
+            PRICE BASIS
+          </span>
+
+          <button
+            type="button"
+            data-gh-basis="FOB_ORIGIN"
+            class="gh-basis-btn active"
+          >
+            FOB Origin
+          </button>
+
+          <button
+            type="button"
+            data-gh-basis="CIF_DUBAI"
+            class="gh-basis-btn"
+          >
+            CIF Dubai
+          </button>
+
+          <button
+            type="button"
+            data-gh-basis="DUBAI_STOCK"
+            class="gh-basis-btn"
+          >
+            Dubai Stock
+          </button>
+
+        </div>
+
+
+        <div class="gh-control-group">
+
+          <span class="gh-control-label">
+            PACKING
+          </span>
+
+          <button
+            type="button"
+            data-gh-packing="STANDARD_PP"
+            class="gh-packing-btn active"
+          >
+            Standard PP
+          </button>
+
+          <button
+            type="button"
+            data-gh-packing="CUSTOM_NONWOVEN"
+            class="gh-packing-btn"
+          >
+            Custom Nonwoven
+          </button>
+
+        </div>
+
+
+        <div
+          id="gh-pulse-basis-note"
+          class="gh-pulse-basis-note"
+        ></div>
+
+      </div>
+
+    `;
+
+
+    container.insertBefore(
+      bar,
+      container.firstElementChild
+    );
+
+
+    injectControlCSS();
+
+
+    return bar;
 
   }
 
 
-  function compareProducts(
-    a,
-    b,
-    key,
-    direction
-  ) {
-
-    const multiplier =
-      direction === 'desc'
-        ? -1
-        : 1;
-
-
-    let av;
-
-    let bv;
-
+  function injectControlCSS() {
 
     if (
-      key === 'product'
+      document.getElementById(
+        'gh-pulse-v33-style'
+      )
     ) {
 
-      av =
-        lower(a.name);
-
-      bv =
-        lower(b.name);
+      return;
 
     }
 
 
-    else if (
-      key === 'priceRaw'
-    ) {
-
-      av =
-        getPriceView(a).value;
-
-      bv =
-        getPriceView(b).value;
-
-    }
+    const style =
+      document.createElement('style');
 
 
-    else if (
-      key === 'trendChange'
-    ) {
-
-      av =
-        getTrend(a).change7d;
-
-      bv =
-        getTrend(b).change7d;
-
-    }
+    style.id =
+      'gh-pulse-v33-style';
 
 
-    else if (
-      key === 'supplier'
-    ) {
+    style.textContent = `
 
-      av =
-        a.stockMT;
+      [data-gh-pulse-basis-controls] {
+        margin-bottom: 20px;
+        background: #fff;
+        border: 1px solid #e8e4d8;
+        border-radius: 14px;
+        box-shadow: 0 2px 8px rgba(0,0,0,.05);
+      }
 
-      bv =
-        b.stockMT;
+      .gh-pulse-control-inner {
+        padding: 16px 20px;
+      }
 
-    }
+      .gh-control-group {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .gh-control-group:last-of-type {
+        margin-bottom: 6px;
+      }
+
+      .gh-control-label {
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .8px;
+        color: #777;
+        margin-right: 4px;
+      }
+
+      .gh-basis-btn,
+      .gh-packing-btn {
+        border: 1px solid #e1dccf;
+        background: #fff;
+        color: #555;
+        border-radius: 999px;
+        padding: 8px 15px;
+        font-weight: 700;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all .2s ease;
+      }
+
+      .gh-basis-btn:hover,
+      .gh-packing-btn:hover {
+        border-color: #c1a875;
+        transform: translateY(-1px);
+      }
+
+      .gh-basis-btn.active,
+      .gh-packing-btn.active {
+        background: #1d1b36;
+        color: #fff;
+        border-color: #1d1b36;
+        box-shadow: 0 3px 10px rgba(0,0,0,.08);
+      }
+
+      .gh-pulse-basis-note {
+        text-align: center;
+        color: #888;
+        font-size: 12px;
+        line-height: 1.5;
+        min-height: 18px;
+      }
+
+      .gh-source-line {
+        margin-top: 6px;
+        color: #888;
+        font-size: 11px;
+        line-height: 1.4;
+      }
+
+      .gh-trade-desk-strip {
+        margin-bottom: 24px;
+        padding: 16px 18px;
+        background: linear-gradient(
+          135deg,
+          #faf8f0,
+          #fff
+        );
+        border: 1px solid #e5dcc5;
+        border-radius: 14px;
+      }
+
+      .gh-trade-desk-title {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: .5px;
+        color: #80672c;
+        margin-bottom: 8px;
+      }
+
+      .gh-trade-desk-grid {
+        display: grid;
+        grid-template-columns:
+          repeat(4, minmax(0,1fr));
+        gap: 12px;
+      }
+
+      .gh-desk-metric {
+        background: rgba(255,255,255,.8);
+        border: 1px solid #eee8da;
+        border-radius: 10px;
+        padding: 10px 12px;
+      }
+
+      .gh-desk-metric-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: .5px;
+        color: #999;
+        margin-bottom: 4px;
+      }
+
+      .gh-desk-metric-value {
+        font-size: 15px;
+        font-weight: 800;
+        color: #242238;
+      }
+
+      .gh-provenance {
+        display: block;
+        margin-top: 6px;
+        font-size: 10px;
+        color: #999;
+      }
+
+      .gh-reference {
+        color: #80672c;
+      }
+
+      .gh-recorded {
+        color: #37734b;
+      }
+
+      .gh-no-data {
+        color: #999;
+      }
+
+      .gh-sentiment-line {
+        margin-top: 10px;
+        font-size: 12px;
+        color: #666;
+      }
+
+      @media (max-width: 800px) {
+
+        .gh-trade-desk-grid {
+          grid-template-columns:
+            repeat(2, minmax(0,1fr));
+        }
+
+      }
+
+      @media (max-width: 520px) {
+
+        .gh-control-group {
+          justify-content: flex-start;
+        }
+
+        .gh-trade-desk-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .gh-control-label {
+          width: 100%;
+          margin-bottom: 2px;
+        }
+
+      }
+
+    `;
 
 
-    else {
-
-      av =
-        lower(a[key]);
-
-      bv =
-        lower(b[key]);
-
-    }
-
-
-    if (
-      av === null ||
-      av === undefined
-    ) {
-
-      return 1;
-
-    }
-
-
-    if (
-      bv === null ||
-      bv === undefined
-    ) {
-
-      return -1;
-
-    }
-
-
-    if (av < bv) {
-      return -1 * multiplier;
-    }
-
-
-    if (av > bv) {
-      return 1 * multiplier;
-    }
-
-
-    return 0;
+    document.head.appendChild(style);
 
   }
 
 
-  /* ============================================================
-     16. MARKET CARDS
-     ============================================================ */
+  /* ==========================================================
+     26. CONNECT EXISTING V3.2 CONTROLS
+     ========================================================== */
+
+  function connectExistingControls() {
+
+    const basisButtons =
+      document.querySelectorAll(
+        '[data-gh-basis]'
+      );
+
+
+    const packingButtons =
+      document.querySelectorAll(
+        '[data-gh-packing]'
+      );
+
+
+    basisButtons.forEach(function(btn) {
+
+      btn.addEventListener(
+        'click',
+        function() {
+
+          const value =
+            this.dataset.ghBasis;
+
+          if (
+            !BASIS[value]
+          ) {
+
+            return;
+
+          }
+
+
+          state.basis =
+            BASIS[value];
+
+          updateControlState();
+
+          renderAll();
+
+        }
+      );
+
+    });
+
+
+    packingButtons.forEach(function(btn) {
+
+      btn.addEventListener(
+        'click',
+        function() {
+
+          const value =
+            this.dataset.ghPacking;
+
+          if (
+            !PACKING[value]
+          ) {
+
+            return;
+
+          }
+
+
+          state.packing =
+            PACKING[value];
+
+          updateControlState();
+
+          renderAll();
+
+        }
+      );
+
+    });
+
+  }
+
+
+  function updateControlState() {
+
+    document
+      .querySelectorAll(
+        '[data-gh-basis]'
+      )
+      .forEach(function(btn) {
+
+        btn.classList.toggle(
+          'active',
+          btn.dataset.ghBasis ===
+          state.basis
+        );
+
+      });
+
+
+    document
+      .querySelectorAll(
+        '[data-gh-packing]'
+      )
+      .forEach(function(btn) {
+
+        btn.classList.toggle(
+          'active',
+          btn.dataset.ghPacking ===
+          state.packing
+        );
+
+      });
+
+
+    const note =
+      document.getElementById(
+        'gh-pulse-basis-note'
+      );
+
+
+    if (!note) {
+
+      return;
+
+    }
+
+
+    if (
+      state.basis ===
+      BASIS.FOB_ORIGIN
+    ) {
+
+      note.textContent =
+        state.packing ===
+        PACKING.CUSTOM_NONWOVEN
+          ? 'FOB Origin uses recorded supplier FOB. Custom packing is shown only when a specific premium is recorded.'
+          : 'FOB Origin = recorded supplier/exporter quotation or Grains Hub FOB observation. No freight is added.';
+
+      return;
+
+    }
+
+
+    if (
+      state.basis ===
+      BASIS.CIF_DUBAI
+    ) {
+
+      const addon =
+        getCurrentAllInAddition();
+
+
+      if (addon) {
+
+        note.textContent =
+          state.packing ===
+          PACKING.CUSTOM_NONWOVEN
+            ? 'CIF Dubai = recorded CIF where available. Otherwise the Trade Desk may calculate a reference only when all required components are documented.'
+            : `CIF Dubai = recorded CIF where available, otherwise Grains Hub Trade Desk reference using the current observed +USD ${formatNumber(addon.value, 2)}/MT all-in addition.`;
+
+      } else {
+
+        note.textContent =
+          'CIF Dubai = recorded CIF where available. No logistics reference is currently available for calculation.';
+
+      }
+
+      return;
+
+    }
+
+
+    note.textContent =
+      'Dubai Stock = current local inventory price from the canonical stock feed.';
+
+  }
+
+
+  /* ==========================================================
+     27. TRADE DESK SUMMARY
+     ========================================================== */
+
+  function renderTradeDeskSummary() {
+
+    const container =
+      document.querySelector(
+        '.container'
+      );
+
+
+    if (!container) {
+
+      return;
+
+    }
+
+
+    let strip =
+      document.getElementById(
+        'gh-trade-desk-summary'
+      );
+
+
+    if (!strip) {
+
+      strip =
+        document.createElement('div');
+
+      strip.id =
+        'gh-trade-desk-summary';
+
+      strip.className =
+        'gh-trade-desk-strip';
+
+      container.insertBefore(
+        strip,
+        container.firstElementChild?.nextSibling ||
+        container.firstElementChild
+      );
+
+    }
+
+
+    const addon =
+      getCurrentAllInAddition();
+
+
+    const indiaSentiment =
+      state.sentiment.find(function(record) {
+
+        return (
+          lower(record.origin) ===
+          'india'
+          ||
+          lower(record.market)
+            .includes('indian rice')
+        );
+
+      });
+
+
+    const sentiment =
+      sentimentLabel(
+        (
+          indiaSentiment &&
+          !lower(
+            indiaSentiment.note
+          ).includes('initial structure')
+        )
+          ? indiaSentiment
+          : null
+      );
+
+
+    let costValue =
+      'Not recorded';
+
+
+    if (addon) {
+
+      costValue =
+        `+USD ${formatNumber(
+          addon.value,
+          2
+        )}/MT`;
+
+    }
+
+
+    const historyCount =
+      state.history.length;
+
+
+    strip.innerHTML = `
+
+      <div class="gh-trade-desk-title">
+        🌾 GRains HUB TRADE DESK
+      </div>
+
+      <div class="gh-trade-desk-grid">
+
+        <div class="gh-desk-metric">
+
+          <div class="gh-desk-metric-label">
+            Current Cost Reference
+          </div>
+
+          <div class="gh-desk-metric-value">
+            ${escapeHTML(costValue)}
+          </div>
+
+          <span class="gh-provenance">
+            25 MT FCL all-in reference
+          </span>
+
+        </div>
+
+
+        <div class="gh-desk-metric">
+
+          <div class="gh-desk-metric-label">
+            FOB Observations
+          </div>
+
+          <div class="gh-desk-metric-value">
+            ${formatNumber(
+              historyCount,
+              0
+            )}
+          </div>
+
+          <span class="gh-provenance">
+            Recorded market history
+          </span>
+
+        </div>
+
+
+        <div class="gh-desk-metric">
+
+          <div class="gh-desk-metric-label">
+            Desk View
+          </div>
+
+          <div class="gh-desk-metric-value">
+            ${escapeHTML(
+              sentiment.icon +
+              ' ' +
+              sentiment.label
+            )}
+          </div>
+
+          <span class="gh-provenance">
+            Human Trade Desk intelligence
+          </span>
+
+        </div>
+
+
+        <div class="gh-desk-metric">
+
+          <div class="gh-desk-metric-label">
+            Price Basis
+          </div>
+
+          <div class="gh-desk-metric-value">
+            ${escapeHTML(
+              basisLabel()
+            )}
+          </div>
+
+          <span class="gh-provenance">
+            ${escapeHTML(
+              packingLabel()
+            )}
+          </span>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* ==========================================================
+     28. FILTERING
+     ========================================================== */
+
+  function applyFilters() {
+
+    let result =
+      state.products.slice();
+
+
+    if (
+      state.currentFilter &&
+      state.currentFilter !==
+      'all'
+    ) {
+
+      if (
+        lower(state.currentFilter) ===
+        'booking'
+      ) {
+
+        result =
+          result.filter(function(product) {
+
+            return (
+              product.availability ===
+              'BOOKING'
+            );
+
+          });
+
+      } else {
+
+        result =
+          result.filter(function(product) {
+
+            return (
+              lower(product.origin) ===
+              lower(state.currentFilter)
+            );
+
+          });
+
+      }
+
+    }
+
+
+    if (
+      state.currentSearch
+    ) {
+
+      const query =
+        normalizeName(
+          state.currentSearch
+        );
+
+
+      result =
+        result.filter(function(product) {
+
+          const haystack =
+            normalizeName(
+              [
+                product.name,
+                product.origin,
+                product.supplier,
+                product.packaging
+              ]
+              .filter(Boolean)
+              .join(' ')
+            );
+
+
+          return haystack.includes(query);
+
+        });
+
+    }
+
+
+    if (
+      state.sortKey
+    ) {
+
+      result.sort(function(a, b) {
+
+        let va =
+          sortValue(
+            a,
+            state.sortKey
+          );
+
+        let vb =
+          sortValue(
+            b,
+            state.sortKey
+          );
+
+
+        if (
+          typeof va === 'string'
+        ) {
+
+          va =
+            lower(va);
+
+        }
+
+
+        if (
+          typeof vb === 'string'
+        ) {
+
+          vb =
+            lower(vb);
+
+        }
+
+
+        if (
+          va === vb
+        ) {
+
+          return 0;
+
+        }
+
+
+        const direction =
+          state.sortDirection ===
+          'asc'
+            ? 1
+            : -1;
+
+
+        return va < vb
+          ? -1 * direction
+          : 1 * direction;
+
+      });
+
+    }
+
+
+    return result;
+
+  }
+
+
+  function sortValue(product, key) {
+
+    if (
+      key ===
+      'product'
+    ) {
+
+      return product.name;
+
+    }
+
+
+    if (
+      key ===
+      'supplier'
+    ) {
+
+      return supplierDisplay(
+        product
+      );
+
+    }
+
+
+    if (
+      key ===
+      'priceRaw'
+    ) {
+
+      const displayed =
+        getDisplayedPrice(
+          product
+        );
+
+      return (
+        number(
+          displayed.main
+        ) ??
+        Number.MAX_SAFE_INTEGER
+      );
+
+    }
+
+
+    if (
+      key ===
+      'trendChange'
+    ) {
+
+      const trend =
+        calculateTrend(
+          product
+        );
+
+      return (
+        trend.change7d ??
+        trend.change24h ??
+        -999999
+      );
+
+    }
+
+
+    return '';
+
+  }
+
+
+  /* ==========================================================
+     29. CARD RENDERING
+     ========================================================== */
 
   function renderCards(data) {
 
@@ -2847,18 +3356,20 @@
 
 
     if (!container) {
+
       return;
+
     }
 
 
-    const cards =
+    const top =
       data.slice(
         0,
         CONFIG.MAX_CARDS
       );
 
 
-    if (!cards.length) {
+    if (!top.length) {
 
       container.innerHTML = `
 
@@ -2867,10 +3378,11 @@
             grid-column:1/-1;
             text-align:center;
             padding:40px;
-            color:#777;
+            color:#999;
           "
         >
-          No products found matching your criteria.
+          No products found
+          matching your criteria.
         </div>
 
       `;
@@ -2881,217 +3393,228 @@
 
 
     container.innerHTML =
-      cards
-        .map(renderCard)
-        .join('');
+      top.map(function(product) {
 
-  }
-
-
-  function renderCard(product) {
-
-    const price =
-      getPriceView(product);
+        const price =
+          getDisplayedPrice(
+            product
+          );
 
 
-    const trend =
-      getTrend(product);
+        const trend =
+          getTrend(product);
 
 
-    const sentiment =
-      sentimentFor(product);
+        const stock =
+          stockDisplay(product);
 
 
-    const packing =
-      getPackingView(product);
+        const sentiment =
+          sentimentLabel(
+            sentimentForProduct(
+              product
+            )
+          );
 
 
-    const booking =
-      product.availability ===
-      'BOOKING';
+        const badge =
+          badgeDisplay(
+            product
+          );
 
 
-    let stockText;
+        const sourceClass =
+          price.type ===
+          'recorded'
+            ? 'gh-recorded'
+            : price.available
+              ? 'gh-reference'
+              : 'gh-no-data';
 
 
-    if (booking) {
+        return `
 
-      stockText =
-        '📋 Booking';
-
-    }
-
-
-    else if (
-      product.availability ===
-      'OUT_OF_STOCK'
-    ) {
-
-      stockText =
-        '⛔ Out of Stock';
-
-    }
-
-
-    else if (
-      product.stockMT !== null
-    ) {
-
-      stockText =
-        `📦 ${money(product.stockMT, 2)} MT`;
-
-    }
-
-
-    else {
-
-      stockText =
-        '📦 Stock on request';
-
-    }
-
-
-    return `
-
-      <div
-        class="price-card"
-        data-origin="${escapeHTML(
-          product.origin
-        )}"
-      >
-
-        <div class="product-header">
-
-          <span class="product-name">
-            ${escapeHTML(product.name)}
-          </span>
-
-          <span class="flag">
-            ${flag(product.origin)}
-          </span>
-
-        </div>
-
-
-        <div class="price">
-          ${escapeHTML(price.text)}
-        </div>
-
-
-        <div class="price-details">
-
-          <span
-            class="trend ${trend.className}"
-          >
-            ${escapeHTML(trend.label)}
-          </span>
-
-          <span
-            style="
-              font-size:13px;
-              color:#666;
-            "
-          >
-            ${escapeHTML(stockText)}
-          </span>
-
-        </div>
-
-
-        <div class="stock-info">
-
-          <span>
-            ${escapeHTML(
-              product.supplier ||
-              'Supplier on request'
-            )}
-          </span>
-
-          <span class="badge">
-            ${escapeHTML(
-              product.supplierTier ||
-              (
-                booking
-                  ? 'Pre-Booking'
-                  : 'Verified Supplier'
-              )
-            )}
-          </span>
-
-        </div>
-
-
-        <div
-          style="
-            margin-top:8px;
-            font-size:12px;
-            color:#777;
-          "
-        >
-
-          <span>
-            ${escapeHTML(packing.label)}
-          </span>
-
-          <span
-            style="margin-left:8px;"
+          <div
+            class="price-card"
+            data-origin="${escapeHTML(
+              product.origin
+            )}"
           >
 
-            ${
-              sentiment
-                ? `
-                  ${sentimentIcon(sentiment)}
-                  ${escapeHTML(
-                    sentimentLabel(
-                      sentiment
+            <div class="product-header">
+
+              <span class="product-name">
+                ${escapeHTML(
+                  product.name
+                )}
+              </span>
+
+              <span class="flag">
+                ${getFlag(
+                  product.origin
+                )}
+              </span>
+
+            </div>
+
+
+            <div class="price">
+
+              ${escapeHTML(
+                price.main
+              )}
+
+            </div>
+
+
+            <div
+              class="price-sub"
+              style="
+                text-align:center;
+                color:#888;
+                font-size:11px;
+                margin-top:-3px;
+                margin-bottom:7px;
+              "
+            >
+
+              ${escapeHTML(
+                price.sub
+              )}
+
+            </div>
+
+
+            <div class="price-details">
+
+              <span
+                class="trend ${
+                  trend.className
+                }"
+              >
+                ${escapeHTML(
+                  trend.text
+                )}
+              </span>
+
+              <span
+                style="
+                  font-size:13px;
+                  color:#666;
+                "
+              >
+                ${
+                  product.availability ===
+                  'BOOKING'
+                    ? '📋 Booking'
+                    : '📦 ' +
+                      escapeHTML(
+                        stock.text
+                      )
+                }
+              </span>
+
+            </div>
+
+
+            <div class="stock-info">
+
+              <span>
+                ${escapeHTML(
+                  supplierDisplay(
+                    product
+                  )
+                )}
+              </span>
+
+              <span class="badge">
+                ${escapeHTML(
+                  badge
+                )}
+              </span>
+
+            </div>
+
+
+            <div
+              style="
+                text-align:center;
+                margin-top:7px;
+                font-size:12px;
+                color:#777;
+              "
+            >
+
+              ${escapeHTML(
+                packingLabel()
+              )}
+
+              &nbsp;
+
+              ${sentiment.icon}
+
+              ${escapeHTML(
+                sentiment.label
+              )}
+
+            </div>
+
+
+            <span
+              class="gh-provenance ${
+                sourceClass
+              }"
+              style="text-align:center;"
+            >
+
+              ${
+                price.available
+                  ? escapeHTML(
+                      price.source ||
+                      (
+                        state.basis ===
+                        BASIS.DUBAI_STOCK
+                          ? 'Canonical stock feed'
+                          : 'Recorded data'
+                      )
                     )
-                  )}
-                `
-                : ''
-            }
+                  : escapeHTML(
+                      price.sub
+                    )
+              }
 
-          </span>
-
-        </div>
+            </span>
 
 
-        <div
-          style="
-            margin-top:5px;
-            font-size:11px;
-            color:#999;
-          "
-        >
-          ${escapeHTML(price.sub)}
-        </div>
+            <a
+              href="${escapeHTML(
+                whatsappURL(
+                  product
+                )
+              )}"
+              class="book-btn"
+              target="_blank"
+              rel="noopener"
+            >
 
+              <i class="fab fa-whatsapp"></i>
+              Get Quote
 
-        <a
-          href="${escapeHTML(
-            buildWhatsAppURL(product)
-          )}"
-          class="book-btn"
-          target="_blank"
-          rel="noopener"
-        >
-          <i class="fab fa-whatsapp"></i>
-          ${
-            booking
-              ? 'Request Booking'
-              : 'Get Quote'
-          }
-        </a>
+            </a>
 
-      </div>
+          </div>
 
-    `;
+        `;
+
+      })
+      .join('');
 
   }
 
 
-  /* ============================================================
-     17. FULL MARKET TABLE
-     ============================================================ */
+  /* ==========================================================
+     30. TABLE RENDERING
+     ========================================================== */
 
   function renderTable(data) {
 
@@ -3102,7 +3625,9 @@
 
 
     if (!tbody) {
+
       return;
+
     }
 
 
@@ -3116,11 +3641,14 @@
             colspan="6"
             style="
               text-align:center;
-              padding:30px;
-              color:#777;
+              padding:40px;
+              color:#999;
             "
           >
-            No products found.
+
+            No products found
+            matching your criteria.
+
           </td>
 
         </tr>
@@ -3133,978 +3661,404 @@
 
 
     tbody.innerHTML =
-      data
-        .map(renderTableRow)
-        .join('');
+      data.map(function(product) {
 
-  }
-
-
-  function renderTableRow(product) {
-
-    const price =
-      getPriceView(product);
+        const price =
+          getDisplayedPrice(
+            product
+          );
 
 
-    const trend =
-      getTrend(product);
+        const trend =
+          getTrend(product);
 
 
-    const packing =
-      getPackingView(product);
+        const stock =
+          stockDisplay(product);
 
 
-    const sentiment =
-      sentimentFor(product);
+        const badge =
+          badgeDisplay(
+            product
+          );
 
 
-    let stock;
+        const sourceClass =
+          price.type ===
+          'recorded'
+            ? 'gh-recorded'
+            : price.available
+              ? 'gh-reference'
+              : 'gh-no-data';
 
 
-    if (
-      product.stockMT !== null
-    ) {
+        return `
 
-      stock =
-        `${money(product.stockMT, 2)} MT`;
-
-    }
-
-
-    else if (
-      product.stockBags !== null
-    ) {
-
-      stock =
-        `${money(product.stockBags, 0)} bags`;
-
-    }
-
-
-    else if (
-      product.availability ===
-      'BOOKING'
-    ) {
-
-      stock =
-        'Booking';
-
-    }
-
-
-    else {
-
-      stock =
-        'On request';
-
-    }
-
-
-    const supplier =
-      product.supplier ||
-      product.supplierTier ||
-      'Verified supplier';
-
-
-    const trendDisplay =
-      trend.change7d === null
-        ? 'No trend data'
-        : trend.label;
-
-
-    return `
-
-      <tr
-        class="${
-          product.availability ===
-          'BOOKING'
-            ? 'row-booking'
-            : 'row-local'
-        }"
-      >
-
-        <td class="col-product">
-
-          <strong>
-            ${escapeHTML(
-              product.name
-            )}
-          </strong>
-
-          <div
-            style="
-              font-size:11px;
-              color:#999;
-              margin-top:3px;
-            "
+          <tr
+            class="${
+              product.availability ===
+              'BOOKING'
+                ? 'row-booking'
+                : 'row-local'
+            }"
           >
-            ${flag(product.origin)}
-            ${escapeHTML(
-              product.origin ||
-              'Origin on request'
-            )}
-          </div>
 
-        </td>
+            <td class="col-product">
 
+              <strong>
+                ${escapeHTML(
+                  product.name
+                )}
+              </strong>
 
-        <td class="col-price">
+              <div
+                style="
+                  color:#888;
+                  font-size:11px;
+                  margin-top:3px;
+                "
+              >
 
-          <strong>
-            ${escapeHTML(
-              price.text
-            )}
-          </strong>
+                ${getFlag(
+                  product.origin
+                )}
 
-          <div
-            style="
-              font-size:10px;
-              color:#999;
-              margin-top:3px;
-            "
-          >
-            ${escapeHTML(
-              price.sub
-            )}
-          </div>
+                ${escapeHTML(
+                  product.origin
+                )}
 
-        </td>
+              </div>
+
+            </td>
 
 
-        <td class="col-trend">
+            <td class="col-price">
 
-          <span
-            class="trend ${trend.className}"
-          >
-            ${escapeHTML(
-              trendDisplay
-            )}
-          </span>
+              <strong>
+                ${escapeHTML(
+                  price.main
+                )}
+              </strong>
+
+              <div
+                style="
+                  color:#999;
+                  font-size:10px;
+                  margin-top:3px;
+                "
+              >
+
+                ${escapeHTML(
+                  price.sub
+                )}
+
+              </div>
+
+              <span
+                class="gh-provenance ${
+                  sourceClass
+                }"
+              >
+
+                ${
+                  price.available
+                    ? escapeHTML(
+                        price.source ||
+                        'Recorded data'
+                      )
+                    : ''
+                }
+
+              </span>
+
+            </td>
 
 
-          ${
-            sentiment
-              ? `
-                <div
-                  style="
-                    font-size:10px;
-                    color:#777;
-                    margin-top:4px;
-                  "
-                >
-                  ${sentimentIcon(
-                    sentiment
-                  )}
+            <td class="col-trend">
 
-                  ${escapeHTML(
-                    sentimentLabel(
-                      sentiment
+              <span
+                class="trend ${
+                  trend.className
+                }"
+              >
+
+                ${escapeHTML(
+                  trend.text
+                )}
+
+              </span>
+
+
+              <div
+                style="
+                  margin-top:5px;
+                  font-size:11px;
+                  color:#999;
+                "
+              >
+
+                ${escapeHTML(
+                  sentimentLabel(
+                    sentimentForProduct(
+                      product
                     )
-                  )}
-                </div>
-              `
-              : ''
-          }
+                  ).label
+                )}
 
-        </td>
+              </div>
 
-
-        <td class="col-supplier">
-
-          <strong>
-            ${escapeHTML(stock)}
-          </strong>
+            </td>
 
 
-          ${
-            product.stockBags !== null
-              ? `
-                <div
-                  style="
-                    font-size:10px;
-                    color:#999;
-                  "
-                >
-                  ${money(
-                    product.stockBags,
-                    0
-                  )} bags
-                </div>
-              `
-              : ''
-          }
+            <td class="col-supplier">
 
-        </td>
+              <strong>
+                ${escapeHTML(
+                  stock.text
+                )}
+              </strong>
+
+            </td>
 
 
-        <td class="col-meta">
+            <td class="col-meta">
 
-          <span class="meta-verified">
-            ${escapeHTML(
-              supplier
-            )}
-          </span>
+              <strong>
+                ${escapeHTML(
+                  badge
+                )}
+              </strong>
+
+              <div
+                style="
+                  color:#999;
+                  font-size:11px;
+                  margin-top:4px;
+                "
+              >
+
+                ${escapeHTML(
+                  packingLabel()
+                )}
+
+              </div>
+
+            </td>
 
 
-          <div
-            style="
-              font-size:10px;
-              color:#999;
-              margin-top:4px;
-            "
-          >
-            ${escapeHTML(
-              packing.label
-            )}
-          </div>
+            <td class="col-action">
 
-        </td>
+              <a
+                href="${escapeHTML(
+                  whatsappURL(
+                    product
+                  )
+                )}"
+                target="_blank"
+                rel="noopener"
+                title="Get quote on WhatsApp"
+              >
 
+                <i class="fab fa-whatsapp"></i>
 
-        <td class="col-action">
+              </a>
 
-          <a
-            href="${escapeHTML(
-              buildWhatsAppURL(product)
-            )}"
-            class="whatsapp-link"
-            target="_blank"
-            rel="noopener"
-            title="Contact Trade Desk"
-          >
-            <i class="fab fa-whatsapp"></i>
-          </a>
+            </td>
 
-        </td>
+          </tr>
 
-      </tr>
+        `;
 
-    `;
+      })
+      .join('');
 
   }
 
 
-  /* ============================================================
-     18. MARKET MOOD
-     ============================================================ */
+  /* ==========================================================
+     31. MARKET MOOD
+     ========================================================== */
 
-  function updateMarketMood() {
+  function updateMarketMood(data) {
 
-    const element =
+    const el =
       document.getElementById(
         'market-mood'
       );
 
 
-    if (!element) {
+    if (!el) {
+
       return;
+
     }
 
 
-    const products =
-      state.filtered.length
-        ? state.filtered
-        : state.data;
+    let up = 0;
+    let down = 0;
 
 
-    const movements =
-      products
+    data.forEach(function(product) {
 
-        .map(
-          product =>
-            getTrend(product).change7d
-        )
-
-        .filter(
-          value =>
-            value !== null &&
-            value !== undefined
+      const trend =
+        calculateTrend(
+          product
         );
 
 
+      const value =
+        trend.change7d ??
+        trend.change24h;
+
+
+      if (
+        value > 0
+      ) {
+
+        up++;
+
+      } else if (
+        value < 0
+      ) {
+
+        down++;
+
+      }
+
+    });
+
+
+    const total =
+      up + down;
+
+
     /*
-     * No history = honest message.
-     */
+       No dated observations means
+       no market-wide trend claim.
+    */
 
-    if (!movements.length) {
+    if (!total) {
 
-      element.textContent =
-        'Market Desk: awaiting sufficient historical observations';
+      el.textContent =
+        'Trade Desk Market Mood: Awaiting dated price observations';
 
       return;
 
     }
-
-
-    const up =
-      movements.filter(
-        value => value > 0
-      ).length;
-
-
-    const down =
-      movements.filter(
-        value => value < 0
-      ).length;
-
-
-    const flat =
-      movements.filter(
-        value => value === 0
-      ).length;
-
-
-    const total =
-      up + down + flat;
 
 
     const upPct =
       Math.round(
-        (up / total) * 100
+        up /
+        total *
+        100
       );
 
 
     const downPct =
-      Math.round(
-        (down / total) * 100
-      );
+      100 -
+      upPct;
 
 
-    element.textContent =
-      `Market Mood: ${upPct}% Up • ` +
-      `${downPct}% Down • ` +
-      `${flat} Flat`;
+    el.textContent =
+      `Market Mood: ${upPct}% Up • ${downPct}% Down`;
 
   }
 
 
-  /* ============================================================
-     19. LAST UPDATED
-     ============================================================ */
+  /* ==========================================================
+     32. LAST UPDATED
+     ========================================================== */
 
   function updateLastUpdated() {
 
-    const element =
+    const el =
       document.getElementById(
         'last-updated'
       );
 
 
-    if (!element) {
+    if (!el) {
+
       return;
+
     }
 
-
-    /*
-     * If a real source timestamp exists,
-     * show it.
-     */
 
     if (
-      state.dataTimestamp
+      !state.loadedAt
     ) {
 
-      element.textContent =
-        dateLabel(
-          state.dataTimestamp
-        );
+      el.textContent =
+        'Loading...';
 
       return;
 
     }
 
 
-    /*
-     * Otherwise don't pretend the current
-     * clock is the market observation time.
-     */
-
-    if (
-      state.loadedAt
-    ) {
-
-      element.textContent =
-        `${state.loadedAt.toLocaleTimeString(
-          [],
-          {
-            hour: '2-digit',
-            minute: '2-digit'
-          }
-        )} (data loaded)`;
-
-      return;
-
-    }
+    const date =
+      new Date(
+        state.loadedAt
+      );
 
 
-    element.textContent =
-      'Data timestamp unavailable';
+    el.textContent =
+      date.toLocaleString(
+        undefined,
+        {
+          day:
+            '2-digit',
+
+          month:
+            'short',
+
+          year:
+            'numeric',
+
+          hour:
+            '2-digit',
+
+          minute:
+            '2-digit'
+        }
+      );
 
   }
 
 
-  function findLatestDataDate(
-    products,
-    history
-  ) {
+  /* ==========================================================
+     33. ROW COUNT
+     ========================================================== */
 
-    const dates = [];
+  function updateRowCount(count) {
 
-
-    products.forEach(
-      product => {
-
-        const d =
-          parseDate(
-            product.updatedAt
-          );
-
-
-        if (d) {
-          dates.push(d);
-        }
-
-      }
-    );
-
-
-    history.forEach(
-      record => {
-
-        const d =
-          parseDate(
-
-            record.quoteDate ||
-
-            record.observedAt ||
-
-            record.date ||
-
-            record.capturedAt
-
-          );
-
-
-        if (d) {
-          dates.push(d);
-        }
-
-      }
-    );
-
-
-    if (!dates.length) {
-      return null;
-    }
-
-
-    dates.sort(
-      (a, b) =>
-        b.getTime() -
-        a.getTime()
-    );
-
-
-    return dates[0];
-
-  }
-
-
-  /* ============================================================
-     20. BASIS + PACKING CONTROLS
-     ============================================================ */
-
-  function injectTradeControls() {
-
-    /*
-     * If controls already exist in the HTML,
-     * don't create duplicates.
-     */
-
-    const existing =
+    const el =
       document.getElementById(
-        'pulseTradeControls'
+        'rowCount'
       );
 
 
-    if (existing) {
-
-      injectControlStyles();
-
-      setupTradeControls();
-
-      syncControlState();
+    if (!el) {
 
       return;
 
     }
 
 
-    const filterBar =
-      document.querySelector(
-        '.filter-bar'
-      );
-
-
-    if (!filterBar) {
-
-      console.warn(
-        '[Pulse 3.2] .filter-bar not found'
-      );
-
-      return;
-
-    }
-
-
-    const panel =
-      document.createElement(
-        'div'
-      );
-
-
-    panel.id =
-      'pulseTradeControls';
-
-
-    panel.style.cssText = [
-
-      'width:100%',
-
-      'display:flex',
-
-      'flex-wrap:wrap',
-
-      'align-items:center',
-
-      'justify-content:center',
-
-      'gap:14px',
-
-      'margin-bottom:10px',
-
-      'padding:12px 14px',
-
-      'border:1px solid #e8e4d8',
-
-      'border-radius:12px',
-
-      'background:#fdfdf9'
-
-    ].join(';');
-
-
-    panel.innerHTML = `
-
-      <div
-        style="
-          display:flex;
-          align-items:center;
-          gap:8px;
-          flex-wrap:wrap;
-        "
-      >
-
-        <strong
-          style="
-            font-size:11px;
-            letter-spacing:.08em;
-            color:#777;
-          "
-        >
-          PRICE BASIS
-        </strong>
-
-
-        <button
-          type="button"
-          class="pulse-basis-btn"
-          data-basis="FOB"
-        >
-          FOB Origin
-        </button>
-
-
-        <button
-          type="button"
-          class="pulse-basis-btn"
-          data-basis="CIF"
-        >
-          CIF Dubai
-        </button>
-
-
-        <button
-          type="button"
-          class="pulse-basis-btn"
-          data-basis="DUBAI_STOCK"
-        >
-          Dubai Stock
-        </button>
-
-      </div>
-
-
-      <div
-        style="
-          display:flex;
-          align-items:center;
-          gap:8px;
-          flex-wrap:wrap;
-        "
-      >
-
-        <strong
-          style="
-            font-size:11px;
-            letter-spacing:.08em;
-            color:#777;
-          "
-        >
-          PACKING
-        </strong>
-
-
-        <button
-          type="button"
-          class="pulse-packing-btn"
-          data-packing="STANDARD_PP"
-        >
-          Standard PP
-        </button>
-
-
-        <button
-          type="button"
-          class="pulse-packing-btn"
-          data-packing="CUSTOM_NONWOVEN"
-        >
-          Custom Nonwoven
-        </button>
-
-      </div>
-
-
-      <div
-        id="pulseBasisNote"
-        style="
-          width:100%;
-          text-align:center;
-          font-size:11px;
-          color:#888;
-        "
-      >
-      </div>
-
-    `;
-
-
-    /*
-     * Put the commercial selector ABOVE
-     * the existing origin/search filters.
-     */
-
-    filterBar.parentNode.insertBefore(
-      panel,
-      filterBar
-    );
-
-
-    injectControlStyles();
-
-    setupTradeControls();
-
-    syncControlState();
+    el.textContent =
+      `${count} product${
+        count !== 1
+          ? 's'
+          : ''
+      }`;
 
   }
 
 
-  function injectControlStyles() {
-
-    if (
-      document.getElementById(
-        'pulse32Styles'
-      )
-    ) {
-
-      return;
-
-    }
-
-
-    const style =
-      document.createElement(
-        'style'
-      );
-
-
-    style.id =
-      'pulse32Styles';
-
-
-    style.textContent = `
-
-      #pulseTradeControls button {
-
-        padding:7px 13px;
-
-        border:1px solid #d9d2c2;
-
-        border-radius:50px;
-
-        background:#fff;
-
-        color:#555;
-
-        font-weight:600;
-
-        font-size:12px;
-
-        cursor:pointer;
-
-        transition:all .2s ease;
-
-        font-family:inherit;
-
-      }
-
-
-      #pulseTradeControls button:hover {
-
-        transform:translateY(-1px);
-
-        border-color:#c1a875;
-
-      }
-
-
-      #pulseTradeControls
-      button.active {
-
-        background:#1a1a2e;
-
-        color:#fff;
-
-        border-color:#1a1a2e;
-
-      }
-
-
-      .trend-up {
-
-        color:#14833b !important;
-
-      }
-
-
-      .trend-down {
-
-        color:#c0392b !important;
-
-      }
-
-
-      .trend-flat {
-
-        color:#888 !important;
-
-      }
-
-    `;
-
-
-    document.head.appendChild(
-      style
-    );
-
-  }
-
-
-  function setupTradeControls() {
-
-    document
-      .querySelectorAll(
-        '.pulse-basis-btn'
-      )
-      .forEach(button => {
-
-        /*
-         * Prevent duplicate listeners if
-         * initialization happens again.
-         */
-
-        if (
-          button.dataset.pulseBound ===
-          'true'
-        ) {
-
-          return;
-
-        }
-
-
-        button.dataset.pulseBound =
-          'true';
-
-
-        button.addEventListener(
-          'click',
-          function () {
-
-            state.basis =
-              this.dataset.basis ||
-              CONFIG.DEFAULT_BASIS;
-
-
-            syncControlState();
-
-            applyFiltersAndRender();
-
-          }
-        );
-
-      });
-
-
-    document
-      .querySelectorAll(
-        '.pulse-packing-btn'
-      )
-      .forEach(button => {
-
-        if (
-          button.dataset.pulseBound ===
-          'true'
-        ) {
-
-          return;
-
-        }
-
-
-        button.dataset.pulseBound =
-          'true';
-
-
-        button.addEventListener(
-          'click',
-          function () {
-
-            state.packing =
-              this.dataset.packing ||
-              CONFIG.DEFAULT_PACKING;
-
-
-            syncControlState();
-
-            applyFiltersAndRender();
-
-          }
-        );
-
-      });
-
-  }
-
-
-  function syncControlState() {
-
-    document
-      .querySelectorAll(
-        '.pulse-basis-btn'
-      )
-      .forEach(button => {
-
-        button.classList.toggle(
-
-          'active',
-
-          button.dataset.basis ===
-            state.basis
-
-        );
-
-      });
-
-
-    document
-      .querySelectorAll(
-        '.pulse-packing-btn'
-      )
-      .forEach(button => {
-
-        button.classList.toggle(
-
-          'active',
-
-          button.dataset.packing ===
-            state.packing
-
-        );
-
-      });
-
-
-    const note =
-      document.getElementById(
-        'pulseBasisNote'
-      );
-
-
-    if (!note) {
-      return;
-    }
-
-
-    if (
-      state.basis ===
-      'DUBAI_STOCK'
-    ) {
-
-      note.textContent =
-        'Dubai Stock = current Grains Hub inventory price. Currency remains exactly as recorded in stock.json.';
-
-      return;
-
-    }
-
-
-    if (
-      state.basis === 'FOB'
-    ) {
-
-      note.textContent =
-        'FOB Origin = supplier/exporter quotation or recorded Grains Hub FOB observation. No freight is added.';
-
-      return;
-
-    }
-
-
-    const freight =
-      freightSummary();
-
-
-    if (freight) {
-
-      note.textContent =
-        `CIF Dubai = recorded CIF where available, otherwise a clearly-labelled Grains Hub reference using the current all-in add-on of USD ${money(freight.addOnUSDPerMT)}/MT.`;
-
-    }
-
-    else {
-
-      note.textContent =
-        'CIF Dubai = recorded CIF or documented cost calculation. Missing components remain unavailable.';
-
-    }
-
-  }
-
-
-  /* ============================================================
-     21. ORIGIN FILTERS + SEARCH
-     ============================================================ */
+  /* ==========================================================
+     34. FILTER BUTTONS
+     ========================================================== */
 
   function setupFilters() {
 
@@ -4114,31 +4068,20 @@
       );
 
 
-    buttons.forEach(button => {
+    buttons.forEach(function(btn) {
 
-      if (
-        button.dataset.pulseBound ===
-        'true'
-      ) {
-
-        return;
-
-      }
-
-
-      button.dataset.pulseBound =
-        'true';
-
-
-      button.addEventListener(
+      btn.addEventListener(
         'click',
-        function () {
+        function() {
 
           buttons.forEach(
-            item =>
-              item.classList.remove(
+            function(b) {
+
+              b.classList.remove(
                 'active'
-              )
+              );
+
+            }
           );
 
 
@@ -4147,12 +4090,12 @@
           );
 
 
-          state.filter =
+          state.currentFilter =
             this.dataset.filter ||
             'all';
 
 
-          applyFiltersAndRender();
+          renderAll();
 
         }
       );
@@ -4166,25 +4109,16 @@
       );
 
 
-    if (
-      search &&
-      search.dataset.pulseBound !==
-        'true'
-    ) {
-
-      search.dataset.pulseBound =
-        'true';
-
+    if (search) {
 
       search.addEventListener(
         'input',
-        function () {
+        function() {
 
-          state.search =
-            this.value.trim();
+          state.currentSearch =
+            this.value || '';
 
-
-          applyFiltersAndRender();
+          renderAll();
 
         }
       );
@@ -4194,31 +4128,17 @@
   }
 
 
-  /* ============================================================
-     22. TABLE SORTING
-     ============================================================ */
+  /* ==========================================================
+     35. SORTING
+     ========================================================== */
 
-  function initSorting() {
+  function setupSorting() {
 
     document
       .querySelectorAll(
         '[data-sort]'
       )
-      .forEach(header => {
-
-        if (
-          header.dataset.pulseBound ===
-          'true'
-        ) {
-
-          return;
-
-        }
-
-
-        header.dataset.pulseBound =
-          'true';
-
+      .forEach(function(header) {
 
         header.style.cursor =
           'pointer';
@@ -4226,37 +4146,35 @@
 
         header.addEventListener(
           'click',
-          () => {
+          function() {
 
             const key =
-              header.dataset.sort;
+              this.dataset.sort;
 
 
             if (
-              state.sort.key ===
+              state.sortKey ===
               key
             ) {
 
-              state.sort.dir =
-                state.sort.dir ===
+              state.sortDirection =
+                state.sortDirection ===
                 'asc'
                   ? 'desc'
                   : 'asc';
 
-            }
+            } else {
 
-            else {
-
-              state.sort.key =
+              state.sortKey =
                 key;
 
-              state.sort.dir =
+              state.sortDirection =
                 'asc';
 
             }
 
 
-            applyFiltersAndRender();
+            renderAll();
 
           }
         );
@@ -4266,147 +4184,50 @@
   }
 
 
-  /* ============================================================
-     23. WHATSAPP TRADE DESK
-     ============================================================ */
-
-  function buildWhatsAppURL(
-    product
-  ) {
-
-    const price =
-      getPriceView(product);
-
-
-    const basisLabel =
-
-      state.basis ===
-        'DUBAI_STOCK'
-
-        ? 'Dubai Stock'
-
-        : state.basis ===
-            'FOB'
-
-          ? 'FOB Origin'
-
-          : 'CIF Dubai';
-
-
-    const packingLabel =
-
-      state.packing ===
-        'STANDARD_PP'
-
-        ? 'Standard PP'
-
-        : 'Custom Nonwoven';
-
-
-    const message = [
-
-      'Hi Grains Hub Trade Desk,',
-
-      '',
-
-      `Product: ${product.name}`,
-
-      product.origin
-        ? `Origin: ${product.origin}`
-        : '',
-
-      `Price basis: ${basisLabel}`,
-
-      `Packing: ${packingLabel}`,
-
-      price.available
-        ? `Displayed price: ${price.text}`
-        : 'Price: Please quote',
-
-      '',
-
-      'Please confirm current availability, final quotation and validity.'
-
-    ]
-
-      .filter(Boolean)
-
-      .join('\n');
-
-
-    return (
-
-      `https://wa.me/${CONFIG.WHATSAPP}` +
-
-      `?text=${encodeURIComponent(message)}`
-
-    );
-
-  }
-
-
-  /* ============================================================
-     24. ALLIYA BUTTON
-     ============================================================ */
+  /* ==========================================================
+     36. ALLIYA BUTTON
+     ========================================================== */
 
   function setupAlliyaButton() {
 
-    const button =
+    const btn =
       document.getElementById(
         'askAlliyaBtn'
       );
 
 
-    if (
-      !button ||
-      button.dataset.pulseBound ===
-        'true'
-    ) {
+    if (!btn) {
 
       return;
 
     }
 
 
-    button.dataset.pulseBound =
-      'true';
-
-
-    button.addEventListener(
+    btn.addEventListener(
       'click',
-      function () {
+      function() {
 
         if (
-
           window.Alliya &&
-
           typeof window.Alliya.open ===
-            'function'
-
+          'function'
         ) {
 
           window.Alliya.open();
 
-          return;
+        } else {
+
+          window.open(
+            'https://wa.me/' +
+            CONFIG.WHATSAPP +
+            '?text=' +
+            encodeURIComponent(
+              'Hi Alliya, I need help with grain prices.'
+            ),
+            '_blank'
+          );
 
         }
-
-
-        window.open(
-
-          `https://wa.me/${CONFIG.WHATSAPP}` +
-
-          '?text=' +
-
-          encodeURIComponent(
-
-            'Hi Alliya, I need help with grain market prices.'
-
-          ),
-
-          '_blank'
-
-        );
 
       }
     );
@@ -4414,204 +4235,405 @@
   }
 
 
-  /* ============================================================
-     25. PUBLIC API
-     ============================================================ */
+  /* ==========================================================
+     37. MAIN RENDER
+     ========================================================== */
 
-  window.MarketPulse = {
+  function renderAll() {
+
+    const filtered =
+      applyFilters();
+
+
+    renderTradeDeskSummary();
+
+    renderCards(
+      filtered
+    );
+
+    renderTable(
+      filtered
+    );
+
+    updateRowCount(
+      filtered.length
+    );
+
+    updateMarketMood(
+      filtered
+    );
+
+    updateLastUpdated();
+
+    updateControlState();
+
+  }
+
+
+  /* ==========================================================
+     38. DATA LOAD
+     ========================================================== */
+
+  async function loadAll() {
+
+    const tbody =
+      document.getElementById(
+        'pulse-table'
+      );
+
+
+    if (tbody) {
+
+      tbody.innerHTML = `
+
+        <tr>
+
+          <td
+            colspan="6"
+            style="
+              text-align:center;
+              padding:30px;
+              color:#a07c3b;
+            "
+          >
+
+            ⏳ Loading Trade Desk data...
+
+          </td>
+
+        </tr>
+
+      `;
+
+    }
+
+
+    state.errors = [];
+
+
+    /*
+       Stock is critical.
+       History, sentiment and freight
+       are intelligence layers.
+
+       We therefore load them independently.
+    */
+
+    try {
+
+      state.products =
+        await loadStock();
+
+    } catch (error) {
+
+      console.error(
+        '[Pulse 3.3] Stock error:',
+        error
+      );
+
+      state.errors.push(
+        'stock'
+      );
+
+      state.products = [];
+
+    }
+
+
+    try {
+
+      state.history =
+        await loadHistory();
+
+    } catch (error) {
+
+      console.error(
+        '[Pulse 3.3] History error:',
+        error
+      );
+
+      state.errors.push(
+        'history'
+      );
+
+      state.history = [];
+
+    }
+
+
+    try {
+
+      state.sentiment =
+        await loadSentiment();
+
+    } catch (error) {
+
+      console.error(
+        '[Pulse 3.3] Sentiment error:',
+        error
+      );
+
+      state.errors.push(
+        'sentiment'
+      );
+
+      state.sentiment = [];
+
+    }
+
+
+    try {
+
+      state.freight =
+        await loadFreight();
+
+    } catch (error) {
+
+      console.error(
+        '[Pulse 3.3] Freight error:',
+        error
+      );
+
+      state.errors.push(
+        'freight'
+      );
+
+      state.freight = [];
+
+    }
+
+
+    state.loadedAt =
+      Date.now();
+
+
+    state.historyLoadedAt =
+      Date.now();
+
+
+    console.log(
+      '[Pulse 3.3] Stock:',
+      state.products.length
+    );
+
+
+    console.log(
+      '[Pulse 3.3] History:',
+      state.history.length
+    );
+
+
+    console.log(
+      '[Pulse 3.3] Sentiment:',
+      state.sentiment.length
+    );
+
+
+    console.log(
+      '[Pulse 3.3] Freight:',
+      state.freight.length
+    );
+
+
+    if (
+      !state.products.length
+    ) {
+
+      if (tbody) {
+
+        tbody.innerHTML = `
+
+          <tr>
+
+            <td
+              colspan="6"
+              style="
+                text-align:center;
+                padding:40px;
+                color:#999;
+              "
+            >
+
+              Live product data is
+              temporarily unavailable.
+
+              <br><br>
+
+              <a
+                href="https://wa.me/971585521976"
+                target="_blank"
+                rel="noopener"
+                style="
+                  color:#25D366;
+                  font-weight:700;
+                "
+              >
+                Contact Trade Desk
+              </a>
+
+            </td>
+
+          </tr>
+
+        `;
+
+      }
+
+      return;
+
+    }
+
+
+    renderAll();
+
+  }
+
+
+  /* ==========================================================
+     39. PUBLIC API
+     ========================================================== */
+
+  window.GrainsHubMarketPulse = {
 
     version:
-      '3.2',
+      CONFIG.VERSION,
+
+    state,
 
     reload:
-      loadPulseData,
+      loadAll,
 
+    render:
+      renderAll,
 
     setBasis:
-      function (basis) {
+      function(value) {
 
         if (
-
-          [
-            'FOB',
-            'CIF',
-            'DUBAI_STOCK'
-          ].includes(basis)
-
+          BASIS[value]
         ) {
 
           state.basis =
-            basis;
+            BASIS[value];
 
-
-          syncControlState();
-
-          applyFiltersAndRender();
+          renderAll();
 
         }
 
       },
 
-
     setPacking:
-      function (packing) {
+      function(value) {
 
         if (
-
-          [
-            'STANDARD_PP',
-            'CUSTOM_NONWOVEN'
-          ].includes(packing)
-
+          PACKING[value]
         ) {
 
           state.packing =
-            packing;
+            PACKING[value];
 
-
-          syncControlState();
-
-          applyFiltersAndRender();
+          renderAll();
 
         }
 
       },
 
+    getFOB,
 
-    getState:
-      function () {
+    getCIF,
 
-        return {
+    calculateTrend,
 
-          version:
-            '3.2',
+    sentimentForProduct,
 
-          basis:
-            state.basis,
-
-          packing:
-            state.packing,
-
-          filter:
-            state.filter,
-
-          search:
-            state.search,
-
-          products:
-            state.data.length,
-
-          historyRecords:
-            state.history.length,
-
-          sentimentRecords:
-            state.sentiment.length
-
-        };
-
-      }
+    getCurrentAllInAddition
 
   };
 
 
-  /* ============================================================
-     26. LEGACY GLOBAL FILTER API
-     ============================================================ */
-
-  window.filterPulse =
-    function (filter) {
-
-      state.filter =
-        filter || 'all';
-
-
-      document
-        .querySelectorAll(
-          '.filter-btn'
-        )
-        .forEach(button => {
-
-          button.classList.toggle(
-
-            'active',
-
-            (
-              button.dataset.filter ||
-              'all'
-            ) === state.filter
-
-          );
-
-        });
-
-
-      applyFiltersAndRender();
-
-    };
-
-
-  window.reloadMarketPulse =
-    loadPulseData;
-
-
-  /* ============================================================
-     27. INITIALIZATION
-     ============================================================ */
+  /* ==========================================================
+     40. INITIALIZATION
+     ========================================================== */
 
   function init() {
 
     console.log(
-      '🌾 Market Pulse v3.2 — Lady Stark Trade Desk Edition'
+      '🌾 Market Pulse v3.3 — Lady Stark Trade Desk Intelligence'
     );
 
 
     /*
-     * Commercial selector
-     */
+       Make sure the control layer exists.
+    */
 
-    injectTradeControls();
+    createBasisControls();
 
 
     /*
-     * Existing origin filters
-     */
+       Connect controls created by v3.3.
+    */
+
+    connectExistingControls();
+
+
+    /*
+       Existing page filters.
+    */
 
     setupFilters();
 
 
     /*
-     * Existing table sorting
-     */
+       Existing table sorting.
+    */
 
-    initSorting();
+    setupSorting();
 
 
     /*
-     * Existing Alliya button
-     */
+       Alliya button.
+    */
 
     setupAlliyaButton();
 
 
     /*
-     * Load all market layers
-     */
+       Initial state.
+    */
 
-    loadPulseData();
+    state.basis =
+      BASIS.FOB_ORIGIN;
+
+    state.packing =
+      PACKING.STANDARD_PP;
+
+
+    updateControlState();
 
 
     /*
-     * Current stock refresh.
-     */
+       Load data.
+    */
+
+    loadAll();
+
+
+    /*
+       Refresh current commercial data.
+
+       This does NOT create fake historical
+       observations. It simply re-reads the
+       source files.
+    */
 
     setInterval(
-      loadPulseData,
+      loadAll,
       CONFIG.REFRESH_INTERVAL
     );
 
 
     console.log(
-      '✅ Market Pulse 3.2 initialized'
+      '✅ Market Pulse v3.3 initialized'
     );
 
   }
@@ -4627,9 +4649,7 @@
       init
     );
 
-  }
-
-  else {
+  } else {
 
     init();
 
