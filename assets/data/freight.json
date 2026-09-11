@@ -1,0 +1,262 @@
+{
+  "version": "1.0",
+  "description": "Grains Hub freight and destination-cost intelligence. These are observed commercial costs and supplier/port charge references, not universal freight assumptions.",
+  "currency_default": "USD",
+  "unit_default": "per_FCL",
+  "important_rule": "Do not use a fixed freight or local-cost amount for every shipment. Match route, container type, validity period, destination and documented charges before calculating CIF.",
+  "routes": [
+    {
+      "routeId": "mundra-to-uae",
+      "origin": "Mundra",
+      "destination": "UAE",
+      "destinationPorts": [
+        "Jebel Ali",
+        "Fujairah",
+        "Khorfakkan"
+      ],
+      "status": "active_reference",
+      "notes": "Grains Hub currently receives/quotes India cargo using route-specific freight and destination charges."
+    },
+    {
+      "routeId": "karachi-to-uae",
+      "origin": "Karachi",
+      "destination": "UAE",
+      "destinationPorts": [
+        "Jebel Ali",
+        "Fujairah",
+        "Khorfakkan"
+      ],
+      "status": "active_reference",
+      "notes": "Keep Karachi freight separate from Mundra freight; historical freight levels may differ materially."
+    }
+  ],
+  "observed_costs": [
+    {
+      "observationId": "uae-local-charges-sheet-20",
+      "route": "India/Pakistan -> UAE",
+      "destination": "Fujairah / UAE",
+      "container": "20",
+      "currency": "AED",
+      "totalLocalCharges": 5444.25,
+      "totalLocalChargesUSD": 1477.41,
+      "sourceType": "supplier_local_charges_sheet",
+      "source": "Supplier-provided local charges sheet",
+      "observedAt": null,
+      "confidence": "High",
+      "status": "reference",
+      "notes": "Charge-head total shown on supplied sheet. Treat as a reference for the quoted charge schedule, not a universal tariff."
+    },
+    {
+      "observationId": "uae-local-charges-sheet-40",
+      "route": "India/Pakistan -> UAE",
+      "destination": "Fujairah / UAE",
+      "container": "40",
+      "currency": "AED",
+      "totalLocalCharges": 8212.5,
+      "totalLocalChargesUSD": 2228.63,
+      "sourceType": "supplier_local_charges_sheet",
+      "source": "Supplier-provided local charges sheet",
+      "observedAt": null,
+      "confidence": "High",
+      "status": "reference",
+      "notes": "Charge-head total shown on supplied sheet."
+    },
+    {
+      "observationId": "uae-local-charges-sheet-40hc",
+      "route": "India/Pakistan -> UAE",
+      "destination": "Fujairah / UAE",
+      "container": "40HC",
+      "currency": "AED",
+      "totalLocalCharges": 8212.5,
+      "totalLocalChargesUSD": 2228.63,
+      "sourceType": "supplier_local_charges_sheet",
+      "source": "Supplier-provided local charges sheet",
+      "observedAt": null,
+      "confidence": "High",
+      "status": "reference",
+      "notes": "Charge-head total shown on supplied sheet."
+    },
+    {
+      "observationId": "current-all-in-25mt",
+      "route": "FOB origin -> UAE",
+      "destination": "UAE",
+      "container": "FCL",
+      "commodityQuantityMT": 25,
+      "currency": "USD",
+      "totalAdditionalCostUSD": 6500,
+      "additionalCostUSDPerMT": 260,
+      "sourceType": "grains_hub_actual_cost",
+      "source": "Grains Hub Trade Desk",
+      "observedAt": null,
+      "confidence": "High",
+      "status": "observed",
+      "notes": "User-reported current all-in additional cost for one 25 MT FCL, including freight and local charges. Use as the current quoting reference until the next actual freight/local-cost update; do not treat USD 260/MT as permanent."
+    },
+    {
+      "observationId": "historical-karachi-freight-reference",
+      "route": "Karachi -> UAE",
+      "destination": "UAE",
+      "container": "FCL",
+      "currency": "USD",
+      "freightReferenceUSDPerFCL": 150,
+      "sourceType": "grains_hub_market_desk",
+      "source": "Grains Hub Trade Desk",
+      "observedAt": null,
+      "confidence": "Medium",
+      "status": "historical_reference",
+      "notes": "User-reported historical freight level; described as previously almost free. Do not use as current freight."
+    },
+    {
+      "observationId": "historical-mundra-freight-reference",
+      "route": "Mundra -> UAE",
+      "destination": "UAE",
+      "container": "FCL",
+      "currency": "USD",
+      "freightReferenceUSDPerFCL": 300,
+      "sourceType": "grains_hub_market_desk",
+      "source": "Grains Hub Trade Desk",
+      "observedAt": null,
+      "confidence": "Medium",
+      "status": "historical_reference",
+      "notes": "User-reported historical freight level. Do not use as current freight."
+    }
+  ],
+  "charge_head_reference": {
+    "source": "Supplier-provided local charges sheet supplied to Grains Hub",
+    "currency": "AED",
+    "usdConversionShownOnSource": true,
+    "containerTypes": [
+      "20",
+      "40",
+      "40HC",
+      "45"
+    ],
+    "charges": [
+      {
+        "head": "THC",
+        "20_AED": 1200.0,
+        "40_AED": 1550.0,
+        "40HC_AED": 1550.0,
+        "45_AED": 1550.0
+      },
+      {
+        "head": "DO Fee/BL",
+        "20_AED": 575.0,
+        "40_AED": 575.0,
+        "40HC_AED": 575.0,
+        "45_AED": 575.0
+      },
+      {
+        "head": "DEDI/BL",
+        "20_AED": 5.0,
+        "40_AED": 5.0,
+        "40HC_AED": 5.0,
+        "45_AED": 5.0
+      },
+      {
+        "head": "CMC",
+        "20_AED": 250.0,
+        "40_AED": 500.0,
+        "40HC_AED": 500.0,
+        "45_AED": 500.0
+      },
+      {
+        "head": "OCR",
+        "20_AED": 294.25,
+        "40_AED": 372.5,
+        "40HC_AED": 372.5,
+        "45_AED": 372.5
+      },
+      {
+        "head": "Washing",
+        "20_AED": 200.0,
+        "40_AED": 400.0,
+        "40HC_AED": 400.0,
+        "45_AED": 400.0
+      },
+      {
+        "head": "Admin Charges",
+        "20_AED": 100.0,
+        "40_AED": 200.0,
+        "40HC_AED": 200.0,
+        "45_AED": 200.0
+      },
+      {
+        "head": "ISPS",
+        "20_AED": 100.0,
+        "40_AED": 200.0,
+        "40HC_AED": 200.0,
+        "45_AED": 200.0
+      },
+      {
+        "head": "TLUC",
+        "20_AED": 400.0,
+        "40_AED": 400.0,
+        "40HC_AED": 400.0,
+        "45_AED": 400.0
+      },
+      {
+        "head": "HOLD Charges at JEA",
+        "20_AED": 0.0,
+        "40_AED": 0.0,
+        "40HC_AED": 0.0,
+        "45_AED": 0.0
+      },
+      {
+        "head": "Port Receiving Charges (FJR)",
+        "20_AED": 520.0,
+        "40_AED": 710.0,
+        "40HC_AED": 710.0,
+        "45_AED": 710.0
+      },
+      {
+        "head": "Container Handling Fee",
+        "20_AED": 0.0,
+        "40_AED": 0.0,
+        "40HC_AED": 0.0,
+        "45_AED": 0.0
+      },
+      {
+        "head": "Port Receiving Charges JEA - Road",
+        "20_AED": 700.0,
+        "40_AED": 1100.0,
+        "40HC_AED": 1100.0,
+        "45_AED": 1100.0
+      },
+      {
+        "head": "Port Receiving Charges JEA - Rail",
+        "20_AED": 1100.0,
+        "40_AED": 2200.0,
+        "40HC_AED": 2200.0,
+        "45_AED": 2200.0
+      }
+    ],
+    "sheet_totals": {
+      "20_AED": 5444.25,
+      "40_AED": 8212.5,
+      "40HC_AED": 8212.5,
+      "45_AED": 8212.5,
+      "20_USD": 1477.41,
+      "40_USD": 2228.63,
+      "40HC_USD": 2228.63,
+      "45_USD": 2228.63
+    }
+  },
+  "cif_calculation": {
+    "formula": "FOB + packing premium + ocean freight + insurance + destination/local charges + other documented costs",
+    "example": {
+      "fobUSDPerMT": 950,
+      "additionalCostUSDPerMT": 260,
+      "resultingReferenceCIFUSDPerMT": 1210,
+      "label": "Illustrative current-reference calculation, not a universal CIF quote"
+    },
+    "rules": [
+      "FOB and CIF must remain separate price bases.",
+      "Packing premium must be shown as a separate component when applicable.",
+      "Freight must be tied to route and shipment/container.",
+      "Local charges must be tied to destination and charge schedule.",
+      "Bank, insurance and other supplier-side costs must be documented when included.",
+      "If any component is missing, show the CIF as unavailable or clearly label it as an estimate."
+    ]
+  }
+}
