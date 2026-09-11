@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "description": "Grains Hub proprietary market desk observations. Human market intelligence is kept separate from objective price history.",
+  "scale": {
+    "direction": {
+      "strong_bullish": 2,
+      "bullish": 1,
+      "neutral": 0,
+      "bearish": -1,
+      "strong_bearish": -2
+    },
+    "confidence": [
+      "Low",
+      "Medium",
+      "High"
+    ]
+  },
+  "records": [
+    {
+      "sentimentId": "india-rice-2026-new-crop-initial",
+      "market": "Indian Rice",
+      "origin": "India",
+      "scope": "Basmati and Non-Basmati",
+      "direction": "neutral",
+      "directionScore": 0,
+      "supply": "normal",
+      "demand": "normal",
+      "freight": "elevated",
+      "exportAvailability": "normal",
+      "buyerActivity": "normal",
+      "deskView": "neutral",
+      "confidence": "Medium",
+      "horizon": "7-30 days",
+      "observedAt": null,
+      "sourceType": "grains_hub_market_desk",
+      "source": "Grains Hub",
+      "note": "Initial structure only. Replace with the Trade Desk's real market view; do not treat this seed record as a forecast."
+    }
+  ]
+}
