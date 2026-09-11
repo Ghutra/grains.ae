@@ -3035,7 +3035,7 @@
     strip.innerHTML = `
 
       <div class="gh-trade-desk-title">
-        🌾 GRains HUB TRADE DESK
+        🌾 🌾 GRAINS HUB TRADE DESK
       </div>
 
       <div class="gh-trade-desk-grid">
