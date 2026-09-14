@@ -7,7 +7,11 @@
     "size": "40kg",
     "stock": "1350 bags",
     "badge": "Verified Supplier",
-    "img": "basmati-pak.jpg"
+    "img": "basmati-pak.jpg",
+    "priceBasis": "DUBAI_STOCK",
+    "currency": "AED",
+    "priceUnit": "PACKAGE",
+    "availability": "IN_STOCK"
   },
   {
     "name": "1121 Sella Basmati Rice",
@@ -17,7 +21,11 @@
     "size": "40kg",
     "stock": "1250 bags",
     "badge": "Peer Rated",
-    "img": "basmati-india.jpg"
+    "img": "basmati-india.jpg",
+    "priceBasis": "DUBAI_STOCK",
+    "currency": "AED",
+    "priceUnit": "PACKAGE",
+    "availability": "IN_STOCK"
   },
   {
     "name": "1121 Sella Basmati Rice",
@@ -27,7 +35,11 @@
     "size": "40kg",
     "stock": "2700 bags",
     "badge": "Verified Supplier",
-    "img": "basmati-india.jpg"
+    "img": "basmati-india.jpg",
+    "priceBasis": "DUBAI_STOCK",
+    "currency": "AED",
+    "priceUnit": "PACKAGE",
+    "availability": "IN_STOCK"
   },
   {
     "name": "Golden Sella Basmati Rice",
@@ -37,7 +49,11 @@
     "size": "40kg",
     "stock": "1250 bags",
     "badge": "Peer Rated",
-    "img": "golden-sella.jpg"
+    "img": "golden-sella.jpg",
+    "priceBasis": "DUBAI_STOCK",
+    "currency": "AED",
+    "priceUnit": "PACKAGE",
+    "availability": "IN_STOCK"
   },
   {
     "name": "Sona Massori",
@@ -47,7 +63,11 @@
     "size": "18kg",
     "stock": "3000 Bags",
     "badge": "Verified Supplier",
-    "img": "sona-massori.jpg"
+    "img": "sona-massori.jpg",
+    "priceBasis": "DUBAI_STOCK",
+    "currency": "AED",
+    "priceUnit": "PACKAGE",
+    "availability": "IN_STOCK"
   },
   {
     "name": "Irri 6 White Rice Broken 5%",
@@ -57,7 +77,11 @@
     "size": "35kg",
     "stock": "1250 bags",
     "badge": "Verified Supplier",
-    "img": "irri6-5.jpg"
+    "img": "irri6-5.jpg",
+    "priceBasis": "DUBAI_STOCK",
+    "currency": "AED",
+    "priceUnit": "PACKAGE",
+    "availability": "IN_STOCK"
   },
   {
     "name": "Irri 6 White Rice Broken 100%",
@@ -67,7 +91,11 @@
     "size": "35kg",
     "stock": "650 bags",
     "badge": "Peer Rated",
-    "img": "irri6-100.jpg"
+    "img": "irri6-100.jpg",
+    "priceBasis": "DUBAI_STOCK",
+    "currency": "AED",
+    "priceUnit": "PACKAGE",
+    "availability": "IN_STOCK"
   },
   {
     "name": "1509 Creamy Sella Rice",
@@ -77,7 +105,11 @@
     "size": "40kg",
     "stock": "Booking only",
     "badge": "Pre-Booking",
-    "img": "1509-creamy.jpg"
+    "img": "1509-creamy.jpg",
+    "priceBasis": "FOB_ORIGIN",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
   {
     "name": "Irri 6 White Rice Broken 5%",
@@ -87,7 +119,11 @@
     "size": "35kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "irri6-5.jpg"
+    "img": "irri6-5.jpg",
+    "priceBasis": "FOB_ORIGIN",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
   {
     "name": "Irri 6 White Rice Broken 100%",
@@ -97,7 +133,11 @@
     "size": "35kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "irri6-100.jpg"
+    "img": "irri6-100.jpg",
+    "priceBasis": "FOB_ORIGIN",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
   {
     "name": "1121 Steam Basmati Rice",
@@ -107,7 +147,11 @@
     "size": "40kg",
     "stock": "650 bags",
     "badge": "Peer Rated",
-    "img": "basmati-india.jpg"
+    "img": "basmati-india.jpg",
+    "priceBasis": "DUBAI_STOCK",
+    "currency": "AED",
+    "priceUnit": "PACKAGE",
+    "availability": "IN_STOCK"
   },
   {
     "name": "Thailand White Rice",
@@ -117,99 +161,139 @@
     "size": "25kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "thai-white.jpg"
+    "img": "thai-white.jpg",
+    "priceBasis": "BOOKING_UNSPECIFIED",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
   {
     "name": "C9 (Irri 9) White Rice",
     "origin": "Pakistan",
     "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
-     "price": "850 USD",
+    "price": "850 USD",
     "size": "10kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "C9-white.jpg"
+    "img": "C9-white.jpg",
+    "priceBasis": "BOOKING_UNSPECIFIED",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
- {
+  {
     "name": "386 (Lal) White Rice",
     "origin": "Pakistan",
     "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
-     "price": "900 USD",
+    "price": "900 USD",
     "size": "10kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "386lal-white.jpg"
+    "img": "386lal-white.jpg",
+    "priceBasis": "BOOKING_UNSPECIFIED",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
-{
+  {
     "name": "1121 White Rice",
     "origin": "Pakistan",
     "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
-     "price": "1370 USD",
+    "price": "1370 USD",
     "size": "10kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "1121-white.jpg"
+    "img": "1121-white.jpg",
+    "priceBasis": "BOOKING_UNSPECIFIED",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
-{
+  {
     "name": "1121 Steam Rice",
     "origin": "Pakistan",
     "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
-     "price": "1350 USD",
+    "price": "1350 USD",
     "size": "10kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "1121-steam.jpg"
+    "img": "1121-steam.jpg",
+    "priceBasis": "BOOKING_UNSPECIFIED",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
-{
+  {
     "name": "1121 Sella Rice",
     "origin": "Pakistan",
     "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
-     "price": "1320 USD",
+    "price": "1320 USD",
     "size": "10kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "1121-sella.jpg"
+    "img": "1121-sella.jpg",
+    "priceBasis": "BOOKING_UNSPECIFIED",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
   {
     "name": "1509 Sella Rice",
     "origin": "India",
     "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
-     "price": "1100 USD",
+    "price": "1100 USD",
     "size": "10kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "1509-india-sella.jpg"
+    "img": "1509-india-sella.jpg",
+    "priceBasis": "BOOKING_UNSPECIFIED",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
-{
+  {
     "name": "1121 Sella Rice",
     "origin": "India",
     "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
-     "price": "1120 USD",
+    "price": "1120 USD",
     "size": "10kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "1121-india-Sella.jpg"
+    "img": "1121-india-Sella.jpg",
+    "priceBasis": "BOOKING_UNSPECIFIED",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
   {
     "name": "Pr 11 White Rice",
     "origin": "India",
     "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
-     "price": "685 USD",
+    "price": "685 USD",
     "size": "10kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "Pr11-india-white.jpg"
+    "img": "Pr11-india-white.jpg",
+    "priceBasis": "BOOKING_UNSPECIFIED",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
-{
+  {
     "name": "Pr 11 Steam Rice",
     "origin": "India",
     "packaging": "4×10 = 40kg Nonwoven with Transparent Master Bag (New Crop 2025)",
-     "price": "695 USD",
+    "price": "695 USD",
     "size": "10kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "Pr11-india-steam.jpg"
+    "img": "Pr11-india-steam.jpg",
+    "priceBasis": "BOOKING_UNSPECIFIED",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   },
-{
+  {
     "name": "Sona Massori White Rice",
     "origin": "India",
     "packaging": "18Kg Nonwoven Bag (New Crop 2025)",
@@ -217,472 +301,643 @@
     "size": "18kg",
     "stock": "Prompt shipment",
     "badge": "Pre-Booking",
-    "img": "sonamassori-india-white.jpg"
-},
-{
-  "name": "1121 Raw/White Basmati Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1437 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1121-raw-india.jpg"
-},
-{
-  "name": "1121 Steam Basmati Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1395 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1121-steam-india.jpg"
-},
-{
-  "name": "1121 Creamy Sella Basmati Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1352 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1121-sella-india.jpg"
-},
-{
-  "name": "1121 Golden Sella Basmati Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1395 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1121-golden-india.jpg"
-},
-
-{
-  "name": "1718 Raw/White Basmati Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1395 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1718-raw-india.jpg"
-},
-{
-  "name": "1718 Steam Basmati Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1362 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1718-steam-india.jpg"
-},
-{
-  "name": "1718 Creamy Sella Basmati Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1319 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1718-sella-india.jpg"
-},
-{
-  "name": "1718 Golden Sella Basmati Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1373 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1718-golden-india.jpg"
-},
-
-{
-  "name": "1509 Steam Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1288 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1509-steam-india.jpg"
-},
-{
-  "name": "1509 Creamy Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1223 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1509-sella-india.jpg"
-},
-{
-  "name": "1509 Golden Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1298 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1509-golden-india.jpg"
-},
-{
-  "name": "1509 Raw/White Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1202 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1509-raw-india.jpg"
-},
-{
-  "name": "1509 Creamy Sella Rice (2026 Crop)",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2026)",
-  "price": "1170 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1509-sella-2026.jpg"
-},
-{
-  "name": "1509 Lemon Sella Rice (2026 Crop)",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2026)",
-  "price": "1191 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1509-lemon-india.jpg"
-},
-{
-  "name": "1509 Golden Sella Rice (2026 Crop)",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2026)",
-  "price": "1245 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1509-golden-2026.jpg"
-},
-
-{
-  "name": "1847 Steam Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1277 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1847-steam-india.jpg"
-},
-{
-  "name": "1847 Creamy Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1234 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1847-sella-india.jpg"
-},
-{
-  "name": "1847 Golden Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1277 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1847-golden-india.jpg"
-},
-
-{
-  "name": "1401 Steam Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1341 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "1401-steam-india.jpg"
-},
-
-{
-  "name": "Pusa Raw/White Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1287 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pusa-raw-india.jpg"
-},
-{
-  "name": "Pusa Steam Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1287 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pusa-steam-india.jpg"
-},
-{
-  "name": "Pusa Creamy Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1245 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pusa-sella-india.jpg"
-},
-{
-  "name": "Pusa Golden Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1170 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pusa-golden-india.jpg"
-},
-
-{
-  "name": "Sugandha Steam Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1180 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "sugandha-steam-india.jpg"
-},
-{
-  "name": "Sugandha Creamy Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1127 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "sugandha-sella-india.jpg"
-},
-{
-  "name": "Sugandha Golden Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1180 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "sugandha-golden-india.jpg"
-},
-
-{
-  "name": "Taj Creamy Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1138 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "taj-sella-india.jpg"
-},
-{
-  "name": "Taj Golden Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1180 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "taj-golden-india.jpg"
-},
-
-{
-  "name": "Sharbati Creamy Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1116 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "sharbati-sella-india.jpg"
-},
-{
-  "name": "Sharbati Golden Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1116 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "sharbati-golden-india.jpg"
-},
-
-{
-  "name": "RH10 Steam Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1127 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "rh10-steam-india.jpg"
-},
-{
-  "name": "RH10 Creamy Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1041 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "rh10-sella-india.jpg"
-},
-{
-  "name": "RH10 Golden Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "1084 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "rh10-golden-india.jpg"
-},
-
-{
-  "name": "PR11 White Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "795 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr11-white-india.jpg"
-},
-{
-  "name": "PR11 Steam Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "795 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr11-steam-india.jpg"
-},
-{
-  "name": "PR11 Creamy Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "795 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr11-sella-india.jpg"
-},
-{
-  "name": "PR11 Golden Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "817 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr11-golden-india.jpg"
-},
-
-{
-  "name": "PR106 White Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "720 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr106-white-india.jpg"
-},
-{
-  "name": "PR106 Steam Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "720 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr106-steam-india.jpg"
-},
-{
-  "name": "PR106 Creamy Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "720 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr106-sella-india.jpg"
-},
-{
-  "name": "PR106 Golden Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "753 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr106-golden-india.jpg"
-},
-
-{
-  "name": "PR47 White Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "710 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr47-white-india.jpg"
-},
-{
-  "name": "PR47 Steam Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "710 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr47-steam-india.jpg"
-},
-{
-  "name": "PR47 Creamy Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "710 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr47-sella-india.jpg"
-},
-{
-  "name": "PR47 Golden Sella Rice",
-  "origin": "India",
-  "packaging": "40kg PP Bags (Crop 2025)",
-  "price": "753 USD CIF",
-  "size": "40kg",
-  "stock": "Booking only",
-  "badge": "Pre-Booking",
-  "img": "pr47-golden-india.jpg"
-},
-
-{
+    "img": "sonamassori-india-white.jpg",
+    "priceBasis": "BOOKING_UNSPECIFIED",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1121 Raw/White Basmati Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1437 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1121-raw-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1121 Steam Basmati Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1395 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1121-steam-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1121 Creamy Sella Basmati Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1352 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1121-sella-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1121 Golden Sella Basmati Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1395 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1121-golden-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1718 Raw/White Basmati Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1395 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1718-raw-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1718 Steam Basmati Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1362 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1718-steam-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1718 Creamy Sella Basmati Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1319 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1718-sella-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1718 Golden Sella Basmati Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1373 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1718-golden-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1509 Steam Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1288 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1509-steam-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1509 Creamy Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1223 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1509-sella-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1509 Golden Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1298 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1509-golden-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1509 Raw/White Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1202 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1509-raw-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1509 Creamy Sella Rice (2026 Crop)",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2026)",
+    "price": "1170 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1509-sella-2026.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1509 Lemon Sella Rice (2026 Crop)",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2026)",
+    "price": "1191 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1509-lemon-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1509 Golden Sella Rice (2026 Crop)",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2026)",
+    "price": "1245 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1509-golden-2026.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1847 Steam Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1277 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1847-steam-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1847 Creamy Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1234 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1847-sella-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1847 Golden Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1277 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1847-golden-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "1401 Steam Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1341 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "1401-steam-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "Pusa Raw/White Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1287 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pusa-raw-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "Pusa Steam Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1287 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pusa-steam-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "Pusa Creamy Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1245 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pusa-sella-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "Pusa Golden Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1170 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pusa-golden-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "Sugandha Steam Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1180 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "sugandha-steam-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "Sugandha Creamy Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1127 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "sugandha-sella-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "Sugandha Golden Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1180 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "sugandha-golden-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "Taj Creamy Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1138 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "taj-sella-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "Taj Golden Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1180 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "taj-golden-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "Sharbati Creamy Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1116 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "sharbati-sella-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "Sharbati Golden Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1116 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "sharbati-golden-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "RH10 Steam Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1127 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "rh10-steam-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "RH10 Creamy Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1041 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "rh10-sella-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "RH10 Golden Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "1084 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "rh10-golden-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "PR11 White Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "795 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr11-white-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "PR11 Steam Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "795 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr11-steam-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "PR11 Creamy Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "795 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr11-sella-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "PR11 Golden Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "817 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr11-golden-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "PR106 White Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "720 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr106-white-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "PR106 Steam Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "720 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr106-steam-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "PR106 Creamy Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "720 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr106-sella-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "PR106 Golden Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "753 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr106-golden-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "PR47 White Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "710 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr47-white-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "PR47 Steam Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "710 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr47-steam-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "PR47 Creamy Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "710 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr47-sella-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
+    "name": "PR47 Golden Sella Rice",
+    "origin": "India",
+    "packaging": "40kg PP Bags (Crop 2025)",
+    "price": "753 USD CIF",
+    "size": "40kg",
+    "stock": "Booking only",
+    "badge": "Pre-Booking",
+    "img": "pr47-golden-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
+  },
+  {
     "name": "PR26 White Rice",
     "origin": "India",
     "packaging": "40kg PP Bags (Crop 2025)",
@@ -690,11 +945,10 @@
     "size": "40kg",
     "stock": "Booking only",
     "badge": "Pre-Booking",
-    "img": "pr26-white-india.jpg"
+    "img": "pr26-white-india.jpg",
+    "priceBasis": "CIF_DUBAI",
+    "currency": "USD",
+    "priceUnit": "MT",
+    "availability": "BOOKING"
   }
 ]
-
-
-
-
-
