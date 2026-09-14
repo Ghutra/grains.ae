@@ -26,7 +26,20 @@
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Schema.org Structured Data -->
-  <script type="application/ld+json" src="/pulse/schema.json"></script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Market Pulse – Live Grain Prices in Dubai | Grains Hub",
+  "url": "https://grains.ae/pulse/index.html",
+  "description": "B2B grain market and trade desk data from Grains Hub.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Grains Hub",
+    "url": "https://grains.ae/"
+  }
+}
+</script>
 
   <!-- CSS - Separated by Concern -->
   <link rel="stylesheet" href="/assets/css/core.css">
@@ -440,7 +453,7 @@
     <p class="last-updated">
       <i class="fas fa-clock"></i>
       Last updated: <strong id="last-updated">Loading...</strong>
-      <span style="margin-left:12px;font-weight:400;opacity:0.6;">• Auto-refreshes every 30 mins</span>
+      <span style="margin-left:12px;font-weight:400;opacity:0.6;">• Auto-refreshes every 60 seconds</span>
     </p>
     <p id="market-mood" style="margin-top:8px;font-size:14px;opacity:0.8;"></p>
   </section>
@@ -528,16 +541,16 @@
   <!-- Firebase (if needed) -->
   <script src="/assets/js/firebase-init.js"></script>
 
-  <!-- Stock Data (not needed separately as marketPulse loads it) -->
+  <!-- Canonical data layer loads stock + current market quote sources -->
 
  <!-- Canonical Grains Hub Data Layer -->
 <script src="/assets/js/grainsData.js"></script>
 
-<!-- Market Pulse v3.3 — Lady Stark Trade Desk Intelligence -->
-<script src="/assets/js/marketPulse.js?v=3.3"></script>
+<!-- Market Pulse v3.4 — Lady Stark Trade Desk Intelligence -->
+<script src="/assets/js/marketPulse.js?v=3.4"></script>
  
-  <!-- Alliya v8.3 (Universal AI Assistant) -->
-  <script src="/assets/js/alliya.js?v=8.3"></script>
+  <!-- Alliya v9.2.1 (Universal AI Assistant) -->
+  <script src="/assets/js/alliya.js?v=9.2.1"></script>
 
   <!-- Include Handler (must be last) -->
   <script src="/assets/js/include.js"></script>
