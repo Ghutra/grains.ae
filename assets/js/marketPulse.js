@@ -24,7 +24,7 @@
   'use strict';
 
   const CONFIG = {
-    VERSION: '3.4',
+    VERSION: '3.5',
     REFRESH_INTERVAL: 60000,
     NEWS_INTERVAL: 9000,
     MAX_CARDS: 6,
@@ -622,6 +622,7 @@
         currentBasis = btn.dataset.pulseBasis;
         applyFiltersAndRender();
         updateBasisUI();
+        renderTradeDesk();
       });
     });
 
@@ -632,6 +633,7 @@
         currentPacking = btn.dataset.pulsePacking;
         applyFiltersAndRender();
         updateBasisUI();
+        renderTradeDesk();
       });
     });
 
@@ -816,6 +818,57 @@
     }).join('');
   }
 
+
+  function renderTradeDesk() {
+    const total = document.getElementById('td-total');
+    const ready = document.getElementById('td-ready');
+    const booking = document.getElementById('td-booking');
+    const fob = document.getElementById('td-fob');
+    const view = document.getElementById('td-view');
+    const signal = document.getElementById('td-signal');
+
+    if (!total && !ready && !booking && !fob && !view && !signal) return;
+
+    const inStock = pulseData.filter(p => p.availability === 'IN_STOCK').length;
+    const bookings = pulseData.filter(p => p.availability === 'BOOKING').length;
+    const fobMatches = pulseData.reduce((count, p) => count + (findExactQuote(p) ? 1 : 0), 0);
+
+    if (total) total.textContent = pulseData.length.toLocaleString('en-US');
+    if (ready) ready.textContent = inStock.toLocaleString('en-US');
+    if (booking) booking.textContent = bookings.toLocaleString('en-US');
+    if (fob) fob.textContent = fobMatches.toLocaleString('en-US');
+
+    const labels = {
+      [BASIS.DUBAI_STOCK]: 'Dubai Stock',
+      [BASIS.FOB_ORIGIN]: 'FOB Origin',
+      [BASIS.CIF_DUBAI]: 'CIF Dubai'
+    };
+    if (view) view.textContent = labels[currentBasis] || currentBasis;
+
+    if (signal) {
+      if (currentBasis === BASIS.DUBAI_STOCK) {
+        signal.innerHTML = '<strong>Dubai Stock:</strong> showing the commercial stock record as stored. No freight is added to an existing CIF price.';
+      } else if (currentBasis === BASIS.FOB_ORIGIN) {
+        signal.innerHTML = `<strong>FOB Origin:</strong> ${fobMatches} current line${fobMatches === 1 ? '' : 's'} have an exact FOB observation matched by origin, variety, processing and crop compatibility. Freight is excluded.`;
+      } else {
+        signal.innerHTML = '<strong>CIF Dubai:</strong> showing explicit CIF data only. Pulse does not manufacture CIF by adding a freight assumption.';
+      }
+    }
+  }
+
+  function initTradeDeskActions() {
+    const btn = document.getElementById('tradeDeskAlliyaBtn');
+    if (!btn || btn.dataset.bound === '1') return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', () => {
+      if (window.Alliya && typeof window.Alliya.open === 'function') {
+        window.Alliya.open();
+      } else if (window.Alliya && typeof window.Alliya.ask === 'function') {
+        window.Alliya.ask('Help me compare current grain prices');
+      }
+    });
+  }
+
   const newsFeed = [
     'Pulse separates Dubai Stock, FOB Origin and CIF Dubai pricing.',
     'Exact product identity is required before an FOB market quote is matched.',
@@ -932,6 +985,7 @@
       applyFiltersAndRender();
       updateLastUpdated();
       updateBasisUI();
+      renderTradeDesk();
 
       console.log(`[Pulse ${CONFIG.VERSION}] Loaded ${pulseData.length} stock records; ${ready.quotes ? ready.quotes.length : 0} market quotes.`);
     } catch (error) {
@@ -974,6 +1028,7 @@
     initFilters();
     initSorting();
     initAlliyaButton();
+    initTradeDeskActions();
     loadPulseData();
 
     renderNewsFeed();
