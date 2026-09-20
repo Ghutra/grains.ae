@@ -1,10 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Grains Hub – Dubai's Compliance‑First B2B Grain Supplier</title>
+  <!-- ============================================================
+       GRAINS HUB CONSENT MODE v2 - DEFAULT STATE
+       Must execute BEFORE Google Tag Manager
+       ============================================================ -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    (function () {
+      var analyticsConsent = 'denied';
+
+      try {
+        var saved = localStorage.getItem('grainsHubConsent');
+
+        if (saved) {
+          var preference = JSON.parse(saved);
+
+          if (
+            preference &&
+            preference.version === '1.0' &&
+            preference.analytics === 'granted'
+          ) {
+            analyticsConsent = 'granted';
+          }
+        }
+      } catch (error) {
+        analyticsConsent = 'denied';
+      }
+
+      gtag('consent', 'default', {
+        analytics_storage: analyticsConsent,
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        wait_for_update: 500
+      });
+    })();
+  </script>
+
+  <!-- Google Tag Manager -->
+  <script>
+    (function(w,d,s,l,i){
+      w[l]=w[l]||[];
+      w[l].push({
+        'gtm.start': new Date().getTime(),
+        event:'gtm.js'
+      });
+
+      var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),
+          dl=l!='dataLayer'?'&l='+l:'';
+
+      j.async=true;
+      j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;
+      f.parentNode.insertBefore(j,f);
+
+    })(window,document,'script','dataLayer','GTM-N8MK4H67');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <title>Grains Hub – Dubai's Compliance-First B2B Grain Supplier</title>
 
   <meta name="description" content="Grains Hub is Dubai's compliance‑first B2B grain supplier. Direct wholesale, verified sourcing, Market Pulse insights, and a licensed presence in Al Ras." />
   <meta name="keywords" content="Grains Hub, Dubai grain supplier, B2B grains UAE, wholesale grains Dubai, Al Ras grain trade, compliance-first grain supply" />
