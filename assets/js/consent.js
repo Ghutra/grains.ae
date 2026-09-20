@@ -320,21 +320,14 @@
      ------------------------------------------------------------ */
 
   window.GrainsHubConsent = {
-    openSettings: function () {
-      try {
-        localStorage.removeItem(STORAGE_KEY);
-      } catch (error) {
-        console.warn('Grains Hub consent: unable to reset preference.', error);
-      }
+  openSettings: function () {
+    showBanner();
+  },
 
-      updateGoogleConsent('denied');
-      showBanner();
-    },
-
-    getPreference: function () {
-      return getStoredConsent();
-    }
-  };
+  getPreference: function () {
+    return getStoredConsent();
+  }
+};
 
   /* ------------------------------------------------------------
      INITIALIZE
