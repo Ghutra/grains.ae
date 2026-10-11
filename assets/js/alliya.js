@@ -1226,20 +1226,38 @@
       }
 
       // Supplier.
-      const supplierMatch = suppliers.find(s => normalize(s.name).includes(q));
+      // Match supplier-specific suggestions such as "show sakhi ... profile".
+      // Supplier routing precedes generic stock/FCL intent when a named partner is requested.
+      const supplierIntent = q.replace(/^(show|view|open|tell me about|who is|profile of)\s+/,'')
+        .replace(/\s+(profile|supplier|trading partner)$/,'').trim();
+      const aliases = {
+        'yastour-ulhaq': ['yastour','yastoor','yastour ulhaq','yastoor ul haq'],
+        'sakhi-international': ['sakhi','sakhi international','sakhi khan'],
+        'pure-commodity': ['pure commodity','pure commodities','pcft'],
+        'mahavir-rice-mills': ['mahavir','mahavir rice'],
+        'adam-international': ['adam international'],
+        'zia-international': ['zia international']
+      };
+      const supplierMatch = suppliers.find(s => {
+        const name = normalize(s.name);
+        const slug = (s.profile||'').split('/').pop().replace(/\.html$/,'');
+        const names = [name, ...(aliases[slug]||[]).map(normalize)];
+        return names.some(n => supplierIntent === n || supplierIntent.includes(n) && n.length >= 6);
+      });
       if (supplierMatch) {
         await new Promise(r => setTimeout(r, 350));
         setReply(
           replyBox,
           buildResponse(
-            `🏅 Verified Supplier: ${supplierMatch.name}`,
-            `${supplierMatch.name} is a verified supplier listed on Grains Hub.`,
+            `🏢 Trading Partner: ${supplierMatch.name}`,
+            `${supplierMatch.name} is listed in the Grains Hub trading network. ${supplierMatch.role || ''}`,
             [{
-              heading: '📋 Supplier details',
+              heading: '📋 Company profile',
               body:
                 `<strong>Location:</strong> ${supplierMatch.city || ''}, ${supplierMatch.country || ''}<br>` +
-                `<strong>Badge:</strong> ${supplierMatch.badge || 'Verified'}<br>` +
-                `<strong>Products:</strong> ${Array.isArray(supplierMatch.products) ? supplierMatch.products.join(', ') : 'Listed products'}`
+                `<strong>Relationship:</strong> ${supplierMatch.relationshipStatus || 'Directory listing'}<br>` +
+                `<strong>Products:</strong> ${Array.isArray(supplierMatch.products) ? supplierMatch.products.join(', ') : 'Enquire for details'}<br>` +
+                `<a href="${supplierMatch.profile || '/suppliers/'}" target="_blank" rel="noopener noreferrer">View company profile →</a>`
             }]
           )
         );
