@@ -1,5 +1,5 @@
 /* ============================================================
-   ALLIYA v9.2.1 - Scoped Gold Procurement Edition
+   ALLIYA v9.2.4 - Scoped Gold Procurement Edition
    Preserves the complete Gold Scope UI/animation
    Canonical market-price layer + deterministic procurement matching
    No silent commercial/spec defaults
@@ -13,7 +13,7 @@
   // ============================================================
   const ALLIYA_STYLES = `
     /* ============================================================
-       ALLIYA v9.2.1 - Scoped Gold Styles
+       ALLIYA v9.2.4 - Scoped Gold Styles
        Only affects elements with #alliyaModal and #alliyaFloatBtn
        ============================================================ */
     
@@ -685,7 +685,7 @@
     const escapeHtml = value => String(value).replace(/&/g, '&amp;')
       .replace(/</g, '&lt;').replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-    const source = String(text);
+    const source = String(text).replace(/<(br\s*\/?|\/?strong)>/gi, (tag) => ({'<br>':'\uE000','<br/>':'\uE000','<br />':'\uE000','<strong>':'\uE001','</strong>':'\uE002'}[tag.toLowerCase().replace(/\s+/g,'')] || tag));
     const pattern = /https?:\/\/[^\s<>"']+|www\.[^\s<>"']+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
     let output = '', cursor = 0, match;
     while ((match = pattern.exec(source)) !== null) {
@@ -704,7 +704,7 @@
       cursor = match.index + match[0].length;
     }
     output += escapeHtml(source.slice(cursor));
-    return output.replace(/\n/g, '<br>');
+    return output.replace(/\uE000/g, '<br>').replace(/\uE001/g, '<strong>').replace(/\uE002/g, '</strong>').replace(/\n/g, '<br>');
   }
 
   // ============================================================
@@ -838,7 +838,7 @@
   // ============================================================
   // 8. BUILD RESPONSE - FIXED (uses updated autoLinkify)
   // ============================================================
-  function buildResponse(title, summary, sections = []) {
+  function buildResponse(title, summary, sections = [], options = {}) {
     const linkedSummary = autoLinkify(summary);
     let html = `<div class="alliya-block"><h2><strong>${title}</strong></h2><p>${linkedSummary}</p>`;
 
@@ -850,11 +850,11 @@
     html += `
       </div>
       <hr>
-      <div class="alliya-cta">
+      ${options.supplierProfile ? `<div class="alliya-cta"><p><strong>🏢 Company Profile</strong><br><a href="${options.supplierProfile}" target="_blank" rel="noopener noreferrer">View trading partner profile →</a></p><p><strong>🌾 Supplier Directory</strong><br><a href="/suppliers/">Explore trading partners</a></p></div>` : `<div class="alliya-cta">`}
         <p><strong>📦 Browse Stock</strong><br><a href="https://grains.ae/shop" target="_blank">Open stock page</a></p>
         <p><strong>🚢 Book FCL</strong><br><a href="https://grains.ae/fcl/" target="_blank">Book full container</a></p>
         <p><strong>📊 Market Pulse</strong><br><a href="https://grains.ae/pulse/index.html" target="_blank">Open Market Pulse</a></p>
-      </div>
+      ${options.supplierProfile ? '' : '</div>'}
       <hr>
       <p class="alliya-footer-note">All trade is executed through Ghutra Goods Wholesaler LLC under UAE wholesale regulations.</p>
     `;
@@ -1085,6 +1085,37 @@
     );
   }
 
+  // Supplier identity must be resolved before legacy knowledge and generic stock matching.
+  function matchTradingPartner(query, suppliers) {
+    const q = normalize(query).replace(/[^a-z0-9]+/g, ' ').trim();
+    const aliases = {
+      'yastoor-ul-haq': ['yastour','yastoor','yastour ulhaq','yastoor ul haq','yastour ulhaq goods wholesalers'],
+      'yastour-ulhaq': ['yastour','yastoor','yastour ulhaq','yastoor ul haq'],
+      'sakhi-international': ['sakhi','sakhi khan','sakhi international'],
+      'pure-commodity': ['pure commodity','pure commodities','pure commodity foodstuff','pcft'],
+      'mahavir-rice-mills': ['mahavir','mahavir rice mills'],
+      'adam-international': ['adam international'],
+      'zia-international': ['zia international']
+    };
+    const clean = v => normalize(v).replace(/[^a-z0-9]+/g,' ').trim();
+    const matches = suppliers.map(s => {
+      const slug = (s.profile || '').split('/').pop().replace(/\.html$/,'');
+      const terms = [s.name, ...(aliases[slug] || [])].map(clean).filter(t => t.length >= 4);
+      const best = Math.max(0,...terms.filter(t => q === t || q.includes(t)).map(t=>t.length));
+      return {s,best};
+    }).filter(x=>x.best>0).sort((a,b)=>b.best-a.best);
+    return matches.length ? matches[0].s : null;
+  }
+  function renderTradingPartner(s) {
+    const profile = typeof s.profile === 'string' && /^\/suppliers\/[a-z0-9-]+\.html$/.test(s.profile)
+      ? s.profile : '/suppliers/';
+    const products = Array.isArray(s.products) && s.products.length ? s.products.join(', ') : 'Contact Grains Hub for details';
+    return buildResponse(`🏢 Trading Partner: ${s.name}`,
+      `${s.name} is part of the Grains Hub trading network. ${s.role || ''}`,
+      [{heading:'📋 Company overview',body:`<strong>Location:</strong> ${s.city || 'Not listed'}, ${s.country || 'Not listed'}<br><strong>Relationship:</strong> ${s.relationshipStatus || 'Trading network listing'}<br><strong>Products:</strong> ${products}`}],
+      {supplierProfile:profile});
+  }
+
   async function askAlliya() {
     const replyBox = document.getElementById('alliyaResponse');
     const input = document.getElementById('alliyaQuery');
@@ -1139,11 +1170,19 @@
         loadKnowledge()
       ]);
 
+      // Supplier first: prevent stale knowledge and generic stock matches from hijacking partner profiles.
+      const supplierMatch = matchTradingPartner(userQuery, suppliers);
+      if (supplierMatch) {
+        setReply(replyBox, renderTradingPartner(supplierMatch));
+        input.focus();
+        return;
+      }
+
       // Knowledge.
       let kbMatch = knowledge.find(k =>
         normalize(k.question) === q ||
-        normalize(k.question).includes(q) ||
-        q.includes(normalize(k.question))
+        (q.length >= 8 && normalize(k.question).includes(q)) ||
+        (normalize(k.question).length >= 8 && q.includes(normalize(k.question)))
       );
 
       if (!kbMatch) {
@@ -1219,46 +1258,6 @@
                   : `${primary.badge || 'Verified Supplier'}`
               }
             ]
-          )
-        );
-        input.focus();
-        return;
-      }
-
-      // Supplier.
-      // Match supplier-specific suggestions such as "show sakhi ... profile".
-      // Supplier routing precedes generic stock/FCL intent when a named partner is requested.
-      const supplierIntent = q.replace(/^(show|view|open|tell me about|who is|profile of)\s+/,'')
-        .replace(/\s+(profile|supplier|trading partner)$/,'').trim();
-      const aliases = {
-        'yastour-ulhaq': ['yastour','yastoor','yastour ulhaq','yastoor ul haq'],
-        'sakhi-international': ['sakhi','sakhi international','sakhi khan'],
-        'pure-commodity': ['pure commodity','pure commodities','pcft'],
-        'mahavir-rice-mills': ['mahavir','mahavir rice'],
-        'adam-international': ['adam international'],
-        'zia-international': ['zia international']
-      };
-      const supplierMatch = suppliers.find(s => {
-        const name = normalize(s.name);
-        const slug = (s.profile||'').split('/').pop().replace(/\.html$/,'');
-        const names = [name, ...(aliases[slug]||[]).map(normalize)];
-        return names.some(n => supplierIntent === n || supplierIntent.includes(n) && n.length >= 6);
-      });
-      if (supplierMatch) {
-        await new Promise(r => setTimeout(r, 350));
-        setReply(
-          replyBox,
-          buildResponse(
-            `🏢 Trading Partner: ${supplierMatch.name}`,
-            `${supplierMatch.name} is listed in the Grains Hub trading network. ${supplierMatch.role || ''}`,
-            [{
-              heading: '📋 Company profile',
-              body:
-                `<strong>Location:</strong> ${supplierMatch.city || ''}, ${supplierMatch.country || ''}<br>` +
-                `<strong>Relationship:</strong> ${supplierMatch.relationshipStatus || 'Directory listing'}<br>` +
-                `<strong>Products:</strong> ${Array.isArray(supplierMatch.products) ? supplierMatch.products.join(', ') : 'Enquire for details'}<br>` +
-                `<a href="${supplierMatch.profile || '/suppliers/'}" target="_blank" rel="noopener noreferrer">View company profile →</a>`
-            }]
           )
         );
         input.focus();
@@ -1356,7 +1355,7 @@
       input.focus();
 
     } catch (err) {
-      console.error('[Alliya v9.2.1] Error:', err);
+      console.error('[Alliya v9.2.4] Error:', err);
       const errPack = recover('network');
       setReply(replyBox, buildResponse(
         errPack.title,
@@ -1382,7 +1381,7 @@
       intro.innerHTML = `<p><strong>✨ Hello!</strong> I'm Alliya, your grain trade assistant at Grains Hub.</p><p>Ask me about live market prices, stock, suppliers, FCL booking, compliance, or documentation.</p>`;
     }
     const readyText = document.getElementById('alliyaReadyText');
-    if (readyText) readyText.textContent = 'Connecting to live trade data…';
+    if (readyText && !dataReadyPromise) readyText.textContent = 'Connecting to live trade data…';
     preloadAlliyaData().catch(() => {});
     if (reply) {
       reply.classList.remove('show');
@@ -1453,9 +1452,9 @@
     injectStyles();
     injectHTML();
     setupEvents();
-    preloadAlliyaData().catch(err => console.warn('[Alliya v9.2.1] Preload:', err));
+    preloadAlliyaData().catch(err => console.warn('[Alliya v9.2.4] Preload:', err));
 
-    console.log('%c✨ Alliya v9.2.1 - Scoped Gold Procurement Edition', 'font-size:20px; font-weight:bold; color:#c49b3f;');
+    console.log('%c✨ Alliya v9.2.4 - Scoped Gold Procurement Edition', 'font-size:20px; font-weight:bold; color:#c49b3f;');
     console.log('%c💡 Click the gold button to open', 'font-size:14px; color:#a8842e;');
     console.log('%c🔗 All links, emails, and phone numbers are clickable!', 'font-size:13px; color:#c49b3f;');
   }
@@ -1475,7 +1474,7 @@
     open: openModal,
     close: closeModal,
     ready: preloadAlliyaData,
-    version: '9.2.1'
+    version: '9.2.4'
   };
 
 })();
