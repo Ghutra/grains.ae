@@ -1,119 +1,230 @@
 [
   {
-    "name": "Zia International",
-    "country": "Pakistan",
-    "city": "Faisalabad",
-    "badge": "Verified Supplier",
-    "products": ["1121 Sella", "1121 Steam", "Irri 6", "C9"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/zia-international"
+    "name": "YASTOUR ULHAQ GOODS WHOLESALERS LLC",
+    "country": "UAE",
+    "city": "Dubai",
+    "products": [
+      "IRRI 6",
+      "IRRI 9",
+      "Spices sourcing (enquiry)"
+    ],
+    "profile": "/suppliers/yastoor-ul-haq.html",
+    "featured": true,
+    "featuredOrder": 1,
+    "relationshipStatus": "Active Trading Partner",
+    "role": "Buyer & UAE sourcing partner",
+    "description": "An established, longstanding trading relationship with Grains Hub, developed through rice supply and wholesale procurement. The relationship also supports local sourcing opportunities in additional commodity lines, including spices.",
+    "activities": [
+      "Rice procurement",
+      "UAE wholesale trade",
+      "Spices sourcing"
+    ]
+  },
+  {
+    "name": "Mahavir Rice Mills",
+    "country": "India",
+    "city": "Assandh, Karnal, Haryana",
+    "products": [
+      "1121 Sella",
+      "1509 Sella"
+    ],
+    "profile": "/suppliers/mahavir-rice-mills.html",
+    "featured": true,
+    "featuredOrder": 2,
+    "relationshipStatus": "Active Trading Partner",
+    "role": "Rice producer & mill",
+    "description": "Established in 1985 in Assandh, Karnal, Haryana, India, Mahavir Rice Mills is a rice milling and exporting business. Grains Hub accesses this producer relationship through Pure Commodity Foodstuff Trading LLC.",
+    "activities": [
+      "Basmati rice milling",
+      "Rice processing",
+      "Export supply"
+    ],
+    "website": "https://www.mahavirricemills.com/"
+  },
+  {
+    "country": "UAE",
+    "city": "Dubai",
+    "products": [
+      "Rice",
+      "Wheat",
+      "Spices",
+      "Pulses"
+    ],
+    "name": "Pure Commodity Foodstuff Trading LLC",
+    "profile": "/suppliers/pure-commodity.html",
+    "featured": true,
+    "featuredOrder": 3,
+    "relationshipStatus": "Active Trading Partner",
+    "role": "India-origin sourcing & trading partner",
+    "description": "An established sourcing and trading partner of Grains Hub, supporting access to Indian-origin foodstuff supply networks, including the Mahavir Rice Mills producer relationship.",
+    "activities": [
+      "Rice",
+      "Wheat",
+      "Pulses",
+      "Spices"
+    ],
+    "website": "https://www.purecommodity.ae/"
+  },
+  {
+    "name": "SAKHI Khan INTERNATIONAL FOODSTUFF TRADING CO L.L.C",
+    "country": "UAE",
+    "city": "Dubai",
+    "products": [
+      "Rice",
+      "Foodstuff commodities (enquiry)"
+    ],
+    "profile": "/suppliers/sakhi-international.html",
+    "featured": true,
+    "featuredOrder": 4,
+    "relationshipStatus": "Active Trading Partner",
+    "role": "Active trading partner",
+    "description": "An active commercial counterparty within the Grains Hub network, participating in wholesale foodstuff trading and procurement.",
+    "activities": [
+      "Rice",
+      "Foodstuff trading"
+    ],
+    "website": "https://skiftco.co/"
   },
   {
     "name": "Adam International",
     "country": "Pakistan",
     "city": "Faisalabad",
-    "badge": "Verified Supplier",
-    "products": ["1121 Sella", "1121 Steam", "Irri 6"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/adam-international"
+    "products": [
+      "1121 Sella",
+      "1121 Steam",
+      "Irri 6"
+    ],
+    "profile": "/suppliers/adam-international.html",
+    "featured": true,
+    "featuredOrder": 5,
+    "relationshipStatus": "Active Trading Partner",
+    "role": "Active trading partner",
+    "description": "An active commercial counterparty in the Grains Hub network, supporting rice trading and procurement enquiries.",
+    "activities": [
+      "1121 Sella",
+      "1121 Steam",
+      "IRRI 6"
+    ]
   },
   {
-    "name": "SA Rice Mills",
+    "name": "Zia International",
     "country": "Pakistan",
     "city": "Faisalabad",
-    "badge": "Verified Supplier",
-    "products": ["1121 Sella", "1121 Steam", "Irri 6", "1509"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/sa-rice-mills"
+    "products": [
+      "1121 Sella",
+      "1121 Steam",
+      "Irri 6",
+      "C9"
+    ],
+    "profile": "/suppliers/zia-international.html",
+    "featured": true,
+    "featuredOrder": 6,
+    "relationshipStatus": "Active Trading Partner",
+    "role": "Active trading partner",
+    "description": "An active commercial counterparty in the Grains Hub network, supporting rice trading and procurement enquiries.",
+    "activities": [
+      "1121 Sella",
+      "1121 Steam",
+      "IRRI 6",
+      "C9"
+    ]
   },
   {
     "name": "Al Arab Rice Mills",
     "country": "Pakistan",
     "city": "Lahore",
-    "badge": "Verified Supplier",
-    "products": ["1121 Sella", "1121 Steam"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/al-arab-rice-mills"
+    "products": [
+      "1121 Sella",
+      "1121 Steam"
+    ],
+    "profile": "/suppliers/al-arab-rice-mills.html",
+    "relationshipStatus": "Listed Trading Business",
+    "role": "Directory listing"
   },
   {
     "name": "Asif Rice Mills",
     "country": "Pakistan",
     "city": "Karachi",
-    "badge": "Verified Supplier",
-    "products": ["Irri 6", "Irri 9"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/asif-rice-mills"
-  },
-  {
-    "name": "Mahavir Rice Mills",
-    "country": "India",
-    "city": "Karnal, Haryana",
-    "badge": "Verified Supplier",
-    "products": ["1121 Sella", "1509 Sella"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/mahavir-rice-mills"
+    "products": [
+      "Irri 6",
+      "Irri 9"
+    ],
+    "profile": "/suppliers/asif-rice-mills.html",
+    "relationshipStatus": "Listed Trading Business",
+    "role": "Directory listing"
   },
   {
     "name": "Fateh Din General Trading LLC",
     "country": "UAE",
     "city": "Dubai",
-    "badge": "Verified Supplier",
-    "products": ["1121 Sella", "Irri 6"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/fateh-din"
-  },
-  {
-    "name": "Laddo General Trading LLC",
-    "country": "UAE",
-    "city": "Dubai",
-    "badge": "Verified Supplier",
-    "products": ["1121 Sella", "Irri 6"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/laddo-general"
-  },
-  {
-    "name": "Namavar Foodstuff Trading",
-    "country": "UAE",
-    "city": "Dubai",
-    "badge": "Verified Supplier",
-    "products": ["1121 Sella", "1509"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/namavar-foodstuff"
-  },
-  {
-    "name": "Yastoor Ul Haq Wholesale",
-    "country": "UAE",
-    "city": "Dubai",
-    "badge": "Verified Supplier",
-    "products": ["Irri 6", "Irri 9"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/yastoor-ul-haq"
+    "products": [
+      "1121 Sella",
+      "Irri 6"
+    ],
+    "profile": "/suppliers/fateh-din.html",
+    "relationshipStatus": "Listed Trading Business",
+    "role": "Directory listing"
   },
   {
     "name": "Green & White Foodstuff Trading",
     "country": "UAE",
     "city": "Dubai",
-    "badge": "Verified Supplier",
-    "products": ["1121 Sella", "Irri 6"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/green-and-white"
+    "products": [
+      "1121 Sella",
+      "Irri 6"
+    ],
+    "profile": "/suppliers/green-and-white.html",
+    "relationshipStatus": "Listed Trading Business",
+    "role": "Directory listing"
+  },
+  {
+    "name": "Laddo General Trading LLC",
+    "country": "UAE",
+    "city": "Dubai",
+    "products": [
+      "1121 Sella",
+      "Irri 6"
+    ],
+    "profile": "/suppliers/laddo-general.html",
+    "relationshipStatus": "Listed Trading Business",
+    "role": "Directory listing"
+  },
+  {
+    "name": "Namavar Foodstuff Trading",
+    "country": "UAE",
+    "city": "Dubai",
+    "products": [
+      "1121 Sella",
+      "1509"
+    ],
+    "profile": "/suppliers/namavar-foodstuff.html",
+    "relationshipStatus": "Listed Trading Business",
+    "role": "Directory listing"
+  },
+  {
+    "name": "SA Rice Mills",
+    "country": "Pakistan",
+    "city": "Faisalabad",
+    "products": [
+      "1121 Sella",
+      "1121 Steam",
+      "Irri 6",
+      "1509"
+    ],
+    "profile": "/suppliers/sa-rice-mills.html",
+    "relationshipStatus": "Listed Trading Business",
+    "role": "Directory listing"
   },
   {
     "name": "SI Global",
     "country": "UAE",
     "city": "Dubai",
-    "badge": "Verified Supplier",
-    "products": ["1121 Sella", "Irri 6"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/si-global"
-  },
-  {
-    "name": "Sakhi International Foodstuff Trading Co.",
-    "country": "UAE",
-    "city": "Dubai",
-    "badge": "Verified Supplier",
-    "products": ["1121 Sella", "Irri 6"],
-    "contact": "+971585521976",
-    "profile": "/suppliers/sakhi-international"
+    "products": [
+      "1121 Sella",
+      "Irri 6"
+    ],
+    "profile": "/suppliers/si-global.html",
+    "relationshipStatus": "Listed Trading Business",
+    "role": "Directory listing"
   }
 ]
