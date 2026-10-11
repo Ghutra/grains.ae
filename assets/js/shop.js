@@ -635,7 +635,7 @@
         <div class="image-wrapper">
 
           <img
-            src="${esc(imageSrc(product.image))}"
+            src="${esc(imageSrc(product.image || product.img || product.imageUrl))}"
             alt="${esc(product.name)}"
             loading="lazy"
             onerror="
