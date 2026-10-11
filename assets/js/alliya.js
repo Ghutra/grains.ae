@@ -680,67 +680,31 @@
   // ============================================================
   function autoLinkify(text) {
     if (!text) return '';
-
-    // If text already contains HTML anchor tags, return as-is (already linked)
-    if (/<a\s+[^>]*>.*?<\/a>/i.test(text)) {
-      return text;
+    // Preserve existing trusted formatted answers; never run regex on HTML attributes.
+    if (/<a\s+[^>]*href=/i.test(text)) return text;
+    const escapeHtml = value => String(value).replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    const source = String(text);
+    const pattern = /https?:\/\/[^\s<>"']+|www\.[^\s<>"']+|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi;
+    let output = '', cursor = 0, match;
+    while ((match = pattern.exec(source)) !== null) {
+      output += escapeHtml(source.slice(cursor, match.index));
+      let value = match[0];
+      // Sentence punctuation is not part of a link.
+      const trailing = (value.match(/[.,;:!?]+$/) || [''])[0];
+      value = value.slice(0, value.length - trailing.length);
+      if (value.includes('@') && !/^https?:/i.test(value)) {
+        output += `<a href="mailto:${escapeHtml(value)}" class="email-link">${escapeHtml(value)}</a>`;
+      } else {
+        const url = /^www\./i.test(value) ? 'https://' + value : value;
+        output += `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="clickable-link">${escapeHtml(value)}</a>`;
+      }
+      output += escapeHtml(trailing);
+      cursor = match.index + match[0].length;
     }
-
-    let html = text;
-
-    // 1. WhatsApp links
-    html = html.replace(
-      /(?:https?:\/\/)?(?:wa\.me|whatsapp\.com)\/([0-9]+)/gi,
-      '<a href="https://wa.me/$1" target="_blank" class="whatsapp-link">📱 WhatsApp: $1</a>'
-    );
-
-    // 2. Phone numbers
-    html = html.replace(
-      /(\+?[0-9]{1,4}[-.\s]?)?\(?[0-9]{2,4}\)?[-.\s]?[0-9]{3,4}[-.\s]?[0-9]{3,4}/g,
-      function(match) {
-        const clean = match.replace(/[\s\-()]/g, '');
-        if (clean.length >= 7) {
-          return `<a href="tel:${clean}" class="phone-link">📞 ${match}</a>`;
-        }
-        return match;
-      }
-    );
-
-    // 3. Email addresses
-    html = html.replace(
-      /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g,
-      '<a href="mailto:$1" class="email-link">✉️ $1</a>'
-    );
-
-    // 4. URLs (http, https, www) - skip if already wrapped
-    html = html.replace(
-      /(https?:\/\/[^\s<]+|www\.[^\s<]+)/gi,
-      function(match) {
-        // Skip if already inside an <a> tag
-        const href = match.startsWith('www.') ? 'https://' + match : match;
-        const display = match.length > 50 ? match.substring(0, 45) + '...' : match;
-        return `<a href="${href}" target="_blank" class="clickable-link">🔗 ${display}</a>`;
-      }
-    );
-
-    // 5. File paths - clean handling (avoid double-wrapping)
-    html = html.replace(
-      /(\/[^\s<]+\.(pdf|doc|docx|xls|xlsx|json|csv|txt))/gi,
-      function(match) {
-        // Check if match is already inside an anchor tag
-        if (/<a\s+[^>]*>/.test(html)) {
-          return match;
-        }
-        const filename = match.split('/').pop();
-        return `<a href="${match}" target="_blank" class="clickable-link">📄 ${filename}</a>`;
-      }
-    );
-
-    // 6. Clean up any orphaned target="_blank" or duplicate link text
-    html = html.replace(/"" target="_blank"/g, '');
-    html = html.replace(/https?:\/\/[^\s"]+(?=\s*["\'])/g, '');
-
-    return html;
+    output += escapeHtml(source.slice(cursor));
+    return output.replace(/\n/g, '<br>');
   }
 
   // ============================================================
@@ -1194,9 +1158,7 @@
         await new Promise(r => setTimeout(r, 350));
         setReply(
           replyBox,
-          buildResponse('✨ Your Answer', kbMatch.answer, [
-            { heading: 'Details', body: kbMatch.answer }
-          ])
+          buildResponse('✨ Your Answer', kbMatch.answer, [])
         );
         input.focus();
         return;
