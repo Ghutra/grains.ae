@@ -1,72 +1,72 @@
 [
- {
-  "question": "shahid",
-  "answer": "Shahid Bashir is the founder of Grains Hub, Ghutra Goods Wholesaler LLC, and GhutraTech."
-},
-{
-  "question": "grains",
-  "answer": "Grains Hub is Dubai’s verified B2B grain trading platform offering stock, FCL booking, supplier verification, and Market Pulse."
-},
-{
-  "question": "grains hub",
-  "answer": "Grains Hub is Dubai’s verified B2B grain trading platform offering stock, FCL booking, supplier verification, and Market Pulse."
-},
-{
-  "question": "dubai",
-  "answer": "Dubai is a global logistics hub with world-class ports and wholesale markets ideal for grain import and distribution."
-},
-{
-  "question": "alras",
-  "answer": "Al Ras is Dubai’s historic wholesale grain market where Grains Hub is headquartered."
-},
-{
-  "question": "al ras",
-  "answer": "Al Ras is Dubai’s historic wholesale grain market where Grains Hub is headquartered."
-},
-{
-  "question": "rice",
-  "answer": "You can browse live rice stock at https://grains.ae/shop or book FCL shipments at https://grains.ae/fcl/."
-},
-{
-  "question": "ghutra",
-  "answer": "Ghutra Goods Wholesaler LLC is the licensed UAE entity operating Grains Hub from Al Ras, Deira, Dubai."
-},
-{
-  "question": "ghutra tech",
-  "answer": "GhutraTech is the technology arm powering grains.ae, Alliya v6, Market Pulse, and supplier onboarding systems."
-},
-{
-  "question": "supplier",
-  "answer": "You can browse verified suppliers at https://grains.ae/suppliers/."
-},
-{
-  "question": "market",
-  "answer": "Market Pulse shows live grain prices updated every 60 seconds: https://grains.ae/pulse/index.html."
-},
-{
-  "question": "fcl",
-  "answer": "You can book full container loads at https://grains.ae/fcl/."
-},
-{
-  "question": "compliance",
-  "answer": "Download the Compliance & Verification Guide here: https://grains.ae/docs/compliance-guide.pdf."
-},
- {
-  "question": "hello",
-  "answer": "Hello! I’m Alliya, your grain trade assistant."
-},
-{
-  "question": "hi",
-  "answer": "Hi! How can I help you today?"
-},
-{
-  "question": "how alliya works",
-  "answer": "Alliya reads stock.json, suppliers.json, knowledge.json, and access.json to answer your questions."
-},
-{
-  "question": "what is alliya",
-  "answer": "Alliya is Dubai’s first AI grain assistant built for Grains Hub."
-},
+  {
+    "question": "shahid",
+    "answer": "Shahid Bashir is the founder of Grains Hub, Ghutra Goods Wholesaler LLC, and GhutraTech."
+  },
+  {
+    "question": "grains",
+    "answer": "Grains Hub is Dubai’s verified B2B grain trading platform offering stock, FCL booking, supplier verification, and Market Pulse."
+  },
+  {
+    "question": "grains hub",
+    "answer": "Grains Hub is Dubai’s verified B2B grain trading platform offering stock, FCL booking, supplier verification, and Market Pulse."
+  },
+  {
+    "question": "dubai",
+    "answer": "Dubai is a global logistics hub with world-class ports and wholesale markets ideal for grain import and distribution."
+  },
+  {
+    "question": "alras",
+    "answer": "Al Ras is Dubai’s historic wholesale grain market where Grains Hub is headquartered."
+  },
+  {
+    "question": "al ras",
+    "answer": "Al Ras is Dubai’s historic wholesale grain market where Grains Hub is headquartered."
+  },
+  {
+    "question": "rice",
+    "answer": "You can browse live rice stock at https://grains.ae/shop or book FCL shipments at https://grains.ae/fcl/."
+  },
+  {
+    "question": "ghutra",
+    "answer": "Ghutra Goods Wholesaler LLC is the licensed UAE entity operating Grains Hub from Al Ras, Deira, Dubai."
+  },
+  {
+    "question": "ghutra tech",
+    "answer": "GhutraTech is the technology arm powering grains.ae, Alliya v6, Market Pulse, and supplier onboarding systems."
+  },
+  {
+    "question": "supplier",
+    "answer": "You can browse verified suppliers at https://grains.ae/suppliers/."
+  },
+  {
+    "question": "market",
+    "answer": "Explore market observations and trading information at https://grains.ae/pulse/."
+  },
+  {
+    "question": "fcl",
+    "answer": "You can book full container loads at https://grains.ae/fcl/."
+  },
+  {
+    "question": "compliance",
+    "answer": "Download the Compliance & Verification Guide here: https://grains.ae/docs/compliance-guide.pdf."
+  },
+  {
+    "question": "hello",
+    "answer": "Hello! I’m Alliya, your grain trade assistant."
+  },
+  {
+    "question": "hi",
+    "answer": "Hi! How can I help you today?"
+  },
+  {
+    "question": "how alliya works",
+    "answer": "Alliya uses Grains Hub published product, supplier and market data plus a deterministic knowledge base. It does not independently verify live availability."
+  },
+  {
+    "question": "what is alliya",
+    "answer": "Alliya is the Grains Hub procurement assistant for published rice listings, market observations, supplier profiles and trade enquiries."
+  },
   {
     "question": "what is grains hub",
     "answer": "Grains Hub is Dubai’s verified B2B grain trading platform offering stock, FCL booking, supplier verification, and market intelligence."
@@ -85,7 +85,7 @@
   },
   {
     "question": "how do i contact grains hub",
-    "answer": "You can contact Grains Hub via WhatsApp at +971585521976 or through the FCL booking page."
+    "answer": "Contact Grains Hub through its website or WhatsApp at +971 56 845 2656."
   },
   {
     "question": "how do i buy rice",
@@ -93,11 +93,11 @@
   },
   {
     "question": "do you have 1121 sella",
-    "answer": "Yes, 1121 Sella is available. Check live stock at https://grains.ae/shop."
+    "answer": "Browse relevant listings at https://grains.ae/shop/. Current availability must be confirmed with Grains Hub."
   },
   {
     "question": "do you have irri 6",
-    "answer": "Yes, Irri 6 is available in both AED stock and USD booking."
+    "answer": "Browse relevant listings at https://grains.ae/shop/. Current availability must be confirmed with Grains Hub."
   },
   {
     "question": "can i buy small quantities",
@@ -125,7 +125,7 @@
   },
   {
     "question": "how do i book fcl shipment",
-    "answer": "You can book FCL shipments via https://grains.ae/fcl/ with instant email confirmation."
+    "answer": "Submit an FCL enquiry at https://grains.ae/fcl/. Booking is subject to confirmation of stock, shipping and commercial terms."
   },
   {
     "question": "what origins are available",
@@ -137,11 +137,11 @@
   },
   {
     "question": "how long does booking confirmation take",
-    "answer": "Booking confirmation is instant."
+    "answer": "Submit an FCL enquiry at https://grains.ae/fcl/. Booking is subject to confirmation of stock, shipping and commercial terms."
   },
   {
     "question": "what is market pulse",
-    "answer": "Market Pulse is a Bloomberg-style live price dashboard updated every 60 seconds. Visit https://grains.ae/pulse/index.html."
+    "answer": "Market Pulse displays Grains Hub market observations and commercial listings. Quote dates and price bases should be checked before trading: https://grains.ae/pulse/"
   },
   {
     "question": "price of 1121 sella",
@@ -193,15 +193,15 @@
   },
   {
     "question": "show zia international profile",
-    "answer": "View Zia International profile at https://grains.ae/suppliers/zia-international"
+    "answer": "View the company profile at https://grains.ae/suppliers/zia-international.html"
   },
   {
     "question": "show adam international profile",
-    "answer": "View Adam International profile at https://grains.ae/suppliers/adam-international"
+    "answer": "View the company profile at https://grains.ae/suppliers/adam-international.html"
   },
   {
     "question": "show mahavir rice mills profile",
-    "answer": "View Mahavir Rice Mills profile at https://grains.ae/suppliers/mahavir-rice-mills"
+    "answer": "View the company profile at https://grains.ae/suppliers/mahavir-rice-mills.html"
   },
   {
     "question": "is grains hub secure",
@@ -269,7 +269,7 @@
   },
   {
     "question": "how long does shipping take",
-    "answer": "Shipping takes 7–14 days depending on origin."
+    "answer": "Shipping and booking lead times depend on origin, route, and vessel availability. Request a current estimate from Grains Hub."
   },
   {
     "question": "payment methods supported",
@@ -305,94 +305,94 @@
   },
   {
     "question": "how often is stock updated",
-    "answer": "Stock is updated daily."
+    "answer": "Grains Hub listings are published from stock.json. Please confirm current availability and pricing before ordering."
   },
   {
     "question": "is stock real time",
-    "answer": "Yes, stock is updated via stock.json."
+    "answer": "Grains Hub listings are published from stock.json. Please confirm current availability and pricing before ordering."
   },
   {
     "question": "do you show available bags",
     "answer": "Yes, available bags are shown for AED stock."
   },
-{
-  "question": "who is shahid",
-  "answer": "Shahid Bashir is the founder of Grains Hub, Ghutra Goods Wholesaler LLC, and GhutraTech. He architects, deploys, and manages every technical and operational layer of grains.ae."
-},
-{
-  "question": "who founded grains hub",
-  "answer": "Grains Hub was founded by Shahid Bashir in Dubai under Ghutra Goods Wholesaler LLC."
-},
-{
-  "question": "what is ghutra goods wholesaler llc",
-  "answer": "Ghutra Goods Wholesaler LLC is the licensed UAE entity operating Grains Hub, based in Al Ras, Deira, Dubai."
-},
-{
-  "question": "where is your office",
-  "answer": "Our office is located in Al Ras, Deira, Dubai, under Ghutra Goods Wholesaler LLC."
-},
-{
-  "question": "what is ghutratrade",
-  "answer": "GhutraTrade is part of the Ghutra ecosystem built by Shahid Bashir to support verified grain trade in the UAE."
-},
-{
-  "question": "what is ghutragrains",
-  "answer": "GhutraGrains is a brand under Ghutra Goods Wholesaler LLC focused on verified grain sourcing."
-},
-{
-  "question": "what is ghutra tech",
-  "answer": "GhutraTech is the technology arm founded by Shahid Bashir, powering grains.ae, Alliya v6, Market Pulse, and supplier onboarding systems."
-},
-{
-  "question": "what is grains.ae",
-  "answer": "grains.ae is the official platform of Grains Hub, offering live stock, FCL booking, supplier verification, and Market Pulse."
-},
-{
-  "question": "where are you based",
-  "answer": "Grains Hub operates from Al Ras, Deira, Dubai — the heart of the UAE’s wholesale grain market."
-},
-{
-  "question": "what is al ras",
-  "answer": "Al Ras is Dubai’s historic wholesale trading district, known for rice, spices, and grain commerce. Grains Hub is headquartered here."
-},
-{
-  "question": "why dubai",
-  "answer": "Dubai is a global logistics hub with strong import infrastructure, making it ideal for verified grain trade and FCL shipments."
-},
-{
-  "question": "why al ras",
-  "answer": "Al Ras is the UAE’s traditional grain trading center, giving Grains Hub direct access to suppliers, buyers, and logistics networks."
-},
-{
-  "question": "who built alliya",
-  "answer": "Alliya was built by Shahid Bashir under GhutraTech as Dubai’s first AI grain assistant."
-},
-{
-  "question": "tell me about dubai",
-  "answer": "Dubai is a global trade hub with world-class logistics, ports, and wholesale markets — ideal for grain import and distribution."
-},
-{
-  "question": "tell me about deira",
-  "answer": "Deira is Dubai’s historic commercial district, home to Al Ras, the UAE’s grain and spice trading center."
-},
-{
-  "question": "tell me about al ras",
-  "answer": "Al Ras is Dubai’s wholesale grain market, where suppliers, traders, and logistics companies operate. Grains Hub is based here."
-},
-{
-  "question": "ejari",
-  "answer": "Ghutra Goods Wholesaler LLC holds an Ejari in Al Ras, Deira, Dubai for its official grain trading operations."
-},
-{
-  "question": "trade license",
-  "answer": "Ghutra Goods Wholesaler LLC operates under a Dubai trade license for wholesale grain trading."
-},
-{
-  "question": "uae grain import rules",
-  "answer": "UAE grain imports require compliance with pesticide standards, ritual compliance, and supplier verification — all handled by Grains Hub."
-},
-{
-  "question": "dubai wholesale regulations",
-  "answer": "Grains Hub operates under Dubai wholesale regulations through Ghutra Goods Wholesaler LLC."
-}
+  {
+    "question": "who is shahid",
+    "answer": "Shahid Bashir is the founder of Grains Hub, Ghutra Goods Wholesaler LLC, and GhutraTech. He architects, deploys, and manages every technical and operational layer of grains.ae."
+  },
+  {
+    "question": "who founded grains hub",
+    "answer": "Grains Hub was founded by Shahid Bashir in Dubai under Ghutra Goods Wholesaler LLC."
+  },
+  {
+    "question": "what is ghutra goods wholesaler llc",
+    "answer": "Ghutra Goods Wholesaler LLC is the licensed UAE entity operating Grains Hub, based in Al Ras, Deira, Dubai."
+  },
+  {
+    "question": "where is your office",
+    "answer": "Our office is located in Al Ras, Deira, Dubai, under Ghutra Goods Wholesaler LLC."
+  },
+  {
+    "question": "what is ghutratrade",
+    "answer": "GhutraTrade is part of the Ghutra ecosystem built by Shahid Bashir to support verified grain trade in the UAE."
+  },
+  {
+    "question": "what is ghutragrains",
+    "answer": "GhutraGrains is a brand under Ghutra Goods Wholesaler LLC focused on verified grain sourcing."
+  },
+  {
+    "question": "what is ghutra tech",
+    "answer": "Ghutra Tech provides web design and technology services within the Ghutra business ecosystem."
+  },
+  {
+    "question": "what is grains.ae",
+    "answer": "grains.ae is the official platform of Grains Hub, offering live stock, FCL booking, supplier verification, and Market Pulse."
+  },
+  {
+    "question": "where are you based",
+    "answer": "Grains Hub operates from Al Ras, Deira, Dubai — the heart of the UAE’s wholesale grain market."
+  },
+  {
+    "question": "what is al ras",
+    "answer": "Al Ras is Dubai’s historic wholesale trading district, known for rice, spices, and grain commerce. Grains Hub is headquartered here."
+  },
+  {
+    "question": "why dubai",
+    "answer": "Dubai is a global logistics hub with strong import infrastructure, making it ideal for verified grain trade and FCL shipments."
+  },
+  {
+    "question": "why al ras",
+    "answer": "Al Ras is the UAE’s traditional grain trading center, giving Grains Hub direct access to suppliers, buyers, and logistics networks."
+  },
+  {
+    "question": "who built alliya",
+    "answer": "Alliya was built by Shahid Bashir under GhutraTech as Dubai’s first AI grain assistant."
+  },
+  {
+    "question": "tell me about dubai",
+    "answer": "Dubai is a global trade hub with world-class logistics, ports, and wholesale markets — ideal for grain import and distribution."
+  },
+  {
+    "question": "tell me about deira",
+    "answer": "Deira is Dubai’s historic commercial district, home to Al Ras, the UAE’s grain and spice trading center."
+  },
+  {
+    "question": "tell me about al ras",
+    "answer": "Al Ras is Dubai’s wholesale grain market, where suppliers, traders, and logistics companies operate. Grains Hub is based here."
+  },
+  {
+    "question": "ejari",
+    "answer": "Ghutra Goods Wholesaler LLC holds an Ejari in Al Ras, Deira, Dubai for its official grain trading operations."
+  },
+  {
+    "question": "trade license",
+    "answer": "Ghutra Goods Wholesaler LLC operates under a Dubai trade license for wholesale grain trading."
+  },
+  {
+    "question": "uae grain import rules",
+    "answer": "UAE grain imports require compliance with pesticide standards, ritual compliance, and supplier verification — all handled by Grains Hub."
+  },
+  {
+    "question": "dubai wholesale regulations",
+    "answer": "Grains Hub operates under Dubai wholesale regulations through Ghutra Goods Wholesaler LLC."
+  }
 ]
