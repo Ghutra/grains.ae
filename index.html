@@ -612,26 +612,24 @@
       }
     }
 
-    /* Roadshow section: isolated styles */
-/* Fully scoped; does not modify Shop, Pulse, Alliya or existing homepage components */
-.gh-international{padding:clamp(48px,6vw,84px) 20px;background:#f7f8f4;color:#1b2921;font-family:inherit}
-.gh-international *{box-sizing:border-box}
-.gh-international__inner{max-width:1120px;margin:0 auto}
-.gh-international__eyebrow{color:#35724b;font-size:12px;letter-spacing:.15em;font-weight:750;margin-bottom:12px}
-.gh-international h2{font-size:clamp(27px,3.5vw,43px);line-height:1.14;max-width:820px;margin:0 0 16px;color:#17291e}
-.gh-international__lead{font-size:17px;line-height:1.65;max-width:850px;margin:0 0 32px;color:#3e5144}
-.gh-international__columns{display:grid;grid-template-columns:1fr 1fr;gap:36px}
-.gh-international h3{font-size:19px;margin:0 0 12px;color:#193e2b}
-.gh-international__columns p{line-height:1.7;margin:0 0 14px}
-.gh-international__event{border-left:3px solid #b99a53;padding-left:13px;color:#48584e;font-size:14px}
-.gh-international__tags{display:flex;flex-wrap:wrap;gap:9px;list-style:none;padding:0;margin:0 0 14px}
-.gh-international__tags li{padding:9px 12px;border:1px solid #cbd9cd;background:#fff;border-radius:8px;font-size:13px;font-weight:650}
-.gh-international__note{font-size:13px;color:#5d6b61}
-.gh-international__action{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:28px}
-.gh-international__button{display:inline-flex;gap:12px;align-items:center;justify-content:center;padding:13px 20px;border-radius:8px;background:#20563a;color:white!important;font-weight:750;text-decoration:none!important;transition:background .2s}
-.gh-international__button:hover{background:#153d29}
-.gh-international__action>span{color:#5a6b5e;font-size:13px;max-width:480px;line-height:1.5}
-@media(max-width:700px){.gh-international__columns{grid-template-columns:1fr;gap:20px}.gh-international__lead{font-size:15px}.gh-international{padding:44px 18px}}
+    /* Roadshow announcement — homepage-only, navy and champagne gold */
+    .gh-roadshow{position:relative;background:#1a1a2e;color:#fff;border-top:1px solid rgba(193,168,117,.45);border-bottom:1px solid rgba(193,168,117,.45);font-family:inherit}
+    .gh-roadshow[hidden]{display:none!important}
+    .gh-roadshow *{box-sizing:border-box}
+    .gh-roadshow__inner{max-width:1200px;margin:auto;padding:22px 58px 24px 22px}
+    .gh-roadshow__eyebrow{color:#d5b66d;font-size:12px;letter-spacing:.12em;font-weight:800;text-transform:uppercase;margin:0 0 9px}
+    .gh-roadshow h2{font-size:clamp(21px,2.4vw,29px);font-weight:800;line-height:1.25;color:#fff;margin:0 0 9px}
+    .gh-roadshow__intro{font-size:15px;line-height:1.65;color:#e4e0d8;max-width:1000px;margin:0 0 15px}
+    .gh-roadshow__label{font-size:11px;letter-spacing:.1em;color:#d5b66d;font-weight:800;margin:0 0 9px}
+    .gh-roadshow__products{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0 0 13px}
+    .gh-roadshow__products li{padding:6px 10px;border:1px solid #625a4c;border-radius:7px;font-size:13px;color:#fff;background:rgba(255,255,255,.035)}
+    .gh-roadshow__footer{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+    .gh-roadshow__button{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;background:#c1a875;color:#1a1a2e!important;text-decoration:none!important;font-weight:800;font-size:14px}
+    .gh-roadshow__button:hover,.gh-roadshow__button:focus-visible{background:#e3c46a}
+    .gh-roadshow__small{color:#d5b66d;font-size:13px}
+    .gh-roadshow__close{position:absolute;top:12px;right:max(16px,calc((100vw - 1200px)/2 + 16px));width:36px;height:36px;border:1px solid #625a4c;border-radius:50%;background:transparent;color:#fff;font-size:23px;line-height:1;cursor:pointer}
+    .gh-roadshow__close:hover,.gh-roadshow__close:focus-visible{background:rgba(255,255,255,.13)}
+    @media(max-width:600px){.gh-roadshow__inner{padding:19px 48px 20px 16px}.gh-roadshow__intro{font-size:14px}.gh-roadshow__products li{font-size:12px}.gh-roadshow__small{font-size:12px}}
   </style>
 </head>
 <body>
@@ -654,6 +652,24 @@
      TICKER - Auto-injected by ticker.js
      Container will be auto-created if not present
   ============================================================ -->
+
+  <!-- Poland–Hungary Roadshow announcement; dismissible for this browser session -->
+  <aside class="gh-roadshow" id="gh-roadshow" aria-label="Poland and Hungary roadshow announcement">
+    <button class="gh-roadshow__close" type="button" id="gh-roadshow-close" aria-label="Dismiss roadshow announcement">&times;</button>
+    <div class="gh-roadshow__inner">
+      <p class="gh-roadshow__eyebrow">Dubai Chambers Roadshow · International Trade · November 2026</p>
+      <h2>Connecting European Producers with UAE Wholesale Markets</h2>
+      <p class="gh-roadshow__intro">Ghutra Goods Wholesaler LLC is participating in the Poland–Hungary Roadshow, 23–27 November 2026, exploring sourcing, private-label and long-term wholesale distribution partnerships with manufacturers and exporters.</p>
+      <p class="gh-roadshow__label">FOCUS PRODUCTS · SOURCING INTERESTS</p>
+      <ul class="gh-roadshow__products">
+        <li>🌻 Edible oils</li><li>🌾 Grains &amp; cereals</li><li>🍝 Pasta &amp; semolina</li><li>🍎 Fruit products</li><li>🫙 Preserved foods</li><li>🍯 Honey &amp; specialty foods</li>
+      </ul>
+      <div class="gh-roadshow__footer">
+        <a class="gh-roadshow__button" href="https://wa.me/971585521976?text=Hello%20Grains%20Hub%2C%20I%20would%20like%20to%20discuss%20a%20UAE%20wholesale%20sourcing%20or%20distribution%20partnership.%20Company%3A%20%3B%20Country%3A%20%3B%20Products%3A%20%3B%20Packaging%3A%20%3B%20MOQ%3A%20%3B%20Export%20terms%3A%20." target="_blank" rel="noopener noreferrer">Discuss a Partnership <span aria-hidden="true">↗</span></a>
+        <span class="gh-roadshow__small">Warsaw · Budapest · Products under exploration, not confirmed stock</span>
+      </div>
+    </div>
+  </aside>
 
   <!-- ============================================================
      HERO - Next Level
@@ -720,36 +736,6 @@
       </div>
     </div>
   </section>
-
-  <!-- ============================================================
-      INTERNATIONAL SUPPLIER PARTNERSHIPS — ROADSHOW 2026
-   ============================================================ -->
-  <!-- Grains Hub | International supplier introduction | November 2026 -->
-<section class="gh-international" id="international-suppliers" aria-labelledby="gh-international-title">
-  <div class="gh-international__inner">
-    <div class="gh-international__eyebrow">INTERNATIONAL SUPPLIER PARTNERSHIPS</div>
-    <h2 id="gh-international-title">Global Sourcing. UAE Wholesale Market Access.</h2>
-    <p class="gh-international__lead">Grains Hub, operated by Ghutra Goods Wholesaler LLC in Dubai, connects international sourcing opportunities with practical B2B wholesale experience in the UAE.</p>
-    <div class="gh-international__columns">
-      <div>
-        <h3>For manufacturers &amp; exporters</h3>
-        <p>We welcome discussions with producers and exporters seeking UAE wholesale buyers, product sourcing relationships, private-label opportunities or a potential distribution partner. Any commercial arrangement is subject to product demand, regulatory requirements and mutually agreed terms.</p>
-        <p class="gh-international__event">Exploring trade connections during the Dubai Chambers Poland–Hungary Roadshow, November 2026. Participation does not imply Dubai Chambers endorsement.</p>
-      </div>
-      <div>
-        <h3>Product categories under exploration</h3>
-        <ul class="gh-international__tags">
-          <li>Pasta &amp; cereals</li><li>Edible oils</li><li>Dairy products</li><li>Frozen foods</li><li>Spices &amp; seasonings</li><li>Packaged foods</li>
-        </ul>
-        <p class="gh-international__note">These are sourcing interests, not confirmed stock listings, import approvals or existing supplier agreements.</p>
-      </div>
-    </div>
-    <div class="gh-international__action">
-      <a class="gh-international__button" href="https://wa.me/971585521976?text=Hello%20Grains%20Hub%2C%20we%20would%20like%20to%20discuss%20a%20UAE%20sourcing%20or%20distribution%20partnership." target="_blank" rel="noopener noreferrer">Discuss a UAE Partnership <span aria-hidden="true">↗</span></a>
-      <span>When contacting us, please include your company, product, country of origin, packaging and MOQ.</span>
-    </div>
-  </div>
-</section>
 
   <!-- ============================================================
      MARKET PULSE TEASER
@@ -839,7 +825,7 @@
   <!-- Universal Ticker -->
   <script src="/assets/js/ticker.js"></script>
 
-  <!-- Alliya v9.2.4 — approved Gold baseline -->
+  <!-- Alliya v9.2.4 -->
   <script src="/assets/js/alliya.js?v=9.2.4"></script>
 
   <!-- Include Handler (must be last) -->
@@ -887,5 +873,17 @@
     });
   </script>
 
+  <script>
+    (function () {
+      var banner = document.getElementById('gh-roadshow');
+      var close = document.getElementById('gh-roadshow-close');
+      if (!banner || !close) return;
+      try { if (sessionStorage.getItem('gh-roadshow-dismissed-2026') === '1') banner.hidden = true; } catch (e) {}
+      close.addEventListener('click', function () {
+        banner.hidden = true;
+        try { sessionStorage.setItem('gh-roadshow-dismissed-2026', '1'); } catch (e) {}
+      });
+    })();
+  </script>
 </body>
 </html>
